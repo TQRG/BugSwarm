@@ -36,8 +36,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @param <I>
  *        contained items type
  */
-public abstract class BaseSetBuilder<T extends OWLObject, B, I> extends BaseBuilder<T, B> implements
-    SettableItem<I, B> {
+public abstract class BaseSetBuilder<T extends OWLObject, B, I> extends BaseBuilder<T, B> {
 
     @Nonnull protected final Set<I> items = new HashSet<>();
 
@@ -55,7 +54,6 @@ public abstract class BaseSetBuilder<T extends OWLObject, B, I> extends BaseBuil
      *        item to add
      * @return builder
      */
-    @Override
     @SuppressWarnings("unchecked")
     public B withItem(I arg) {
         items.add(arg);
