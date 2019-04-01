@@ -104,9 +104,9 @@ Overview
        |
        | 2. :ref:`exception-handling-class-viewerror-label`
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. figure:: ./images/exception-handling-method.png
   :alt: handling method
@@ -410,9 +410,9 @@ Detail
        | (ハンドリングルールを、\ ``web.xml``\ に指定する)
      - | Webアプリケーション
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. _exception-handling-class-from-middle-label:
 
@@ -1872,9 +1872,9 @@ Appendix
      - | 例外コードを保持する役割があることを示すインタフェースで、共通ライブラリでは、\ ``SystemException``\ が実装している。
        | 本インタフェースを実装した例外クラスを作成すると、共通ライブラリから提供している例外ハンドリング処理にて、例外で保持している例外コードで、そのまま使われる。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. tabularcolumns:: |p{0.10\linewidth}|p{0.20\linewidth}|p{0.65\linewidth}|
 .. list-table:: **表- org.terasoluna.gfw.web.exception パッケージ配下のクラス**
@@ -1909,9 +1909,9 @@ Appendix
        | 本Filterを使用した場合、致命的なエラー、およびSpring MVC管理外で発生するすべての例外を、ログに出力することができる。
        | ログは、\ ``ExceptionLogger``\ を使用して出力している。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. _exception-handling-about-systemexceptionresolver-label:
 
@@ -2318,10 +2318,6 @@ DefaultHandlerExceptionResolverでハンドリングされるフレームワー�
    * - | (15)
      - | org.springframework.web.context.request.async.AsyncRequestTimeoutException
      - | 503
-
- .. raw:: latex
-
-    \newpage
 
 .. raw:: latex
 

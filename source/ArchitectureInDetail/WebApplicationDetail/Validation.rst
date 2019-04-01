@@ -4315,9 +4315,9 @@ Bean Validationの標準アノテーション(\ ``javax.validation.*``\ )を以�
             @Valid
             private Dept dept;
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. tip::
 
@@ -4488,9 +4488,9 @@ terasoluna-gfw-commonのチェックルール
       - 値がコードリストに含まれているかどうかを検証する。
       - \ :ref:`@ExistInCodeList <codelist-validate>`\ 参照
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 terasoluna-gfw-codepointsのチェックルール
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

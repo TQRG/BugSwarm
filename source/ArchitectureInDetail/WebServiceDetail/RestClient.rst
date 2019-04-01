@@ -126,9 +126,9 @@ Spring Frameworkが提供するHTTPクライアントである。
           と `FormHttpMessageConverter <https://github.com/spring-projects/spring-framework/blob/v4.2.7.RELEASE/spring-web/src/main/java/org/springframework/http/converter/FormHttpMessageConverter.java>`_\ のソースを参照されたい。なお、任意の\ ``HttpMessageConverter``\ を登録することもできる。
       - | ``MultiValueMap`` [#p3]_
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note:: **AllEncompassingFormHttpMessageConverterのメディアタイプがmultipart/form-dataの場合について**
 
@@ -194,9 +194,9 @@ Spring Frameworkが提供するHTTPクライアントである。
       - | ``Object`` (JavaBean)
         | ``Map``
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 \
 

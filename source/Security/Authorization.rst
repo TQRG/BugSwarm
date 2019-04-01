@@ -193,9 +193,9 @@ Spring Securityが用意している共通的なExpressionは以下の通り。
     * - | \ ``authentication``\
       - | 認証されたユーザーの認証情報(\ ``Authentication``\ インタフェースを実装したクラスのオブジェクト)を返却する。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note:: **Expressionを使用した認証情報へのアクセス**
 

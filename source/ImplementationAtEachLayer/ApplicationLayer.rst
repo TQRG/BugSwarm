@@ -3917,9 +3917,9 @@ HandlerMethodArgumentResolverを実装してControllerの引数として受け�
                // ...
            }
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. tip::
 

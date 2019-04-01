@@ -778,9 +778,9 @@ version 5.2.0.RELEASEで利用するOSSの一覧を以下に示す。
       - 有
       - 有
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 #. | \ ``<dependency>``\ 要素ではないが、各プロジェクトの\ ``<parent>``\ 要素として組み込まれる。
 #. | \ ``<dependency>``\ 要素ではないが、\ ``<dependency>``\ 要素からの推移的依存関係として組み込まれる。

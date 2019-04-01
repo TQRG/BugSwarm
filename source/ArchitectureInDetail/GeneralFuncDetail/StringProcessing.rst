@@ -908,9 +908,9 @@ Bean Validationと連携した文字列チェック
                <artifactId>terasoluna-gfw-codepoints-jisx0213kanji</artifactId>
            </dependency>
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note::
 

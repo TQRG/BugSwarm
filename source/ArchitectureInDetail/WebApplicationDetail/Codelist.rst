@@ -518,9 +518,9 @@ JdbcCodeListの使用方法
    * - | (8)
      - | labelColumnプロパティに、MapのValueに該当する値を設定する。この例ではauthority_nameを設定している。      
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 |
 
@@ -983,9 +983,9 @@ SimpleI18nCodeListの使用方法
       - | 50000
       - | 50,000円以下
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. warning::
 

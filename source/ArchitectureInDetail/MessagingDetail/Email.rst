@@ -96,9 +96,9 @@ Spring Frameworkはメール送信を行うためのコンポーネント（\ ``
       - | JavaMail
       - | メールサーバへメッセージを送信する。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 \
 

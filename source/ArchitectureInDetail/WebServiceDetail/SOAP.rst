@@ -119,9 +119,9 @@ Spring FrameworkのJAX-WS連携機能について
       - | [サーバ] Serviceでは、Repositoryなどを使用して業務処理を実行する。
         | 通常の呼び出しと変更点は特にない。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note::
 
@@ -1480,9 +1480,9 @@ MTOMを利用した大容量のバイナリデータを扱う方法
       - | domainプロジェクトで定義したプロキシの環境依存する値を定義する。
         | プロキシの定義から環境依存する値をプロパティファイルに集約し、プロパティファイルのみenvプロジェクトに配置する。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note:: **プロキシの定義ついて**
 
@@ -2159,9 +2159,9 @@ SOAPサーバのパッケージ構成
     * - | (12)
       - | Servletのデプロイメント定義を行う。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. Note:: **SOAPサーバの不要なファイル**
 

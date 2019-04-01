@@ -81,9 +81,9 @@ Overview
      - | 例外発生時間、システムエラーに対応するメッセージID
        | ツールを用いて監視することを考慮し、出力内容は最低限とすること
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 | デバッグログ、アクセスログ、外部通信ログ、業務エラーログ、システムエラーログは、同一のファイルに出力する。
 | 本ガイドラインでは、上記を出力するログファイルを、アプリケーションログと呼ぶこととする。
@@ -186,9 +186,9 @@ Overview
    * - 監視ログ
      - 業務エラーログ、システムエラーログの出力タイミングと同様である。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. note::
     ログを出力する際は、どこで出力されたかわかりやすくなるように、他のログと、全く同じ内容を出力にならないように注意すること。
@@ -364,9 +364,9 @@ logback.xml
    * - | (12)
      - | デフォルトでConsoleAppender, RollingFileAppender(アプリケーションログ)が使用されるように設定する。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 .. tip:: **LTSV(Labeled Tab Separated Value)について**
 
@@ -795,9 +795,9 @@ How to extend
      - | getMessageを呼び出す際にプロパティファイルにログIDが記載されていないと例外:\ ``NoSuchMessageException``\ が発生する。
        | そのため\ ``NoSuchMessageException``\ をcatchし、ログIDがプロパティファイルに定義されていない旨のログメッセージを出力する。
 
- .. raw:: latex
+.. raw:: latex
 
-    \newpage
+   \newpage
 
 - `log-messages.properties`  (プロパティファイル)
 
