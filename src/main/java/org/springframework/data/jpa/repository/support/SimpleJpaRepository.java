@@ -456,18 +456,17 @@ public class SimpleJpaRepository<T, ID extends Serializable>
 			JpaUpdateContext<T, ID> context = engine
 					.invokeAugmentors(new JpaUpdateContext<T, ID>(entity, UpdateMode.SAVE, em, executor, entityInformation));
 
-			if (context != null) {
-
-				if (entityInformation.isNew(entity)) {
-					em.persist(entity);
-					return entity;
-				} else {
-					return em.merge(entity);
-				}
+			if (context == null) {
+				return entity;
 			}
 		}
 
-		return entity;
+		if (entityInformation.isNew(entity)) {
+			em.persist(entity);
+			return entity;
+		} else {
+			return em.merge(entity);
+		}
 	}
 
 	/*
