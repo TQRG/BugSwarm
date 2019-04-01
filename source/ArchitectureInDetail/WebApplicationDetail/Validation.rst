@@ -1807,7 +1807,7 @@ Spring Validatorによる相関項目チェック実装
      - | 特になし
      - | 確認用パスワード
 
-「confirmPasswordと同じ値であること」というルールは\ ``password``\ フィールドと\ ``passwordConfirm``\ フィールドの両方の情報が必要であるため、相関項目チェックルールである。
+「confirmPasswordと同じ値であること」というルールは\ ``password``\ フィールドと\ ``confirmPassword``\ フィールドの両方の情報が必要であるため、相関項目チェックルールである。
 
 * フォームクラス
 
