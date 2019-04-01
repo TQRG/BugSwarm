@@ -1,0 +1,13 @@
+.classpath
+.project
+.settings
+target/
+*.DS_Store
+*.sh
+*.css
+*.pyc
+backup/
+.idea/
+*.iml
+google*.html
+src/main/java/fayder/restcountries/v2/rest/StripeRest.java
