@@ -1,0 +1,12 @@
+.directory
+.project
+.settings
+.classpath
+.factorypath
+.checkstyle
+.cache-main
+target
+.idea/libraries/Maven__*
+.idea/uiDesigner.xml
+.idea/workspace.xml
+.idea/dictionaries/
