@@ -26,7 +26,7 @@ class except to start a server at the beginning of the process
    to `tornado.httputil.HTTPServerRequest`.  The old name remains as an alias.
 """
 
-from __future__ import absolute_import, division, print_function, with_statement
+from __future__ import absolute_import, division, print_function
 
 import socket
 
@@ -149,7 +149,8 @@ class HTTPServer(TCPServer, Configurable,
             max_header_size=max_header_size,
             header_timeout=idle_connection_timeout or 3600,
             max_body_size=max_body_size,
-            body_timeout=body_timeout)
+            body_timeout=body_timeout,
+            no_keep_alive=no_keep_alive)
         TCPServer.__init__(self, io_loop=io_loop, ssl_options=ssl_options,
                            max_buffer_size=max_buffer_size,
                            read_chunk_size=chunk_size)

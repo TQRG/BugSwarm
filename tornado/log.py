@@ -28,7 +28,7 @@ These streams may be configured independently using the standard library's
 `logging` module.  For example, you may wish to send ``tornado.access`` logs
 to a separate file for analysis.
 """
-from __future__ import absolute_import, division, print_function, with_statement
+from __future__ import absolute_import, division, print_function
 
 import logging
 import logging.handlers
@@ -91,7 +91,7 @@ class LogFormatter(logging.Formatter):
 
     Color support on Windows versions that do not support ANSI color codes is
     enabled by use of the colorama__ library. Applications that wish to use
-    this must first initialize colorama with a call to :func:`colorama.init`.
+    this must first initialize colorama with a call to ``colorama.init``.
     See the colorama documentation for details.
 
     __ https://pypi.python.org/pypi/colorama
@@ -105,8 +105,8 @@ class LogFormatter(logging.Formatter):
         logging.ERROR: 1,  # Red
     }
 
-    def __init__(self, color=True, fmt=DEFAULT_FORMAT,
-                 datefmt=DEFAULT_DATE_FORMAT, colors=DEFAULT_COLORS):
+    def __init__(self, fmt=DEFAULT_FORMAT, datefmt=DEFAULT_DATE_FORMAT,
+                 style='%', color=True, colors=DEFAULT_COLORS):
         r"""
         :arg bool color: Enables color support.
         :arg string fmt: Log message format.
