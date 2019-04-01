@@ -165,7 +165,7 @@ Entityクラスの作成例
     :width: 100%
     :align: center
 
- .. raw:: latex
+.. raw:: latex
     \clearpage
 
  .. tabularcolumns:: |p{0.10\linewidth}|p{0.20\linewidth}|p{0.15\linewidth}|p{0.55\linewidth}|
