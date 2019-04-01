@@ -2137,18 +2137,6 @@
 			]
 		},
 		{
-			"name": "tmux_open",
-			"details": "https://github.com/huntie/sublime-tmux",
-			"labels": ["tmux", "terminal"],
-			"releases": [
-				{
-					"sublime_text": ">=3000",
-					"platforms": ["linux", "osx"],
-					"tags": true
-				}
-			]
-		},
-		{
 			"name": "Tmux Syntax Highlight",
 			"previous_names": ["Tmux"],
 			"details": "https://github.com/keqh/sublime-tmux-syntax-highlight",
@@ -2157,6 +2145,18 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "tmux_open",
+			"details": "https://github.com/huntie/sublime-tmux",
+			"labels": ["tmux", "terminal"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"platforms": ["linux", "osx"],
+					"tags": true
 				}
 			]
 		},
