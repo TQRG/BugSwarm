@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        FluentLenium PMD RuleSet
+    </description>
+
+    <exclude-pattern>.*/examples/.*</exclude-pattern>
+    <exclude-pattern>.*/src/test/.*</exclude-pattern>
+    <rule ref="rulesets/java/basic.xml"/>
+    <rule ref="rulesets/java/braces.xml"/>
+    <rule ref="rulesets/java/clone.xml"/>
+    <rule ref="rulesets/java/codesize.xml">
+        <exclude name="TooManyMethods"/>
+    </rule>
+    <rule ref="rulesets/java/design.xml">
+        <exclude name="AvoidReassigningParameters"/>
+        <exclude name="SingularField"/>
+        <exclude name="UseVarargs"/>
+    </rule>
+    <rule ref="rulesets/java/empty.xml"/>
+    <rule ref="rulesets/java/imports.xml">
+        <exclude name="TooManyStaticImports"/>
+    </rule>
+    <rule ref="rulesets/java/junit.xml">
+        <exclude name="TestClassWithoutTestCases"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/ShortVariable">
+        <properties>
+            <property name="xpath">
+                <value><![CDATA[
+//VariableDeclaratorId[(string-length(@Image) < 3)
+and (not (@Image='id'))
+and (not (@Image='by'))
+and (not (@Image='as'))
+and (not (@Image='e'))
+and (not (@Image='o1'))
+and (not (@Image='o2'))
+and (not (@Image='p1'))
+and (not (@Image='p2'))
+and (not (@Image='i'))
+and (not (@Image='j'))
+and (not (@Image='x'))
+and (not (@Image='y'))]
+[not(ancestor::ForInit)]
+[not((ancestor::FormalParameter) and (ancestor::TryStatement))]
+]]></value>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/naming.xml/ShortClassName">
+        <properties>
+            <property name="minimum" value="4"></property>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/optimizations.xml">
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+        <exclude name="SimplifyStartsWith"/>
+        <exclude name="UseStringBufferForStringAppends"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="MethodArgumentCouldBeFinal"/>
+    </rule>
+    <rule ref="rulesets/java/strings.xml">
+        <exclude name="AvoidDuplicateLiterals"/>
+    </rule>
+    <rule ref="rulesets/java/sunsecure.xml"/>
+    <rule ref="rulesets/java/unnecessary.xml"/>
+    <rule ref="rulesets/java/unusedcode.xml"/>
+
+</ruleset>
