@@ -20,7 +20,7 @@ Change Log
 
         OSS version to be used along with Spring IO Platform version update is updated  
 
-    * 
+    * -
       - :doc:`../ArchitectureInDetail/GeneralFuncDetail/StringProcessing`
       - Description details added
 
