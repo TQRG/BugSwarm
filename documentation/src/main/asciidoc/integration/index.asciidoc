@@ -1,0 +1,6 @@
+link:../[&larr; Docs Index]
+
+== Integrations and Extensions
+
+* link:cdi[CDI Integration] 
+* link:spring[Spring Integration] 
