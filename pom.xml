@@ -26,7 +26,7 @@
 		<hsqldb1>1.8.0.10</hsqldb1>
 		<jpa>2.0.0</jpa>
 		<openjpa>2.4.0</openjpa>
-		<querydsl>4.0.0</querydsl>
+		<querydsl>4.0.6</querydsl>
 		<springdata.commons>1.12.0.DATACMNS-670-SNAPSHOT</springdata.commons>
 
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
