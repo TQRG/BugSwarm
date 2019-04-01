@@ -31,29 +31,34 @@ Change Log
       - Optimize the order of chapters and sections
       
         * For details of modification, refer \ `Optimize the order of chapters and sections #1683 <https://github.com/terasolunaorg/guideline/issues/1683>`_\ .
-      
+
+    * -
       - :doc:`../Overview/FrameworkStack`
       - Description details added
 
-      * mybatis-typehandlers-jsr310, jackson-datatype-jsr310 are added to OSS version to be used  (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
-      
+        * mybatis-typehandlers-jsr310, jackson-datatype-jsr310 are added to OSS version to be used  (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
+
+    * -
       - :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessMyBatis3`
       - Description details added
 
         * Configuration method for using JSR-310 Date and Time API in Mybatis3.3 is described  (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
         * Precautions for using MyBatis in Java SE 7 environment are described (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
 
+    * -
       - :doc:`../ArchitectureInDetail/WebServiceDetail/REST`
       - Description details changed and added
 
         * Description of configuration while using JSR-310 Date and Time API / Joda Time is changed (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
         * Precautions for using Jackson in Java SE 7 environment are described (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
-        
+
+    * -
       - :doc:`../ArchitectureInDetail/WebServiceDetail/RestClient`
       - Description details modified
 
         * Configuration while using JSR-310 Date and Time API in JSON is described (\ `guideline#1966 <https://github.com/terasolunaorg/guideline/issues/1966>`_\ )
-        
+
+    * -
       - :doc:`../ArchitectureInDetail/GeneralFuncDetail/Dozer`
       - Description details added
 

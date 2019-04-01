@@ -287,7 +287,6 @@ List of OSS being used in version 5.2.0.RELEASE.
       - 1.0.1
       -
       - \*1*6
-      - \*1
     * - JPA(Hibernate)
       - antlr
       - antlr
