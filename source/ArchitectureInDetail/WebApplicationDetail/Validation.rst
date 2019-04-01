@@ -2728,7 +2728,6 @@ Controller及びJSPで特別な実装を行うことなく、
     Java SE 8とHibernate Validatorを利用し、\ ``String``\ の\ ``List``\ に付加できる独自のアノテーションを実装する方式。
     **後者と比べて簡単に実現できるので、Java SE 8が使用できる環境ではこちらの方式を推奨する。** 
     
-    詳細は単項目チェックの\ :ref:`Validation_for_parameter_object_in_collection`\ を参照されたい。
 
 * :ref:`Validation_exist_in_codelist_formatter`\
     Java Beanクラスでラップしたプロパティに対して \ ``@ExistInCodeList``\ アノテーションを設定する方式。
