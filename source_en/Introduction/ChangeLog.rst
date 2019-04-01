@@ -11,13 +11,11 @@ Change Log
       - Modification details
 
     * - 2016-08-31
+      - :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
       - Description details added
 
         * Description for specifications and how to use \ ``TransactionTokenType.CHECK``\ which is newly added in the type attribute of \ ``@TransactionTokenCheck``\  annotation added
           (\ `guideline#2071 <https://github.com/terasolunaorg/guideline/issues/2071>`_\ )
-
-    * -
-      - :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
 
     * - 2016-08-04
       - :doc:`../Overview/FrameworkStack`

@@ -1318,7 +1318,7 @@ When multiple usecases are to be implemented in one Controller
 .. _usecase_of_transaction_token_type_CHECK:
 
 When a process which does not update screen for file downloading process is included in the use case
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 For the use cases which include process wherein screen is not returned to the client during file downloading process,
 when the TransactionTokenType is not configured appropriately, care must be taken since the transaction token error is likely to occur even during normal operations.
 
