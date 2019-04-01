@@ -3184,12 +3184,12 @@ Service及びアプリケーション層を作成後にAPサーバーを起動�
 本チュートリアルで作成したTODO管理アプリケーションには、以下の改善点がある。
 アプリケーションの修正を学習課題として、ガイドライン中の該当する説明を参照されたい。
 
-* プロパティ(未完了TODOの上限数)を外部化する → :doc:`../ArchitectureInDetail/GeneralFuncDetail/PropertyManagement`
-* メッセージを外部化する → :doc:`../ArchitectureInDetail/WebApplicationDetail/MessageManagement`
-* ページネーション機能を追加する → :doc:`../ArchitectureInDetail/WebApplicationDetail/Pagination`
-* 例外ハンドリングを加える → :doc:`../ArchitectureInDetail/WebApplicationDetail/ExceptionHandling`
-* 二重送信を防止する(トランザクショントークンチェックを追加する) → :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
-* システム日時の取得元を変更する → :doc:`../ArchitectureInDetail/GeneralFuncDetail/SystemDate`
+* プロパティ(未完了TODOの上限数)を外部化する → :doc:`../ArchitectureInDetail/PropertyManagement`
+* メッセージを外部化する → :doc:`../ArchitectureInDetail/MessageManagement`
+* ページネーション処理を追加する → :doc:`../ArchitectureInDetail/Pagination`
+* 例外ハンドリングを加える → :doc:`../ArchitectureInDetail/ExceptionHandling`
+* 二重送信を防止する(トランザクショントークンチェックを追加する) → :doc:`../ArchitectureInDetail/DoubleSubmitProtection`
+* システム日時の取得元を変更する → :doc:`../ArchitectureInDetail/SystemDate`
 
 |
 
