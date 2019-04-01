@@ -38,11 +38,31 @@ public class AudioPropertiesTest {
 
 	@Test
 	public void testDefaultValues() {
-		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
-		assertThat(properties.getNumberOfChannels()).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
-		assertThat(properties.getAudioDelay()).isEqualTo(AudioProperties.AUDIODELAY_DEFAULT);
-		assertThat(properties.getSampleFrequency()).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
-		assertThat(properties.getBitsperSample()).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
+		assertThat(properties.getBitRate()).isEqualTo(8000);
+		assertThat(properties.getNumberOfChannels()).isEqualTo(2);
+		assertThat(properties.getAudioDelay()).isEqualTo(0);
+		assertThat(properties.getSampleFrequency()).isEqualTo(48000);
+		assertThat(properties.getBitsperSample()).isEqualTo(16);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetBitRate_withIllegalArgument() {
+		properties.setBitRate(0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNumberOfChannels_withIllegalArgument() {
+		properties.setNumberOfChannels(0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSampleFrequency_withIllegalArgument() {
+		properties.setSampleFrequency(0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testBitsperSample_withIllegalArgument() {
+		properties.setBitsperSample(0);
 	}
 
 	@Test
@@ -58,10 +78,8 @@ public class AudioPropertiesTest {
 		assertThat(properties.getBitRate()).isEqualTo(5000);
 		properties.setBitRate("unknown / unknown / 1509000");
 		assertThat(properties.getBitRate()).isEqualTo(1509000);
-		properties.setBitRate("0");
-		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
 		properties.setBitRate("-3");
-		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
+		assertThat(properties.getBitRate()).isEqualTo(8000);
 	}
 
 	@Test
@@ -70,10 +88,8 @@ public class AudioPropertiesTest {
 		assertThat(properties.getNumberOfChannels()).isEqualTo(5);
 		properties.setNumberOfChannels("2 channels / 4 channel / 3 channel");
 		assertThat(properties.getNumberOfChannels()).isEqualTo(4);
-		properties.setNumberOfChannels("0");
-		assertThat(properties.getNumberOfChannels()).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
 		properties.setNumberOfChannels("-3 channel");
-		assertThat(properties.getNumberOfChannels()).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
+		assertThat(properties.getNumberOfChannels()).isEqualTo(2);
 	}
 
 	@Test
@@ -92,10 +108,8 @@ public class AudioPropertiesTest {
 		assertThat(properties.getSampleFrequency()).isEqualTo(22050);
 		properties.setSampleFrequency("22050 / 44100");
 		assertThat(properties.getSampleFrequency()).isEqualTo(44100);
-		properties.setSampleFrequency("0");
-		assertThat(properties.getSampleFrequency()).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
 		properties.setSampleFrequency("-3");
-		assertThat(properties.getSampleFrequency()).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
+		assertThat(properties.getSampleFrequency()).isEqualTo(48000);
 	}
 
 	@Test
@@ -104,19 +118,17 @@ public class AudioPropertiesTest {
 		assertThat(properties.getBitsperSample()).isEqualTo(24);
 		properties.setBitsperSample("16 / 24");
 		assertThat(properties.getBitsperSample()).isEqualTo(24);
-		properties.setBitsperSample("0");
-		assertThat(properties.getBitsperSample()).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
 		properties.setBitsperSample("-3");
-		assertThat(properties.getBitsperSample()).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
+		assertThat(properties.getBitsperSample()).isEqualTo(16);
 	}
 
 	@Test
 	public void testGetChannelsNumberFromLibMediaInfo_withNullEmptyOrNegativeValue() {
-		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo(null)).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
-		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("")).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
-		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("-2chan")).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
-		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("0")).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
-		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("zero number")).isEqualTo(AudioProperties.NUMBEROFCHANNELS_DEFAULT);
+		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo(null)).isEqualTo(2);
+		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("")).isEqualTo(2);
+		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("-2chan")).isEqualTo(2);
+		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("0")).isEqualTo(2);
+		assertThat(AudioProperties.getChannelsNumberFromLibMediaInfo("zero number")).isEqualTo(2);
 	}
 
 	@Test
@@ -131,9 +143,9 @@ public class AudioPropertiesTest {
 
 	@Test
 	public void testGetAudioDelayFromLibMediaInfo_withNullEmpty() {
-		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo(null)).isEqualTo(AudioProperties.AUDIODELAY_DEFAULT);
-		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo("")).isEqualTo(AudioProperties.AUDIODELAY_DEFAULT);
-		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo("zero number")).isEqualTo(AudioProperties.AUDIODELAY_DEFAULT);
+		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo(null)).isEqualTo(0);
+		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo("")).isEqualTo(0);
+		assertThat(AudioProperties.getAudioDelayFromLibMediaInfo("zero number")).isEqualTo(0);
 	}
 
 	@Test
@@ -148,9 +160,9 @@ public class AudioPropertiesTest {
 
 	@Test
 	public void testGetSampleFrequencyFromLibMediaInfo_withNullEmpty() {
-		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo(null)).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
-		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("")).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
-		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("freq unknown")).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
+		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo(null)).isEqualTo(48000);
+		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("")).isEqualTo(48000);
+		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("freq unknown")).isEqualTo(48000);
 	}
 
 	@Test
@@ -161,14 +173,14 @@ public class AudioPropertiesTest {
 		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("44100 Hz")).isEqualTo(44100);
 		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("44100 / 22050")).isEqualTo(44100);
 		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("22050 / 44100 Hz")).isEqualTo(44100);
-		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("-7 kHz")).isEqualTo(AudioProperties.SAMPLEFREQUENCY_DEFAULT);
+		assertThat(AudioProperties.getSampleFrequencyFromLibMediaInfo("-7 kHz")).isEqualTo(48000);
 	}
 
 	@Test
 	public void testGetBitRateFromLibMediaInfo_withNullEmpty() {
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo(null)).isEqualTo(AudioProperties.BITRATE_DEFAULT);
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo("")).isEqualTo(AudioProperties.BITRATE_DEFAULT);
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo("bitrate unknown")).isEqualTo(AudioProperties.BITRATE_DEFAULT);
+		assertThat(AudioProperties.getBitRateFromLibMediaInfo(null)).isEqualTo(8000);
+		assertThat(AudioProperties.getBitRateFromLibMediaInfo("")).isEqualTo(8000);
+		assertThat(AudioProperties.getBitRateFromLibMediaInfo("bitrate unknown")).isEqualTo(8000);
 	}
 
 	@Test
@@ -177,14 +189,14 @@ public class AudioPropertiesTest {
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("8000")).isEqualTo(8000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("3018000 / 1509000 / 640000")).isEqualTo(3018000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("3018000 / 1509000")).isEqualTo(3018000);
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo("-3 kb/s")).isEqualTo(AudioProperties.BITRATE_DEFAULT);
+		assertThat(AudioProperties.getBitRateFromLibMediaInfo("-3 kb/s")).isEqualTo(8000);
 	}
 
 	@Test
 	public void testGetBitperSampleFromLibMediaInfo_withNullEmpty() {
-		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo(null)).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
-		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("")).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
-		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("bitdepth unknown")).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
+		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo(null)).isEqualTo(16);
+		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("")).isEqualTo(16);
+		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("bitdepth unknown")).isEqualTo(16);
 	}
 
 	@Test
@@ -195,7 +207,7 @@ public class AudioPropertiesTest {
 		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("32 bits")).isEqualTo(32);
 		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("32 bits / 24 bits / 16 bits")).isEqualTo(32);
 		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("24 / 16")).isEqualTo(24);
-		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("-3 bits")).isEqualTo(AudioProperties.BITSPERSAMPLE_DEFAULT);
+		assertThat(AudioProperties.getBitsperSampleFromLibMediaInfo("-3 bits")).isEqualTo(16);
 	}
 
 }
