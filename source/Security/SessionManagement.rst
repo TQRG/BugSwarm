@@ -13,58 +13,6 @@ Overview
 
 本節では、「Webアプリケーションでセッションを扱う際に必要となるセキュリティ対策」及び「Spring Securityが提供しているセッション関連の機能」について説明する。
 
-Spring Securityでは以下のセッションについて、主に以下の機能が提供されている。
-
-.. tabularcolumns:: |p{0.25\linewidth}|p{0.75\linewidth}|
-.. list-table:: **セッションに関する提供機能**
-    :header-rows: 1
-    :widths: 25 75
-
-    * - 機能
-      - 説明
-    * - | セキュリティ対策
-      - | セッションハイジャック攻撃等のセッションIDを使用した攻撃への対策機能。
-    * - | ライフサイクル制御
-      - | セッションの生成～破棄までのライフサイクルを制御する機能。
-    * - | タイムアウト制御
-      - | タイムアウトにより、セッションを破棄する機能。
-    * - | 多重ログイン制御
-      - | 同一ユーザーによる多重ログイン時のセッションを制御する機能。
-
-.. _authentication(spring_security)_how_to_use_sessionmanagement:
-
-How to use
---------------------------------------------------------------------------------
-
-.. _SpringSecuritySessionManagementSetup:
-
-セッション管理機能の適用
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-セッション管理機能を適用する方法を説明する。
-セッション管理機能の処理を使用する場合は、以下のようなbean定義を行う。
-
-* \ ``spring-security.xml``\ の定義例
-
-.. code-block:: xml
-
-    <sec:http>
-        <!-- ommited -->
-        <sec:session-management /> <!-- (1) -->
-        <!-- ommited -->
-    </sec:http>
-
-.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-.. list-table::
-    :header-rows: 1
-    :widths: 10 90
-
-    * - 項番
-      - 説明
-    * - | (1)
-      - | \ ``<sec:http>``\ 要素の子要素として\ ``<sec:session-management>``\ 要素を指定する。
-        | \ ``<sec:session-management>``\ 要素を指定すると、セッション管理機能が適用される。
-
 .. _SpringSecuritySessionManagementSecurityMeasure:
 
 セッション利用時のセキュリティ対策
@@ -113,7 +61,7 @@ Webアプリケーションでセッションを扱う場合、一般的には�
     * - | Cookieに\ ``Secure``\ 属性を指定する
       - | Cookieに\ ``Secure``\ 属性を指定すると、HTTPS通信の時だけCookieをサーバーに送信するため、誤ってHTTP通信を使ってしまった時にセッションIDが盗み取られるリスクを減らすことができる。
 
-.. note:: **メモ**
+.. note:: **URL Rewriting**
 
     URL Rewritingは、Cookieを使用できないクライアントとセッションを維持するための仕組みである。
     具体的には、URLのリクエストパラメータの中にセッションIDを含めることでクライアントとサーバーの間でセッションIDを連携する。
@@ -133,10 +81,62 @@ Webアプリケーションでセッションを扱う場合、一般的には�
 URL Rewritingが行われるとURL内にセッションIDが露出してしまうため、セッションIDを盗まれるリスクが高くなる。
 そのため、Cookieを使うことができるクライアントのみをサポートする場合は、サーブレットコンテナのURL Rewriting機能を無効化することを推奨する。
 
-Servlet 3.0以上に対応しているサーブレットコンテナを使用する際の無効化方法については、このあとのコラムで説明する。
-Servlet 2.5以下のサーブレットコンテナを使う場合は、アプリケーションサーバから提供されている無効化方法を適用されたい。
+|
 
-また、Spring SecurityはURL Rewritingを無効化するための仕組みも提供しており、この機能はデフォルトで適用されている。
+セッション固定攻撃への対策
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+セッション固定攻撃からアプリケーションを守るためには、以下のような対策が必要になる。
+
+.. tabularcolumns:: |p{0.30\linewidth}|p{0.70\linewidth}|
+.. list-table:: **セッション固定攻撃への対策**
+    :header-rows: 1
+    :widths: 30 70
+
+    * - 対策
+      - 説明
+    * - | URL Rewriting機能を無効化する
+      - | URL Rewriting機能を無効化すると、攻撃者が事前に払い出したセッションIDが使われず、新たにセッションが開始される。
+    * - | ログイン後にセッションIDを変更する
+      - | ログイン後にセッションIDを変更することで、攻撃者が事前に払い出したセッションIDが使用できなくなる。
+
+|
+
+Spring Securityが提供するセッション管理機能
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Spring Securityでは、セッションについて、主に以下の機能が提供されている。
+
+.. tabularcolumns:: |p{0.25\linewidth}|p{0.75\linewidth}|
+.. list-table:: **セッションに関する提供機能**
+    :header-rows: 1
+    :widths: 25 75
+
+    * - 機能
+      - 説明
+    * - | セキュリティ対策
+      - | セッションハイジャック攻撃等のセッションIDを使用した攻撃への対策機能。
+    * - | ライフサイクル制御
+      - | セッションの生成～破棄までのライフサイクルを制御する機能。
+    * - | タイムアウト制御
+      - | タイムアウトにより、セッションを破棄する機能。
+    * - | 多重ログイン制御
+      - | 同一ユーザーによる多重ログイン時のセッションを制御する機能。
+
+.. _authentication(spring_security)_how_to_use_sessionmanagement:
+
+How to use
+--------------------------------------------------------------------------------
+
+セッションハイジャック攻撃への対策
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ここではURL Rewriting機能を無効化し、Cookieを使用してセッションIDを連携する方法を説明する。、
+
+Spring SecurityによるURL Rewriting機能の無効化
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Spring SecurityはURL Rewritingを無効化するための仕組みを提供しており、この機能はデフォルトで適用されている。
 Cookieを使えないクライアントをサポートする必要がある場合は、URL Rewritingを許可するようにBean定義する。
 
 * \ ``spring-security.xml``\ の定義例
@@ -156,60 +156,79 @@ Cookieを使えないクライアントをサポートする必要がある場�
       - | Spring Securityのデフォルトでは、\ ``disable-url-rewriting``\ の値は \ ``true``\であるため、URL Rewritingは行われない。
         | URL Rewritingを有効にする際は、\ ``<sec:http>``\ 要素の \ ``disable-url-rewriting``\ 属性に\ ``false``\ を設定する。
 
-.. note:: **コラム**
-
-    Servlet 3.0以上のサーブレットコンテナを使う場合は、Servletの標準仕様の仕組みを使ってセッションをセキュアに扱うことが可能である。
-
-    * \ ``web.xml``\ の定義例
-
-        .. code-block:: xml
-
-            <session-config>
-                <cookie-config>
-                    <http-only>true</http-only> <!-- (1)  -->
-                </cookie-config>
-                <tracking-mode>COOKIE</tracking-mode> <!-- (2) -->
-            </session-config>
-
-
-        .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-        .. list-table::
-            :header-rows: 1
-            :widths: 10 90
-
-            * - 項番
-              - 説明
-            * - | (1)
-              - | Cookieに\ ``HttpOnly``\ 属性を付与する場合は、\ ``<http-only>``\ 要素に\ ``true``\ を指定する。
-                | 使用するアプリケーションサーバによっては、デフォルト値が\ ``true``\ になっている。
-            * - | (3)
-              - | URL Rewriting機能を無効化する場合は、\ ``<tracking-mode>``\ 要素に\ ``COOKIE``\ を指定する。
-
-        上記の定義例からは省略しているが、\ ``<cookie-config>``\ に \ ``<secure>true</secure>``\を追加することで、 Cookieに\ ``Secure``\ 属性を付与することができる。
-        ただし、cookieのsecure化は、\ ``web.xml``\ で指定するのではなく、クライアントとHTTPS通信を行うミドルウェア(SSLアクセラレータやWebサーバーなど)で付与する方法を検討されたい。
-
-        実際のシステム開発の現場において、ローカルの開発環境でHTTPSを使うケースはほとんどない。
-        また、本番環境においても、HTTPSを使うのはSSLアクセラレータやWebサーバーとの通信までで、アプリケーションサーバへの通信はHTTPで行うケースも少なくない。
-        このような環境下で\ ``Secure``\ 属性の指定を\ ``web.xml``\ で行ってしまうと、実行環境毎に\ ``web.xml``\ や\ ``web-fragment.xml``\ を用意することになり、ファイルの管理が煩雑になるため推奨されない。
-
-セッション固定攻撃への対策
+サーブレットコンテナによるURL Rewriting機能の無効化
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-セッション固定攻撃からアプリケーションを守るためには、以下のような対策が必要になる。
+サーブレットコンテナを使う場合は、Servletの標準仕様の仕組みを使ってセッションをセキュアに扱うことが可能である。
 
-.. tabularcolumns:: |p{0.30\linewidth}|p{0.70\linewidth}|
-.. list-table:: **セッション固定攻撃への対策**
+* \ ``web.xml``\ の定義例
+
+    .. code-block:: xml
+
+        <session-config>
+            <cookie-config>
+                <http-only>true</http-only> <!-- (1)  -->
+            </cookie-config>
+            <tracking-mode>COOKIE</tracking-mode> <!-- (2) -->
+        </session-config>
+
+
+    .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+    .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+
+        * - 項番
+          - 説明
+        * - | (1)
+          - | Cookieに\ ``HttpOnly``\ 属性を付与する場合は、\ ``<http-only>``\ 要素に\ ``true``\ を指定する。
+            | 使用するアプリケーションサーバによっては、デフォルト値が\ ``true``\ になっている。
+        * - | (3)
+          - | URL Rewriting機能を無効化する場合は、\ ``<tracking-mode>``\ 要素に\ ``COOKIE``\ を指定する。
+
+    上記の定義例からは省略しているが、\ ``<cookie-config>``\ に \ ``<secure>true</secure>``\を追加することで、 Cookieに\ ``Secure``\ 属性を付与することができる。
+    ただし、cookieのsecure化は、\ ``web.xml``\ で指定するのではなく、クライアントとHTTPS通信を行うミドルウェア(SSLアクセラレータやWebサーバーなど)で付与する方法を検討されたい。
+
+    実際のシステム開発の現場において、ローカルの開発環境でHTTPSを使うケースはほとんどない。
+    また、本番環境においても、HTTPSを使うのはSSLアクセラレータやWebサーバーとの通信までで、アプリケーションサーバへの通信はHTTPで行うケースも少なくない。
+    このような環境下で\ ``Secure``\ 属性の指定を\ ``web.xml``\ で行ってしまうと、実行環境毎に\ ``web.xml``\ や\ ``web-fragment.xml``\ を用意することになり、ファイルの管理が煩雑になるため推奨されない。
+
+
+.. _SpringSecuritySessionManagementSetup:
+
+セッション管理機能の適用
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Spring Securityのセッション管理機能を適用する方法を説明する。
+Spring Securityのセッション管理機能の処理を使用する場合は、以下のようなbean定義を行う。
+
+* \ ``spring-security.xml``\ の定義例
+
+.. code-block:: xml
+
+    <sec:http>
+        <!-- ommited -->
+        <sec:session-management /> <!-- (1) -->
+        <!-- ommited -->
+    </sec:http>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
     :header-rows: 1
-    :widths: 30 70
+    :widths: 10 90
 
-    * - 対策
+    * - 項番
       - 説明
-    * - | URL Rewriting機能を無効化する
-      - | URL Rewriting機能を無効化すると、攻撃者が事前に払い出したセッションIDが使われず、新たにセッションが開始される。
-    * - | ログイン後にセッションIDを変更する
-      - | ログイン後にセッションIDを変更することで、攻撃者が事前に払い出したセッションIDが使用できなくなる。
+    * - | (1)
+      - | \ ``<sec:http>``\ 要素の子要素として\ ``<sec:session-management>``\ 要素を指定する。
+        | \ ``<sec:session-management>``\ 要素を指定すると、セッション管理機能が適用される。
 
-Spring Securityは、ログイン成功時にセッションIDを変更するためのオプションを4つ用意している。
+|
+
+セッション固定攻撃への対策
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Spring Securityは、セッション固定攻撃対策として、ログイン成功時にセッションIDを変更するためのオプションを4つ用意している。
 
 .. tabularcolumns:: |p{0.30\linewidth}|p{0.70\linewidth}|
 .. list-table:: **セッション固定攻撃への対策のオプション**
@@ -256,7 +275,7 @@ Spring Securityは、ログイン成功時にセッションIDを変更するた
 
 Spring Securityは、リクエストを跨いで認証情報などのオブジェクトを共有するための手段としてHTTPセッションを使用しており、Spring Securityの処理の中でセッションのライフサイクル(セッションの作成と破棄)を制御している。
 
-.. note:: **メモ**
+.. note:: **セッション情報の格納先**
 
     Spring Securityが用意しているデフォルト実装ではHTTPセッションを使用するが、HTTPセッション以外(データベースやキーバリューストアなど)にオブジェクトを格納することも可能なアーキテクチャになっている。
 
@@ -312,6 +331,126 @@ Spring Securityは、以下のタイミングでセッションを破棄する�
 * ログアウト処理が実行されたタイミング
 * 認証処理が成功したタイミング (セッション固定攻撃対策として\ ``migrateSession``\ 又は\ ``newSession``\ が適用されるとセッションが破棄される)
 
+.. _SpringSecuritySessionManagementConcurrency:
+
+多重ログインの制御
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Spring Securityは、同じユーザー名(ログインID)を使った多重ログインを制御する機能を提供している。
+デフォルトではこの機能は無効になってるが、後述のbean定義を行うことで有効化することができる。
+
+Spring Securityが提供しているデフォルト実装では、ユーザー毎のセッション情報をアプリケーションサーバーのメモリ内で管理しているため、以下の2つの制約がある。
+
+ひとつめの制約として、複数のアプリケーションサーバーを同時に起動するシステムでは、デフォルト実装を利用することができないことが挙げられる。
+複数のアプリケーションサーバーを同時に使用する場合は、ユーザー毎のセッション情報をデータベースやキーバリューストア(キャッシュサーバー)などの共有領域で管理する実装クラスの作成が必要になる。
+
+ふたつめの制約は、アプリケーションサーバーを停止または再起動時した際に、セッション情報が復元されると、正常動作しない可能性があるという点である。
+使用するアプリケーションサーバーによっては、停止または再起動時のセッション状態を復元する機能をもっているため、実際のセッション状態とSpring Securityが管理しているセッション情報に不整合が生じることになる。
+このような不整合が生まれる可能性がある場合は、以下のいずれかの対応が必要になる。
+
+* アプリケーションサーバ側のセッション状態が復元されないようにする。
+* Spring Security側のセッション情報を復元する仕組みを実装する。
+* HTTPセッション以外(データベースやキーバリューストアなど)にオブジェクトを格納する。
+
+本節では、Spring Securityのデフォルト実装を使用する方法を紹介する。
+Spring Securityが用意しているデフォルト実装ではHTTPセッションを使用するが、HTTPセッション以外(データベースやキーバリューストアなど)にオブジェクトを格納することも可能なアーキテクチャになっている。
+ただし、ここで紹介する方法は **上記２つの制約が残っている実装方法であるため** 、適用する際は注意されたい。
+
+.. Todo::
+   インメモリを使用しない実装方法に関しては、今後追加予定である。
+
+セッションのライフサイクル検知の有効化
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+多重ログインを制御する機能は、セッションのライフサイクル(セッションの生成と破棄)を検知する仕組みを利用してユーザー毎のセッション状態を管理している。
+このため、多重ログインの制御機能を使用する際は、Spring Securityから提供されている\ ``HttpSessionEventPublisher``\ クラスをサーブレットコンテナに登録する必要がある。
+
+* \ ``web.xml``\ の定義例
+
+.. code-block:: xml
+
+    <listener>
+        <!-- (1) -->
+        <listener-class>
+            org.springframework.security.web.session.HttpSessionEventPublisher
+        </listener-class>
+    </listener>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - 項番
+      - 説明
+    * - | (1)
+      - | サーブレットリスナとして\ ``HttpSessionEventPublisher``\ を登録する。
+
+多重ログインの禁止(先勝ち)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+同じユーザー名(ログインID)を使って既にログインしているユーザーがいる場合に、認証エラーを発生させて多重ログインを防ぐ場合は、以下のようなbean定義を行う。
+
+* bean定義ファイルの定義例
+
+.. code-block:: xml
+
+    <sec:session-management>
+        <sec:concurrency-control
+                max-sessions="1"
+                error-if-maximum-exceeded="true"/> <!-- (1) (2) -->
+    </sec:session-management>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - 項番
+      - 説明
+    * - \ (1)
+      - \ ``<sec:concurrency-control>``\ 要素の\ ``max-sessions``\ 属性に、同時にログイン
+        を許可するセッション数を指定する。
+        多重ログインを防ぎたい場合は、通常\ ``1``\ を指定する。
+    * - \ (2)
+      - \ ``<sec:concurrency-control>``\ 要素の\ ``error-if-maximum-exceeded``\ 属性に、
+        同時にログインできるセッション数を超えた時の動作を指定する。
+        既にログインしているユーザーを有効なユーザーとして扱う場合は、\ ``true``\
+        を指定する。
+
+多重ログインの禁止(後勝ち)
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+同じユーザー名(ログインID)を使って既にログインしているユーザーがいる場合に、
+既にログインしているユーザーを無効化することで多重ログインを防ぐ場合は、
+以下のようなbean定義を行う。
+
+* \ ``spring-security.xml``\ の定義例
+
+.. code-block:: xml
+
+    <sec:session-management>
+        <sec:concurrency-control
+                max-sessions="1"
+                error-if-maximum-exceeded="false"
+                expired-url="/error/expire"/> <!-- (1) (2) -->
+    </sec:session-management>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - 項番
+      - 説明
+    * - | (1)
+      - | \ ``<sec:concurrency-control>``\ 要素の\ ``error-if-maximum-exceeded``\ 属性に、同時にログインできるセッション数を超えた時の動作を指定する。
+        | 新たにログインしたユーザーを有効なユーザーとして扱う場合は、\ ``false``\ を指定する。
+    * - | (2)
+      - | \ ``<sec:concurrency-control>``\ 要素の\ ``expired-url``\ 属性に、無効化されたユーザーからのリクエストを検知した際のリダイレクト先のパスを指定する。
+
+
+
 .. _SpringSecuritySessionManagementTimeout:
 
 セッションタイムアウトの制御
@@ -348,7 +487,7 @@ Spring Securityは、以下のタイミングでセッションを破棄する�
 
 .. note:: **多重ログインについて**
 
-    :ref:`多重ログインの制御機能<SpringSecuritySessionManagementConcurrency>` で解説するが、多重ログインの制御機能はセッションのライフサイクル (セッションの生成と破棄)を検知して機能を実現している。
+    :ref:`多重ログインの制御機能<SpringSecuritySessionManagementConcurrency>` で解説したが、多重ログインの制御機能はセッションのライフサイクル (セッションの生成と破棄)を検知して機能を実現している。
 
 .. _SpringSecuritySessionDetectInvalidSession:
 
@@ -375,6 +514,22 @@ Spring Securityは、無効なセッションを使ったリクエストを検�
       - 説明
     * - | (1)
       - | \ ``<sec:session-management>``\ 要素の\ ``invalid-session-url``\ 属性に、無効なセッションを使ったリクエストを検知した際のリダイレクト先のパスを指定する。
+
+.. note::
+
+    \ :doc:`CSRF対策機能<CSRF>`\ を有効にしている場合は、CSRF対策機能によりセッションタイムアウトが検出されるケースがある。
+    なお、Spring SecurityではデフォルトでCSRF対策機能が有効になっている。
+
+    CSRF対策機能によるセッションタイムアウトは、下記の状態で、\ :ref:`CSRFトークンのチェック対象になっているリクエスト<csrf_ckeck-target>` \を受信した場合に発生する。
+
+    * CSRFトークンの保存先をHTTPセッション(デフォルト)にしている
+    * HTTPセッションからCSRFトークンが取得できない
+
+    この場合、\ ``invalid-session-url``\ が定義されていれば、\ ``invalid-session-url``\の指定する遷移先にリダイレクトされ、
+    定義されていない場合は、:ref:`csrf_token-error-response` の定義に従ってリダイレクトされる。
+
+|
+
 
 除外パスの指定
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -419,123 +574,6 @@ Spring Securityは、無効なセッションを使ったリクエストを検�
       - | 個別定義していないパスに適用する\ ``SecurityFilterChain``\ を作成するための\ ``<sec:http>``\ 要素を定義する。
         | この定義は、個別定義用の\ ``<sec:http>``\ 要素より下に定義すること。
         | これは\ ``<sec:http>``\ 要素の定義順番が\ ``SecurityFilterChain``\ の優先順位となるためである。
-
-.. _SpringSecuritySessionManagementConcurrency:
-
-多重ログインの制御
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Spring Securityは、同じユーザー名(ログインID)を使った多重ログインを制御する機能を提供している。
-デフォルトではこの機能は無効になってるが、後述のbean定義を行うことで有効化することができる。
-
-Spring Securityが提供しているデフォルト実装では、ユーザー毎のセッション情報をアプリケーションサーバーのメモリ内で管理しているため、以下の2つの制約がある。
-
-ひとつめの制約として、複数のアプリケーションサーバーを同時に起動するシステムでは、デフォルト実装を利用することができないことが挙げられる。
-複数のアプリケーションサーバーを同時に使用する場合は、ユーザー毎のセッション情報をデータベースやキーバリューストア(キャッシュサーバー)などの共有領域で管理する実装クラスの作成が必要になる。
-
-ふたつめの制約として、アプリケーションサーバーを停止または再起動するとメモリ内で管理していたセッション情報がクリアされるという点である。
-使用するアプリケーションサーバーによっては、停止または再起動時のセッション状態を復元する機能をもっているため、実際のセッション状態とSpring Securityが管理しているセッション情報に不整合が生じることになる。
-このような不整合が生まれる可能性がある場合は、以下のいずれかの対応が必要になる。
-
-* アプリケーションサーバ側のセッション状態が復元されないようにする。
-* Spring Security側のセッション情報を復元する仕組みを実装する。
-
-本節では、Spring Securityのデフォルト実装を使用する方法を紹介する。
-Spring Securityが用意しているデフォルト実装ではHTTPセッションを使用するが、HTTPセッション以外(データベースやキーバリューストアなど)にオブジェクトを格納することも可能なアーキテクチャになっている。
-ただし、ここで紹介する方法は **上記２つの制約が残っている実装方法であるため** 、適用する際は注意されたい。
-
-.. Todo::
-   インメモリを使用しない実装方法に関しては、今後追加予定である。
-
-セッションのライフサイクル検知の有効化
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-多重ログインを制御する機能は、セッションのライフサイクル(セッションの生成と破棄)を検知する仕組みを利用してユーザー毎のセッション状態を管理している。
-このため、多重ログインの制御機能を使用する際は、Spring Securityから提供されている\ ``HttpSessionEventPublisher``\ クラスをサーブレットコンテナに登録する必要がある。
-
-* \ ``web.xml``\ の定義例
-
-.. code-block:: xml
-
-    <listener>
-        <!-- (1) -->
-        <listener-class>
-            org.springframework.security.web.session.HttpSessionEventPublisher
-        </listener-class>
-    </listener>
-
-.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-.. list-table::
-    :header-rows: 1
-    :widths: 10 90
-
-    * - 項番
-      - 説明
-    * - | (1)
-      - | サーブレットリスナとして\ ``HttpSessionEventPublisher``\ を登録する。
-
-多重ログインの禁止(先勝ち)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-同じユーザー名(ログインID)を使って既にログインしているユーザーがいる場合に、認証エラーを発生させて多重ログインを防ぐ場合は、以下のようなbean定義を行う。
-
-* bean定義ファイルの定義例
-
-.. code-block:: xml
-
-    <sec:session-management>
-        <sec:concurrency-control
-                max-sessions="1"
-                error-if-maximum-exceeded="true"/> <!-- (1) (2) -->
-    </sec:session-management>
-
-.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-.. list-table::
-    :header-rows: 1
-    :widths: 10 90
-
-    * - 項番
-      - 説明
-    * - \ (1)
-      - \ ``<sec:concurrency-control>``\ 要素の\ ``max-sessions``\ 属性に、同時にログイン
-        を許可するセッション数を指定する。
-        多重ログインを防ぎたい場合は、通常\ ``1``\ を指定する。
-    * - \ (2)
-      - \ ``<sec:concurrency-control>``\ 要素の\ ``error-if-maximum-exceeded``\ 属性に、
-        同時にログインできるセッション数を超えた時の動作を指定する。
-        既にログインしているユーザーを有効なユーザーとして扱う場合は、\ ``true``\
-        を指定する。
-
-多重ログインの禁止(後勝ち)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-同じユーザー名(ログインID)を使って既にログインしているユーザーがいる場合に、
-既にログインしているユーザーを無効化することで多重ログインを防ぐ場合は、
-以下のようなbean定義を行う。
-
-* \ ``spring-security.xml``\ の定義例
-
-.. code-block:: xml
-
-    <sec:session-management>
-        <sec:concurrency-control
-                max-sessions="1"
-                error-if-maximum-exceeded="false"
-                expired-url="/error/expire"/> <!-- (1) (2) -->
-    </sec:session-management>
-
-.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-.. list-table::
-    :header-rows: 1
-    :widths: 10 90
-
-    * - 項番
-      - 説明
-    * - | (1)
-      - | \ ``<sec:concurrency-control>``\ 要素の\ ``error-if-maximum-exceeded``\ 属性に、同時にログインできるセッション数を超えた時の動作を指定する。
-        | 新たにログインしたユーザーを有効なユーザーとして扱う場合は、\ ``false``\ を指定する。
-    * - | (2)
-      - | \ ``<sec:concurrency-control>``\ 要素の\ ``expired-url``\ 属性に、無効化されたユーザーからのリクエストを検知した際のリダイレクト先のパスを指定する。
 
 .. raw:: latex
 

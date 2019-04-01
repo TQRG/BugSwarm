@@ -1,4 +1,4 @@
-.. _SpringSecutityLinkageWithBrowser:
+.. _SpringSecurityLinkageWithBrowser:
 
 ブラウザのセキュリティ対策機能との連携
 ================================================================================
@@ -7,8 +7,6 @@
 
  .. contents:: 目次
     :local:
-
-.. _SpringSecurityLinkageWithBrowser:
 
 Overview
 --------------------------------------------------------------------------------
@@ -30,8 +28,6 @@ Spring Securityは、セキュリティ関連のレスポンスヘッダを出�
 .. note:: **HTTPヘッダの上書き**
 
     後述の設定を行ったとしても、アプリケーションにより、HTTPヘッダが上書きされる可能性は存在する。
-    また、Spring MVCのControllerクラスが \ ``@SessionAttribute`` \のフォームクラスを定義している、もしくは、
-    リクエストハンドラで \ ``@SessionAttribute`` \属性のModelを使用してる場合は、 Cache-Controlヘッダが上書きされる。
 
 デフォルトでサポートしているセキュリティヘッダ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -43,6 +39,15 @@ Spring Securityがデフォルトでサポートしているレスポンスヘ�
 * X-Content-Type-Options
 * X-XSS-Protection
 * Strict-Transport-Security
+
+.. tip:: **ブラウザのサポート状況**
+
+    これらのヘッダに対する処理は、一部のブラウザではサポートされていない。ブラウザの公式サイトまたは以下のページを参照されたい。
+
+    * https://www.owasp.org/index.php/HTTP_Strict_Transport_Security (Strict-Transport-Security)
+    * https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet (X-Frame-Options)
+    * https://www.owasp.org/index.php/List_of_useful_HTTP_headers (X-Content-Type-Options, X-XSS-Protection)
+
 
 Cache-Control
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -59,6 +64,11 @@ Cache-Controlヘッダは、コンテンツのキャッシュ方法を指示す�
     Cache-Control: no-cache, no-store, max-age=0, must-revalidate
     Pragma: no-cache
     Expires: 0
+
+.. note:: **Cache-Controlヘッダの上書き**
+
+    Spring MVCのControllerクラスが \ ``@SessionAttribute`` \のフォームクラスを定義している、もしくは、
+    リクエストハンドラで \ ``@SessionAttribute`` \属性のModelを使用してる場合は、 Cache-Controlヘッダが上書きされる。
 
 .. note:: **HTTP1.0互換のブラウザ**
 
@@ -208,15 +218,6 @@ How to use
     </sec:headers>
 
 上記の例だと、Cache-Control関連のヘッダだけが出力されなくなる。 
-
-.. note::
-
-    これらのヘッダに対する処理は、一部のブラウザではサポートされていない。ブラウザの公式サイトまたは以下のページを参照されたい。
-
-    * https://www.owasp.org/index.php/HTTP_Strict_Transport_Security (Strict-Transport-Security)
-    * https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet (X-Frame-Options)
-    * https://www.owasp.org/index.php/List_of_useful_HTTP_headers (X-Content-Type-Options, X-XSS-Protection)
-
 
 セキュリティヘッダの詳細については\ `公式リファレンス <http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#default-security-headers>`_\ を参照されたい。
 

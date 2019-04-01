@@ -187,7 +187,7 @@ Spring Securityは、以下のような流れでフォーム認証を行う。
    * - | (1)
      - | \ ``<sec:form-login>``\ タグを定義することで、フォーム認証が有効になる。
 
-.. note:: **auto-config属性について**
+.. tip:: **auto-config属性について**
 
     \ ``<sec:http>``\ には、フォーム認証(\ ``<sec:form-login>``\ タグ)、Basic認証(\ ``<sec:http-basic>``\ タグ)、ログアウト(\ ``<sec:logout>``\ タグ)に対するコンフィギュレーションを自動で行うか否かを指定する\ ``auto-config``\ 属性が用意されている。
     デフォルト値は\ ``false``\ (自動でコンフィギュレーションしない)となっており、Spring Securityのリファレンスドキュメントでもデフォルト値の使用が推奨されている。
@@ -325,7 +325,16 @@ Spring Securityはフォーム認証用のログインフォームをデフォ�
       - | アプリケーションで扱うWebリソースに対してアクセス権を付与する。
         | 上記例では、Webアプリケーションのルートパスの配下に対して、認証済みユーザーのみがアクセスできる権限を付与している。
         | Webリソースに対してアクセスポリシーの指定方法については、「\ :ref:`SpringSecurityAuthorization`\ 」を参照されたい。
- 
+
+.. note:: **Spring Security 4.0における変更**
+
+    Spring Security 4.0から、以下の設定のデフォルト値が変更されている
+
+    * username-parameter
+    * password-parameter
+    * login-processing-url
+    * authentication-failure-url 
+
 |
 
 .. _SpringSecurityAuthenticationScreenFlowOnSuccess:
@@ -393,7 +402,7 @@ Spring Securityのデフォルトの動作では、ログインフォームを�
 
 例として、ログインフォームを表示するためのパスが\ ``"/login"``\ の場合は\ ``"/login?error"``\ にリダイレクトされる。
   
-.. note:: **ノート** 
+.. note:: **定義方法による挙動の差異** 
 
     Java Configを使用した場合は上記動作となるが、XMLを使用してBean定義を行うと\ ``"error"``\ パラメータが付与されない。
     Java Configと同じ動作にするためには、\ ``authentication-failure-url``\ 属性に遷移先のパスを明示的に指定する必要がある。
@@ -682,7 +691,7 @@ Spring Securityは、\ ``UserDetails``\ の実装クラスとして\ ``User``\ �
         | 上記例では、コンポーネントスキャン機能を使って\ ``AccountSharedServiceImpl``\ をDIコンテナに登録している。
     * - |  (2)
       - | データベースからアカウント情報を検索する。
-        | アカウント情報が見つからない場合は、共通フレームワークの例外である\ ``ResourceNotFoundException``\ を発生させる。
+        | アカウント情報が見つからない場合は、共通ライブラリの例外である\ ``ResourceNotFoundException``\ を発生させる。
         | Repositoryの作成例については、「:doc:`Tutorial`」を参照されたい。
 
 *UserDetailsServiceの実装クラスの作成例*
@@ -1189,8 +1198,13 @@ Spring Securityは、以下のような流れでログアウト処理を行い�
    * - | (1)
      - | \ ``<sec:logout>``\ タグを定義することで、ログアウト処理が有効となる。
 
+.. note:: **Spring Security 4.0における変更**
 
-.. note:: **Cookieの削除**
+    Spring Security 4.0から、以下の設定のデフォルト値が変更されている
+
+    * logout-url 
+
+.. tip:: **Cookieの削除**
 
    本ガイドラインでは説明を割愛するが、 \ ``<sec:logout>``\ タグには、ログアウト時に指定したCookieを削除するための\ ``delete-cookies``\ 属性が存在する。
    ただし、この属性を使用しても正常にCookieが削除できないケースが報告されている。
@@ -1363,6 +1377,19 @@ JSPからのアクセス
 
     ここでは、認証情報が保持するユーザー情報を表示する際の実装例を説明したが、\ ``var``\ 属性と\ ``scope``\ 属性を組み合わせて任意のスコープ変数に値を格納することも可能である。
     ログインユーザーの状態によって表示内容を切り替えたい場合は、ユーザー情報を変数に格納しておき、JSTLのタグライブラリなどを使って表示を切り替えることが可能である。
+
+    上記の例は、以下のように記述することでも実現することができる。
+    本例では、\ ``scope``\ 属性を省略しているため、\ ``page``\スコープが適用される。
+
+        .. code-block:: jsp
+
+            <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+            <%-- omitted --%>
+            <sec:authentication var="principal" property="principal"/>
+            <%-- omitted --%>
+            ようこそ、
+            ${f:h(principal.account.lastName)}
+            さん。
 
 |
 
@@ -1766,7 +1793,7 @@ Spring Securityのデフォルトでは、ログアウト処理を実行する�
 
     ログアウトパスを変更した場合は、:ref:`ログアウトフォーム<SpringSecurityAuthenticationLogoutForm>` のリクエスト先も変更する必要がある。
 
-.. note:: **システムエラー発生時の振る舞い**
+.. tip:: **システムエラー発生時の振る舞い**
     システムエラーが発生した場合は、業務継続不可となるケースが多いと考えられる。
     システムエラー発生後、業務を継続させたくない場合は、以下のような対策を講じることを推奨する。
     
@@ -2739,6 +2766,13 @@ Remember Me認証を利用する場合は、\ ``<sec:remember-me>``\ タグを�
         | 上記例では、有効時間として30日間を設定している。
 
 上記以外の属性については、\ `Spring Security Reference -The Security Namespace (<remember-me>) - <http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#nsa-remember-me>`_\ を参照されたい。
+
+.. note:: **Spring Security 4.0における変更**
+
+    Spring Security 4.0から、以下の設定のデフォルト値が変更されている
+
+    * remember-me-parameter
+    * remember-me-cookie
 
 |
 

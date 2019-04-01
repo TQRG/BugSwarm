@@ -13,7 +13,7 @@ Spring Securityは、アプリケーションにセキュリティ対策機能�
 Spring Securityはスタンドアロンなアプリケーションでも利用できるが、サーブレットコンテナにデプロイするWebアプリケーションに対してセキュリティ対策を行う際に利用するのが一般的である。
 本章では、Spring Securityが提供する機能のうち、一般的なWebアプリケーションでの利用頻度が高いと思われる機能にしぼって説明する。
 
-.. note::
+.. tip::
 
     Spring Securityは、本ガイドラインで紹介していない機能も多く提供している。
     Spring Securityが提供するすべての機能を知りたい場合は、\ `Spring Security Reference <http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle/#security-filter-chain>`_\ を参照されたい。
@@ -62,8 +62,20 @@ Spring Securityでは認証と認可という基本的な機能に加え、Web�
         セッションのライフサイクル(生成、破棄、タイムアウト)を制御するための機能。
     * - :ref:`CSRF対策機能<SpringSecurityCSRF>`
       - クロスサイトリクエストフォージェリ(CSRF)攻撃からユーザーを守るための機能。
-    * - :ref:`セキュリティヘッダ出力機能<SpringSecutityLinkageWithBrowser>`
+    * - :ref:`セキュリティヘッダ出力機能<SpringSecurityLinkageWithBrowser>`
       - Webブラウザのセキュリティ対策機能と連携し、ブラウザの機能を悪用した攻撃からユーザーを守るための機能。
+
+|
+
+
+.. _SpringSecurityVersion:
+
+Spring Securityのバージョン
+--------------------------------------------------------------------------------
+本ガイドラインでは、Spring Securityのバージョンは4.0を使用している。
+Spring Securityが4.0にバージョンアップするにあたり、様々な変更が適用されており、以降で記述されるサンプルについても、Spring Security 4を使用したサンプルとなっている。
+
+変更内容については\ `Migrating from Spring Security 3.x to 4.x (XML Configuration) <http://docs.spring.io/spring-security/site/migrate/current/3-to-4/html5/migrate-3-to-4-xml.html>`_\ を参照されたい。
 
 |
 
@@ -93,7 +105,7 @@ Spring Securityは、コンポーネントの役割などに応じて、以下�
 標準的なWebアプリケーションで必要となるモジュール群
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-標準的なWebアプリケーションに対してセキュリティ対策行う際に必要となるモジュールは、以下の4つとなる。
+標準的なWebアプリケーションに対してセキュリティ対策行う際に必要となるモジュールは、以下の通りである。
 本ガイドラインでもこれらのモジュールを利用してセキュリティ対策を行う方法について説明する。
 
 \
@@ -327,7 +339,9 @@ WebアプリケーションにSpring Securityを適用するためのセット�
 依存ライブラリの適用
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-まず、Spring Securityから提供されているライブラリ(jarファイル)を開発プロジェクトに適用する。
+まず、Spring Securityを依存関係として使用している共通ライブラリを適用する。
+Spring Securityと共通ライブラリの関連については、:ref:`frameworkstack_common_library` を参照されたい。
+
 本ガイドラインでは、Mavenを使って開発プロジェクトを作成していることを前提とする。
 
 *xxx-domain/pom.xmlの設定例*

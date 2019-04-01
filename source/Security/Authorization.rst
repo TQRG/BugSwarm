@@ -83,6 +83,8 @@ Spring Securityが提供する実装クラスは3種類存在するが、いず�
 \ ``AccessDecisionVoter``\ は「付与」「拒否」「棄権」のいずれかを投票し、\ ``AccessDecisionManager``\ の実装クラスが投票結果を集約して最終的なアクセス権を判断する。
 アクセス権がないと判断した場合は、\ ``AccessDeniedException``\ を発生させアクセスを拒否する。
 
+なお、すべての投票結果が「棄権」であった場合、Spring Securityのでデフォルトでは、「アクセス権なし」と判定される。
+
 .. tabularcolumns:: |p{0.25\linewidth}|p{0.75\linewidth}|
 .. list-table:: **Spring Securityが提供するAccessDecisionManagerの実装クラス**
     :header-rows: 1
@@ -91,15 +93,15 @@ Spring Securityが提供する実装クラスは3種類存在するが、いず�
     * - クラス名
       - 説明
     * - | \ ``AffirmativeBased``\
-      - | 最初の\ ``AccessDecisionVoter``\ が「付与」に投票した場合にアクセス権を与える実装クラス。
+      - | \ ``AccessDecisionVoter``\ に投票させ、「付与」が１件投票された時点でアクセス権を与える実装クラス。
         | **デフォルトで使用される実装クラス。**
     * - | \ ``ConsensusBased``\
       - | 全ての\ ``AccessDecisionVoter``\ に投票させ、「付与」の投票数が多い場合にアクセス権を与える実装クラス。
+        | 「付与」「拒否」が１件以上、且つ同数の場合、Spring Securityのデフォルトでは、「アクセス権あり」と判定される。
     * - | \ ``UnanimousBased``\
-      - | 全ての\ ``AccessDecisionVoter``\ に投票させ、全ての\ ``AccessDecisionVoter``\ が「付与」または「棄権」の場合にアクセス権を与える実装クラス。
-        | 言いかえると、「拒否」を投票した\ ``AccessDecisionVoter``\ がいるとアクセス権の付与は行われない。
+      - | \ ``AccessDecisionVoter``\ に投票させ、「拒否」が１件投票された時点で **アクセス権を与えない** 実装クラス。
 
-.. note::
+.. note:: **AccessDecisionVoterの選択**
 
     使用する\ ``AccessDecisionVoter``\ が1つの場合はどの実装クラスを使っても動作に違いはない。
     複数の\ ``AccessDecisionVoter``\ を使用する場合は、要件に合わせて実装クラスを選択されたい。
@@ -129,7 +131,7 @@ Spring Securityが提供する主な実装クラスは以下の通り。
     * - | \ ``AuthenticatedVoter``\
       - | 認証状態を参照して投票を行う実装クラス。
 
-.. note:: **メモ**
+.. note:: **デフォルトで適用されるAccessDecisionVoter**
 
     デフォルトで適用される\ ``AccessDecisionVoter``\ インタフェースの実装クラスは、Spring Security 4.0から\ ``WebExpressionVoter``\ に統一されている。
     \ ``WebExpressionVoter``\ は、\ ``RoleVoter``\ 、\ ``RoleHierarchyVoter``\ 、\ ``AuthenticatedVoter``\ を使用した時と同じことが実現できるため、
@@ -286,7 +288,7 @@ Webリソースに対して認可処理を適用する場合は、以下のよ�
 
 .. note:: **use-expressionsのデフォルト定義**
 
-    Spring Security 4.0から、\ ``<sec:http>``\  タグの\ ``use-expressions``\ 属性のデフォルト値が\ ``true``\ に変更になっている。
+    Spring Security 4.0から、\ ``<sec:http>``\  タグの\ ``use-expressions``\ 属性のデフォルト値が\ ``true``\ に変更になっているため、\ ``true``\を使用する場合に明示的な記述は不要となった。
 
 アクセスポリシーの定義
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -305,7 +307,7 @@ bean定義ファイルを使用して、Webリソースに対してアクセス�
     :header-rows: 1
     :widths: 20 80
 
-    * - メソッド
+    * - 属性名
       - 説明
     * - | \ ``pattern``\
       - | Ant形式又は正規表現で指定したパスパターンに一致するリソースを適用対象にするための属性。
@@ -334,7 +336,7 @@ bean定義ファイルを使用して、Webリソースに対してアクセス�
 Spring Securityは定義した順番でリクエストとのマッチング処理を行い、最初にマッチした定義を適用する。
 そのため、bean定義ファイルを使用してアクセスポリシーを指定する場合も定義順番には注意が必要である。
 
-.. note:: **パスパターンの解釈**
+.. tip:: **パスパターンの解釈**
 
     Spring Securityのデフォルトの動作では、パスパターンはAnt形式で解釈する。
     パスパターンを正規表現で指定したい場合は、\ ``<sec:http>``\ タグの\ ``request-matcher``\ 属性に
@@ -365,23 +367,14 @@ Spring Securityは定義した順番でリクエストとのマッチング処�
     </sec:http>
   
   .. tabularcolumns:: |p{0.20\linewidth}|p{0.80\linewidth}|
-  .. list-table::
+  .. list-table:: **アクセスポリシーを指定するための属性**
      :header-rows: 1
      :widths: 20 80
   
      * - 属性名
        - 説明
-     * - | \ ``pattern``\ 
-       - | アクセス認可を行う対象のURLパターンを記述する。ワイルドカード「*」、「**」が使用できる。
-         | 「*」では、同一階層のみが対象であるのに対し、「**」では、指定階層以下の全URLが、認可設定の対象となる。
      * - | \ ``access``\ 
        - | SpELでのアクセス制御式や、アクセス可能なロールを指定する。
-     * - | \ ``method``\ 
-       - | HTTPメソッド（GETやPOST等）を指定する。指定したメソッドのみに関して、URLパターンとマッチングを行う。
-         | 指定しない場合は、任意のHTTPメソッドに適用される。主にRESTを利用したWebサービスの利用時に活用できる。
-     * - | \ ``requires-channel``\ 
-       - | 「http」、もしくは「https」を指定する。指定したプロトコルでのアクセスを強制する。
-         | 指定しない場合、どちらでもアクセスできる。
 
 | ログインユーザーに「ROLE_USER」「ROLE_ADMIN」というロールがある場合を例に、設定例を示す。
 
@@ -414,14 +407,14 @@ Spring Securityは定義した順番でリクエストとのマッチング処�
          | 権限設定が記述されていないURLに対してはどのユーザーもアクセス出来ない設定としている。
          | \ ``denyAll``\ については、後述する。
 
-  .. note::    **URLパターンの記述順序について**
+  .. note:: **URLパターンの記述順序について**
 
      クライアントからのリクエストに対して、intercept-urlで記述されているパターンに、上から順にマッチさせ、マッチしたパターンに対してアクセス認可を行う。
      そのため、パターンの記述は、必ず、より限定されたパターンから記述すること。
 
 \ Spring Securiyではデフォルトで、SpELが有効になっている。 
 \ ``access``\ 属性に記述したSpELは真偽値で評価され、式が真の場合に、アクセスが認可される。
-以下に、使用例を示す。
+以下に使用例を示す。
 
 * \ ``spring-security.xml``\ の定義例
 
@@ -536,7 +529,7 @@ Spring Securityは、以下のアノテーションをサポートしている�
 具体的には、「\ ``#username``\ 」の部分が引数にアクセスしている部分である。
 Expression内で「# + 引数名」形式のExpressionを指定することで、メソッドの引数にアクセスすることができる。
 
-.. note:: **メモ**
+.. tip:: **引数名を指定するアノテーション**
 
     Spring Securityは、クラスに出力されているデバッグ情報から引数名を解決する仕組み
     になっているが、アノテーション(\ ``@org.springframework.security.access.method.P``\ )
@@ -813,7 +806,7 @@ Spring Securityのデフォルトの設定だと、認証済みのユーザー�
     * - | (1)
       - | \ ``<sec:access-denied-handler>``\ タグの\ ``error-page``\ 属性に認可エラー用のエラーページを指定する。
 
-.. note:: **サーブレットコンテナのエラーページ機能の利用**
+.. tip:: **サーブレットコンテナのエラーページ機能の利用**
 
     認可エラーのエラーページは、サーブレットコンテナのエラーページ機能を使って指定することもできる。
 

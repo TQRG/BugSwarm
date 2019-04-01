@@ -21,8 +21,8 @@ CSRF対策が行われていないWebアプリケーションを利用すると�
 * 攻撃者が用意したWebページは、フォームの自動送信などのテクニックを使用して、偽造したリクエストをCSRF対策が行われていないWebアプリケーションに対して送信する。
 * CSRF対策が行われていないWebアプリケーションは、攻撃者が偽造したリクエストを正規のリクエストとして処理してしまう。
 
-.. note:: **メモ**
-    SCRFとは、Webサイトにスクリプトや自動転送(HTTPリダイレクト)を実装することにより、
+.. tip:: **CSRFについて**
+    CSRFとは、Webサイトにスクリプトや自動転送(HTTPリダイレクト)を実装することにより、
     ユーザーが、ログイン済みの別のWebサイト上で、意図しない何らかの操作を行わせる攻撃手法のことである。
 
     サーバ側でCSRFを防ぐには、以下の方法が知られている。
@@ -36,7 +36,7 @@ CSRF対策が行われていないWebアプリケーションを利用すると�
       .. [#fSpringSecurityCSRF1] Open Web Application Security Projectの略称であり、信頼できるアプリケーションや、セキュリティに関する  効果的なアプローチなどを検証、提唱する、国際的な非営利団体である。
        https://www.owasp.org/index.php/Main_Page
 
-.. note:: **メモ**
+.. note:: **ログイン時におけるCSRF対策**
 
     CSRF対策はログイン中のリクエストだけではなく、ログイン処理でも行う必要がある。
     ログイン処理に対してCSRF対策を怠った場合、攻撃者が用意したアカウントを使って知らぬ間にログインさせられ、ログイン中に行った操作履歴などを盗まれる可能性がある。
@@ -45,7 +45,7 @@ CSRF対策が行われていないWebアプリケーションを利用すると�
 Spring SecurityのCSRF対策
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Spring Securityは、セッション単位にランダムなトークン値(CSRFトークン)を払い出し、払い出されたCSRFトークンをリクエストパラメータ(HTMLフォームのhidden項目)として送信する。
+Spring Securityは、セッション単位にランダムに生成される固定トークン値(CSRFトークン)を払い出し、払い出されたCSRFトークンをリクエストパラメータ(HTMLフォームのhidden項目)として送信する。
 これにより正規のWebページからのリクエストなのか、攻撃者が用意したWebページからのリクエストなのかを判断する仕組みを採用している。
 
 .. figure:: ./images_CSRF/Csrf.png
@@ -76,10 +76,11 @@ Spring Securityは、セッション単位にランダムなトークン値(CSRF
     * - | (6)
       - | Spring Securityは、GETメソッドを使ってアクセスされた際は、CSRFトークン値のチェックは行わない。
 
-.. note:: **メモ**
+.. note:: **Ajax使用時のCSRFトークン**
 
     Spring Securityは、リクエストヘッダにCSRFトークン値を設定することができるため、Ajax向けのリクエストなどに対してCSRF対策を行うことが可能である。
 
+.. _csrf_ckeck-target:
 
 トークンチェックの対象リクエスト
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -91,19 +92,50 @@ Spring Securityのデフォルト実装では、以下のHTTPメソッドを使�
 * DELETE
 * PATCH
 
-.. note:: **メモ**
+.. note:: **CSRFトークンチェックを行わない理由**
 
     GET, HEAD, OPTIONS, TRACE メソッドがチェック対象外となっている理由は、これらのメソッドがアプリケーションの状態を変更するようなリクエストを実行するためのメソッドではないためである。
+
+.. _csrf_spring-security-setting:
 
 How to use
 --------------------------------------------------------------------------------
 
 CSRF対策機能の適用
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-CSRF対策機能は、Spring 3.2から追加された機能でSpring Security 4.0からデフォルトで適用される。 
-そのため、CSRF対策機能を有効にするための特別な定義は必要ない。 
 
-CSRF対策機能を適用したくない場合は、明示的に無効化する必要がある。 
+CSRFトークン用の\ ``RequestDataValueProcessor``\ 実装クラスを利用し、Springのタグライブラリの\ ``<form:form>``\ タグを使うことで、自動的にCSRFトークンを、hiddenに埋め込むことができる。
+
+* \ ``spring-mvc.xml``\ の設定
+
+.. code-block:: xml
+
+    <bean id="requestDataValueProcessor"
+        class="org.terasoluna.gfw.web.mvc.support.CompositeRequestDataValueProcessor"> <!-- (1)  -->
+        <constructor-arg>
+            <util:list>
+                <bean
+                    class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor" /> <!-- (2)  -->
+                <bean
+                    class="org.terasoluna.gfw.web.token.transaction.TransactionTokenRequestDataValueProcessor" />
+            </util:list>
+        </constructor-arg>
+    </bean>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+   :header-rows: 1
+   :widths: 10 90
+
+   * - 項番
+     - 説明
+   * - | (1)
+     - | \ 共通ライブラリから提供されている、\ ``org.springframework.web.servlet.support.RequestDataValueProcessor``\ を複数定義可能な
+       | \ ``org.terasoluna.gfw.web.mvc.support.CompositeRequestDataValueProcessor``\ をbean定義する。
+   * - | (2)
+     - | コンストラクタの第1引数に、\ ``org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor``\ のbean定義を設定する。
+
+Spring Security 4.0からは、上記設定により、デフォルトでCSRF対策機能が有効となる。このため、CSRF対策機能を適用したくない場合は、明示的に無効化する必要がある。 
 
 CSRF対策機能を使用しない場合は、以下のようなbean定義を行う。
 
@@ -127,9 +159,74 @@ Spring Securityは、CSRFトークン値をクライアントとサーバー間�
 
 .. _csrf_formtag-use:
 
+Spring MVCを使用した連携
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Spring Securityは、Spring MVCと連携するためのコンポーネントをいくつか提供している。
+ここでは、CSRF対策機能と連携するためのコンポーネントの使い方を説明する。
+
+hidden項目の自動出力
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+HTMLフォームを作成する際は、以下のようなJSPの実装を行う。
+
+.. code-block:: jsp
+
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+    <c:url var="loginUrl" value="/login"/>
+    <form:form action="${loginUrl}"> <!-- (1) -->
+        <!-- omitted -->
+    </form:form>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - 項番
+      - 説明
+    * - | (1)
+      - | HTMLフォームを作成する際は、Spring MVCから提供されている\ ``<form:form>``\ 要素を使用する。
+
+Spring MVCから提供されている\ ``<form:form>``\ 要素を使うと、以下のようなHTMLフォームが作成される。
+
+.. code-block:: html
+
+    <form id="command" action="/login" method="post">
+        <!-- omitted -->
+        <!-- Spring MVCの機能と連携して出力されたCSRFトークン値のhidden項目 -->
+        <div>
+            <input type="hidden"
+                   name="_csrf" value="63845086-6b57-4261-8440-97a3c6fa6b99" />
+        </div>
+    </form>
+
+.. tip:: **出力されるCSRFトークンチェック値**
+
+    Spring 4上で\ ``CsrfRequestDataValueProcessor``\ を使用すると、\ ``<form:form>``\ タグの\ ``method``\ 属性に指定した値がCSRFトークンチェック対象の
+    HTTPメソッド(Spring Securityのデフォルト実装ではGET,HEAD,TRACE,OPTIONS以外のHTTPメソッド)と一致する場合に限り、CSRFトークンが埋め込まれた\ ``<input type="hidden">``\ タグが出力される。
+
+    例えば、以下の例のように \ ``method``\ 属性にGETメソッドを指定した場合は、CSRFトークンが埋め込まれた\ ``<input type="hidden">``\ タグは出力されない。
+
+        .. code-block:: jsp
+
+            <form:form method="GET" modelAttribute="xxxForm" action="...">
+                <%-- ... --%>
+            </form:form>
+
+    これは、\ `OWASP Top 10 <https://code.google.com/p/owasptop10/>`_\ で説明されている、
+
+        The unique token can also be included in the URL itself, or a URL parameter. However, such placement runs a greater risk that the URL will be exposed to an attacker, thus compromising the secret token.
+
+    に対応している事を意味しており、セキュアなWebアプリケーション構築の手助けとなる。
+
+.. _csrf_htmlformtag-use:
+
 HTMLフォーム使用時の連携
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+\ :ref:`Spring MVCと連携<csrf_formtag-use>` せずに、HTMLフォームを使用してCSRFトークン値を連携することも可能である。
 HTMLフォームを使ってリクエストを送信する場合は、HTMLフォームのhidden項目としてCSRFトークン値を出力し、リクエストパラメータとして連携する。
 
 * JSPの実装例
@@ -171,10 +268,12 @@ HTMLフォーム内にhidden項目を出力することで、CSRFトークン値
         <!-- omitted -->
     </form>
 
-.. note:: **メモ**
+.. warning:: **GETメソッド使用時の注意点**
 
     HTTPメソッドとしてGETを使用する場合、\ ``<sec:csrfInput>``\ 要素を指定しないこと。
     \ ``<sec:csrfInput>``\ 要素を指定してしまうと、URLにCSRFトークン値が含まれてしまうため、CSRFトークン値が盗まれるリスクが高くなる。
+
+.. _csrf_ajax-token-setting:
 
 Ajax使用時の連携
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -250,6 +349,8 @@ Ajaxを使ってリクエストを送信する場合は、HTMLのmetaタグと�
     * - | (3)
       - | リクエストヘッダにCSRFトークン値を設定する。
 
+.. _csrf_token-error-response:
+
 トークンチェックエラー時のレスポンス
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -272,97 +373,115 @@ CSRFのトークンチェック処理では、エラーの内容に応じて以�
     * - | \ ``MissingCsrfTokenException``\
       - | サーバー側にトークン値が保存されていない場合に使用する例外クラス。
 
+CSRFトークンチェックエラー時遷移先を制御する場合は、以下の設定を行う。
+
+* \ ``spring-security.xml``\ の定義例
+
+.. code-block:: xml
+
+    <sec:http>
+        <!-- omitted -->
+        <sec:access-denied-handler ref="accessDeniedHandler"/>  <!-- (1) -->
+        <!-- omitted -->
+    </sec:http>
+
+    <bean id="accessDeniedHandler"
+        class="org.springframework.security.web.access.DelegatingAccessDeniedHandler">  <!-- (2) -->
+        <constructor-arg index="0">  <!-- (3) -->
+            <map>
+                <entry
+                    key="org.springframework.security.web.csrf.InvalidCsrfTokenException">  <!-- (4) -->
+                    <bean
+                        class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (4) -->
+                        <property name="errorPage"
+                            value="/WEB-INF/views/common/error/invalidCsrfTokenError.jsp" />  <!-- (4) -->
+                    </bean>
+                </entry>
+                <entry
+                    key="org.springframework.security.web.csrf.MissingCsrfTokenException">  <!-- (5) -->
+                    <bean
+                        class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (5) -->
+                        <property name="errorPage"
+                            value="/WEB-INF/views/common/error/missingCsrfTokenError.jsp" />  <!-- (5) -->
+                    </bean>
+                </entry>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="1">  <!-- (6) -->
+            <bean
+                class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (7) -->
+                <property name="errorPage"
+                    value="/WEB-INF/views/common/error/accessDeniedError.jsp" />  <!-- (7) -->
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+   :header-rows: 1
+   :widths: 10 90
+
+   * - 項番
+     - 説明
+   * - | (1)
+     - | \ ``AccessDeniedException``\ を継承したExceptionが発生した場合、Exceptionの種類毎に表示するviewを切り替えるためにHandlerを定義する。
+       | 全て同じ画面で良い場合は ``error-page`` 属性に遷移先のjspを指定することで可能となる。
+       | Spring Securityの機能でハンドリングしない場合は、\ :ref:`こちら<csrf_403-webxml-setting>`\ を参照されたい。
+   * - | (2)
+     - | エラーページを切り替えるためにSpring Securityで用意されているHandlerのclassに \ ``org.springframework.security.web.access.DelegatingAccessDeniedHandler``\ を指定する。
+   * - | (3)
+     - | コンストラクタの第1引数でデフォルト以外のException（\ ``AccessDeniedException``\ を継承したException）の種類毎に表示を変更する画面をMap形式で設定する。
+   * - | (4)
+     - | keyに \ ``AccessDeniedException``\ を継承したException を指定する。
+       | 実装クラスとして、Spring Securityで用意されている \ ``org.springframework.security.web.access.AccessDeniedHandlerImpl`` を指定する。
+       | propertyのnameにerrorPageを指定し、valueに表示するviewを指定する。
+   * - | (5)
+     - | (4)とExceptionの種類が違う場合に表示の変更を定義する。
+   * - | (6)
+     - | コンストラクタの第2引数でデフォルト（\ ``AccessDeniedException``\ とコンストラクタの第1引数で指定していない\ ``AccessDeniedException``\を継承したException）の場合のviewを指定する。
+   * - | (7)
+     - | 実装クラスとして、Spring Securityで用意されている \ ``org.springframework.security.web.access.AccessDeniedHandlerImpl`` を指定する。
+       | propertyのnameにerrorPageを指定し、valueに表示するviewを指定する。
+
 .. note:: **無効なセッションを使ったリクエストの検知**
 
     セッション管理機能の「:ref:`SpringSecuritySessionDetectInvalidSession`」処理を有効にしている場合は、\ ``MissingCsrfTokenException``\ に対して「:ref:`SpringSecuritySessionDetectInvalidSession`」処理と連動する\ ``AccessDeniedHandler``\ インタフェースの実装クラスが適用される。
 
     そのため、\ ``MissingCsrfTokenException``\ が発生すると、「:ref:`SpringSecuritySessionDetectInvalidSession`」処理を有効化する際に指定したパス(\ ``invalid-session-url``\ )にリダイレクトする。
 
+.. _csrf_403-webxml-setting:
+
+.. tip:: **<sec:access-denied-handler>の設定を省略した場合のエラーハンドリングについて**
+
+  web.xmlに以下の設定を行うことで、任意のページに遷移させることができる。
+
+  **web.xml**
+
+    .. code-block:: xml
+
+        <error-page>
+            <error-code>403</error-code>  <!-- (1) -->
+            <location>/WEB-INF/views/common/error/accessDeniedError.jsp</location>  <!-- (2) -->
+        </error-page>
+
+    .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+    .. list-table::
+       :header-rows: 1
+       :widths: 10 90
+
+       * - 項番
+         - 説明
+       * - | (1)
+         - | error-code要素に、ステータスコード403を設定する。
+       * - | (2)
+         - | location要素に、遷移先のパスを設定する。
+
 .. note::
 
   **ステータスコード403以外を返却したい場合**
 
   リクエストに含まれるCSRFトークンが一致しない場合、ステータスコード403以外を返却したい場合は、\ ``org.springframework.security.web.access.AccessDeniedHandler``\ インタフェースを実装した、独自のAccessDeniedHandlerを作成する必要がある。
-
-
-CSRF対策機能とSpring MVCとの連携
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Spring Securityは、Spring MVCと連携するためのコンポーネントをいくつか提供している。
-ここでは、CSRF対策機能と連携するためのコンポーネントの使い方を説明する。
-
-hidden項目の自動出力
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Spring Securityは、CSRFトークン値のhidden項目を自動で出力するためのコンポーネントとして、\ ``CsrfRequestDataValueProcessor``\ というクラスを提供している。
-\ ``CsrfRequestDataValueProcessor``\ をSpring MVCに適用すると、Spring MVCから提供されているJSPタグライブラリを使用した際に、CSRFトークン値のhidden項目を自動かつ安全に出力することが可能である。
-
-Spring SecurityではデフォルトでCSRF対策機能が有効になっており、自動で\ ``CsrfRequestDataValueProcessor``\ がSpring MVCに適用される仕組みになっている。
-このため、\ ``CsrfRequestDataValueProcessor``\ をSpring MVCに適用するための明示的な設定は不要である。
-
-
-HTMLフォームを作成する際は、以下のようなJSPの実装を行う。
-
-.. code-block:: jsp
-
-    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-    <c:url var="loginUrl" value="/login"/>
-    <form:form action="${loginUrl}"> <!-- (1) -->
-        <!-- omitted -->
-    </form:form>
-
-.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-.. list-table::
-    :header-rows: 1
-    :widths: 10 90
-
-    * - 項番
-      - 説明
-    * - | (1)
-      - | HTMLフォームを作成する際は、Spring MVCから提供されている\ ``<form:form>``\ 要素を使用する。
-
-Spring MVCから提供されている\ ``<form:form>``\ 要素を使うと、以下のようなHTMLフォームが作成される。
-
-.. code-block:: html
-
-    <form id="command" action="/login" method="post">
-        <!-- omitted -->
-        <!-- Spring MVCの機能と連携して出力されたCSRFトークン値のhidden項目 -->
-        <div>
-            <input type="hidden"
-                   name="_csrf" value="63845086-6b57-4261-8440-97a3c6fa6b99" />
-        </div>
-    </form>
-
-.. note:: **CsrfRequestDataValueProcessorの適用**
-
-    \ ``CsrfRequestDataValueProcessor``\ は、Spring MVCが提供している\ ``RequestDataValueProcessor``\ インタフェースを実装したクラスである。
-    Spring MVCが扱える\ ``RequestDataValueProcessor``\ インタフェースの実装クラスは一つのみなので、
-    \ ``DispatcherServlet``\ が管理する\ ``ApplicationContext``\の中に\ ``RequestDataValueProcessor``\
-    インタフェースを実装しているbeanが登録されていると、\ ``CsrfRequestDataValueProcessor``\
-    はSpring MVCに適用されず、\ ``<form:form>``\ 要素を使った際にCSRFトークン値のhidden項目は出力されない。
-
-    複数の\ ``RequestDataValueProcessor``\ インタフェースの実装クラスをSpring MVCに適用したい場合は、それぞれの\ ``RequestDataValueProcessor``\ インタフェースの実装クラスに処理を委譲するような実装クラスを作成する必要がある。
-
-.. tip:: **出力されるCSRFトークンチェック値**
-
-    Spring 4上で\ ``CsrfRequestDataValueProcessor``\ を使用すると、\ ``<form:form>``\ タグの\ ``method``\ 属性に指定した値がCSRFトークンチェック対象の
-    HTTPメソッド(Spring Securityのデフォルト実装ではGET,HEAD,TRACE,OPTIONS以外のHTTPメソッド)と一致する場合に限り、CSRFトークンが埋め込まれた\ ``<input type="hidden">``\ タグが出力される。
-
-    例えば、以下の例のように \ ``method``\ 属性にGETメソッドを指定した場合は、CSRFトークンが埋め込まれた\ ``<input type="hidden">``\ タグは出力されない。
-
-        .. code-block:: jsp
-
-            <form:form method="GET" modelAttribute="xxxForm" action="...">
-                <%-- ... --%>
-            </form:form>
-
-    これは、\ `OWASP Top 10 <https://code.google.com/p/owasptop10/>`_\ で説明されている、
-
-        The unique token can also be included in the URL itself, or a URL parameter. However, such placement runs a greater risk that the URL will be exposed to an attacker, thus compromising the secret token.
-
-    に対応している事を意味しており、セキュアなWebアプリケーション構築の手助けとなる。
 
 Appendix
 --------------------------------------------------------------------------------
