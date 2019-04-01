@@ -1810,11 +1810,11 @@ Entityの検索方法について、目的別に説明する。
 
     @RequestMapping("list")
     public String list(@RequestParam("targetDate") Date targetDate,
-                       @PageableDefaults(
-                           pageNumber = 0,
+                       @PageableDefault(
+                           page = 0,
                            value = 5,
                            sort = { "createdDate" },
-                           sortDir = Direction.DESC)
+                           direction = Direction.DESC)
                            Pageable pageable, // (2)
                        Model model) {
         Page<Order> accountPage = accountService.getAccounts(targetDate, pageable);
@@ -1979,7 +1979,7 @@ Entityの動的条件による検索処理の実装
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils
+                bindParameters.put("itemName", QueryEscapeUtils
                         .toLikeCondition(criteria.getItemName()));
             }
 
@@ -2331,7 +2331,7 @@ Entityの動的条件による検索処理の実装
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils.toLikeCondition(criteria
+                bindParameters.put("itemName", QueryEscapeUtils.toLikeCondition(criteria
                         .getItemName()));
             }
 
@@ -4235,7 +4235,7 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
     * - | (2)
       - | ``@Where`` アノテーションで指定した条件が追加されている。
 
-- 標準的なキーワード``true``、``false``、``unknown``などを登録するためのDialectを拡張する
+- 標準的なキーワード ``true`` 、``false`` 、``unknown`` などを登録するためのDialectを拡張する
 
  .. code-block:: java
 
@@ -4258,10 +4258,10 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
     * - Sr. No.
       - Description
     * - | (1)
-      - | Hibernateは標準的なSQLキーワード``true``、``false``、``unknown``などを登録することができません。これらは、データベース特定のDialectを拡張することによって登録することができます。
+      - | Hibernateは標準的なSQLキーワード ``true`` 、``false`` 、``unknown`` などを登録することができません。これらは、データベース特定のDialectを拡張することによって登録することができます。
         | 例、postgresqlデータベースのデーフォルトDialectは``org.hibernate.dialect.PostgreSQL9Dialect``となります。
     * - | (2)
-      - | 標準的なSQLキーワード``true``、``false``、``unknown``などを登録する。
+      - | 標準的なSQLキーワード ``true`` 、``false`` 、``unknown`` などを登録する。
 
 - 拡張したDialectを設定する
 

@@ -1807,11 +1807,11 @@ Amongst the entities matching the conditions, call a query method to fetch the e
 
     @RequestMapping("list")
     public String list(@RequestParam("targetDate") Date targetDate,
-                       @PageableDefaults(
-                           pageNumber = 0,
+                       @PageableDefault(
+                           page = 0,
                            value = 5,
                            sort = { "createdDate" },
-                           sortDir = Direction.DESC)
+                           direction = Direction.DESC)
                            Pageable pageable, // (2)
                        Model model) {
         Page<Order> accountPage = accountService.getAccounts(targetDate, pageable);
@@ -1976,7 +1976,7 @@ If no condition is specified, a blank list will be returned.
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils
+                bindParameters.put("itemName", QueryEscapeUtils
                         .toLikeCondition(criteria.getItemName()));
             }
 
@@ -2328,7 +2328,7 @@ Further, the description for fetching all records is omitted.
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils.toLikeCondition(criteria
+                bindParameters.put("itemName", QueryEscapeUtils.toLikeCondition(criteria
                         .getItemName()));
             }
 
@@ -4315,7 +4315,7 @@ The method to add common conditions for JPQL which is executed at the time of ca
         | The WHERE clause should be specified in SQL instead of JPQL i.e. it is necessary to specify the column name instead of the property name of Java object.
     * - | (2)
       - | The condition specified with ``@Where`` annotation is added.
-
+      
 - Extending Dialect to register standard keywords such as ``true``, ``false`` and ``unknown``.
 
  .. code-block:: java
@@ -4363,7 +4363,7 @@ The method to add common conditions for JPQL which is executed at the time of ca
       - Description
     * - | (3)
       - | The extended Dialect is set as the value of ``databasePlatform`` property in JPA Vendor Adapter of EntityManager.
-
+      
  .. note:: **Class that can be specified**
 
     ``@Where`` annotation is valid only in the class with ``@Entity``.
