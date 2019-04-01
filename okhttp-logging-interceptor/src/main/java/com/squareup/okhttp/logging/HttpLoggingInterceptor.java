@@ -235,7 +235,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
           logger.log(buffer.clone().readString(charset));
         }
 
-        logger.log("<-- END HTTP  (" + buffer.size() + "-byte body)");
+        logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
       }
     }
 
