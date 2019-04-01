@@ -35,7 +35,7 @@
     * - 種別
       - プロダクト
     * - REST Client
-      - \ `DHC(aka Dev HTTP Client) <https://chrome.google.com/webstore/detail/dhc-resthttp-api-client/aejoelaoggembcahagimdiliamlcdmfm>`_\  0.7.11
+      - \ `DHC REST Client <https://chrome.google.com/webstore/detail/dhc-resthttp-api-client/aejoelaoggembcahagimdiliamlcdmfm>`_\  1.2.3
     * - 上記以外のプロダクト
       - \ :doc:`../TutorialTodo/index`\ と同様
 
@@ -70,14 +70,14 @@ Chromeの「Tools」→「Extensions」を選択する。
 
 |
 
-Dev HTTP Clientの「+ FREE」ボタンを押下する。
+DHC REST Clientの「+ ADD TO CHROME」ボタンを押下する。
 
 .. figure:: ./images_rest/install-dev-http-client4.png
    :width: 80%
 
 |
 
-「Add」ボタンを押下する。
+「Add app」ボタンを押下する。
 
 .. figure:: ./images_rest/install-dev-http-client5.png
 
@@ -659,12 +659,14 @@ REST API用のSpring Securityの定義追加
         <!-- (1) -->
         <sec:http
             pattern="/api/v1/**"
-            auto-config="true"
             create-session="stateless">
+            <sec:http-basic />
             <sec:csrf disabled="true"/>
         </sec:http>
 
-        <sec:http auto-config="true">
+        <sec:http>
+            <sec:form-login />
+            <sec:logout />
             <sec:access-denied-handler ref="accessDeniedHandler"/>
             <sec:custom-filter ref="userIdMDCPutFilter" after="ANONYMOUS_FILTER"/>
             <sec:session-management />

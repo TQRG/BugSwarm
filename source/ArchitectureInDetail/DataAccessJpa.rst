@@ -3396,6 +3396,14 @@ LIKE検索時のエスケープについて
     * - | (2)
       - | 共通ライブラリから提供しているエスケープ処理は、エスケープ文字として ``"~"`` を使用しているため、 LIKE句の後ろに ``"ESCAPE '~'"`` を指定する。
 
+ .. note :: **ワイルドカード文字 "_" について**
+
+    ワイルドカード文字 ``"%"`` は、「:ref:`how_to_specify_query_annotation-label`」で説明しているように、 ``@Query`` アノテーションを利用した場合に限り直接JPQL内で使用することができる。
+    ワイルドカード文字 ``"_"`` は直接JPQL内のLIKE検索に利用することはできないため、下記2方法で利用すること。
+    
+    #. ワイルドカード文字 ``"_"`` をバインド変数内に含める。
+    #. ワイルドカード文字 ``"_"`` を ``CONCAT`` などのデータベース製品が持つ文字列結合機能を利用してバインド変数に結合する。
+
 |
 
 - Service
@@ -4199,7 +4207,7 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = 'false'") // (1)
+    @Where(clause = "is_logical_delete = false") // (1)
     public class Order implements Serializable {
         // ...
         @Id
@@ -4235,6 +4243,60 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
     * - | (2)
       - | ``@Where`` アノテーションで指定した条件が追加されている。
 
+ .. note:: **Dialect 拡張について**
+
+    ``@Where`` アノテーション内でSQL固有のキーワードを指定する場合、HibernateがSQL固有のキーワードを一般的な文字列として認識されてしまい、期待したSQLへ変換されないケースがある。
+    SQL固有のキーワードを利用する場合に、 ``Dialect`` を拡張して使用する必要がある。
+
+- 標準的なキーワード ``true`` 、``false`` 、``unknown`` などを登録するための ``Dialect`` を拡張する
+
+ .. code-block:: java
+
+    package com.example.infra.hibernate;
+    
+    public class ExtendedPostgreSQL9Dialect extends PostgreSQL9Dialect { // (1)
+        public ExtendedPostgreSQL9Dialect() {
+            super();
+            // (2)
+            registerKeyword("true");
+            registerKeyword("false");
+            registerKeyword("unknown");
+        }
+    }
+
+ .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+ .. list-table::
+    :widths: 10 90
+    :header-rows: 1
+    
+    * - 項番
+      - 説明
+    * - | (1)
+      - | Hibernate 4.3のデフォルトの状態では、SQLのキーワードを正しく認識できない場合がある。例えば、PostgreSQL向けのキーワードを管理する ``org.hibernate.dialect.PostgreSQL9Dialect`` にはキーワードとしてBOOLEAN型の ``true`` 、``false`` 、``unknown`` などが登録されていないため、一般的な文字列として認識されてしまい、正しいSQLへ変換されない。
+        | そのため、必要に応じて ``org.hibernate.dialect.Dialect`` を拡張し、キーワードを登録する必要がある。
+    * - | (2)
+      - | ``@Where`` で利用する可能性のあるSQLキーワードを登録する。
+
+- 拡張したDialectを設定する
+
+ .. code-block:: xml
+
+    <bean id="jpaVendorAdapter"
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="databasePlatform" value="com.example.infra.hibernate.ExtendedPostgreSQL9Dialect"/> // (3)
+        // ...
+    </bean>
+
+ .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+ .. list-table::
+    :widths: 10 90
+    :header-rows: 1
+    
+    * - 項番
+      - 説明
+    * - | (3)
+      - | 拡張した ``Dialect`` を ``EntityManager`` である ``JpaVendorAdapter`` の ``databasePlatform`` プロパティの値に設定する。
+
  .. note:: **指定可能なクラスについて**
 
     ``@Where`` アノテーションは、 ``@Entity`` が付与されているクラスでのみ有効である。
@@ -4256,7 +4318,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = 'false'")
+    @Where(clause = "is_logical_delete = false")
     public class Order implements Serializable {
         // ...
         @Id
@@ -4264,7 +4326,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
         @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
         @OrderBy
-        @Where(clause="is_logical_delete = 'false'") // (1)
+        @Where(clause="is_logical_delete = false") // (1)
         private Set<OrderItem> orderItems;
         // ...
 

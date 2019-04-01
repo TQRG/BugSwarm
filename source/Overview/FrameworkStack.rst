@@ -29,20 +29,20 @@ DIコンテナ
 DIコンテナとしてSpring Frameworkを利用する。
 
 
-* `Spring Framework 4.1 <http://docs.spring.io/spring/docs/4.1.7.RELEASE/spring-framework-reference/html/beans.html>`_
+* `Spring Framework 4.2 <http://docs.spring.io/spring/docs/4.2.4.RELEASE/spring-framework-reference/html/beans.html>`_
 
 MVCフレームワーク
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Web MVCフレームワークとしてSpring MVCを利用する。
 
-* `Spring MVC 4.1 <http://docs.spring.io/spring/docs/4.1.7.RELEASE/spring-framework-reference/html/mvc.html>`_
+* `Spring MVC 4.2 <http://docs.spring.io/spring/docs/4.2.4.RELEASE/spring-framework-reference/html/mvc.html>`_
 
 O/R Mapper
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 本ガイドラインでは、以下の\ **いずれか**\ を想定している。
 
-* `MyBatis 3.2 <http://mybatis.github.io/mybatis-3/>`_
+* `MyBatis 3.3 <http://mybatis.github.io/mybatis-3/>`_
 
   * Spring Frameworkとの連携ライブラリとして、\ `MyBatis-Spring <http://mybatis.github.io/spring/>`_\ を使用する。
 
@@ -74,7 +74,7 @@ Viewのレイアウトを共通化する場合は、
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 認証・認可のフレームワークとしてSpring Securityを利用する。
 
-* `Spring Security 3.2 <http://projects.spring.io/spring-security/>`_
+* `Spring Security 4.0 <http://projects.spring.io/spring-security/>`_
 
 .. tip::
 
@@ -84,7 +84,7 @@ Viewのレイアウトを共通化する場合は、
     悪意のある攻撃者からWebアプリケーションを守るための仕組みについては、
 
     * :doc:`../Security/CSRF`
-    * :ref:`SpringSecurityAppendixSecHeaders`
+    * :doc:`../Security/LinkageWithBrowser`
 
     を参照されたい。
 
@@ -93,9 +93,9 @@ Viewのレイアウトを共通化する場合は、
 
 * 単項目チェックには\ `BeanValidation 1.1 <http://download.oracle.com/otn-pub/jcp/bean_validation-1_1-fr-eval-spec/bean-validation-specification.pdf>`_\ を利用する。
 
-  * 実装は、\ `Hibernate Validator 5.1 <http://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/>`_\ を利用する。
+  * 実装は、\ `Hibernate Validator 5.2 <http://docs.jboss.org/hibernate/validator/5.2/reference/en-US/html/>`_\ を利用する。
 
-* 相関チェックには\ `Bean Validation <http://download.oracle.com/otn-pub/jcp/bean_validation-1_1-fr-eval-spec/bean-validation-specification.pdf>`_\ 、もしくは\ `Spring Validation <http://docs.spring.io/spring/docs/4.1.7.RELEASE/spring-framework-reference/html/validation.html#validator>`_\ を利用する。
+* 相関チェックには\ `Bean Validation <http://download.oracle.com/otn-pub/jcp/bean_validation-1_1-fr-eval-spec/bean-validation-specification.pdf>`_\ 、もしくは\ `Spring Validation <http://docs.spring.io/spring/docs/4.2.4.RELEASE/spring-framework-reference/html/validation.html#validator>`_\ を利用する。
 
   * 使い分けについては\ :doc:`../ArchitectureInDetail/Validation`\ を参照されたい。
 
@@ -117,7 +117,7 @@ Viewのレイアウトを共通化する場合は、
 利用するOSSのバージョン
 --------------------------------------------------------------------------------
 
-version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
+version 5.1.0.RELEASEで利用するOSSの一覧を以下に示す。
 
 .. tip::
 
@@ -133,7 +133,7 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     への依存関係を解決しており、
     TERASOLUNA Server Framework for Java (5.x)で使用するOSSのバージョンは、原則として、Spring IO platformの定義に準じている。
 
-    なお、version 5.0.1.RELEASEで指定しているSpring IO platformのバージョンは、`1.1.3.RELEASE <http://docs.spring.io/platform/docs/1.1.3.RELEASE/reference/htmlsingle/>`_\ である。
+    なお、version 5.1.0.RELEASEで指定しているSpring IO platformのバージョンは、`2.0.1.RELEASE <http://docs.spring.io/platform/docs/2.0.1.RELEASE/reference/htmlsingle/>`_\ である。
 
 .. tabularcolumns:: |p{0.15\linewidth}|p{0.27\linewidth}|p{0.25\linewidth}|p{0.15\linewidth}|p{0.05\linewidth}|p{0.08\linewidth}|
 .. list-table::
@@ -150,121 +150,121 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - Spring
       - org.springframework
       - spring-aop
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-aspects
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-beans
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-context
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-context-support
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-core
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-expression
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-jdbc
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-orm
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-tx
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-web
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-webmvc
-      - 4.1.7.RELEASE
+      - 4.2.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.data
       - spring-data-commons
-      - 1.9.3.RELEASE
+      - 1.11.2.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-acl
-      - 3.2.7.RELEASE
+      - 4.0.3.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-config
-      - 3.2.7.RELEASE
+      - 4.0.3.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-core
-      - 3.2.7.RELEASE
+      - 4.0.3.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-taglibs
-      - 3.2.7.RELEASE
+      - 4.0.3.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-web
-      - 3.2.7.RELEASE
+      - 4.0.3.RELEASE
       - \*
       -
     * - MyBatis3
       - org.mybatis
       - mybatis
-      - 3.2.8
+      - 3.3.0
       -
       - \*1
     * - MyBatis3
       - org.mybatis
       - mybatis-spring
-      - 1.2.2
+      - 1.2.3
       -
       - \*1
     * - JPA(Hibernate)
@@ -282,13 +282,13 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - JPA(Hibernate)
       - org.hibernate
       - hibernate-core
-      - 4.3.10.Final
+      - 4.3.11.Final
       - \*
       - \*2
     * - JPA(Hibernate)
       - org.hibernate
       - hibernate-entitymanager
-      - 4.3.10.Final
+      - 4.3.11.Final
       - \*
       - \*2
     * - JPA(Hibernate)
@@ -330,7 +330,7 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - JPA(Hibernate)
       - org.springframework.data
       - spring-data-jpa
-      - 1.7.3.RELEASE
+      - 1.9.2.RELEASE
       - \*
       - \*2
     * - DI
@@ -348,13 +348,13 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - AOP
       - org.aspectj
       - aspectjrt
-      - 1.8.6
+      - 1.8.7
       - \*
       -
     * - AOP
       - org.aspectj
       - aspectjweaver
-      - 1.8.6
+      - 1.8.7
       - \*
       -
     * - ログ出力
@@ -378,37 +378,37 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - ログ出力
       - org.slf4j
       - jcl-over-slf4j
-      - 1.7.12
+      - 1.7.13
       - \*
       -
     * - ログ出力
       - org.slf4j
       - slf4j-api
-      - 1.7.12
+      - 1.7.13
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-annotations
-      - 2.4.6
+      - 2.6.4
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-core
-      - 2.4.6
+      - 2.6.4
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-databind
-      - 2.4.6
+      - 2.6.4
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.datatype
       - jackson-datatype-joda
-      - 2.4.6
+      - 2.6.4
       - \*
       -
     * - 入力チェック
@@ -420,19 +420,19 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - 入力チェック
       - org.hibernate
       - hibernate-validator
-      - 5.1.3.Final
+      - 5.2.2.Final
       - \*
       -
     * - 入力チェック
       - org.jboss.logging
       - jboss-logging
-      - 3.1.3.GA
+      - 3.3.0.Final
       - \*
       - \*4
     * - 入力チェック
       - com.fasterxml
       - classmate
-      - 1.0.0
+      - 1.1.0
       - \*
       - \*4
     * - Bean変換
@@ -462,7 +462,7 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - 日付操作
       - joda-time
       - joda-time
-      - 2.5
+      - 2.8.2
       - \*
       -
     * - 日付操作
@@ -486,13 +486,13 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - コネクションプール
       - org.apache.commons
       - commons-dbcp2
-      - 2.0.1
+      - 2.1.1
       - \*
       - \*3
     * - コネクションプール
       - org.apache.commons
       - commons-pool2
-      - 2.2
+      - 2.4.2
       - \*
       - \*3
     * - Tiles
@@ -564,7 +564,7 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
     * - ユーティリティ
       - commons-collections
       - commons-collections
-      - 3.2.1
+      - 3.2.2
       - \*
       - \*3
     * - ユーティリティ
@@ -623,38 +623,54 @@ version 5.0.1.RELEASEで利用するOSSの一覧を以下に示す。
       - Webに依存しない汎用的に使用できる機能と依存関係定義を提供する。
       - 有
     * - \ (2)
-      - terasoluna-gfw-jodatime
-      - Joda Timeに依存する機能と依存関係定義を提供する。
+      - terasoluna-gfw-string
+      - 文字列処理に関連する機能を提供する。(5.1.0から追加)
       - 有
     * - \ (3)
-      - terasoluna-gfw-web
-      - Webアプリケーションを作成する場合に使用する機能と依存関係定義を提供する。
+      - terasoluna-gfw-codepoints
+      - 対象の文字列を構成するコードポイントがコードポイント集合に含まれることをチェックする機能を提供する。(5.1.0から追加)
       - 有
     * - \ (4)
+      - terasoluna-gfw-validator
+      - 汎用的なBean Validationの制約アノテーションを追加して提供する。(5.1.0から追加)
+      - 有
+    * - \ (5)
+      - terasoluna-gfw-jodatime
+      - Joda Timeに依存する機能と依存関係定義を提供する。(5.0.0から追加)
+      - 有
+    * - \ (6)
+      - terasoluna-gfw-web
+      - Webアプリケーションを作成する場合に使用する機能と依存関係定義を提供する。Viewに依存しない機能や依存関係定義を集約している。
+      - 有
+    * - \ (7)
+      - terasoluna-gfw-web-jsp
+      - ViewにJSPを採用するWebアプリケーションを作成する場合に使用する機能と依存関係定義を提供する。
+      - 有
+    * - \ (8)
       - terasoluna-gfw-mybatis3
       - MyBatis3を使用する場合の依存関係定義を提供する。
       - 無
-    * - \ (5)
+    * - \ (9)
       - terasoluna-gfw-jpa
       - JPAを使用する場合の依存関係定義を提供する。
       - 無
-    * - \ (6)
+    * - \ (10)
       - terasoluna-gfw-security-core
       - Spring Securityを使用する場合の依存関係定義(Web以外)を提供する。
       - 無
-    * - \ (7)
+    * - \ (11)
       - terasoluna-gfw-security-web
       - Spring Securityを使用する場合の依存関係定義(Web関連)とSpring Securityの拡張部品を提供する。
       - 有
-    * - \ (8)
+    * - \ (12)
       - terasoluna-gfw-recommended-dependencies
       - Webに依存しない推奨ライブラリへの依存関係定義を提供する。
       - 無
-    * - \ (9)
+    * - \ (13)
       - terasoluna-gfw-recommended-web-dependencies
       - Webに依存する推奨ライブラリへの依存関係定義を提供する。
       - 無
-    * - \ (10)
+    * - \ (14)
       - terasoluna-gfw-parent
       - 依存ライブラリの管理とビルド用プラグインの推奨設定を提供する。
       - 無
@@ -704,6 +720,65 @@ terasoluna-gfw-commonは以下の部品を提供している。
     * -
       - シーケンサ
       - シーケンス値を取得するためのクラスを提供する。
+
+terasoluna-gfw-string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+terasoluna-gfw-stringは以下の部品を提供している。
+
+.. tabularcolumns:: |p{0.20\linewidth}|p{0.30\linewidth}|p{0.50\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 20 30 50
+
+    * - 分類
+      - 部品名
+      - 説明
+    * - :doc:`../ArchitectureInDetail/Utilities/StringProcessing`
+      - 半角全角変換
+      - 半角文字列と全角文字列のマッピングテーブルに基づき、入力文字列の半角文字を全角に変換する処理と全角文字を半角に変換する処理を行うクラスを提供する。
+
+
+terasoluna-gfw-codepoints
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+terasoluna-gfw-codepointsは以下の部品を提供している。
+
+.. tabularcolumns:: |p{0.20\linewidth}|p{0.30\linewidth}|p{0.50\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 20 30 50
+
+    * - 分類
+      - 部品名
+      - 説明
+    * - :doc:`../ArchitectureInDetail/Utilities/StringProcessing`
+      - コードポイントチェック
+      - 対象の文字列を構成するコードポイントが、定義されたコードポイント集合に含まれることをチェックするクラスを提供する。
+    * - :doc:`../ArchitectureInDetail/Validation`
+      - コードポイントチェック用Bean Validation制約アノテーション
+      - コードポイントチェックをBean Validationで行うための制約アノテーションを提供する。
+
+
+terasoluna-gfw-validator
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+terasoluna-gfw-validatorは以下の部品を提供している。
+
+.. tabularcolumns:: |p{0.20\linewidth}|p{0.30\linewidth}|p{0.50\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 20 30 50
+
+    * - 分類
+      - 部品名
+      - 説明
+    * - :doc:`../ArchitectureInDetail/Validation`
+      - バイト長チェック用Bean Validation制約アノテーション
+      - 入力文字列の文字コードにおけるバイト長が、指定した最大値以下であること、最小値以上であることのチェックをBean Validationで行うための制約アノテーションを提供する。
+    * -
+      - フィールド値比較相関チェック用Bean Validation制約アノテーション
+      - 2つのフィールド値の大小関係チェックをBean Validationで行うための制約アノテーションを提供する。
 
 terasoluna-gfw-jodatime
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -762,6 +837,23 @@ terasoluna-gfw-webは以下の部品を提供している。
     * -
       - MDCクリア用サーブレットフィルタ
       - ロガーのMDCに格納されている情報をクリアするためのサーブレットフィルタクラスを提供する。
+
+terasoluna-gfw-web-jsp
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+terasoluna-gfw-web-jspは以下の部品を提供している。
+
+.. tabularcolumns:: |p{0.20\linewidth}|p{0.30\linewidth}|p{0.50\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 20 30 50
+
+    * - 分類
+      - 部品名
+      - 説明
+    * - :doc:`../ArchitectureInDetail/DoubleSubmitProtection`
+      - トランザクショントークン出力用のJSPタグ
+      - トランザクショントークンをhidden項目として出力するためのJSPタグライブラリを提供する。
     * - :doc:`../ArchitectureInDetail/Pagination`
       - ページネーションリンク表示用のJSPタグ
       - Spring Data Commons提供のクラスと連携してページネーションリンクを表示するためのJSPタグライブラリを提供する。
@@ -798,9 +890,6 @@ terasoluna-gfw-security-webは以下の部品を提供している。
       - 認証ユーザ名格納用サーブレットフィルタ
       - トレーサビリティを向上させるために、
         認証ユーザ名をロガーのMDCに設定するためのサーブレットフィルタクラスを提供する。
-    * - :doc:`../Security/Authentication`
-      - リダイレクト先の指定が可能な認証成功ハンドラ
-      - 認証が成功した際に、Webアプリケーション内の任意のパスにリダイレクトするためのハンドラクラスを提供する。
 
 
 .. raw:: latex

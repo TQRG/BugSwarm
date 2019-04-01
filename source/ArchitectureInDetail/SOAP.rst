@@ -185,6 +185,7 @@ JAX-WSを利用したWebサービスを作成する場合、既存のブラン�
     * - | (2)
       - | SOAPサーバを作成する場合、従来のマルチプロジェクトに追加してmodelプロジェクトとwebserviceプロジェクトを追加する。
         | クライアントにこれら2つのプロジェクトを公開する。
+        | クライアントへのmodelプロジェクト、webserviceプロジェクトの公開方法は、Mavenの依存関係への追加を想定している。
 
 |
 
@@ -748,13 +749,9 @@ webプロジェクト内にWebServiceインターフェースの実装クラス�
 .. code-block:: xml
 
     <sec:http pattern="/ws/**"
-              auto-config="true"
-              use-expressions="true"
               create-session="stateless">
-       <sec:headers />
-       <sec:csrf disabled="true">
-       <!-- (1) -->
-       <sec:http-basic />
+       <sec:csrf disabled="true" />
+       <sec:http-basic />  <!-- (1) -->
     </sec:http>
 
     <!-- (2) -->
@@ -852,11 +849,9 @@ webプロジェクト内にWebServiceインターフェースの実装クラス�
 
     <!-- (1) -->
     <sec:http pattern="/ws/**"
-        auto-config="true"
-        use-expressions="true"
         create-session="stateless">
-        <sec:headers />
-        <sec:csrf disabled="true">
+        <sec:http-basic />
+        <sec:csrf disabled="true" />
     </sec:http>
 
 .. tabularcolumns:: |p{0.30\linewidth}|p{0.70\linewidth}|
