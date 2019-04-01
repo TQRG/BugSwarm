@@ -1014,7 +1014,7 @@ public final class UrlConnectionCacheTest {
         .addHeader("Cache-Control: max-age=0");
     RecordedRequest request = assertClientSuppliedCondition(response, "If-None-Match", "v1");
     assertEquals("v1", request.getHeader("If-None-Match"));
-    assertEquals(lastModifiedDate, request.getHeader("If-Modified-Since"));
+    assertNull(request.getHeader("If-Modified-Since"));
   }
 
   private RecordedRequest assertClientSuppliedCondition(MockResponse seed, String conditionName,
