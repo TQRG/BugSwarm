@@ -1428,8 +1428,8 @@ Example for temporarily saving the uploaded file in a temporary directory, is sh
         return "article/uploadConfirm";
     }
     
-  .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-  .. list-table::
+ .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+ .. list-table::
    :header-rows: 1
    :widths: 10 90
 
