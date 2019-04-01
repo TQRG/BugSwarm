@@ -68,6 +68,7 @@ Padding, Suppress
 Processing of a string considered as a surrogate pair
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+.. _StringProcessingHowToGetSurrogatePairStringLength:
 
 Fetching string length
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -125,7 +126,7 @@ Fetch string in the specified range
    
    String subStr = str.substring(startIndex, endIndex);
 
-   System.out.println(subStr); // => "吉"
+   System.out.println(subStr); // => "吉田"
 
 | In the example above, when you try to fetch "吉田" by taking out 2 characters from 0th character (beginning), only "吉" could be fetched since the surrogate pair is represented by 32 bits (char type 2).
 | In such a case, ``String#substring`` method must be used by searching start and end positions considering the surrogate pair, by using ``String#offsetByCodePoints``.
