@@ -1,4 +1,4 @@
-.. _SpringSecurityAuthentication:
+﻿.. _SpringSecurityAuthentication:
 
 Authentication
 ================================================================================

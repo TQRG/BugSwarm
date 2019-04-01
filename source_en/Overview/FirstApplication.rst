@@ -1,4 +1,4 @@
-First application based on Spring MVC 
+﻿First application based on Spring MVC 
 --------------------------------------------------------------
 
 .. only:: html

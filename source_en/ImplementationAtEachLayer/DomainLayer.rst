@@ -1665,7 +1665,7 @@ Notifying system error
      - Description
 
    * - | (1)
-     - System exception is thrown since master data that should already exist does not exist. Example of case when system error is detected in logicÅEÅE
+     - System exception is thrown since master data that should already exist does not exist. Example of case when system error is detected in logicÔºâ
 
 Example that throws system exception while catching IO exception while copying the file is shown below.
 

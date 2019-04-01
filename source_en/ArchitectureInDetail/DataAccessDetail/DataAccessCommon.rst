@@ -815,11 +815,11 @@ Specifications of escaping provided by common library are as follows:
 
 .. note::
 
-    Till terasoluna-gfw-common 1.0.1.RELEASE, the characters to be escaped were 4, namely ``"%"`` , ``"_"`` , ``"ÅEÅE`` , ``"ÅEø"`` ; however,
+    Till terasoluna-gfw-common 1.0.1.RELEASE, the characters to be escaped were 4, namely ``"%"`` , ``"_"`` , ``"ÔºÖ"`` , ``"Ôºø"`` ; however,
     it is changed to 2 characters namely ``"%"`` , ``"_"`` from terasoluna-gfw-common 1.0.2.RELEASE
     in order to fix the "`Bugs related to handling of wildcard characters for LIKE search <https://github.com/terasolunaorg/terasoluna-gfw/issues/78>`_ ".
 
-    In addition, a method for escaping that includes double byte characters ``"ÅEÅE`` , ``"ÅEø"`` as characters to be escaped, is also provided.
+    In addition, a method for escaping that includes double byte characters ``"ÔºÖ"`` , ``"Ôºø"`` as characters to be escaped, is also provided.
 
 |
 
@@ -868,19 +868,19 @@ Example of escaping when default values used as characters to be escaped is give
       - ON
       - Escaping done as the string contains characters to be escaped. When there are multiple characters to be escaped, escaping is done for all characters.
     * - 6.
-      - ``"aÅEÅE``
-      - ``"aÅEÅE``
+      - ``"aÔºÖ"``
+      - ``"aÔºÖ"``
       - OFF
       - Similar to No.1.
 
-        From terasoluna-gfw-common 1.0.2.RELEASE, ``"ÅEÅE`` is handled as character out of escaping scope in default specifications.
+        From terasoluna-gfw-common 1.0.2.RELEASE, ``"ÔºÖ"`` is handled as character out of escaping scope in default specifications.
     * - 7.
-      - ``"aÅEø"``
-      - ``"aÅEø"``
+      - ``"aÔºø"``
+      - ``"aÔºø"``
       - OFF
       - Similar to No.1.
 
-        From terasoluna-gfw-common 1.0.2.RELEASE, ``"ÅEø"`` is handled as character out of escaping scope in default specifications.
+        From terasoluna-gfw-common 1.0.2.RELEASE, ``"Ôºø"`` is handled as character out of escaping scope in default specifications.
     * - 8.
       - ``" "``
       - ``" "``
@@ -919,13 +919,13 @@ For other than Sr. No. 6 and 7, refer to escaping example of default specificati
         | Flag
       - | Description
     * - 6.
-      - ``"aÅEÅE``
-      - ``"a~ÅEÅE``
+      - ``"aÔºÖ"``
+      - ``"a~ÔºÖ"``
       - ON
       - Escaping done as string contains characters to be escaped.
     * - 7.
-      - ``"aÅEø"``
-      - ``"a~ÅEø"``
+      - ``"aÔºø"``
+      - ``"a~Ôºø"``
       - ON
       - Similar to No.6.
 
@@ -993,7 +993,7 @@ For example of escaping at the time of LIKE search, refer to the document for O/
         * - | (1)
           -  Escaping is done by directly using method of \ ``QueryEscapeUtils``\  class.
 
-    **[In case of database that also supports "ÅEÅE , "ÅEø" (double byte characters) as wildcard]**
+    **[In case of database that also supports "ÔºÖ" , "Ôºø" (double byte characters) as wildcard]**
 
      .. code-block:: java
 
