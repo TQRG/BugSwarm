@@ -10,7 +10,7 @@
       - 更新箇所
       - 更新内容
     * - 2016-08-31
-      - :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
+      - :doc:`../ArchitectureInDetail/DoubleSubmitProtection`
       - 「How To Extend プログラマティックにトランザクショントークンのライフサイクルを管理する方法について」を削除。
         
         * \ ``TransactionTokenContext``\が提供していたアプリケーション向けAPIを使用した場合、
