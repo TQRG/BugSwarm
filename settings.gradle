@@ -1,0 +1,12 @@
+include 'stagemonitor-alerting',
+		'stagemonitor-benchmark',
+		'stagemonitor-benchmark:stagemonitor-byte-buddy-agent',
+		'stagemonitor-core',
+		'stagemonitor-ehcache',
+		'stagemonitor-javaagent',
+		'stagemonitor-jdbc',
+		'stagemonitor-jvm',
+		'stagemonitor-logging',
+		'stagemonitor-os',
+		'stagemonitor-requestmonitor',
+		'stagemonitor-web'
