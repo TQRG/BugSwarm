@@ -281,11 +281,11 @@ public class Call {
         throw new IOException("Canceled");
       }
 
-      boolean success = false;
+      boolean releaseConnection = true;
       try {
         engine.sendRequest();
         engine.readResponse();
-        success = true;
+        releaseConnection = false;
       } catch (RequestException e) {
         // The attempt to interpret the request failed. Give up.
         throw e.getCause();
@@ -293,6 +293,7 @@ public class Call {
         // The attempt to connect via a route failed. The request will not have been sent.
         HttpEngine retryEngine = engine.recover(e);
         if (retryEngine != null) {
+          releaseConnection = false;
           engine = retryEngine;
           continue;
         }
@@ -302,6 +303,7 @@ public class Call {
         // An attempt to communicate with a server failed. The request may have been sent.
         HttpEngine retryEngine = engine.recover(e, null);
         if (retryEngine != null) {
+          releaseConnection = false;
           engine = retryEngine;
           continue;
         }
@@ -310,7 +312,7 @@ public class Call {
         throw e;
       } finally {
         // We're throwing an unchecked exception. Release any resources.
-        if (!success) {
+        if (releaseConnection) {
           StreamAllocation streamAllocation = engine.close();
           streamAllocation.release();
         }
