@@ -25,10 +25,6 @@ Change Log
         * :doc:`../Tutorial/TutorialSecurity`  
         * :doc:`../Tutorial/TutorialTodo`  
 
-      - Modifications related to Spring Framework 4.3
-
-      - Modifications related to Spring Framework 4.3
-
     * - 
       - :doc:`../Overview/FrameworkStack`
       - Version of OSS to be used updated
