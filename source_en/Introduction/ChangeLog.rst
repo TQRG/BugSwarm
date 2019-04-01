@@ -12,7 +12,7 @@ Change Log
 
     * - 2016-08-31
       - :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
-        "How to manage transaction token lifecycle in How To Extend programmatic" deleted.
+      - "How to manage transaction token lifecycle in How To Extend programmatic" deleted.
 
         * When API for application offered by \ ``TransactionTokenContext``\ is used,
           it impacts the behavior of internal framework like inability to retain \ ``TransactionToken``\ in the appropriate status and the like.
