@@ -3491,7 +3491,7 @@ applicationContext.xml
 | なお、チュートリアルで使用しないコンポーネントについての説明は割愛する。
 
 .. code-block:: xml
-    :emphasize-lines:10-11, 15-17, 19-20
+    :emphasize-lines: 10-11, 15-17, 19-20
 
     <?xml version="1.0" encoding="UTF-8"?>
     <beans xmlns="http://www.springframework.org/schema/beans"

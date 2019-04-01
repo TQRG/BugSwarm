@@ -3492,7 +3492,7 @@ Perform entire Todo application related settings in the \ :file:`applicationCont
 | In addition, a description of the components that are not used in the tutorial are omitted.
 
 .. code-block:: xml
-    :emphasize-lines:10-11, 15-17, 19-20
+    :emphasize-lines: 10-11, 15-17, 19-20
 
     <?xml version="1.0" encoding="UTF-8"?>
     <beans xmlns="http://www.springframework.org/schema/beans"
