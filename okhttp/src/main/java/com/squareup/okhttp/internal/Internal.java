@@ -19,6 +19,7 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Connection;
 import com.squareup.okhttp.ConnectionPool;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.okhttp.Request;
@@ -50,6 +51,8 @@ public abstract class Internal {
   public abstract void setOwner(Connection connection, HttpEngine httpEngine);
 
   public abstract boolean isReadable(Connection pooled);
+
+  public abstract void addLenient(Headers.Builder builder, String line);
 
   public abstract void setCache(OkHttpClient client, InternalCache internalCache);
 
