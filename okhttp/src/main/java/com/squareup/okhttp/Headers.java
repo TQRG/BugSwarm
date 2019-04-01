@@ -172,10 +172,10 @@ public final class Headers {
     private final List<String> namesAndValues = new ArrayList<>(20);
 
     /**
-     * Add an header line containing a field name, a literal colon, and a value with leniency for
-     * empty and colon-prefixed names.
+     * Add a header line without any validation. Only appropriate for headers from the remote peer
+     * or cache.
      */
-    Builder addLineLenient(String line) {
+    Builder addLenient(String line) {
       int index = line.indexOf(":", 1);
       if (index != -1) {
         return addLenient(line.substring(0, index), line.substring(index + 1));
