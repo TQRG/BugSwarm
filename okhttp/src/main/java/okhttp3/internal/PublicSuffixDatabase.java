@@ -66,8 +66,9 @@ public final class PublicSuffixDatabase {
     if (domain == null) return null;
 
     // Confirm we're dealing with a valid domain.
+    // TODO: Domains that start with '.' will be null on JDK8, but not on JDK7.
     String canonicalDomain = Util.domainToAscii(domain);
-    if (canonicalDomain == null) return null;
+    if (canonicalDomain == null || canonicalDomain.startsWith(".")) return null;
 
     // Convert it back to Unicode because the list uses Unicode, not punycode form.
     String unicodeDomain = IDN.toUnicode(canonicalDomain);
