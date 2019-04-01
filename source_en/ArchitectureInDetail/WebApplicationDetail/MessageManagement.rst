@@ -529,6 +529,8 @@ Define implementation class of \ ``org.springframework.context.MessageSource``\ 
          - | Define the base name of message property to be used. Specify it with relative class path.
            | In this example, read "src/main/resources/i18n/application-messages.properties".
 
+.. _properties-display:
+
 Display of messages set in properties
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
