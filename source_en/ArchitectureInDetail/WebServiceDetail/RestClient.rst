@@ -2121,6 +2121,7 @@ Since \ ``setCredentials``\  method of \ ``BasicCredentialsProvider``\  contains
 
     * - Sr. No.
       - Description
+    * - | (1)
       - | Configure \ ``BasicCredentialsProvider``\ in \ ``defaultCredentialsProvider``\ property of \ ``HttpClientBuilder``\.
         | \ ``BasicCredentialsProvider`` creates a Bean by using \ ``BasicCredentialsProviderFactoryBean``\ which implements \ ``FactoryBean``\.
         
