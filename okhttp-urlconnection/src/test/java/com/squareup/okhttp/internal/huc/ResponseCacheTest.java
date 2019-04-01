@@ -858,7 +858,7 @@ public final class ResponseCacheTest {
     RecordedRequest request =
         assertClientSuppliedCondition(response, "If-Modified-Since", ifModifiedSinceDate);
     assertEquals(ifModifiedSinceDate, request.getHeader("If-Modified-Since"));
-    assertEquals("v3", request.getHeader("If-None-Match"));
+    assertNull(request.getHeader("If-None-Match"));
   }
 
   @Test public void clientSuppliedIfNoneMatchSinceWithCachedResult() throws Exception {
@@ -868,7 +868,7 @@ public final class ResponseCacheTest {
         .addHeader("Cache-Control: max-age=0");
     RecordedRequest request = assertClientSuppliedCondition(response, "If-None-Match", "v1");
     assertEquals("v1", request.getHeader("If-None-Match"));
-    assertEquals(lastModifiedDate, request.getHeader("If-Modified-Since"));
+    assertNull(request.getHeader("If-Modified-Since"));
   }
 
   private RecordedRequest assertClientSuppliedCondition(MockResponse seed, String conditionName,
