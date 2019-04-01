@@ -90,13 +90,13 @@ CVE(Common Vulnerabilities and Exposures)による観点
        * :ref:`RESTHowToUseApplicationSettings`
    * - \ `CVE-2016-5007 <https://pivotal.io/jp/security/cve-2016-5007>`_\
      - Spring SecurityとSpring MVCのパス比較方法の差異を利用して認可のすり抜けが可能となる
-     - * :ref:`access_policy_designate_web_resource`
+     - * :ref:`authorization-intercept-url`
    * - \ `CVE-2016-6652 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-6652>`_\
      - \ ``Sort``\オブジェクトをそのままJPAプロバイダに受け渡すとブラインドSQLインジェクション攻撃を受ける可能性がある
      - * :ref:`how_to_specify_query_annotation-label`
    * - \ `CVE-2016-9879 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-9879>`_\
      - Spring SecurityとSpring MVCのパス取得方法の差異を利用して認可のすり抜けが可能となる
-     - * :ref:`access_policy_designate_web_resource`
+     - * :ref:`authorization-intercept-url`
 
 .. raw:: latex
 
