@@ -110,7 +110,7 @@ Change Log
 
         * Added explanation on how to avoid garbled characters when using JBoss EAP 7.0(\ `guideline#2403 <https://github.com/terasolunaorg/guideline/issues/2403>`_\ )
         
-        * -
+    * -
       - :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessMyBatis3`
       - Description details updated,added
 
