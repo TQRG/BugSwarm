@@ -11,7 +11,7 @@ Change Log
       - Modification details
 
     * - 2016-06-31
-      - :doc:`../ArchitectureInDetail/StringProcessing`
+      - :doc:`../ArchitectureInDetail/Utilities/StringProcessing`
       - Description details added
 
         * Example to add dependency to terasoluna-gfw-string is added (\ `guideline#1699 <https://github.com/terasolunaorg/guideline/issues/1699>`_\ )
