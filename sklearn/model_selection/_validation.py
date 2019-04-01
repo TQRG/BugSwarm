@@ -593,7 +593,7 @@ def _multimetric_score(estimator, X_test, y_test, scorers):
     # This is ugly but gives a good performance boost, see #10802
     # for more details.
     predict_scorers = [
-            (name, sc) for name, sc in scorers.iteritems()
+            (name, sc) for name, sc in scorers.items()
             if _is_predict(sc)]
     if predict_scorers:
         y_pred = estimator.predict(X_test)
@@ -601,7 +601,7 @@ def _multimetric_score(estimator, X_test, y_test, scorers):
             tmp_scores[name] = scorer.score_predict(y_pred, y_test)
 
     proba_scorers = [
-            (name, sc) for name, sc in scorers.iteritems()
+            (name, sc) for name, sc in scorers.items()
             if _is_proba(sc)]
     if proba_scorers:
         y_pred = estimator.predict_proba(X_test)
@@ -609,7 +609,7 @@ def _multimetric_score(estimator, X_test, y_test, scorers):
             tmp_scores[name] = scorer.score_predict(y_pred, y_test)
 
     other_scorers = [
-            (name, sc) for name, sc in scorers.iteritems()
+            (name, sc) for name, sc in scorers.items()
             if not (_is_proba(sc) or _is_predict(sc))]
     for name, scorer in other_scorers:
         if y_test is None:
