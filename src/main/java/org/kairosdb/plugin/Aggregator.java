@@ -13,12 +13,15 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package org.kairosdb.plugin;
 
-package org.kairosdb.core.aggregator;
+import org.kairosdb.core.datastore.DataPointGroup;
 
-import org.kairosdb.plugin.Aggregator;
+import java.util.List;
 
-public interface AggregatorFactory
+public interface Aggregator
 {
-	public Aggregator createAggregator(String name);
+	DataPointGroup aggregate(DataPointGroup dataPointGroup);
+	boolean canAggregate(String groupType);
+	String getAggregatedGroupType(String groupType);
 }
