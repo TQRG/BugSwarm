@@ -68,7 +68,7 @@ Webアプリケーションでセッションを扱う場合、一般的には�
 
     * URL Rewritingが行われたURL例
 
-        .. code-block:: http
+        .. code-block:: text
 
             http://localhost:8080/;jsessionid=7E6EDE4D3317FC5F14FD912BEAC96646
 
