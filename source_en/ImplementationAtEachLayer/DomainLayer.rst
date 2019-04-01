@@ -54,10 +54,10 @@ Flow of development of domain layer
     :width: 100%
     :align: center
 
- .. tabularcolumns:: |p{0.10\linewidth}|p{0.20\linewidth}|p{0.80\linewidth}|
+ .. tabularcolumns:: |p{0.10\linewidth}|p{0.20\linewidth}|p{0.70\linewidth}|
  .. list-table::
    :header-rows: 1
-   :widths: 10 20 80
+   :widths: 10 20 70
 
    * - Sr. No.
      - Team in-charge

@@ -612,10 +612,10 @@ Building blocks of Common Library
 Basically, application development is possible using TERASOLUNA Server Framework for Java (5.x) without this library but "convenient to have" kind of existence.
 With the default settings, provided two blank projects, \ `Blank project of multi-project <https://github.com/terasolunaorg/terasoluna-gfw-web-multi-blank>`_\  and \ `Blank project of single-project <https://github.com/terasolunaorg/terasoluna-gfw-web-blank>`_\ , contains built-in Common Library as shown in the following listing. 
 
-.. tabularcolumns:: |p{0.05\linewidth}|p{0.30\linewidth}|p{0.45\linewidth}|p{0.20\linewidth}|
+.. tabularcolumns:: |p{0.05\linewidth}|p{0.15\linewidth}|p{0.40\linewidth}|p{0.20\linewidth}|p{0.10\linewidth}|p{0.10\linewidth}|
 .. list-table::
     :header-rows: 1
-    :widths: 5 30 45 15 14 15
+    :widths: 5 15 40 20 10 10
 
     * - No.
       - Project Name
