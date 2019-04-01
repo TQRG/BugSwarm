@@ -11,13 +11,13 @@ Change Log
       - Modification details
 
     * - 2016-08-31
-      - :doc:`../ArchitectureInDetail/WebApplicationDetail/ExceptionHandling`
+      - :doc:`../ArchitectureInDetail/ExceptionHandling`
       - Modifications corresponding to Spring Framework 4.2.7
       
         * Description details related to HTTP response header output modified (\ `guideline#1965 <https://github.com/terasolunaorg/guideline/issues/1965>`_\ )
 
     * -
-      - :doc:`../ArchitectureInDetail/WebApplicationDetail/DoubleSubmitProtection`
+      - :doc:`../ArchitectureInDetail/DoubleSubmitProtection`
       - "How to manage transaction token lifecycle in How To Extend programmatic" deleted.
 
         * When API for application offered by \ ``TransactionTokenContext``\ is used,
