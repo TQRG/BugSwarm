@@ -212,6 +212,8 @@ Common Expressions provided by Spring Security are as given below.
 
 |
 
+.. _built-incommon-expressions: 
+
 Built-In Web Expressions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -380,6 +382,54 @@ Therefore, definition order must be taken into consideration even while specifyi
          </sec:http>
 
 .. warning::
+    In Spring MVC and Spring Security, the mechanism of matching with the request is strictly different, and there is a vulnerability that breaks through the authorization function of Spring Security and can access the handler method using this difference.
+    For details of this vulnerability, refer to "\ `CVE-2016-5007 Spring Security / MVC Path Matching Inconsistency <https://pivotal.io/security/cve-2016-5007>`_\".
+
+    In Spring Framework 4.3.1 and later, Spring Security 4.1.1 and later, this problem is solved by using \ `MvcRequestMatcher` \ ,
+    but  in the Spring Framework 4.2.x used by TERASOLUNA Server Framework for Java (5.x), \ `org.springframework.util.AntPathMatcher` \  has to be used which set Spring MVC \ `trimTokens` \ property \ `false` \ .
+
+      .. code-block:: xml
+
+          <mvc:annotation-driven>
+              <mvc:path-matching path-matcher="pathMatcher" />
+          </mvc:annotation-driven>
+
+          <bean id="pathMatcher" class="org.springframework.util.AntPathMatcher">
+              <property name="trimTokens" value="false" />
+          </bean>
+    
+    Although the above measures are set in blank projects that are provided by TERASOLUNA Server Framework for Java,
+    it is necessary to be aware of it because it will be exposed to vulnerability if you remove the setting.
+
+    Further, if an access policy for a specific URL is to be specified (wild cards like \ ``*``\ , \ ``**``\  etc are not included in \ ``pattern``\  attribute),
+    an access policy with a pattern with an extension and a pattern with \ ``/``\  appended at the end of request path must be added.
+
+    In the following configuration example, only the users with "ROLE_ADMIN" role are allowed to access by \ ``/restrict``\.
+
+      .. code-block:: xml
+
+          <sec:http>
+              <sec:intercept-url pattern="/restrict.*" access="hasRole('ADMIN')" /> <!-- (1) --> 
+              <sec:intercept-url pattern="/restrict/" access="hasRole('ADMIN')" /> <!-- (2) --> 
+              <sec:intercept-url pattern="/restrict" access="hasRole('ADMIN')" /> <!-- (3) -->
+              <!-- omitted -->
+          </sec:http> 
+          
+      .. tabularcolumns:: |p{0.20\linewidth}|p{0.80\linewidth}|
+      .. list-table::
+         :header-rows: 1
+         :widths: 20 80
+         :class: longtable
+
+         * - Sr. No.
+           - Description
+         * - | (1)
+           - | Define an access policy of the pattern with an extension (\ ``/restrict.json``\  etc) in \ ``/restrict``\.
+         * - | (2)
+           - | Define an access policy of the pattern wherein \ ``/``\  appended at the end of the request path (\ ``/restrict/``\  etc) in \ ``/restrict``\.
+         * - | (3)
+           - | Define an access policy for \ ``/restrict``\.
+
 Specifying an access policy
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -469,6 +519,60 @@ How to use is shown below.
   .. _spring-el:
 
 For main Expression that can be used, refer :ref:`SpringSecurityAuthorizationPolicy`.
+
+|
+
+Reference of path variables
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+In Spring Security 4.1 and subsequent versions, a path variable \[#fPathVariableDescription]_\  can be used while specifying a resource which applies the access policy
+and can be referred by specifying \ ``#path variable name``\  in the definition of access policy.
+
+In the example below, the access policy is defined so that the login users can access only their own user information.
+
+* Definition example of spring-security.xml
+
+  .. code-block:: xml
+
+    <sec:http>
+        <sec:intercept-url pattern="/users/{userName}" access="isAuthenticated() and #userName == principal.username"/>
+        <!-- omitted -->
+    </sec:http>
+
+.. warning:: **Precautions while defining an access policy which uses the path variable**
+
+   When an access policy which uses a path variable for the path that can be accessed with an extension, is defined, it is necessary to define it in such a way that the extension part is not stored in the path variable value.
+
+   For example, when \ ``/users/{userName}``\  is defined in the patten and a request path \ ``/users/personName.json``\  is sent,
+   \ ``personName.json``\  gets stored in the path variable \ ``#userName``\  referred in the definition of access policy, instead of \ ``personName``\
+   and unintended authorization control is performed.
+
+   In order to prevent this event, "Access policy for the path without extension" must be defined after defining "Access policy for the path with extension" as shown in the example below.
+
+   * Definition example of spring-security.xml
+
+    .. code-block:: xml
+
+      <sec:http>
+       <sec:intercept-url pattern="/users/{userName}.*" access="isAuthenticated() and #userName == principal.username"/> <!-- (1) -->
+       <sec:intercept-url pattern="/users/{userName}" access="isAuthenticated() and #userName == principal.username"/> <!-- (2) -->
+       <!-- omitted -->
+      </sec:http>
+
+    .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+    .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+        :class: longtable
+    
+        * - Sr. No.
+          - Description
+        * - | (1)
+          - | Define "Access policy for the path with extension".
+        * - | (2)
+          - | Define "Access policy for the path without extension".
+
+.. For description of path variable [#fPathVariableDescription], refer \ :ref:`controller_method_argument-pathvariable-label`\  of :doc:`../ImplementationAtEachLayer/ApplicationLayer`.
 
 |
 

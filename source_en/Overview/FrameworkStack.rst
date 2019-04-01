@@ -29,26 +29,26 @@ DI Container
 Spring Framework is used as DI Container.
 
 
-* `Spring Framework 4.2 <http://docs.spring.io/spring/docs/4.2.7.RELEASE/spring-framework-reference/html/beans.html>`_
+* `Spring Framework 4.3 <http://docs.spring.io/spring/docs/4.3.5.RELEASE/spring-framework-reference/html/beans.html>`_
 
 MVC Framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Spring MVC is used as Web MVC Framework.
 
-* `Spring MVC 4.2 <http://docs.spring.io/spring/docs/4.2.7.RELEASE/spring-framework-reference/html/mvc.html>`_
+* `Spring MVC 4.3 <http://docs.spring.io/spring/docs/4.3.5.RELEASE/spring-framework-reference/html/mvc.html>`_
 
 O/R Mapper
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This guideline assumes the use of **any one of the below**.
 
-* `MyBatis 3.3 <http://mybatis.github.io/mybatis-3/>`_
+* `MyBatis 3.4 <http://mybatis.github.io/mybatis-3/>`_
 
   * \ `MyBatis-Spring <http://mybatis.github.io/spring/>`_  is used as library for coordinating with Spring Framework.
 
 * `JPA2.1 <http://download.oracle.com/otn-pub/jcp/persistence-2_1-fr-eval-spec/JavaPersistence.pdf>`_
 
-  * \ `Hibernate 4.3 <http://docs.jboss.org/hibernate/orm/4.3/manual/en-US/html_single/>`_  is used as provider.
+  * \ `Hibernate 5.0 <http://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html_single/>`_  is used as provider.
 
 .. note::
 
@@ -74,7 +74,7 @@ Security
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Spring Security is used as the framework for Authentication and Authorization.
 
-* `Spring Security 4.0 <http://projects.spring.io/spring-security/>`_
+* `Spring Security 4.1 <http://projects.spring.io/spring-security/>`_
 
 .. tip::
 
@@ -119,7 +119,7 @@ Common Library
 OSS Versions
 --------------------------------------------------------------------------------
 
-List of OSS being used in version 5.2.0.RELEASE.
+List of OSS being used in version 5.3.0.RELEASE.
 
 .. tip::
 
@@ -135,7 +135,7 @@ List of OSS being used in version 5.2.0.RELEASE.
     dependencies resolved and 
     OSS version to be used in the TERASOLUNA Server Framework for Java (5.x) is following the rule of Spring IO platform definition.
 
-    Furthermore, Spring IO platform version is `2.0.6.RELEASE <http://docs.spring.io/platform/docs/2.0.6.RELEASE/reference/htmlsingle/>`_  specified in version 5.2.0.RELEASE.
+    Furthermore, Spring IO platform version is `Athens-SR2 <http://docs.spring.io/platform/docs/Athens-SR2/reference/htmlsingle/>`_  specified in version 5.3.0.RELEASE.
 
 .. tabularcolumns:: |p{0.15\linewidth}|p{0.27\linewidth}|p{0.25\linewidth}|p{0.15\linewidth}|p{0.05\linewidth}|p{0.08\linewidth}|
 .. list-table::
@@ -152,139 +152,145 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Spring
       - org.springframework
       - spring-aop
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-aspects
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-beans
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-context
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-context-support
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-core
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-expression
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-jdbc
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-orm
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-tx
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-web
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-webmvc
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-jms
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework
       - spring-messaging
-      - 4.2.7.RELEASE
+      - 4.3.5.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.data
       - spring-data-commons
-      - 1.11.4.RELEASE
+      - 1.12.6.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-acl
-      - 4.0.4.RELEASE
+      - 4.1.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-config
-      - 4.0.4.RELEASE
+      - 4.1.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-core
-      - 4.0.4.RELEASE
+      - 4.1.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-taglibs
-      - 4.0.4.RELEASE
+      - 4.1.4.RELEASE
       - \*
       -
     * - Spring
       - org.springframework.security
       - spring-security-web
-      - 4.0.4.RELEASE
+      - 4.1.4.RELEASE
       - \*
+      -
+    * - Spring  
+      - org.springframework.security.oauth  
+      - spring-security-oauth2  
+      - 2.0.12.RELEASE  
+      - \*  
       -
     * - MyBatis3
       - org.mybatis
       - mybatis
-      - 3.3.1
+      - 3.4.2
       -
       - \*1
     * - MyBatis3
       - org.mybatis
       - mybatis-spring
-      - 1.2.5
+      - 1.3.1
       -
       - \*1
     * - MyBatis3
       - org.mybatis
       - mybatis-typehandlers-jsr310
-      - 1.0.1
+      - 1.0.2
       -
       - \*1*6
     * - JPA(Hibernate)
@@ -302,19 +308,19 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - JPA(Hibernate)
       - org.hibernate
       - hibernate-core
-      - 4.3.11.Final
+      - 5.0.11.Final
       - \*
       - \*2
     * - JPA(Hibernate)
       - org.hibernate
       - hibernate-entitymanager
-      - 4.3.11.Final
+      - 5.0.11.Final
       - \*
       - \*2
     * - JPA(Hibernate)
       - org.hibernate.common
       - hibernate-commons-annotations
-      - 4.0.5.Final
+      - 5.0.1.Final
       - \*
       - \*2 \*4
     * - JPA(Hibernate)
@@ -326,31 +332,25 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - JPA(Hibernate)
       - org.javassist
       - javassist
-      - 3.18.1-GA
+      - 3.20.0-GA
       - \*
       - \*2
     * - JPA(Hibernate)
       - org.jboss
       - jandex
-      - 1.1.0.Final
-      - \*
-      - \*2 \*4
-    * - JPA(Hibernate)
-      - org.jboss.logging
-      - jboss-logging-annotations
-      - 1.2.0.Final
-      - \*
-      - \*2 \*4 \*5
-    * - JPA(Hibernate)
-      - org.jboss.spec.javax.transaction
-      - jboss-transaction-api_1.2_spec
-      - 1.0.0.Final
+      - 2.0.0.Final
       - \*
       - \*2 \*4
     * - JPA(Hibernate)
       - org.springframework.data
       - spring-data-jpa
-      - 1.9.4.RELEASE
+      - 1.10.6.RELEASE
+      - \*
+      - \*2
+    * - JPA(Hibernate)
+      - org.apache.geronimo.specs
+      - geronimo-jta_1.1_spec
+      - 1.1.1
       - \*
       - \*2
     * - DI
@@ -380,13 +380,13 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Log output
       - ch.qos.logback
       - logback-classic
-      - 1.1.7
+      - 1.1.8
       - \*
       -
     * - Log output
       - ch.qos.logback
       - logback-core
-      - 1.1.7
+      - 1.1.8
       - \*
       - \*4
     * - Log output
@@ -398,43 +398,43 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Log output
       - org.slf4j
       - jcl-over-slf4j
-      - 1.7.21
+      - 1.7.22
       - \*
       -
     * - Log output
       - org.slf4j
       - slf4j-api
-      - 1.7.21
+      - 1.7.22
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-annotations
-      - 2.6.7
+      - 2.8.5
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-core
-      - 2.6.7
+      - 2.8.5
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.core
       - jackson-databind
-      - 2.6.7
+      - 2.8.5
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.datatype
       - jackson-datatype-joda
-      - 2.6.7
+      - 2.8.5
       - \*
       -
     * - JSON
       - com.fasterxml.jackson.datatype
       - jackson-datatype-jsr310
-      - 2.6.7
+      - 2.8.5
       - \*
       - \*6
     * - Input check
@@ -458,13 +458,13 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Input check
       - com.fasterxml
       - classmate
-      - 1.1.0
+      - 1.3.3
       - \*
       - \*4
     * - Bean conversion
       - commons-beanutils
       - commons-beanutils
-      - 1.9.2
+      - 1.9.3
       - \*
       - \*3
     * - Bean conversion
@@ -482,13 +482,13 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Bean conversion
       - org.apache.commons
       - commons-lang3
-      - 3.3.2
+      - 3.4
       - \*
       - \*3
     * - Date operation
       - joda-time
       - joda-time
-      - 2.8.2
+      - 2.9.6
       - \*
       -
     * - Date operation
@@ -500,13 +500,13 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Date operation
       - org.jadira.usertype
       - usertype.core
-      - 3.2.0.GA
+      - 5.0.0.GA
       -
       - \*2
     * - Date operation
       - org.jadira.usertype
       - usertype.spi
-      - 3.2.0.GA
+      - 5.0.0.GA
       -
       - \*2
     * - Connection pool
@@ -530,37 +530,37 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Tiles
       - org.apache.tiles
       - tiles-api
-      - 3.0.5
+      - 3.0.7
       - \*
       - \*3
     * - Tiles
       - org.apache.tiles
       - tiles-core
-      - 3.0.5
+      - 3.0.7
       - \*
       - \*3
     * - Tiles
       - org.apache.tiles
       - tiles-jsp
-      - 3.0.5
+      - 3.0.7
       - \*
       - \*3
     * - Tiles
       - org.apache.tiles
       - tiles-servlet
-      - 3.0.5
+      - 3.0.7
       - \*
       - \*3
     * - Tiles
       - org.apache.tiles
       - tiles-template
-      - 3.0.5
+      - 3.0.7
       - \*
       - \*3 \*4
     * - Tiles
       - org.apache.tiles
       - tiles-autotag-core-runtime
-      - 1.1.0
+      - 1.2
       - \*
       - \*3 \*4
     * - Tiles
@@ -596,7 +596,7 @@ List of OSS being used in version 5.2.0.RELEASE.
     * - Utility
       - commons-io
       - commons-io
-      - 2.4
+      - 2.5
       - \*
       - \*3
     * - Servlet

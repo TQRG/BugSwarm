@@ -1812,12 +1812,6 @@ Define a bean for ``AsyncRestTemplate``\ .
         | In case of default configuration, \ ``SimpleClientHttpRequestFactory``\  which has set \ ``org.springframework.core.task.SimpleAsyncTaskExecutor``\  is set as \ ``org.springframework.core.task.AsyncListenableTaskExecutor``\  in \ ``org.springframework.http.client.AsyncClientHttpRequestFactory``\  of \ ``AsyncRestTemplate``\ .
 
 
-.. note:: **Applying ClientHttpRequestInterceptor to AsyncRestTemplate**
-
-    \ ``ClientHttpRequestInterceptor``\  cannot be applied in \ ``AsyncRestTemplate``\ .
-    Hence, a common process must be executed independently.
-
-
 .. note:: **How to customise AsyncRestTemplate**
 
     \ ``SimpleAsyncTaskExecutor``\  set as default generates threads without using a thread pool
@@ -1914,6 +1908,133 @@ Internal method
     * - | (2)
       - | Register \ ``org.springframework.util.concurrent.ListenableFutureCallback``\  in ``ListenableFuture``\  and implement a process when a response has returned.
         | Implement the process in \ ``onSuccess``\  method when a successful response has returned and implement a process in \ ``onFailure``\ when an error has occurred.
+
+
+Implementation of common processing for asynchronous request
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Any arbitrary process can be executed before and after communicating with the server by using \ ``org.springframework.http.client.AsyncClientHttpRequestInterceptor``\.
+
+An example of login process is introduced here.
+
+**Implementation example of communication log output**
+
+.. code-block:: java
+
+    package com.example.restclient;
+
+    import java.io.IOException;
+    import java.nio.charset.StandardCharsets;
+
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
+    import org.springframework.http.HttpRequest;
+    import org.springframework.http.client.AsyncClientHttpRequestExecution;
+    import org.springframework.http.client.AsyncClientHttpRequestInterceptor;
+    import org.springframework.http.client.ClientHttpResponse;
+    import org.springframework.util.concurrent.ListenableFuture;
+    import org.springframework.util.concurrent.ListenableFutureCallback;
+
+    public class AsyncLoggingInterceptor implements
+                                         AsyncClientHttpRequestInterceptor { // (1)
+        private static final Logger log = LoggerFactory.getLogger(
+                AsyncLoggingInterceptor.class);
+
+        @Override
+        public ListenableFuture<ClientHttpResponse> intercept(HttpRequest request,
+                byte[] body,
+                AsyncClientHttpRequestExecution execution) throws IOException {
+            // (2)
+            if (log.isInfoEnabled()) {
+                String requestBody = new String(body, StandardCharsets.UTF_8);
+
+                log.info("Request Header {}", request.getHeaders());
+                log.info("Request Body {}", requestBody);
+            }
+
+            // (3)
+            ListenableFuture<ClientHttpResponse> future = execution.executeAsync(
+                    request, body);
+            if (log.isInfoEnabled()) {
+                // (4)
+                future.addCallback(new ListenableFutureCallback<ClientHttpResponse>() {
+
+                    @Override
+                    public void onSuccess(ClientHttpResponse response) {
+                        try {
+                            log.info("Response Header {}", response
+                                    .getHeaders());
+                            log.info("Response Status Code {}", response
+                                    .getStatusCode());
+                        } catch (IOException e) {
+                            log.warn("I/O Error", e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                        log.info("Communication Error", e);
+                    }
+                });
+            }
+
+            return future; // (5)
+        }
+    }
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - Sr. No.
+      - Description
+    * - | (1)
+      - | Implement \ ``AsyncClientHttpRequestInterceptor``\  interface.
+    * - | (2)
+      - | Implement a process which is  executed prior to sending an asynchronous request.
+        | In the implementation example above, contents of request header and request body are output in the log.
+    * - | (3)
+      - | Send an asynchronous request by using \ ``executeAsync``\  method of \ ``AsyncClientHttpRequestExecution``\  which is received as an argument of \ ``intercept``\  method.
+    * - | (4)
+      - | Register \ ``org.springframework.util.concurrent.ListenableFutureCallback``\  in \ ``ListenableFuture``\  which is received in (3) and implement the process once the response is received.
+        | When the response is received, \ ``onSuccess``\  method is called.
+        | Also, when an exception occurs at the time of asynchronous request, \ ``onFailure``\  method is called. A specific example is shown below.
+
+        * Unable to connect a specified host （\ ``ConnectException``\ ）
+        * Timeout occurred for reading of response data （\ ``SocketTimeoutException``\ ）
+
+    * - | (5)
+      - | Return \ ``ListenableFuture``\  returned in (3).
+
+
+**Definition example of a bean definition file (applicationContext.xml)**
+
+.. code-block:: xml
+
+    <!-- (1) -->
+    <bean id="asyncLoggingInterceptor" class="com.example.restclient.AsyncLoggingInterceptor" />
+
+    <bean id="asyncRestTemplate" class="org.springframework.web.client.AsyncRestTemplate">
+        <property name="interceptors"><!-- (2) -->
+            <list>
+                <ref bean="asyncLoggingInterceptor" />
+            </list>
+        </property>
+    </bean>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - Sr. No.
+      - Description
+    * - | (1)
+      - | Define a bean for implementation class of \ ``AsyncClientHttpRequestInterceptor``\.
+    * - | (2)
+      - | Inject a bean of \ ``AsyncClientHttpRequestInterceptor``\  in \ ``interceptors``\  property.
+        | When multiple beans are injected, they are executed in the sequence starting from top of the list, similar to \ ``RestTemplate``\.
+
 
 
 .. _RestClientAppendix:

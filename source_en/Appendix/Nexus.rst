@@ -30,10 +30,7 @@ Install and Start-up
 The machine on which NEXUS is to be installed should satisfy the following conditions.
 
 * JRE6 or later should be installed
-* Http access to the following URLs
-
- * URL starting with http://repo1.maven.org/ (Central repository)
- * URL starting with http://repo.terasoluna.org/ (Terasoluna repository)
+* Http access to the Central repository (URL starting with http://repo1.maven.org/) is enabled
 
 The installation procedure is as follows:
 
@@ -52,16 +49,6 @@ Repository list is displayed on clicking Repositories on the menu on the left si
 * **Releases** = This repository stores the work products of release version of the applications developed internally.
 * **Snapshots** = This repository stores the work products of SNAPSHOT version of the applications developed internally.
 * **Public Repositories** This group repository is used for enabling access to the above repositories through a single URL.
-
-Add TERASOLUNA Server Framework for Java (5.x) repository
---------------------------------------------------------------------------------
-
-When an application is to be developed using TERASOLUNA Server Framework for Java (5.x), TERASOLUNA Server Framework for Java (5.x) repository needs to be added in addition to the above repositories.
-
-.. todo::
-
-    Add proxy repository to http://repo.terasoluna.org/nexus/content/repositories/terasoluna-gfw-releases/ and http://repo.terasoluna.org/nexus/content/repositories/terasoluna-gfw-3rdparty/ .
-    Then write the method to add it to public repository group and provide a screen capture along with it.
 
 settings.xml
 --------------------------------------------------------------------------------

@@ -232,7 +232,7 @@ Deployment method (procedure) when Tomcat is used as an application server is gi
 	 
  * In addition, VirtualWebappLoader can also be used in the Tomcat 6.
 
-5. If Tomcat 8 is used, add /etc/foo/bar/\*.jar into class path using Resource function of the Tomcat.
+5. If Tomcat 8.x is used, add /etc/foo/bar/\*.jar into class path using Resource function of the Tomcat.
 
  * The following definition should be added in [CATALINA_HOME]/conf/[contextPath].xml file.
  * For details, refer to https://tomcat.apache.org/migration-8.html#Web_application_resources and `configs folder of terasoluna-tourreservation-env <https://github.com/terasolunaorg/terasoluna-tourreservation/tree/5.3.0.RELEASE/terasoluna-tourreservation-env/configs>`_\ .

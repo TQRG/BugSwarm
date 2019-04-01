@@ -7,6 +7,9 @@ part of guideline contains which type of content.
 Mapping based on security measures
 --------------------------------------------------------------------------------
 
+A point of view by OWASP(Open Web Application Security Project)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Using \ `OWASP Top 10 for 2013 <https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project>`_\  as an axis, 
 links to explanation of functionalities related to security have been given
 
@@ -73,6 +76,38 @@ links to explanation of functionalities related to security have been given
      - `Unvalidated Redirects and Forwards <https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards>`_
      - No mention in particular
 
+A point of view by CVE(Common Vulnerabilities and Exposures)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Explain the CVE mentioned in this guideline and show the link.
+About the CVE not mentioned in this guideline, refer to\ `Pivotal Product Vulnerability Reports <https://pivotal.io/security>`_\
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.40\linewidth}|p{0.50\linewidth}|
+.. list-table::
+  :header-rows: 1
+  :widths: 10 40 50
+
+  * - CVE
+    - Outline
+    - The mentioned point in this guideline
+  * - \ `CVE-2014-0050 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0050>`_\
+
+      \ `CVE-2016-3092 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-3092>`_\
+    - Apache Commons FileUpload allows remote attackers to cause a denial of service via a malicious request.
+
+    - * :ref:`FileUploadOverview`
+
+      * :ref:`file-upload_usage_commons_fileupload`
+  * - \ `CVE-2014-1904 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1904>`_\
+    - When \ ``action``\ parameter of \ ``<form:form>``\ tag is omitted, an attacker can use XSS attack.
+    - * :ref:`ApplicationLayerImplementOfJsp`
+  * - \ `CVE-2015-3192 <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3192>`_\
+    - Using DTD allows DoS attack.
+    - * :ref:`ajax_how_to_use`
+
+      * :ref:`RESTHowToUseApplicationSettings`
+  * - \ `CVE-2016-5007 <https://pivotal.io/jp/security/cve-2016-5007>`_\
+    - Differences in the strictness of the pattern matching mechanisms between Spring MVC and Spring Security cause security bypass vulnerability.
+    - * :ref:`access_policy_designate_web_resource`
 
 .. raw:: latex
 

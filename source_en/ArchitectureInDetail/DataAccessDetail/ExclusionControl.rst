@@ -1604,6 +1604,15 @@ Method wherein it is specified for the entire process is as follows:
 
     When \ ``0``\  is specified for Oracle and PostgreSQL, \ ``nowait``\ is added, and when locked by another transaction, an exclusive error occurs without waiting for release of lock.
 
+     .. warning:: **Regarding the issue that "nowait" clause is not added while using PostgreSQL**
+
+        Due to an issue in Hibernate 5.0.X which is a dependent library of TERASOLUNA Server Framework for Java 5.3.0 RELEASE version (`HHH-10797 <https://hibernate.atlassian.net/browse/HHH-10797>`_\), "nowait" clause is not added to SQL when PostgreSQL is used even when timeout period is set to "0".
+
+        Hence, it is necessary to review following countermeasures.
+        
+        * Apply a patch to \ ``Dialect``\  class offered by Hibernate.
+        * Upgrade to higher version of Hibernate 5.2.1.
+
  .. warning:: **Restrictions of PostgreSQL**
 
     Although nowait can be specified in PostgreSQL, it is not possible to specify waiting time.

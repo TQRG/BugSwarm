@@ -514,6 +514,21 @@ When a fatal error has been detected, catch the exception using servlet containe
   **Figure - Handling method when a fatal error has been detected**
 
 
+.. _exception-handling-class-fatalerror-warning:
+
+.. warning:: **Regarding handling fatal errors using @ExceptionHandler and SystemExceptionResolver**
+
+    Fatal error (\ ``java.lang.Error``\  and its subclass) and the \ ``org.springframework.web.util.NestedServletException``\  wrapped by \ ``java.lang.Throwable``\  can be captured from Spring Framework 4.3
+    by using exception handler (\ ``HandlerExceptionResolver``\) of Spring MVC.
+    As a result of this change, the fatal error and \ ``Throwable``\  are likely to get accidentally captured by \ ``SystemExceptionResolver``\  offered by common library (inherit \ ``HandlerExceptionResolver``\) and the method which assigns \ ``@ExceptionHandler``\ (run on \ ``HandlerExceptionResolver``\ system).
+
+    In order to capture the fatal errors by servlet containers, it is necessary to notify servlet container without using the methods which assign \ ``SystemExceptionResolver``\  and \ ``@ExceptionHandler``\  for handling \ ``NestedServletException``\.
+    "How to use" explains the method for not handling \ ``NestedServletException``\.
+
+    - For \ ``SystemExceptionResolver``\ , refer to \ :ref:`exception-handling-how-to-use-application-configuration-app-label`\.
+    - For \ ``@ExceptionHandler``\ , refer to \ :ref:`exception-handling-how-to-use-codingpoint-controller-usecase-label`\.
+
+
 .. _exception-handling-class-viewerror-label:
 
 When notifying that an exception has occurred in the presentation layer (JSP etc.)
@@ -904,7 +919,7 @@ Add to bean definition, the class (\ ``SystemExceptionResolver``\ )  used for ha
 - **spring-mvc.xml**
 
  .. code-block:: xml
-    :emphasize-lines: 3-4,6-7,15,23-24,29
+    :emphasize-lines: 3-4,6-7,15,23,28-29,34
 
     <!-- Setting Exception Handling. -->
     <!-- Exception Resolver. -->
@@ -928,13 +943,18 @@ Add to bean definition, the class (\ ``SystemExceptionResolver``\ )  used for ha
                 <entry key="common/error/dataAccessError" value="500" />
             </map>
         </property>
-        <property name="defaultErrorView" value="common/error/systemError" /> <!-- (6) -->
-        <property name="defaultStatusCode" value="500" /> <!-- (7) -->
+        <property name="excludedExceptions"> <!-- (6) -->
+            <array>
+                <value>org.springframework.web.util.NestedServletException</value>
+            </array>
+        </property>
+        <property name="defaultErrorView" value="common/error/systemError" /> <!-- (7) -->
+        <property name="defaultStatusCode" value="500" /> <!-- (8) -->
     </bean>
 
     <!-- Settings View Resolver. -->
     <mvc:view-resolvers>
-        <mvc:jsp prefix="/WEB-INF/views/" /> <!-- (8) -->
+        <mvc:jsp prefix="/WEB-INF/views/" /> <!-- (9) -->
     </mvc:view-resolvers>
 
 
@@ -969,17 +989,21 @@ Add to bean definition, the class (\ ``SystemExceptionResolver``\ )  used for ha
         | In the above settings, when View name is "common/error/resourceNotFoundError", "404(Not Found)" becomes HTTP status code.
         | **[Location to be customized for each project]**
     * - | (6)
+      - | Specify exception class to be excluded from handling.
+        | \ ``org.springframework.web.util.NestedServletException``\  is excluded from the handling in order to notify to servlet container without handling the fatal error by \ ``SystemExceptionResolver``\.
+        | For reasons of exclusion from handling, refer to \ :ref:`"Regarding handling of fatal errors using @ExceptionHandler and SystemExceptionResolver"<exception-handling-class-fatalerror-warning>`\.
+    * - | (7)
       - | Specify the default View name.
         | In the above settings, if exception class does not include "ResourceNotFoundException", "BusinessException" and "InvalidTransactionTokenException", and if exception class (or parent class) name does not include ".DataAccessException", "common/error/systemError" becomes the destination View name.
         | **[Location to be customized for each project]**
-    * - | (7)
+    * - | (8)
       - | Specify default value of HTTP status code to be set in response header. It is recommended that you set **"500"(Internal Server Error)**.
 
         .. warning:: **Behavior when nothing is specified**
 
             Please note that it will be handled as \ **"200"(OK)**\ .
 
-    * - | (8)
+    * - | (9)
       - Actual \ ``View``\  depends on \ ``ViewResolver``\  settings.
 
         In above settings, destination pages will be as given below.
@@ -1601,6 +1625,41 @@ Method to handle exception at use case level
       - | Call the method to display the View at the time of error and fetch model and View name necessary for View display.
     * - | (6)
       - | Generate ModelAndView wherein View name and Model acquired in steps (3)-(5) are stored and then return the same.
+
+ .. warning::
+
+    When \ ``java.lang.Exception``\  and \ ``javax.servlet.ServletException``\  are to be handled by a method which assigns \ ``@ExceptionHandler``\, the fatal errors cannot be notified to
+    servlet container since \ ``NestedServletException``\ which wraps the fatal error get handled unintentionally.
+    For details, refer to \ :ref:`"Regarding handling of fatal errors using @ExceptionHandler and SystemExceptionResolver"<exception-handling-class-fatalerror-warning>`\.
+
+    In such a case, in order to notify fatal error to the servlet container, \ :ref: NestedServletException is excluded from handling by SystemExceptionResolver<exception-handling-how-to-use-application-configuration-app-label>
+    and \  NestedServletException \  is handled by the method which assigns \ @ExceptionHandler \  and then is thrown again.
+    Implementation example is as below.
+
+     .. code-block:: java
+
+        @ExceptionHandler(NestedServletException.class) // (1)
+        public void handleNestedServletException(NestedServletException e) throws NestedServletException {
+            throw e; // (2)
+        }
+
+     .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+     .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+        :class: longtable
+
+        * - Sr. No.
+          - Description
+        * - | (1)
+          - | Assign \ ``@ExceptionHandler``\  annotation and specify \ ``NestedServletException.class``\.
+        * - | (2)
+          - | Throw \ ``NestedServletException``\  thus handled again.
+
+    **Regarding capturing Exception and ServletException by multiple controllers**
+
+    When it is necessary to describe \ ``@ExceptionHandler``\  which throws \ ``NestedServletException``\  again by multiple controllers, use of \ ``@ControllerAdvice``\  should be considered.
+    For details of \ ``@ControllerAdvice``\ , refer to \ :ref:`application_layer_controller_advice`\.
 
 
 .. _exception-handling-how-to-use-codingpoint-jsp-label:

@@ -42,6 +42,8 @@ The image of switching locale is as follows:
     When the error screen is to be internationalised, transition to error screen is performed by using MVC Controller of Spring.
     If a direct transition to error screen is performed without Spring MVC, it may happen that the message is not output in intended language.
 
+    For details, refer \ :ref:`case_Internationalization_can_not_be_done`\.
+
 .. tip::
 
     The most commonly known abbreviation of internationalization is i18n.
@@ -455,6 +457,111 @@ See the example of implementation of JSP below.
 
      * Spring tag library should be defined in common jsp files to be included.
      * For details on common jsp files to be included, refer to :ref:`view_jsp_include-label`.
+
+|
+
+.. _case_Internationalization_can_not_be_done:
+
+Measures when Internationalization is not applied
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Since \ ``LocaleChangeInterceptor``\  is an interceptor which is called while executing \ ``Controller``\  process of Spring MVC, it should be noted that internationalization is not applied when the transition is not done via \ ``Controller``\.
+
+For example, when a JSP file is to be specified directly in the settings for transition to error screen, \ ``Controller``\  is not used in the transition to error screen.
+In such a case, in order to internationalize error screen, a Controller must be created for transition to error screen and it must be set so as to enable use of \ ``LocaleChangeInterceptor``\ , by using it in transition to error screen.
+
+.. note::
+
+    Similarly, when a transition is to be performed by specifying JSP directly, Tiles is not applied since it does not pass through \ ``ViewResolver``\  used by \ :doc:`../WebApplicationDetail/TilesLayout`\.
+
+
+|
+
+Implementation of \ :ref:`SpringSecurityAuthorization`\  is shown below with an example, for the setting method.
+
+|
+
+**Example for transition to error screen wherein LocaleChangeInterceptor is not applied**
+
+* spring-security.xml
+
+.. code-block:: xml
+
+    <sec:http>
+        <!-- omitted -->
+        <sec:access-denied-handler
+            error-page="/WEB-INF/views/common/error/accessDeniedError.jsp" /> <!-- (1) -->
+        <!-- omitted -->
+    </sec:http>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - Sr. No.
+      - Description
+    * - | (1)
+      - | Specify error screen for authorization error in \ ``error-page``\  attribute of \ ``<sec:access-denied-handler>``\  tag, by JSP.
+
+|
+
+**Example for transition to error screen wherein LocaleChangeInterceptor is applied**
+
+* spring-security.xml
+
+.. code-block:: xml
+
+    <sec:http>
+        <!-- omitted -->
+        <sec:access-denied-handler
+            error-page="/common/error/accessDeniedError" /> <!-- (1) -->
+        <!-- omitted -->
+    </sec:http>
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - Sr. No.
+      - Description
+    * - | (1)
+      - | Specify a path for transition to error screen for authorization error, in \ ``error-page``\  attribute of \ ``<sec:access-denied-handler>``\  tag.
+
+* Controller class
+
+.. code-block:: java
+
+    @Controller
+    @RequestMapping("/common/error") // (1)
+    public class ErrorController {
+
+        @RequestMapping("accessDeniedError") // (1)
+        public String accessDeniedError() {
+            return "common/error/accessDeniedError"; // (2)
+        }
+
+    }
+
+.. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+.. list-table::
+    :header-rows: 1
+    :widths: 10 90
+
+    * - Sr. No.
+      - Description
+    * - | (1)
+      - | Define request mapping for transition to error screen.
+    * - | (2)
+      - | Return View name of error screen for transition.
+
+
+.. warning::
+
+    Generally, it is recommended not to use \ ``<mvc:view-controller>``\  since transition to error screen is likely to occur by GET request as well as POST request.
+
+    For notes while using \ ``<mvc:view-controller>``\ , refer  :ref:`controller_method_return-html-label`\.
+
 
 .. raw:: latex
 

@@ -13,6 +13,7 @@ Security countermeasures
    XSS
    Encryption
    SecureLoginDemo
+   OAuth
 
 .. raw:: latex
 
