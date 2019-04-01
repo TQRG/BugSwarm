@@ -754,7 +754,7 @@ Change Log
       - :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessCommon`
       - Modified in accordance with bug fixes of common library
 
-        * Added description about handling double byte wild card characters (\ ``％``\ , \ ``＿``\ )\ , in accordance with bug fixes of common library (\ `terasoluna-gfw#78 <https://github.com/terasolunaorg/terasoluna-gfw/issues/78>`_\ ).
+        * Added description about handling double byte wild card characters (\ ``％``\ , \ ``＿``\)\ , in accordance with bug fixes of common library (\ `terasoluna-gfw#78 <https://github.com/terasolunaorg/terasoluna-gfw/issues/78>`_\ ).
           For modification details, refer to \ `guideline#712 issue <https://github.com/terasolunaorg/guideline/issues/712>`_\ .
 
         Modified in accordance with Spring Framework 4.1

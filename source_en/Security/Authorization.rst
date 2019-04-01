@@ -449,7 +449,7 @@ For main Expression that can be used, refer :ref:`SpringSecurityAuthorizationPol
 Reference of path variables
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-In Spring Security 4.1 and subsequent versions, a path variable [#fPathVariableDescription]_ can be used while specifying a resource which applies the access policy
+In Spring Security 4.1 and subsequent versions, a path variable \[#fPathVariableDescription]_\  can be used while specifying a resource which applies the access policy
 and can be referred by specifying \ ``#path variable name``\  in the definition of access policy.
 
 In the example below, the access policy is defined so that the login users can access only their own user information.
