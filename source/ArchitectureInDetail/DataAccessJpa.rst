@@ -4199,7 +4199,7 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = 'false'") // (1)
+    @Where(clause = "is_logical_delete = false") // (1)
     public class Order implements Serializable {
         // ...
         @Id
@@ -4235,7 +4235,7 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
     * - | (2)
       - | ``@Where`` アノテーションで指定した条件が追加されている。
 
-- 標準的なキーワード``true``、``false``、``unknown``などを登録するためのDialectを拡張する
+- 標準的なキーワード ``true`` 、``false`` 、``unknown`` などを登録するためのDialectを拡張する
 
  .. code-block:: java
 
@@ -4258,10 +4258,10 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
     * - Sr. No.
       - Description
     * - | (1)
-      - | Hibernateは標準的なSQLキーワード``true``、``false``、``unknown``などを登録することができません。これらは、データベース特定のDialectを拡張することによって登録することができます。
+      - | Hibernateは標準的なSQLキーワード ``true`` 、``false`` 、``unknown`` などを登録することができません。これらは、データベース特定のDialectを拡張することによって登録することができます。
         | 例、postgresqlデータベースのデーフォルトDialectは``org.hibernate.dialect.PostgreSQL9Dialect``となります。
     * - | (2)
-      - | 標準的なSQLキーワード``true``、``false``、``unknown``などを登録する。
+      - | 標準的なSQLキーワード ``true`` 、``false`` 、``unknown`` などを登録する。
 
 - 拡張したDialectを設定する
 
@@ -4304,7 +4304,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = 'false'")
+    @Where(clause = "is_logical_delete = false")
     public class Order implements Serializable {
         // ...
         @Id
@@ -4312,7 +4312,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
         @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
         @OrderBy
-        @Where(clause="is_logical_delete = 'false'") // (1)
+        @Where(clause="is_logical_delete = false") // (1)
         private Set<OrderItem> orderItems;
         // ...
 
