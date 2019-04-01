@@ -220,8 +220,9 @@ public class JpaQueryCreator extends AbstractQueryCreator<CriteriaQuery<Object>,
 						Expression<Collection<Object>> propertyExpression = traversePath(root, property);
 						Expression<Object> parameterExpression = provider.next(part).getExpression();
 
-						Predicate isMember = builder.isMember(parameterExpression, propertyExpression);
-						return type.equals(NOT_CONTAINING) ? isMember.not() : isMember;
+						// Can't just call .not() in case of negation as EclipseLink chokes on that.
+						return type.equals(NOT_CONTAINING) ? builder.isNotMember(parameterExpression, propertyExpression)
+								: builder.isMember(parameterExpression, propertyExpression);
 					}
 
 				case LIKE:
