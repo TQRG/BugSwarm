@@ -7,6 +7,8 @@
     :depth: 3
     :local:
 
+.. _FileUploadOverview:
+
 Overview
 --------------------------------------------------------------------------------
 
@@ -22,13 +24,17 @@ Overview
 
     File Upload functionality of Servlet 3.0 may likely result into garbling of multi byte characters of file names or request parameters on some application server.
 
-    When the Application Server wherein problems are likely to occur is to be used, using Commons FileUpload can help in avoiding such problems.
-    For settings to use Commons FileUpload, refer to ":ref:`file-upload_usage_commons_fileupload`". 
-
-    Application server for which a occurrence of problem is confirmed at the time of version 5.0.1.RELEASE is as given below.
+    Application servers wherein occurrence of issues is confirmed at the version 5.3.0.RELEASE are as shown below.
 
     * WebLogic 12.1.3
+    * JBoss EAP 7.0
     * JBoss EAP 6.4.0.GA
+
+    Among these, the issues can be avoided by adding application server specific settings in JBoss EAP 7.0.
+    For details, refer \ `Precautions for using JBoss EAP 7.0 <https://github.com/terasolunaorg/terasoluna-gfw/wiki/JBoss7_en>`_\.
+
+    When the application server wherein other problems occur are used, the issues can be avoided by using Commons FileUpload.
+    For setup methods for using Commons FileUpload, refer ":ref:`file-upload_usage_commons_fileupload`".
 
  .. warning::
  

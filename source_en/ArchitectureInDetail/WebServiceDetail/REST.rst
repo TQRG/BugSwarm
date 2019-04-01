@@ -773,7 +773,7 @@ Using the appropriate HTTP status code
 
  .. tip:: **HTTP Specifications**
  
-    Refer to `RFC 2616 (Hypertext Transfer Protocol -- HTTP/1.1) - 6.1.1 Status Code and Reason Phrase <http://tools.ietf.org/search/rfc2616#section-6.1.1>`_.
+    Refer to `RFC 7230 (Hypertext Transfer Protocol -- HTTP/1.1) - 3.1.2 Status Line <https://tools.ietf.org/html/rfc7230#section-3.1.2>`_.
 
 |
 
@@ -794,6 +794,15 @@ Using the appropriate HTTP status code
       - | Since it is mandatory to be aware of the unique error codes defined in the system while handling errors, it may adversely affect the architecture (design and implementation) at the client side.
     * - | (3)
       - | Intuitive error analysis may be obstructed when analyzing error causes at client side, since understanding the meaning of unique error codes defined in the system is required for the same.
+
+|
+
+ .. note::
+
+    In RFC 7230 which specifies HTTP message syntax, output of description clauses of HTTP status code (\ ``reason-phrase``\) is not mandatory and it is prescribed that the client should be ignored.
+    For example, description clauses are not output in Tomcat 8.5 of implementation which is in conformance with RFC 7230.
+    
+    Refer to `RFC 7230(Hypertext Transfer Protocol -- HTTP/1.1) - 3.1.2 Status Line <https://tools.ietf.org/html/rfc7230#section-3.1.2>`_.
 
 |
 
@@ -1537,12 +1546,7 @@ When the cause of request failure lies at server side, HTTP status codes given b
 
 Authentication and Authorization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo:: **TBD**
-
-    The guidelines for authentication and authorization control are explained here.
-    
-    Performing authentication and authorization using OAuth2 protocol will be described in subsequent versions.
+Please refer to \: ref: `OAuth <OAuth>` \ for the mechanism of authentication and authorization using the OAuth 2 mechanism.
 
 |
 
@@ -4632,9 +4636,7 @@ Security measures
 Authentication and Authorization
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-.. todo:: **TBD**
-
-    How to implement authentication and authorization using OAuth2 (Spring Security OAuth2), will be explained in subsequent versions.
+Please refer to \: ref: `OAuth <OAuth>` \ for how to achieve authentication and authorization using OAuth 2 (Spring Security OAuth 2).
 
 |
 

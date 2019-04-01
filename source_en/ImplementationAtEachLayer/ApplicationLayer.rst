@@ -1656,7 +1656,7 @@ Writing values in Cookie
     @RequestMapping("writeCookie")
     public String writeCookie(Model model,
             HttpServletResponse response) { // (1)
-        Cookie cookie = new Cookie("foo", "hello world!");
+        Cookie cookie = new Cookie("foo", "Helloworld!");
         response.addCookie(cookie); // (2)
         // do something
         return "sample/writeCookie";
@@ -1673,12 +1673,18 @@ Writing values in Cookie
      - Specify \ ``HttpServletResponse``\  object as argument to write to cookie. 
    * - | (2)
      - | Generate \ ``Cookie``\  object and add to \ ``HttpServletResponse``\  object. 
-       | For example, ``"hello world!"``  value is assigned to Cookie name ``"foo"``. 
+       | For example, ``"Helloworld!"``  value is assigned to Cookie name ``"foo"``. 
 
 .. tip::
 
     No difference compared to use of \ ``HttpServletResponse``\  which fetched as an argument of handler method, however,  \ ``org.springframework.web.util.CookieGenerator``\  class is provided by Spring
     as a class to write values in cookie. It should be used if required. 
+
+.. note::
+    Please note that some of the characters that cannot be used for Cookie name and value exist in In RFC 6265 which prescribes HTTP Cookie process.
+    For example, space character cannot be used in Cookie value in Tomcat 8.5 of implementation which is in conformance with RFC 6265.
+    
+    Refer to `RFC 6265(HTTP State Management Mechanism) 4.1 SetCookie <https://tools.ietf.org/html/rfc6265#section-4.1>`_ Syntax.
 
 |
 
@@ -1814,9 +1820,30 @@ Example of definition when \ ``<bean>``\  element is to be used
    * - | (6)
      - When View name ``"sample/hello"`` is the return value of handler method, ``"/WEB-INF/views/sample/hello.jsp"`` is called and HTML is sent as response.
 
+
 .. note::
     HTML output is generated using JSP in the above example, however, even if HTML is generated using other template engine such as Velocity, FreeMarker, return value of handler method will be ``"sample/hello"``. 
     ``ViewResolver`` takes care of task to determine which template engine is to be used.
+
+
+.. note::
+
+   When simply a method to return view name is to be implemented, implementation of Controller class can be substituted by using \ ``<mvc:view-controller>`` \.
+    
+    * Implementation example of Controller which uses \ ``<mvc:view-controller>``\.
+    
+      .. code-block:: xml
+      
+        <mvc:view-controller path="/hello" view-name="sample/hello" />
+      
+
+
+.. warning:: **Considerations for using <mvc:view-controller>**
+
+    Since HTTP methods authorized by \ ``<mvc:view-controller>``\  are restricted only to GET and HEAD due to version-up of Spring Framework 4.3 (`SPR-13130 <https://jira.spring.io/browse/SPR-13130>`_),
+    \ ``<mvc:view-controller>``\  cannot used for the pages which are to be accessed by HTTP methods other than GET and HEAD (POST etc).
+    This also happens when pages are forwarded by methods other than GET and HEAD (POST etc). Hence, when HTTP methods for forwarding operations such as transition to error page etc cannot be restricted, adequate care must be taken to avoid the use of \ ``<mvc:view-controller>``\.
+
 
 |
 
@@ -2381,12 +2408,6 @@ Attributes of \ ``@DateTimeFormat``\  annotation are given below.
        | M- : Dec 9, 2013
        | -M : 3:41:45 AM
 
-.. warning::
-    @DateTimeFormat's formatter is not strict in case of pattern attribute specified with \ ``java.time.LocalDate`` \ on JSR-310 Date and Time API
-    (\ ``"20150229"`` \ is invalid , but it will be regarded as 28st February, 2015).
-    Specifications are improved in Spring Framework 4.3 , but are affected because they use Spring Framework 4.2 in TERASOLUNA Server Framework for JAVA (5.x).
-    For details reference to '`@DateTimeFormat's JSR-310 formatter is not strict in case of pattern <https://jira.spring.io/browse/SPR-13567>`_\'
-
 |
 
 DataType conversion in controller
@@ -2671,6 +2692,8 @@ View plays the following role.
    | View retrieves the required data from model (form object or domain object) and generates response in the format which is required by the client for rendering.
 
 |
+
+.. _ApplicationLayerImplementOfJsp:
 
 Implementing JSP
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

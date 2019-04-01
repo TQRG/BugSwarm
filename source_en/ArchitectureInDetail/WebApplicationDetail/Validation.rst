@@ -2392,6 +2392,33 @@ Error messages are changed as follows.
             For handling of EL expressions in Bean Validation refer to:
             \ `Hibernate Validator Reference Guide(Interpolation with message expressions) <http://docs.jboss.org/hibernate/validator/5.2/reference/en-US/html/ch04.html#section-interpolation-with-message-expressions>`_\ .
 
+    Further, the value to be checked can be included in the error message by using \ ``${validatedValue}``\  in the message which is specified in :file:`ValidationMessages.properties`.
+
+    How to use \ ``${validatedValue}``\  is shown below.
+
+     .. code-block:: properties
+
+        # ...
+        # (1)
+        javax.validation.constraints.Pattern.message = The value entered "${validatedValue}" is invalid.
+        # ...
+
+
+     .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+     .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+        :class: longtable
+
+        * - Sr. No.
+          - Description
+        * - | (1)
+
+          - Messages that are actually generated from the message definition above are embedded with the values input in the form, in \ ``${validatedValue}``\  part.
+            If confidential information is included in the input value, care must be taken not to use \ ``${validatedValue}``\  so that confidential information is not displayed.
+
+            For details, refer \ `Hibernate Validator Reference Guide(Interpolation with message expressions) <http://docs.jboss.org/hibernate/validator/5.2/reference/en-US/html/ch04.html#section-interpolation-with-message-expressions>`_\.
+
 
 .. _Validation_message_in_application_messages:
 
@@ -3894,7 +3921,8 @@ Refer to \ `Hibernate Validator specifications <http://docs.jboss.org/hibernate/
 
    * - \ ``@URL``\
      - It is applicable to any implementation class of \ ``CharSequence``\  interface
-     - Validate whether it is compliant with RFC2396.
+     - Verify that it is valid as URL. Character string is validated by using \ ``java.net.URL``\  constructor
+       and the protocol that is validated as a URL is dependent on the protocols supported by JVM (\ ``http``\ ,\ ``https``\ ,\ ``file``\ ,\ ``jar``\  etc).
      - .. code-block:: java
 
             @URL
@@ -3917,26 +3945,20 @@ Refer to \ `Hibernate Validator specifications <http://docs.jboss.org/hibernate/
             @NotEmpty
             private String password;
 
-.. warning::
+.. tip::
 
-    When following annotations provided by Hibernate Validator are used,
-    if a default message is used, a bug that the message is not generated correctly \ `HV-881 <https://hibernate.atlassian.net/browse/HV-881>`_\ , \ `HV-949 <https://hibernate.atlassian.net/browse/HV-949>`_\ ) occurs.
+     In \ ``@URL``\ , when the verification is to be performed for validating the protocol not supported by JVM, \ ``org.hibernate.validator.constraintvalidators.RegexpURLValidator``\  provided by Hibernate is used.
+     This class is a Validator class corresponding to \ ``@URL``\  annotation and it can be checked whether it is a URL format by a regular expression. It can also verify the validation for the protocols not supported by JVM.
 
-    * \ ``@CreditCardNumber``\ (message is displayed, but WARN log is output)
-    * \ ``@LuhnCheck``\
-    * \ ``@Mod10Check``\
-    * \ ``@Mod11Check``\
-    * \ ``@ModCheck``\ (deprecated API from 5.1.0.Final)
+     * If the check rules of \ ``@URL``\  of overall application can be changed, Validator class is changed to \ ``RegexpURLValidator``\  in XML,
+       as described in \ `JavaDoc <https://docs.jboss.org/hibernate/validator/5.2/api/org/hibernate/validator/constraints/URL.html>`_\ .
+     * When only some of the items are to be validated by using regular expressions and default rules are to be used for \ ``@URL``\ , a new annotation and an implementation class \ ``javax.validation.ConstraintValidator``\  that performs validation similar to \ ``RegexpURLValidator``\  are created
+       and the validation by the annotation thus created is applied to the required items.
 
-    This bug occurs because of the flaws in message definitions provided by default,
-    and it is possible to avoid them by overwriting the default messages by an appropriate message.
+     These can be applied as per the intended use.
 
-    In case of overwriting the default messages,
-    it is advisable to define an appropriate message 
-    by creating :file:`ValidationMessages.properties` directly under the class path (normal src/main/resources).
-
-    For appropriate message definition, refer to:
-    \ `Modifications for Hibernate Validator 5.2 version (next minor version upgrade) <https://github.com/hibernate/hibernate-validator/commit/5a9d7bae26bccb15229ae5612d67506a7a775b48#diff-762e02c90cfb2f00b0b2788486e3fd5e>`_\ .
+     For details of check rule change by XML, refer to \ `Hibernate reference <https://docs.jboss.org/hibernate/validator/5.2/reference/en-US/html/ch07.html#section-configuration-validation-xml>`_\ 
+     and for how to create a new annotation, refer to \ :ref:`Validation_implement_new_constraint`\  respectively..
 
 .. _Validation_default_message_in_hibernate_validator:
 

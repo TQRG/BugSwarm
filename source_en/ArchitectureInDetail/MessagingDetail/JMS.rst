@@ -2322,7 +2322,7 @@ Configuration while using Apache ActiveMQ is explained.
   | JMS provider requires specific configuration.
   | In Apache ActiveMQ, environment variable must be added to starting variable of application server to ensure that it consists of objects wherein payload of received messages is permissible.
   | For details, refer \ `ObjectMessage <http://activemq.apache.org/objectmessage.html>`_\ .
-  | Configuration example while using Apache Tomcat is shown below. Refer \ `Service Configuration <https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/installation_guide/configuring_jboss_eap_to_run_as_a_service>`_\  for JBoss and \ `Starting Managed Servers with a Startup Script <http://docs.oracle.com/middleware/1221/wls/START/overview.htm#START120>`_\  for Weblogic.
+  | An example of adding environment variable to startup argument of Apache Tomcat is shown below. Refer \ `Configuring JBoss EAP to Run as a Service <https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/7.0/paged/installation-guide/chapter-4-configuring-jboss-eap-to-run-as-a-service>`_\  in case of JBoss Enterprise Application Platform 7.0, \ `Service Configuration <https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.4/html/Installation_Guide/sect-Service_Configuration.html>`_\  in case of JBoss Enterprise Application Platform 6.4 and \ `Starting Managed Servers with a Startup Script <http://docs.oracle.com/middleware/1221/wls/START/overview.htm#START120>`_\  in case of Weblogic.
 
   - :file:`$CATALINA_HOME/bin/setenv.sh`
 
