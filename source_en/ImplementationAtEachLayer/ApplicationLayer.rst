@@ -1656,7 +1656,7 @@ Writing values in Cookie
     @RequestMapping("writeCookie")
     public String writeCookie(Model model,
             HttpServletResponse response) { // (1)
-        Cookie cookie = new Cookie("foo", "hello world!");
+        Cookie cookie = new Cookie("foo", "Helloworld!");
         response.addCookie(cookie); // (2)
         // do something
         return "sample/writeCookie";
@@ -1673,12 +1673,18 @@ Writing values in Cookie
      - Specify \ ``HttpServletResponse``\  object as argument to write to cookie. 
    * - | (2)
      - | Generate \ ``Cookie``\  object and add to \ ``HttpServletResponse``\  object. 
-       | For example, ``"hello world!"``  value is assigned to Cookie name ``"foo"``. 
+       | For example, ``"Helloworld!"``  value is assigned to Cookie name ``"foo"``. 
 
 .. tip::
 
     No difference compared to use of \ ``HttpServletResponse``\  which fetched as an argument of handler method, however,  \ ``org.springframework.web.util.CookieGenerator``\  class is provided by Spring
     as a class to write values in cookie. It should be used if required. 
+
+.. note::
+    Please note that some of the characters that cannot be used for Cookie name and value exist in In RFC 6265 which prescribes HTTP Cookie process.
+    For example, space character cannot be used in Cookie value in Tomcat 8.5 of implementation which is in conformance with RFC 6265.
+    
+    Refer to `RFC 6265(HTTP State Management Mechanism) 4.1 SetCookie <https://tools.ietf.org/html/rfc6265#section-4.1>`_ Syntax.
 
 |
 

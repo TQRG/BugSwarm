@@ -199,18 +199,21 @@ A configuration example while using a mail session offered by application server
       - Application server
       - Refer page
     * - 1.
-      - Apache Tomcat 8
-      - | Refer \ `Apache Tomcat 8 User Guide(JNDI Resources HOW-TO) <http://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JavaMail_Sessions>`_\  (JavaMail Sessions).
+      - Apache Tomcat 8.5
+      - | Refer \ `Apache Tomcat 8.5 User Guide(JNDI Resources HOW-TO) <http://tomcat.apache.org/tomcat-8.5-doc/jndi-resources-howto.html#JavaMail_Sessions>`_\  (JavaMail Sessions).
     * - 2.
+      - Apache Tomcat 8.0
+      - | Refer \ `Apache Tomcat 8.0 User Guide(JNDI Resources HOW-TO) <http://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JavaMail_Sessions>`_\ (JavaMail Sessions).
+    * - 3.
       - Oracle WebLogic Server 12c
       - Refer \ `Oracle WebLogic Server 12.2.1.0 Documentation <http://docs.oracle.com/middleware/1221/wls/WLACH/taskhelp/mail/CreateMailSessions.html>`_\ .
-    * - 3.
+    * - 4.
       - IBM WebSphere Application Server Version 9.0
       - Refer \ `WebSphere Application Server Version 9.0.0 documentation <https://www.ibm.com/support/knowledgecenter/en/SSD28V_9.0.0/com.ibm.websphere.wlp.core.doc/ae/twlp_admin_javamail.html>`_\ .
-    * - 4.
+    * - 5.
       - Red Hat JBoss Enterprise Application Platform Version 7.0
       - Refer \ `JBoss Enterprise Application Platform 7.0 Product Documentation <https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/7.0/paged/configuration-guide/chapter-10-mail-subsystem>`_\.
-    * - 5.
+    * - 6.
       - Red Hat JBoss Enterprise Application Platform Version 6.4
       - Refer \ `JBoss Enterprise Application Platform 6.4 Product Documentation <https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.4/html/Administration_and_Configuration_Guide/chap-Mail_subsystem.html>`_\.
 

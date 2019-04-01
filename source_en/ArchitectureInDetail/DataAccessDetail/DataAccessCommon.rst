@@ -69,23 +69,27 @@ JDBC datasource provided by Application Server
       - Application Server
       - Reference page
     * - 1.
-      - Apache Tomcat 8
-      - | Refer to \ `Apache Tomcat 8 User Guide(The Tomcat JDBC Connection Pool) <http://tomcat.apache.org/tomcat-8.0-doc/jdbc-pool.html>`_\ .
-        | Refer to \ `Apache Tomcat 8 User Guide(JNDI Datasource HOW-TO) <http://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html>`_\  (Apache Commons DBCP 2).
+      - Apache Tomcat 8.5
+      - | Refer to \ `Apache Tomcat 8.5 User Guide(The Tomcat JDBC Connection Pool) <http://tomcat.apache.org/tomcat-8.5-doc/jdbc-pool.html>`_\ .
+        | Refer to \ `Apache Tomcat 8.5 User Guide(JNDI Datasource HOW-TO) <http://tomcat.apache.org/tomcat-8.5-doc/jndi-datasource-examples-howto.html>`_\  (Apache Commons DBCP 2).
     * - 2.
+      - Apache Tomcat 8.0
+      - | Refer to \ `Apache Tomcat 8.0 User Guide(The Tomcat JDBC Connection Pool) <http://tomcat.apache.org/tomcat-8.0-doc/jdbc-pool.html>`_\ .
+        | Refer to \ `Apache Tomcat 8.0 User Guide(JNDI Datasource HOW-TO) <http://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html>`_\ (Apache Commons DBCP 2).
+    * - 3.
       - Apache Tomcat 7
       - | Refer to \ `Apache Tomcat 7 User Guide (The Tomcat JDBC Connection Pool) <http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html>`_\ .
         | Refer to \ `Apache Tomcat 7 User Guide (JNDI Datasource HOW-TO) <http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html>`_\  (Apache Commons DBCP).
-    * - 3.
+    * - 4.
       - Oracle WebLogic Server 12c
       - Refer to \ `Oracle WebLogic Server Product Documentation <http://docs.oracle.com/middleware/1221/wls/INTRO/jdbc.htm>`_\ .
-    * - 4.
+    * - 5.
       - IBM WebSphere Application Server Version 9.0
       - Refer to \ `WebSphere Application Server Online information center <http://www.ibm.com/support/knowledgecenter/SSEQTP_9.0.0/com.ibm.websphere.wlp.doc/ae/twlp_dep_configuring_ds.html?lang=en>`_\ .
-    * - 5.
+    * - 6.
       - JBoss Enterprise Application Platform 7.0
       - Refer \ `JBoss Enterprise Application Platform 7.0 Product Documentation <https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/7.0/paged/configuration-guide/chapter-13-datasource-management>`_\.
-    * - 6.
+    * - 7.
       - JBoss Enterprise Application Platform 6.4
       - Refer \ `JBoss Enterprise Application Platform 6.4 Product Documentation <https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.4/html/Administration_and_Configuration_Guide/chap-Datasource_Management.html>`_\.
 

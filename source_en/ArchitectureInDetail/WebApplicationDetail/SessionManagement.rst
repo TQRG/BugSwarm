@@ -693,6 +693,32 @@ Fetching the object stored in session
     * - | (2)
       - | In the above example, object stored in session scope with attribute name \ ``"entity"``\ , is passed to argument "entity".
 
+ .. note:: **How to prevent binding of request parameters when receiving object stored in session scope**
+
+     When an object stored in the session scope is received as an argument of the handler method, there is a possibility that the request parameter is bound to the argument.
+
+     In order to prevent the request parameter from being bound, it can be realized by getting the object stored in the session scope from the \ ``Model``\ object in the handler method without receiving it from the argument of the handler method,
+     but it is not type-safe because it is necessary to specify the attribute name of the object to be acquired as a character string.
+
+     On the other hand, in Spring Framework 4.3, the \ ``binding``\ attribute is added to the \ ``ModelAttribute``\ annotation, so that it becomes possible to specify whether or not to bind request parameters as arguments.
+     By attaching the \ ``@ ModelAttribute``\ annotation as an argument and specifying \ ``false``\ as the \ ``binding``\ attribute,
+     it is possible to prevent binding of request parameters and objects stored in the scope can be acquired.
+
+     In the example below, an object stored in the session scope with an attribute name \ ``entity``\ is acquired by preventing binding of request parameters.
+
+      .. code-block:: java
+
+         @RequestMapping(value = "save", method = RequestMethod.POST)
+         public String save(@Validated({ Wizard1.class, Wizard2.class,
+                 Wizard3.class }) WizardForm form,
+                 BindingResult result,
+                 @ModelAttribute(binding = false) Entity entity,
+                 RedirectAttributes redirectAttributes) {
+             // ...
+             return "redirect:/wizard/save?complete";
+         }
+
+
 When the object to be passed to the argument of Controller handler method does not exist in \ ``Model``\  object, the operation changes depending on whether \ ``@ModelAttribute``\  annotation is specified or not.
 
 * When ``@ModelAttribute`` annotation is not specified, a new object is created and passed as argument.
