@@ -1,0 +1,134 @@
+link:../index.asciidoc[&larr; Docs Index]
+
+== Rewrite Configuration Overview
+
+There are many types of configuration objects in link:../index.asciidoc[Rewrite], so we will take a few moments to define a few of the core terms before continuing to more advanced topics. Most of the core objects can be found in the +org.ocpsoft.rewrite.config+ package, while Servlet specific objects can be found in the +org.ocpsoft.rewrite.servlet.config+ package.
+
+=== Download and install
+
+Before continuing on to learn about configuring Rewrite, make sure that you have already followed the link:./install.asciidoc[installation guide]. This will ensure that Rewrite is successfully set up in your application.
+
+=== The terminology
+
+It may be helpful to review the following terms, many of which will make frequent appearances in this documentation.
+
+ConfigurationProvider:: An object that provides +Configuration+ instances to the Rewrite framework; these may be created and registered as necessary. If not using link:./annotations/index.asciidoc[Rewrite Annotations], or other extensions, you must have at least one registered +ConfigurationProvider+ or Rewrite will not have any effect.
+
+Configuration:: A collection of +Rule+ objects that are processed in order until the system has determined the current inbound or oubound Rewrite event has been handled. Configurations may be provided by extensions, cached for performance, or built dynamically at run-time.
+
+ConfigurationBuilder:: This is likely the object you will interact with most when configuring the Rewrite system. Start with a +ConfigurationBuilder+ in each situation where you find yourself in need of a +Configuration+ object; this class may be used to add pre-constructed, or contruct custom +Rule+ instances for Rewrite.
+
+Condition:: Defines a requirement that must be met in order for rule evaluation to return true. You may create custom +Condition+ implementations. If creating custom implementations, you should likely extend +DefaultConditionBuilder+, which  adds logical operators +.and()+, +.or()+, and +.not()+.
+
+Operation:: Defines behavior to be performed after evaluation a +Rewrite+ event. These objects may be as simple or as complex as desired, ranging from simple logging to request forwarding. Typically +Operation+ instances may be chained to achieve more complex tasks. If creating custom umplementations, you should likely extend +DefaultOperationBuilder+, which adds logical chaining via +.and()+.
+
+Parameter:: Specifies a fragment of an HTTP request that may be referenced in both +Condition+ and +Operation+ instances. Parameters are defined using the +.where()+ method of the +ConfigurationBuilder+, which is available once the first +Rule+ (with conditions or operations) has been added.
+
+Rule:: A pre-constructed combination of +Condition+ and +Operation+ instances. You should use a +Rule+ when simple composition of +Condition+ and +Operation+ instances in a +ConfigurationBuilder+ is too difficult to achieve the desired functionality.
+
+=== Activate Development Mode
+By default, Rewrite uses a +ConfigurationCacheProvider+ that stores your configuration in the +ServletContext+ as an application-wide caching medium. This means, by default, all registered +ConfigurationProvider+ instances will be loaded once upon application startup, and never again.
+
+To disable the default caching mechanism, and enable configuration reloading on each request, add the following servlet context init parameter to <code>web.xml</code>:
+
+[source,xml]
+----
+<context-param>
+   <param-name>org.ocpsoft.rewrite.config.CONFIG_RELOADING</param-name>
+   <param-value>true</param-value>
+</context-param>
+----
+Make sure to disable this option before deploying to production, since larger and more complex configurations may take some time to re-load.
+
+=== Start using Rewrite rules
+
+Now that you have Rewrite installed, and understand the basic terms, let's start writing some rules. We will start with a simple example: logging an inbound request URL to the server console.
+
+First, open the +ConfigurationProvider+ you defined during link:install.asciidoc[installation] and add the desired logging statement using the +.addRule()+ method of +ConfigurationBuilder+.
+
+[source,java]
+.Log an inbound request to the server console
+----
+public class ApplicationConfigurationProvider extends HttpConfigurationProvider
+{
+
+   @Override
+   public Configuration getConfiguration(ServletContext context)
+   {
+      return ConfigurationBuilder.begin()
+               .addRule()
+               .when(Direction.isInbound().and(Path.matches("/{path}")))
+               .perform(Log.message(Level.INFO, "Client requested path: {path}"))
+               .where("path").matches(".*");
+   }
+
+}
+----
+
+By default, parameters defined within the +Path+ condition match all characters except for forward slash "+/+". To change this, we must configure the parameter manually. Once complete, our rule matches any inbound request, with any number of path segments.
+
+TIP: Parameter configuration can be used any time when parameters have been specified using the +ConfigurationBuilder+.
+
+[source,console]
+.Log output
+----
+INFO [org.ocpsoft.config.Log] Client requested path: /foo
+INFO [org.ocpsoft.config.Log] Client requested path: /foo/bar
+...
+----
+
+[NOTE] 
+====
+If you attempt to configure a parameter that does not exist, you will quickly find out upon application startup; your deployment will halt on exception:
+
+[source,console]
+----
+.where("foo").matches(".*");
+...
+java.lang.IllegalArgumentException: No such parameter [ foo ] exists.
+----
+====
+
+==== A closer look
+
+Now that we have written a rule that uses a few different +Operation+ and +Condition+ objects, lets take a look at how the interaction works - we will break down the entire rule:
+
+[source,java]
+----
+ConfigurationBuilder.begin()
+   .addRule()
+   .when(Direction.isInbound().and(Path.matches("/{path}")))
+   .perform(Log.message(Level.INFO, "Client requested path: {path}"))
+   .where("path").matches(".*");
+----
+
+===== The breakdown
++ConfigurationBuilder.begin().addRule()+:: Begins a new fluent +Configuration+ object and adds a fluent +Rule+
+
+`.when(Direction.isInbound().and(Path.matches("/{path}")))`:: Specifies that the rule should match only on inbound requests, and only when the request path matches the pattern `/[^/]+`, which is specified by our use of the parameter `{path}`
+
+`.perform(Log.message(Level.INFO, "Client requested path: {path}"))`:: Specify the +Operation+ to be performed when all conditions are met. Operations may be chained using the +.and()+ method available on most operation instances.
+
+`.otherwise(Log.message(Level.INFO, "Path did not match."))`:: Specify the +Operation+ to be performed when conditions are NOT met. Operations may be chained using the +.and()+ method available on most operation instances.
+
+`.where("path").matches(".*")`:: Configures the +Parameter+ named "+path+", and specifies that it must match the link:http://ocpsoft.org/opensource/guide-to-regular-expressions-in-java-part-1/[regular expression] pattern "+.*+"
+
+==== Add another operation
+
+Now say we wish to forward each inbound request to a Servlet or JSP that will handle the request and render a response for the client. We can achieve this by adding the +Forward+ operation to the set of operations to be performed when all rule conditions have been met. Forwards are purely internal operations, and the client browser URL will not be updated.
+
+[source,java]
+----
+ConfigurationBuilder.begin()
+   .addRule()
+   .when(Direction.isInbound().and(Path.matches("/{path}")))
+   .perform(Log.message(Level.INFO, "Client requested path: {path}")
+              .and(Forward.to("/Servlet?path={path}")))
+   .where("path").matches(".*");
+----
+
+Notice that we have specified a new Operation: +Forward.to("/Servlet?path={path}")+; this will again re-use the "+path+" parameter. The example below demonstrates how an inbound request will be forwarded to an inbound resource.
+
+TIP: Operations are performed in the order in which they are added to the rule, so make sure that breaking operations such as +Forward+, +Redirect+, +Substitute+, and +Lifecycle+ are added last, or your +Operation+ may not be performed.
+
+

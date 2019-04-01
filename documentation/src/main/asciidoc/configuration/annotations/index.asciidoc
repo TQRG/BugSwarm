@@ -1,0 +1,266 @@
+link:../../index.asciidoc[&larr; Docs Index] link:../index.asciidoc[&larr; Configuration]
+
+== Rewrite Annotations
+
+The Rewrite annotation support offers an alternative way to configure Rewrite. Compared to configuring
+Rewrite using a +ConfigurationProvider+, the annotations allow to place the configuration very close
+to the affected code, which some people prefer over a central configuration.
+
+Please note that the Rewrite annotations are not as flexible as a +ConfigurationProvider+.
+The main focus of the annotations is to simplify the most common usecases which usually occur
+many times in an application. A good example for this are +Join+ rules which are used very often.
+
+NOTE: Of course you can use a +ConfigurationProvider+ and the annotations side by side. 
+
+=== Configuration
+
+The annotation support of Rewrite is enabled by default. So you usually don't have do add any
+additional configuration to use annotations.
+
+If you care about the performance of the annotation scanning process, you can tell Rewrite which
+packages to scan for annotations. Restricting the packages may increase performance if you have
+a large number of classes in your application.
+
+To tell Rewrite to scan only a specific package including all subpackes, add the following entry
+to your +web.xml+:
+
+[source,xml]
+.Restrict annotation scanning to a specific package
+----
+<context-param>
+  <param-name>org.ocpsoft.rewrite.annotation.BASE_PACKAGES</param-name>
+  <param-value>com.example.myapp</param-value>
+</context-param>
+----
+
+If you want to disable the annotation scanning completely, set the package to scan to +none+ like this:
+
+[source,xml]
+.Disable annotation scanning
+----
+<context-param>
+  <param-name>org.ocpsoft.rewrite.annotation.BASE_PACKAGES</param-name>
+  <param-value>none</param-value>
+</context-param>
+----
+
+By default Rewrite will only scan the contents of your +/WEB-INF/classes+ directory. 
+Sometimes it makes sense to also scan the JAR files located in
++/WEB-INF/lib+. This may be the case if your are developing a highly modular application
+which is split into different JAR files. 
+
+You can tell Rewrite to also scan the JAR files in +/WEB-INF/lib+ by adding the 
+following configuration to your +web.xml+: 
+
+[source,xml]
+.Tell Rewrite to scan JAR files for annotations
+----
+<context-param>
+  <param-name>org.ocpsoft.rewrite.annotation.SCAN_LIB_DIRECTORY</param-name>
+  <param-value>true</param-value>
+</context-param>
+----
+
+=== Defining rules with annotations
+
+One of the most common Rewrite rule types is the +Join+ which maps a _virtual_ path to a physical 
+server resource. If you are using the +ConfigurationProvider+ way of configuration, adding a join
+usually looks like this:
+
+[source,java]
+.A basic join using the fluent Java API
+----
+.addRule(Join.path("/welcome").to("/faces/welcome.xhtml"))
+----
+
+If you want to configure this rule using the Rewrite annotations API, you can do it like this:
+
+[source,java]
+.A basic join using Rewrite annotations
+----
+@Named
+@RequestScoped
+@Join(path="/welcome", to="/faces/welcome.xhtml")
+public class WelcomePage {
+  // your code
+}
+----
+
+As you can see in this example, using the Rewrite annotations is straight forward. Just add
+a +@Join+ annotation to your class and set the +path+ and +to+ attributes just like you would
+using the fluent Java API.
+
+TIP: When using web frameworks like JSF, it is recommended to place the annotation on the class
+which is mainly responsible for the corresponding page.
+
+In some cases it is desired to add an additional +Condition+ to a rule. A good example for this
+are additional security checks for an URL. To add such a constraint, just add the corresponding annotation to
+your class like shown in the following example.
+
+[source,java]
+.Adding a security constraint to a Join
+----
+@Named
+@RequestScoped
+@RolesRequired("ADMIN")
+@Join(path="/users", to="/faces/user-list.xhtml")
+public class UserListPage {
+  // your code
+}
+----
+
+In this example the +Join+ rules is only applied if the user as the required JAAS role.
+
+TIP: If Rewrite doesn't provide an existing annotation for your specific usecase, you can create your
+own one very easily. Have a look at <<custom-annotations,Building custom annotations>> to learn how
+to do this.
+
+
+=== Handling parameters
+
+Parameters are a very important concept in Rewrite. They allow you to specify a _dynamic_ part of your
+URL used to identify the resource the user is trying to access.
+
+When using the +ConfigurationProvider+ API, you declare parameters like this:
+
+[source,java]
+.A join with parameters
+----
+.addRule(Join.path("/user/{name}").to("/faces/user-details.xhtml"))
+----
+
+If you want to define such a rule using Rewrite annotations, add the parameter
+to the path just like you would using the +ConfigurationProvider+:
+
+[source,java]
+.Using parameters with @Join annotations
+----
+@Named
+@RequestScoped
+@Join(path="/user/{name}", to="/faces/user-details.xhtml"")
+public class UserDetailsPage {
+  // your code
+}
+----
+
+Rewrite will automatically turn the parameter into a query parameter with the same name. So
+you can access the value simply by calling +HttpServletRequest.getParameter()+:
+
+[source,java]
+.Accessing parameters using the Servlet API
+----
+String username = request.getParameter("name");
+----
+
+Of cause it is not very nice to spread such low level Servlet API calls across your code. 
+Therefore Rewrite also supports _parameter bindings_ which allow you to automatically
+inject the parameter values into managed bean properties.
+
+To inject the parameters into a property of you bean, just add a +@Parameter+ annotation
+to the corresponding field like this:
+
+[source,java]
+.Using @Parameter to inject parameter values
+----
+@Named
+@RequestScoped
+@Join(path="/user/{name}", to="/faces/user-details.xhtml"")
+public class UserListPage {
+
+  @Parameter("name")
+  private String username;
+
+}
+----
+
+TIP: If you don't specify the name of the parameter in the annotation, Rewrite will instead 
+use the name of the field. So you don't have to specify the name if the name of the field
+matches the name of the parameter.
+
+[[parameter-custom-regex-pattern]]
+==== Custom matching patterns
+
+By default Rewrite parameters will match any character except for the path delimiter +/+.
+Internally Rewrite uses the regular expression +[^/]++ for matching the value of the parameter.
+In some situations it can be useful to customize this pattern. Especially if the standard
+pattern matches too greedy or if you want to match more than a single path segment.
+
+If you want to customize the regular expression used for the matching, just add a +@Matches+
+annotation to the corresponding field. The following class contains a parameter that will
+match only lowercase letters and digits.
+
+[source,java]
+.Using @Parameter to inject parameter values
+----
+@Named
+@RequestScoped
+@Join(path="/user/{name}", to="/faces/user-details.xhtml"")
+public class UserListPage {
+
+  @Parameter
+  @Matches("[a-z0-9]+")
+  private String name;
+
+}
+----
+
+==== Custom validation
+
+Many parameter validation requirements can be implemented using regular expressions like shown
+in the <<parameter-custom-regex-pattern,previous section>>. If your validation rules are more
+complex, you can use Rewrite's support for custom validators.
+
+A validator must implement the interface +Validator+. The only method in this interface is
+called +isValid()+ and must return +true+ if the parameter is valid and +false+ otherwise.
+The following example shows an validator which validates that the length of a parameter value
+is even.
+
+[source,java]
+.Example for a custom validator
+----
+public class EvenLengthValidator implements Validator<String>
+{
+
+   @Override
+   public boolean isValid(Rewrite event, EvaluationContext context, String value)
+   {
+      return value.trim().length() % 2 == 0;
+   }
+
+}
+----
+
+To use such a custom validator, add a +@Validate+ annotation to your field and refer to the type
+of the validator you wish to use:
+
+[source,java]
+.Using @ValidateWith for custom vaidation
+----
+@Named
+@RequestScoped
+@Join(path="/some-path/{value}", to="/faces/some-page.xhtml"")
+public class SomePage {
+
+  @Parameter
+  @Validate(with = EvenLengthValidator.class)
+  private String value;
+
+}
+----
+
+TIP: If you are using the JSF integration module, you can also refer to standard JSF validators without
+the need to create a Rewrite-specific one. Refer to the JSF integration module documentation
+for details.
+
+
+
+
+=== Invoking methods
+
+TODO
+
+[[custom-annotations]]
+
+=== Building custom annotations
+
+TODO
