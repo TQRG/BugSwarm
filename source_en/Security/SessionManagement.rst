@@ -68,7 +68,7 @@ Following countermeasures are necessary to protect the application from such ses
 
     * Example of URL Rewriting
 
-        .. code-block:: http
+        .. code-block:: text
 
             http://localhost:8080/;jsessionid=7E6EDE4D3317FC5F14FD912BEAC96646
 
