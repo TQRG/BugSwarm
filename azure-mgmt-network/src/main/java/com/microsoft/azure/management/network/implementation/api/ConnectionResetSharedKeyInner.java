@@ -31,7 +31,7 @@ public class ConnectionResetSharedKeyInner {
      * @param keyLength the keyLength value to set
      * @return the ConnectionResetSharedKeyInner object itself.
      */
-    public ConnectionResetSharedKeyInner withKeyLength(Long keyLength) {
+    public ConnectionResetSharedKeyInner setKeyLength(Long keyLength) {
         this.keyLength = keyLength;
         return this;
     }

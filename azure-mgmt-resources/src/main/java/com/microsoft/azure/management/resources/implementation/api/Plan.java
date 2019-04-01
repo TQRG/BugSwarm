@@ -46,7 +46,7 @@ public class Plan {
      * @param name the name value to set
      * @return the Plan object itself.
      */
-    public Plan withName(String name) {
+    public Plan setName(String name) {
         this.name = name;
         return this;
     }
@@ -66,7 +66,7 @@ public class Plan {
      * @param publisher the publisher value to set
      * @return the Plan object itself.
      */
-    public Plan withPublisher(String publisher) {
+    public Plan setPublisher(String publisher) {
         this.publisher = publisher;
         return this;
     }
@@ -86,7 +86,7 @@ public class Plan {
      * @param product the product value to set
      * @return the Plan object itself.
      */
-    public Plan withProduct(String product) {
+    public Plan setProduct(String product) {
         this.product = product;
         return this;
     }
@@ -106,7 +106,7 @@ public class Plan {
      * @param promotionCode the promotionCode value to set
      * @return the Plan object itself.
      */
-    public Plan withPromotionCode(String promotionCode) {
+    public Plan setPromotionCode(String promotionCode) {
         this.promotionCode = promotionCode;
         return this;
     }

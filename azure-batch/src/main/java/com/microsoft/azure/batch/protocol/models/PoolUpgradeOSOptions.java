@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_UpgradeOS operation.
+ * Additional parameters for the UpgradeOS operation.
  */
 public class PoolUpgradeOSOptions {
     /**
@@ -86,7 +86,7 @@ public class PoolUpgradeOSOptions {
      * @param timeout the timeout value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withTimeout(Integer timeout) {
+    public PoolUpgradeOSOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class PoolUpgradeOSOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withClientRequestId(String clientRequestId) {
+    public PoolUpgradeOSOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class PoolUpgradeOSOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolUpgradeOSOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class PoolUpgradeOSOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withOcpDate(DateTime ocpDate) {
+    public PoolUpgradeOSOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class PoolUpgradeOSOptions {
      * @param ifMatch the ifMatch value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withIfMatch(String ifMatch) {
+    public PoolUpgradeOSOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class PoolUpgradeOSOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withIfNoneMatch(String ifNoneMatch) {
+    public PoolUpgradeOSOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class PoolUpgradeOSOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public PoolUpgradeOSOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class PoolUpgradeOSOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the PoolUpgradeOSOptions object itself.
      */
-    public PoolUpgradeOSOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public PoolUpgradeOSOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

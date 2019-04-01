@@ -36,7 +36,7 @@ public class ErrorMessage {
      * @param lang the lang value to set
      * @return the ErrorMessage object itself.
      */
-    public ErrorMessage withLang(String lang) {
+    public ErrorMessage setLang(String lang) {
         this.lang = lang;
         return this;
     }
@@ -56,7 +56,7 @@ public class ErrorMessage {
      * @param value the value value to set
      * @return the ErrorMessage object itself.
      */
-    public ErrorMessage withValue(String value) {
+    public ErrorMessage setValue(String value) {
         this.value = value;
         return this;
     }

@@ -37,7 +37,7 @@ public class ExternalTable {
      * @param tableName the tableName value to set
      * @return the ExternalTable object itself.
      */
-    public ExternalTable withTableName(String tableName) {
+    public ExternalTable setTableName(String tableName) {
         this.tableName = tableName;
         return this;
     }
@@ -57,7 +57,7 @@ public class ExternalTable {
      * @param dataSource the dataSource value to set
      * @return the ExternalTable object itself.
      */
-    public ExternalTable withDataSource(EntityId dataSource) {
+    public ExternalTable setDataSource(EntityId dataSource) {
         this.dataSource = dataSource;
         return this;
     }

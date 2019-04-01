@@ -46,7 +46,7 @@ public class FeatureResultInner {
      * @param name the name value to set
      * @return the FeatureResultInner object itself.
      */
-    public FeatureResultInner withName(String name) {
+    public FeatureResultInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -66,7 +66,7 @@ public class FeatureResultInner {
      * @param properties the properties value to set
      * @return the FeatureResultInner object itself.
      */
-    public FeatureResultInner withProperties(FeatureProperties properties) {
+    public FeatureResultInner setProperties(FeatureProperties properties) {
         this.properties = properties;
         return this;
     }
@@ -86,7 +86,7 @@ public class FeatureResultInner {
      * @param id the id value to set
      * @return the FeatureResultInner object itself.
      */
-    public FeatureResultInner withId(String id) {
+    public FeatureResultInner setId(String id) {
         this.id = id;
         return this;
     }
@@ -106,7 +106,7 @@ public class FeatureResultInner {
      * @param type the type value to set
      * @return the FeatureResultInner object itself.
      */
-    public FeatureResultInner withType(String type) {
+    public FeatureResultInner setType(String type) {
         this.type = type;
         return this;
     }

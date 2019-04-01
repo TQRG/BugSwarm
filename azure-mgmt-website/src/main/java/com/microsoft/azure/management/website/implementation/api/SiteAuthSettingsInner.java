@@ -252,7 +252,7 @@ public class SiteAuthSettingsInner {
      * @param enabled the enabled value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withEnabled(Boolean enabled) {
+    public SiteAuthSettingsInner setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -272,7 +272,7 @@ public class SiteAuthSettingsInner {
      * @param httpApiPrefixPath the httpApiPrefixPath value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withHttpApiPrefixPath(String httpApiPrefixPath) {
+    public SiteAuthSettingsInner setHttpApiPrefixPath(String httpApiPrefixPath) {
         this.httpApiPrefixPath = httpApiPrefixPath;
         return this;
     }
@@ -292,7 +292,7 @@ public class SiteAuthSettingsInner {
      * @param unauthenticatedClientAction the unauthenticatedClientAction value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withUnauthenticatedClientAction(UnauthenticatedClientAction unauthenticatedClientAction) {
+    public SiteAuthSettingsInner setUnauthenticatedClientAction(UnauthenticatedClientAction unauthenticatedClientAction) {
         this.unauthenticatedClientAction = unauthenticatedClientAction;
         return this;
     }
@@ -312,7 +312,7 @@ public class SiteAuthSettingsInner {
      * @param tokenStoreEnabled the tokenStoreEnabled value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withTokenStoreEnabled(Boolean tokenStoreEnabled) {
+    public SiteAuthSettingsInner setTokenStoreEnabled(Boolean tokenStoreEnabled) {
         this.tokenStoreEnabled = tokenStoreEnabled;
         return this;
     }
@@ -332,7 +332,7 @@ public class SiteAuthSettingsInner {
      * @param allowedExternalRedirectUrls the allowedExternalRedirectUrls value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withAllowedExternalRedirectUrls(List<String> allowedExternalRedirectUrls) {
+    public SiteAuthSettingsInner setAllowedExternalRedirectUrls(List<String> allowedExternalRedirectUrls) {
         this.allowedExternalRedirectUrls = allowedExternalRedirectUrls;
         return this;
     }
@@ -352,7 +352,7 @@ public class SiteAuthSettingsInner {
      * @param defaultProvider the defaultProvider value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withDefaultProvider(BuiltInAuthenticationProvider defaultProvider) {
+    public SiteAuthSettingsInner setDefaultProvider(BuiltInAuthenticationProvider defaultProvider) {
         this.defaultProvider = defaultProvider;
         return this;
     }
@@ -372,7 +372,7 @@ public class SiteAuthSettingsInner {
      * @param tokenRefreshExtensionHours the tokenRefreshExtensionHours value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withTokenRefreshExtensionHours(Double tokenRefreshExtensionHours) {
+    public SiteAuthSettingsInner setTokenRefreshExtensionHours(Double tokenRefreshExtensionHours) {
         this.tokenRefreshExtensionHours = tokenRefreshExtensionHours;
         return this;
     }
@@ -392,7 +392,7 @@ public class SiteAuthSettingsInner {
      * @param clientId the clientId value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withClientId(String clientId) {
+    public SiteAuthSettingsInner setClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
@@ -412,7 +412,7 @@ public class SiteAuthSettingsInner {
      * @param clientSecret the clientSecret value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withClientSecret(String clientSecret) {
+    public SiteAuthSettingsInner setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
         return this;
     }
@@ -432,7 +432,7 @@ public class SiteAuthSettingsInner {
      * @param issuer the issuer value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withIssuer(String issuer) {
+    public SiteAuthSettingsInner setIssuer(String issuer) {
         this.issuer = issuer;
         return this;
     }
@@ -452,7 +452,7 @@ public class SiteAuthSettingsInner {
      * @param allowedAudiences the allowedAudiences value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withAllowedAudiences(List<String> allowedAudiences) {
+    public SiteAuthSettingsInner setAllowedAudiences(List<String> allowedAudiences) {
         this.allowedAudiences = allowedAudiences;
         return this;
     }
@@ -472,7 +472,7 @@ public class SiteAuthSettingsInner {
      * @param additionalLoginParams the additionalLoginParams value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withAdditionalLoginParams(List<String> additionalLoginParams) {
+    public SiteAuthSettingsInner setAdditionalLoginParams(List<String> additionalLoginParams) {
         this.additionalLoginParams = additionalLoginParams;
         return this;
     }
@@ -492,7 +492,7 @@ public class SiteAuthSettingsInner {
      * @param aadClientId the aadClientId value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withAadClientId(String aadClientId) {
+    public SiteAuthSettingsInner setAadClientId(String aadClientId) {
         this.aadClientId = aadClientId;
         return this;
     }
@@ -512,7 +512,7 @@ public class SiteAuthSettingsInner {
      * @param openIdIssuer the openIdIssuer value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withOpenIdIssuer(String openIdIssuer) {
+    public SiteAuthSettingsInner setOpenIdIssuer(String openIdIssuer) {
         this.openIdIssuer = openIdIssuer;
         return this;
     }
@@ -532,7 +532,7 @@ public class SiteAuthSettingsInner {
      * @param googleClientId the googleClientId value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withGoogleClientId(String googleClientId) {
+    public SiteAuthSettingsInner setGoogleClientId(String googleClientId) {
         this.googleClientId = googleClientId;
         return this;
     }
@@ -552,7 +552,7 @@ public class SiteAuthSettingsInner {
      * @param googleClientSecret the googleClientSecret value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withGoogleClientSecret(String googleClientSecret) {
+    public SiteAuthSettingsInner setGoogleClientSecret(String googleClientSecret) {
         this.googleClientSecret = googleClientSecret;
         return this;
     }
@@ -572,7 +572,7 @@ public class SiteAuthSettingsInner {
      * @param googleOAuthScopes the googleOAuthScopes value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withGoogleOAuthScopes(List<String> googleOAuthScopes) {
+    public SiteAuthSettingsInner setGoogleOAuthScopes(List<String> googleOAuthScopes) {
         this.googleOAuthScopes = googleOAuthScopes;
         return this;
     }
@@ -592,7 +592,7 @@ public class SiteAuthSettingsInner {
      * @param facebookAppId the facebookAppId value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withFacebookAppId(String facebookAppId) {
+    public SiteAuthSettingsInner setFacebookAppId(String facebookAppId) {
         this.facebookAppId = facebookAppId;
         return this;
     }
@@ -612,7 +612,7 @@ public class SiteAuthSettingsInner {
      * @param facebookAppSecret the facebookAppSecret value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withFacebookAppSecret(String facebookAppSecret) {
+    public SiteAuthSettingsInner setFacebookAppSecret(String facebookAppSecret) {
         this.facebookAppSecret = facebookAppSecret;
         return this;
     }
@@ -632,7 +632,7 @@ public class SiteAuthSettingsInner {
      * @param facebookOAuthScopes the facebookOAuthScopes value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withFacebookOAuthScopes(List<String> facebookOAuthScopes) {
+    public SiteAuthSettingsInner setFacebookOAuthScopes(List<String> facebookOAuthScopes) {
         this.facebookOAuthScopes = facebookOAuthScopes;
         return this;
     }
@@ -652,7 +652,7 @@ public class SiteAuthSettingsInner {
      * @param twitterConsumerKey the twitterConsumerKey value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withTwitterConsumerKey(String twitterConsumerKey) {
+    public SiteAuthSettingsInner setTwitterConsumerKey(String twitterConsumerKey) {
         this.twitterConsumerKey = twitterConsumerKey;
         return this;
     }
@@ -672,7 +672,7 @@ public class SiteAuthSettingsInner {
      * @param twitterConsumerSecret the twitterConsumerSecret value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withTwitterConsumerSecret(String twitterConsumerSecret) {
+    public SiteAuthSettingsInner setTwitterConsumerSecret(String twitterConsumerSecret) {
         this.twitterConsumerSecret = twitterConsumerSecret;
         return this;
     }
@@ -692,7 +692,7 @@ public class SiteAuthSettingsInner {
      * @param microsoftAccountClientId the microsoftAccountClientId value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withMicrosoftAccountClientId(String microsoftAccountClientId) {
+    public SiteAuthSettingsInner setMicrosoftAccountClientId(String microsoftAccountClientId) {
         this.microsoftAccountClientId = microsoftAccountClientId;
         return this;
     }
@@ -712,7 +712,7 @@ public class SiteAuthSettingsInner {
      * @param microsoftAccountClientSecret the microsoftAccountClientSecret value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withMicrosoftAccountClientSecret(String microsoftAccountClientSecret) {
+    public SiteAuthSettingsInner setMicrosoftAccountClientSecret(String microsoftAccountClientSecret) {
         this.microsoftAccountClientSecret = microsoftAccountClientSecret;
         return this;
     }
@@ -732,7 +732,7 @@ public class SiteAuthSettingsInner {
      * @param microsoftAccountOAuthScopes the microsoftAccountOAuthScopes value to set
      * @return the SiteAuthSettingsInner object itself.
      */
-    public SiteAuthSettingsInner withMicrosoftAccountOAuthScopes(List<String> microsoftAccountOAuthScopes) {
+    public SiteAuthSettingsInner setMicrosoftAccountOAuthScopes(List<String> microsoftAccountOAuthScopes) {
         this.microsoftAccountOAuthScopes = microsoftAccountOAuthScopes;
         return this;
     }

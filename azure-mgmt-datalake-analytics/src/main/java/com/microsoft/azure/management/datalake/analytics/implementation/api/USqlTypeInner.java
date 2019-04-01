@@ -104,7 +104,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withDatabaseName(String databaseName) {
+    public USqlTypeInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -124,7 +124,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param schemaName the schemaName value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withSchemaName(String schemaName) {
+    public USqlTypeInner setSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -144,7 +144,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withName(String name) {
+    public USqlTypeInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -164,7 +164,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param typeFamily the typeFamily value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withTypeFamily(String typeFamily) {
+    public USqlTypeInner setTypeFamily(String typeFamily) {
         this.typeFamily = typeFamily;
         return this;
     }
@@ -184,7 +184,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param cSharpName the cSharpName value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withCSharpName(String cSharpName) {
+    public USqlTypeInner setCSharpName(String cSharpName) {
         this.cSharpName = cSharpName;
         return this;
     }
@@ -204,7 +204,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param fullCSharpName the fullCSharpName value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withFullCSharpName(String fullCSharpName) {
+    public USqlTypeInner setFullCSharpName(String fullCSharpName) {
         this.fullCSharpName = fullCSharpName;
         return this;
     }
@@ -224,7 +224,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param systemTypeId the systemTypeId value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withSystemTypeId(Integer systemTypeId) {
+    public USqlTypeInner setSystemTypeId(Integer systemTypeId) {
         this.systemTypeId = systemTypeId;
         return this;
     }
@@ -244,7 +244,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param userTypeId the userTypeId value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withUserTypeId(Integer userTypeId) {
+    public USqlTypeInner setUserTypeId(Integer userTypeId) {
         this.userTypeId = userTypeId;
         return this;
     }
@@ -264,7 +264,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param schemaId the schemaId value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withSchemaId(Integer schemaId) {
+    public USqlTypeInner setSchemaId(Integer schemaId) {
         this.schemaId = schemaId;
         return this;
     }
@@ -284,7 +284,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param principalId the principalId value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withPrincipalId(Integer principalId) {
+    public USqlTypeInner setPrincipalId(Integer principalId) {
         this.principalId = principalId;
         return this;
     }
@@ -304,7 +304,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param isNullable the isNullable value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withIsNullable(Boolean isNullable) {
+    public USqlTypeInner setIsNullable(Boolean isNullable) {
         this.isNullable = isNullable;
         return this;
     }
@@ -324,7 +324,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param isUserDefined the isUserDefined value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withIsUserDefined(Boolean isUserDefined) {
+    public USqlTypeInner setIsUserDefined(Boolean isUserDefined) {
         this.isUserDefined = isUserDefined;
         return this;
     }
@@ -344,7 +344,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param isAssemblyType the isAssemblyType value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withIsAssemblyType(Boolean isAssemblyType) {
+    public USqlTypeInner setIsAssemblyType(Boolean isAssemblyType) {
         this.isAssemblyType = isAssemblyType;
         return this;
     }
@@ -364,7 +364,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param isTableType the isTableType value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withIsTableType(Boolean isTableType) {
+    public USqlTypeInner setIsTableType(Boolean isTableType) {
         this.isTableType = isTableType;
         return this;
     }
@@ -384,7 +384,7 @@ public class USqlTypeInner extends CatalogItem {
      * @param isComplexType the isComplexType value to set
      * @return the USqlTypeInner object itself.
      */
-    public USqlTypeInner withIsComplexType(Boolean isComplexType) {
+    public USqlTypeInner setIsComplexType(Boolean isComplexType) {
         this.isComplexType = isComplexType;
         return this;
     }

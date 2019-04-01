@@ -60,7 +60,7 @@ public class SiteSourceControlInner extends Resource {
      * @param repoUrl the repoUrl value to set
      * @return the SiteSourceControlInner object itself.
      */
-    public SiteSourceControlInner withRepoUrl(String repoUrl) {
+    public SiteSourceControlInner setRepoUrl(String repoUrl) {
         this.repoUrl = repoUrl;
         return this;
     }
@@ -80,7 +80,7 @@ public class SiteSourceControlInner extends Resource {
      * @param branch the branch value to set
      * @return the SiteSourceControlInner object itself.
      */
-    public SiteSourceControlInner withBranch(String branch) {
+    public SiteSourceControlInner setBranch(String branch) {
         this.branch = branch;
         return this;
     }
@@ -100,7 +100,7 @@ public class SiteSourceControlInner extends Resource {
      * @param isManualIntegration the isManualIntegration value to set
      * @return the SiteSourceControlInner object itself.
      */
-    public SiteSourceControlInner withIsManualIntegration(Boolean isManualIntegration) {
+    public SiteSourceControlInner setIsManualIntegration(Boolean isManualIntegration) {
         this.isManualIntegration = isManualIntegration;
         return this;
     }
@@ -120,7 +120,7 @@ public class SiteSourceControlInner extends Resource {
      * @param deploymentRollbackEnabled the deploymentRollbackEnabled value to set
      * @return the SiteSourceControlInner object itself.
      */
-    public SiteSourceControlInner withDeploymentRollbackEnabled(Boolean deploymentRollbackEnabled) {
+    public SiteSourceControlInner setDeploymentRollbackEnabled(Boolean deploymentRollbackEnabled) {
         this.deploymentRollbackEnabled = deploymentRollbackEnabled;
         return this;
     }
@@ -140,7 +140,7 @@ public class SiteSourceControlInner extends Resource {
      * @param isMercurial the isMercurial value to set
      * @return the SiteSourceControlInner object itself.
      */
-    public SiteSourceControlInner withIsMercurial(Boolean isMercurial) {
+    public SiteSourceControlInner setIsMercurial(Boolean isMercurial) {
         this.isMercurial = isMercurial;
         return this;
     }

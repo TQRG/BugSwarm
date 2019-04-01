@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Application_Get operation.
+ * Additional parameters for the Get operation.
  */
 public class ApplicationGetOptions {
     /**
@@ -58,7 +58,7 @@ public class ApplicationGetOptions {
      * @param timeout the timeout value to set
      * @return the ApplicationGetOptions object itself.
      */
-    public ApplicationGetOptions withTimeout(Integer timeout) {
+    public ApplicationGetOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class ApplicationGetOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the ApplicationGetOptions object itself.
      */
-    public ApplicationGetOptions withClientRequestId(String clientRequestId) {
+    public ApplicationGetOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class ApplicationGetOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the ApplicationGetOptions object itself.
      */
-    public ApplicationGetOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public ApplicationGetOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class ApplicationGetOptions {
      * @param ocpDate the ocpDate value to set
      * @return the ApplicationGetOptions object itself.
      */
-    public ApplicationGetOptions withOcpDate(DateTime ocpDate) {
+    public ApplicationGetOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

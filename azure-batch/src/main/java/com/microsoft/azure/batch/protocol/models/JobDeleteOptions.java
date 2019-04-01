@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Job_Delete operation.
+ * Additional parameters for the Delete operation.
  */
 public class JobDeleteOptions {
     /**
@@ -86,7 +86,7 @@ public class JobDeleteOptions {
      * @param timeout the timeout value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withTimeout(Integer timeout) {
+    public JobDeleteOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobDeleteOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withClientRequestId(String clientRequestId) {
+    public JobDeleteOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobDeleteOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobDeleteOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class JobDeleteOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withOcpDate(DateTime ocpDate) {
+    public JobDeleteOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class JobDeleteOptions {
      * @param ifMatch the ifMatch value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withIfMatch(String ifMatch) {
+    public JobDeleteOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class JobDeleteOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withIfNoneMatch(String ifNoneMatch) {
+    public JobDeleteOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobDeleteOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public JobDeleteOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class JobDeleteOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the JobDeleteOptions object itself.
      */
-    public JobDeleteOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public JobDeleteOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

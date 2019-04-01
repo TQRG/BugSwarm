@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the JobSchedule_List operation.
+ * Additional parameters for the List operation.
  */
 public class JobScheduleListOptions {
     /**
@@ -82,7 +82,7 @@ public class JobScheduleListOptions {
      * @param filter the filter value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withFilter(String filter) {
+    public JobScheduleListOptions setFilter(String filter) {
         this.filter = filter;
         return this;
     }
@@ -102,7 +102,7 @@ public class JobScheduleListOptions {
      * @param select the select value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withSelect(String select) {
+    public JobScheduleListOptions setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -122,7 +122,7 @@ public class JobScheduleListOptions {
      * @param expand the expand value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withExpand(String expand) {
+    public JobScheduleListOptions setExpand(String expand) {
         this.expand = expand;
         return this;
     }
@@ -142,7 +142,7 @@ public class JobScheduleListOptions {
      * @param maxResults the maxResults value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withMaxResults(Integer maxResults) {
+    public JobScheduleListOptions setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
         return this;
     }
@@ -162,7 +162,7 @@ public class JobScheduleListOptions {
      * @param timeout the timeout value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withTimeout(Integer timeout) {
+    public JobScheduleListOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -182,7 +182,7 @@ public class JobScheduleListOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withClientRequestId(String clientRequestId) {
+    public JobScheduleListOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -202,7 +202,7 @@ public class JobScheduleListOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobScheduleListOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -225,7 +225,7 @@ public class JobScheduleListOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobScheduleListOptions object itself.
      */
-    public JobScheduleListOptions withOcpDate(DateTime ocpDate) {
+    public JobScheduleListOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

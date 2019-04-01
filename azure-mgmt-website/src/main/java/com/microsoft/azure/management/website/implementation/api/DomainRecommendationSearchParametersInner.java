@@ -36,7 +36,7 @@ public class DomainRecommendationSearchParametersInner {
      * @param keywords the keywords value to set
      * @return the DomainRecommendationSearchParametersInner object itself.
      */
-    public DomainRecommendationSearchParametersInner withKeywords(String keywords) {
+    public DomainRecommendationSearchParametersInner setKeywords(String keywords) {
         this.keywords = keywords;
         return this;
     }
@@ -56,7 +56,7 @@ public class DomainRecommendationSearchParametersInner {
      * @param maxDomainRecommendations the maxDomainRecommendations value to set
      * @return the DomainRecommendationSearchParametersInner object itself.
      */
-    public DomainRecommendationSearchParametersInner withMaxDomainRecommendations(Integer maxDomainRecommendations) {
+    public DomainRecommendationSearchParametersInner setMaxDomainRecommendations(Integer maxDomainRecommendations) {
         this.maxDomainRecommendations = maxDomainRecommendations;
         return this;
     }

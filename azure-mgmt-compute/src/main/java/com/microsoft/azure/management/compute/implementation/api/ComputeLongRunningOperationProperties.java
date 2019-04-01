@@ -31,7 +31,7 @@ public class ComputeLongRunningOperationProperties {
      * @param output the output value to set
      * @return the ComputeLongRunningOperationProperties object itself.
      */
-    public ComputeLongRunningOperationProperties withOutput(Object output) {
+    public ComputeLongRunningOperationProperties setOutput(Object output) {
         this.output = output;
         return this;
     }

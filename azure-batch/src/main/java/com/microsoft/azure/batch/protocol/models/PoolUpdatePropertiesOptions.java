@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_UpdateProperties operation.
+ * Additional parameters for the UpdateProperties operation.
  */
 public class PoolUpdatePropertiesOptions {
     /**
@@ -58,7 +58,7 @@ public class PoolUpdatePropertiesOptions {
      * @param timeout the timeout value to set
      * @return the PoolUpdatePropertiesOptions object itself.
      */
-    public PoolUpdatePropertiesOptions withTimeout(Integer timeout) {
+    public PoolUpdatePropertiesOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class PoolUpdatePropertiesOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolUpdatePropertiesOptions object itself.
      */
-    public PoolUpdatePropertiesOptions withClientRequestId(String clientRequestId) {
+    public PoolUpdatePropertiesOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class PoolUpdatePropertiesOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolUpdatePropertiesOptions object itself.
      */
-    public PoolUpdatePropertiesOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolUpdatePropertiesOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class PoolUpdatePropertiesOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolUpdatePropertiesOptions object itself.
      */
-    public PoolUpdatePropertiesOptions withOcpDate(DateTime ocpDate) {
+    public PoolUpdatePropertiesOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

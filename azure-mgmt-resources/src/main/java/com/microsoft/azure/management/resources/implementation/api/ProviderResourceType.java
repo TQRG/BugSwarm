@@ -49,7 +49,7 @@ public class ProviderResourceType {
      * @param resourceType the resourceType value to set
      * @return the ProviderResourceType object itself.
      */
-    public ProviderResourceType withResourceType(String resourceType) {
+    public ProviderResourceType setResourceType(String resourceType) {
         this.resourceType = resourceType;
         return this;
     }
@@ -69,7 +69,7 @@ public class ProviderResourceType {
      * @param locations the locations value to set
      * @return the ProviderResourceType object itself.
      */
-    public ProviderResourceType withLocations(List<String> locations) {
+    public ProviderResourceType setLocations(List<String> locations) {
         this.locations = locations;
         return this;
     }
@@ -89,7 +89,7 @@ public class ProviderResourceType {
      * @param apiVersions the apiVersions value to set
      * @return the ProviderResourceType object itself.
      */
-    public ProviderResourceType withApiVersions(List<String> apiVersions) {
+    public ProviderResourceType setApiVersions(List<String> apiVersions) {
         this.apiVersions = apiVersions;
         return this;
     }
@@ -109,7 +109,7 @@ public class ProviderResourceType {
      * @param properties the properties value to set
      * @return the ProviderResourceType object itself.
      */
-    public ProviderResourceType withProperties(Map<String, String> properties) {
+    public ProviderResourceType setProperties(Map<String, String> properties) {
         this.properties = properties;
         return this;
     }

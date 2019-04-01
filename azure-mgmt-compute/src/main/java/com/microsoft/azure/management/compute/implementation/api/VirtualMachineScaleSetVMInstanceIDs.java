@@ -32,7 +32,7 @@ public class VirtualMachineScaleSetVMInstanceIDs {
      * @param instanceIds the instanceIds value to set
      * @return the VirtualMachineScaleSetVMInstanceIDs object itself.
      */
-    public VirtualMachineScaleSetVMInstanceIDs withInstanceIds(List<String> instanceIds) {
+    public VirtualMachineScaleSetVMInstanceIDs setInstanceIds(List<String> instanceIds) {
         this.instanceIds = instanceIds;
         return this;
     }

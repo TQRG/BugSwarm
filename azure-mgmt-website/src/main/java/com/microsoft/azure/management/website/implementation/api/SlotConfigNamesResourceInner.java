@@ -43,7 +43,7 @@ public class SlotConfigNamesResourceInner extends Resource {
      * @param connectionStringNames the connectionStringNames value to set
      * @return the SlotConfigNamesResourceInner object itself.
      */
-    public SlotConfigNamesResourceInner withConnectionStringNames(List<String> connectionStringNames) {
+    public SlotConfigNamesResourceInner setConnectionStringNames(List<String> connectionStringNames) {
         this.connectionStringNames = connectionStringNames;
         return this;
     }
@@ -63,7 +63,7 @@ public class SlotConfigNamesResourceInner extends Resource {
      * @param appSettingNames the appSettingNames value to set
      * @return the SlotConfigNamesResourceInner object itself.
      */
-    public SlotConfigNamesResourceInner withAppSettingNames(List<String> appSettingNames) {
+    public SlotConfigNamesResourceInner setAppSettingNames(List<String> appSettingNames) {
         this.appSettingNames = appSettingNames;
         return this;
     }

@@ -37,7 +37,7 @@ public class ResourceMetricCollectionInner {
      * @param value the value value to set
      * @return the ResourceMetricCollectionInner object itself.
      */
-    public ResourceMetricCollectionInner withValue(List<ResourceMetric> value) {
+    public ResourceMetricCollectionInner setValue(List<ResourceMetric> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class ResourceMetricCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the ResourceMetricCollectionInner object itself.
      */
-    public ResourceMetricCollectionInner withNextLink(String nextLink) {
+    public ResourceMetricCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

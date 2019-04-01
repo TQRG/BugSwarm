@@ -86,7 +86,7 @@ public class JobSpecification {
      * @param priority the priority value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withPriority(Integer priority) {
+    public JobSpecification setPriority(Integer priority) {
         this.priority = priority;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobSpecification {
      * @param displayName the displayName value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withDisplayName(String displayName) {
+    public JobSpecification setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobSpecification {
      * @param usesTaskDependencies the usesTaskDependencies value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withUsesTaskDependencies(Boolean usesTaskDependencies) {
+    public JobSpecification setUsesTaskDependencies(Boolean usesTaskDependencies) {
         this.usesTaskDependencies = usesTaskDependencies;
         return this;
     }
@@ -146,7 +146,7 @@ public class JobSpecification {
      * @param constraints the constraints value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withConstraints(JobConstraints constraints) {
+    public JobSpecification setConstraints(JobConstraints constraints) {
         this.constraints = constraints;
         return this;
     }
@@ -166,7 +166,7 @@ public class JobSpecification {
      * @param jobManagerTask the jobManagerTask value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withJobManagerTask(JobManagerTask jobManagerTask) {
+    public JobSpecification setJobManagerTask(JobManagerTask jobManagerTask) {
         this.jobManagerTask = jobManagerTask;
         return this;
     }
@@ -186,7 +186,7 @@ public class JobSpecification {
      * @param jobPreparationTask the jobPreparationTask value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withJobPreparationTask(JobPreparationTask jobPreparationTask) {
+    public JobSpecification setJobPreparationTask(JobPreparationTask jobPreparationTask) {
         this.jobPreparationTask = jobPreparationTask;
         return this;
     }
@@ -206,7 +206,7 @@ public class JobSpecification {
      * @param jobReleaseTask the jobReleaseTask value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withJobReleaseTask(JobReleaseTask jobReleaseTask) {
+    public JobSpecification setJobReleaseTask(JobReleaseTask jobReleaseTask) {
         this.jobReleaseTask = jobReleaseTask;
         return this;
     }
@@ -226,7 +226,7 @@ public class JobSpecification {
      * @param commonEnvironmentSettings the commonEnvironmentSettings value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withCommonEnvironmentSettings(List<EnvironmentSetting> commonEnvironmentSettings) {
+    public JobSpecification setCommonEnvironmentSettings(List<EnvironmentSetting> commonEnvironmentSettings) {
         this.commonEnvironmentSettings = commonEnvironmentSettings;
         return this;
     }
@@ -246,7 +246,7 @@ public class JobSpecification {
      * @param poolInfo the poolInfo value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withPoolInfo(PoolInformation poolInfo) {
+    public JobSpecification setPoolInfo(PoolInformation poolInfo) {
         this.poolInfo = poolInfo;
         return this;
     }
@@ -266,7 +266,7 @@ public class JobSpecification {
      * @param metadata the metadata value to set
      * @return the JobSpecification object itself.
      */
-    public JobSpecification withMetadata(List<MetadataItem> metadata) {
+    public JobSpecification setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

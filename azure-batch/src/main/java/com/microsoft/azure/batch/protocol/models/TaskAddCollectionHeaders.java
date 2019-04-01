@@ -40,7 +40,7 @@ public class TaskAddCollectionHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the TaskAddCollectionHeaders object itself.
      */
-    public TaskAddCollectionHeaders withClientRequestId(String clientRequestId) {
+    public TaskAddCollectionHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -60,7 +60,7 @@ public class TaskAddCollectionHeaders {
      * @param requestId the requestId value to set
      * @return the TaskAddCollectionHeaders object itself.
      */
-    public TaskAddCollectionHeaders withRequestId(String requestId) {
+    public TaskAddCollectionHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }

@@ -9,6 +9,7 @@ package com.microsoft.azure.management.datalake.store.implementation.api;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceResponseBuilder;
+import com.microsoft.azure.CloudException;
 import com.microsoft.rest.serializer.CollectionFormat;
 import com.microsoft.rest.ServiceCall;
 import com.microsoft.rest.ServiceCallback;
@@ -118,6 +119,10 @@ public final class FileSystemsInner {
         Call<ResponseBody> removeAclEntries(@Path("removeAclFilePath") String removeAclFilePath, @Query("aclspec") String aclspec, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers("Content-Type: application/json; charset=utf-8")
+        @PUT("webhdfs/v1/{aclFilePath}")
+        Call<ResponseBody> removeAcl(@Path("aclFilePath") String aclFilePath, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers("Content-Type: application/json; charset=utf-8")
         @GET("webhdfs/v1/{aclFilePath}")
         Call<ResponseBody> getAclStatus(@Path("aclFilePath") String aclFilePath, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
@@ -145,12 +150,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param filePath The Data Lake Store path (starting with '/') of the file to which to append using concurrent append.
      * @param streamContents The file contents to include when appending to the file.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> concurrentAppend(String accountName, String filePath, byte[] streamContents) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> concurrentAppend(String accountName, String filePath, byte[] streamContents) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -221,7 +226,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(concurrentAppendDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -236,12 +241,12 @@ public final class FileSystemsInner {
      * @param filePath The Data Lake Store path (starting with '/') of the file to which to append using concurrent append.
      * @param streamContents The file contents to include when appending to the file.
      * @param appendMode Indicates the concurrent append call should create the file if it doesn't exist or just open the existing file for append. Possible values include: 'autocreate'
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> concurrentAppend(String accountName, String filePath, byte[] streamContents, AppendModeType appendMode) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> concurrentAppend(String accountName, String filePath, byte[] streamContents, AppendModeType appendMode) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -311,7 +316,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(concurrentAppendDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -319,10 +324,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> concurrentAppendDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> concurrentAppendDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -331,12 +335,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param path The Data Lake Store path (starting with '/') of the file or directory for which to check access.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> checkAccess(String accountName, String path) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> checkAccess(String accountName, String path) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -395,7 +399,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(checkAccessDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -409,12 +413,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param path The Data Lake Store path (starting with '/') of the file or directory for which to check access.
      * @param fsaction File system operation read/write/execute in string form, matching regex pattern '[rwx-]{3}'
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> checkAccess(String accountName, String path, String fsaction) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> checkAccess(String accountName, String path, String fsaction) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -472,7 +476,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(checkAccessDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -480,10 +484,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> checkAccessDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> checkAccessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -492,12 +495,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param path The Data Lake Store path (starting with '/') of the directory to create.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileOperationResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileOperationResultInner> mkdirs(String accountName, String path) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileOperationResultInner> mkdirs(String accountName, String path) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -554,7 +557,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(mkdirsDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -562,10 +565,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<FileOperationResultInner> mkdirsDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<FileOperationResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<FileOperationResultInner> mkdirsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<FileOperationResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<FileOperationResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -575,12 +578,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param destinationPath The Data Lake Store path (starting with '/') of the destination file resulting from the concatenation.
      * @param sources A list of comma seperated Data Lake Store paths (starting with '/') of the files to concatenate, in the order in which they should be concatenated.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> concat(String accountName, String destinationPath, List<String> sources) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> concat(String accountName, String destinationPath, List<String> sources) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -649,7 +652,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(concatDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -657,10 +660,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> concatDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> concatDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -670,12 +672,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param msConcatDestinationPath The Data Lake Store path (starting with '/') of the destination file resulting from the concatenation.
      * @param streamContents A list of Data Lake Store paths (starting with '/') of the source files. Must be in the format: sources=&lt;comma separated list&gt;
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> msConcat(String accountName, String msConcatDestinationPath, byte[] streamContents) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> msConcat(String accountName, String msConcatDestinationPath, byte[] streamContents) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -744,7 +746,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(msConcatDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -759,12 +761,12 @@ public final class FileSystemsInner {
      * @param msConcatDestinationPath The Data Lake Store path (starting with '/') of the destination file resulting from the concatenation.
      * @param streamContents A list of Data Lake Store paths (starting with '/') of the source files. Must be in the format: sources=&lt;comma separated list&gt;
      * @param deleteSourceDirectory Indicates that as an optimization instead of deleting each individual source stream, delete the source stream folder if all streams are in the same folder instead. This results in a substantial performance improvement when the only streams in the folder are part of the concatenation operation. WARNING: This includes the deletion of any other files that are not source files. Only set this to true when source files are the only files in the source directory.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> msConcat(String accountName, String msConcatDestinationPath, byte[] streamContents, Boolean deleteSourceDirectory) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> msConcat(String accountName, String msConcatDestinationPath, byte[] streamContents, Boolean deleteSourceDirectory) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -832,7 +834,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(msConcatDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -840,10 +842,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> msConcatDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> msConcatDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -852,12 +853,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param listFilePath The Data Lake Store path (starting with '/') of the directory to list.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileStatusesResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileStatusesResultInner> listFileStatus(String accountName, String listFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileStatusesResultInner> listFileStatus(String accountName, String listFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -920,7 +921,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(listFileStatusDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -936,12 +937,12 @@ public final class FileSystemsInner {
      * @param listSize Gets or sets the number of items to return. Optional.
      * @param listAfter Gets or sets the item or lexographical index after which to begin returning results. For example, a file list of 'a','b','d' and listAfter='b' will return 'd', and a listAfter='c' will also return 'd'. Optional.
      * @param listBefore Gets or sets the item or lexographical index before which to begin returning results. For example, a file list of 'a','b','d' and listBefore='d' will return 'a','b', and a listBefore='c' will also return 'a','b'. Optional.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileStatusesResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileStatusesResultInner> listFileStatus(String accountName, String listFilePath, Integer listSize, String listAfter, String listBefore) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileStatusesResultInner> listFileStatus(String accountName, String listFilePath, Integer listSize, String listAfter, String listBefore) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1001,7 +1002,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(listFileStatusDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1009,10 +1010,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<FileStatusesResultInner> listFileStatusDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<FileStatusesResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<FileStatusesResultInner> listFileStatusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<FileStatusesResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<FileStatusesResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1021,12 +1022,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param getContentSummaryFilePath The Data Lake Store path (starting with '/') of the file for which to retrieve the summary.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the ContentSummaryResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<ContentSummaryResultInner> getContentSummary(String accountName, String getContentSummaryFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<ContentSummaryResultInner> getContentSummary(String accountName, String getContentSummaryFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1083,7 +1084,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(getContentSummaryDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1091,10 +1092,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<ContentSummaryResultInner> getContentSummaryDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<ContentSummaryResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<ContentSummaryResultInner> getContentSummaryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<ContentSummaryResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<ContentSummaryResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1103,12 +1104,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param getFilePath The Data Lake Store path (starting with '/') of the file or directory for which to retrieve the status.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileStatusResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileStatusResultInner> getFileStatus(String accountName, String getFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileStatusResultInner> getFileStatus(String accountName, String getFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1165,7 +1166,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(getFileStatusDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1173,10 +1174,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<FileStatusResultInner> getFileStatusDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<FileStatusResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<FileStatusResultInner> getFileStatusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<FileStatusResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<FileStatusResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1186,12 +1187,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param directFilePath The Data Lake Store path (starting with '/') of the file to which to append.
      * @param streamContents The file contents to include when appending to the file.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> append(String accountName, String directFilePath, byte[] streamContents) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> append(String accountName, String directFilePath, byte[] streamContents) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1262,7 +1263,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(appendDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1270,10 +1271,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> appendDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> appendDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -1282,12 +1282,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param directFilePath The Data Lake Store path (starting with '/') of the file to create.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> create(String accountName, String directFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> create(String accountName, String directFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1352,7 +1352,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(createDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1367,12 +1367,12 @@ public final class FileSystemsInner {
      * @param directFilePath The Data Lake Store path (starting with '/') of the file to create.
      * @param streamContents The file contents to include when creating the file. This parameter is optional, resulting in an empty file if not specified.
      * @param overwrite The indication of if the file should be overwritten.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> create(String accountName, String directFilePath, byte[] streamContents, Boolean overwrite) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> create(String accountName, String directFilePath, byte[] streamContents, Boolean overwrite) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1443,7 +1443,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(createDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1451,10 +1451,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> createDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(201, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -1463,12 +1462,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param directFilePath The Data Lake Store path (starting with '/') of the file to open.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the InputStream object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<InputStream> open(String accountName, String directFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<InputStream> open(String accountName, String directFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1531,7 +1530,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(openDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1546,12 +1545,12 @@ public final class FileSystemsInner {
      * @param directFilePath The Data Lake Store path (starting with '/') of the file to open.
      * @param length the Long value
      * @param offset the Long value
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the InputStream object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<InputStream> open(String accountName, String directFilePath, Long length, Long offset) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<InputStream> open(String accountName, String directFilePath, Long length, Long offset) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1612,7 +1611,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(openDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1620,10 +1619,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<InputStream> openDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<InputStream, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<InputStream> openDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<InputStream, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<InputStream>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1633,12 +1632,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param setAclFilePath The Data Lake Store path (starting with '/') of the file or directory on which to set the ACL.
      * @param aclspec The ACL spec included in ACL creation operations in the format '[default:]user|group|other::r|-w|-x|-'
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> setAcl(String accountName, String setAclFilePath, String aclspec) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> setAcl(String accountName, String setAclFilePath, String aclspec) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1703,7 +1702,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(setAclDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1711,10 +1710,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> setAclDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> setAclDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -1724,12 +1722,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param modifyAclFilePath The Data Lake Store path (starting with '/') of the file or directory with the ACL being modified.
      * @param aclspec The ACL specification included in ACL modification operations in the format '[default:]user|group|other::r|-w|-x|-'
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> modifyAclEntries(String accountName, String modifyAclFilePath, String aclspec) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> modifyAclEntries(String accountName, String modifyAclFilePath, String aclspec) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1794,7 +1792,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(modifyAclEntriesDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1802,10 +1800,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> modifyAclEntriesDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> modifyAclEntriesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -1815,12 +1812,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param removeAclFilePath The Data Lake Store path (starting with '/') of the file or directory with the ACL being removed.
      * @param aclspec The ACL spec included in ACL removal operations in the format '[default:]user|group|other'
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> removeAclEntries(String accountName, String removeAclFilePath, String aclspec) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> removeAclEntries(String accountName, String removeAclFilePath, String aclspec) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1885,7 +1882,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(removeAclEntriesDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1893,10 +1890,90 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> removeAclEntriesDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> removeAclEntriesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Removes the existing Access Control List (ACL) of the specified file or directory.
+     *
+     * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
+     * @param aclFilePath The Data Lake Store path (starting with '/') of the file or directory with the ACL being removed.
+     * @throws CloudException exception thrown from REST call
+     * @throws IOException exception thrown from serialization/deserialization
+     * @throws IllegalArgumentException exception thrown from invalid parameters
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public ServiceResponse<Void> removeAcl(String accountName, String aclFilePath) throws CloudException, IOException, IllegalArgumentException {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlsFileSystemDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlsFileSystemDnsSuffix() is required and cannot be null.");
+        }
+        if (aclFilePath == null) {
+            throw new IllegalArgumentException("Parameter aclFilePath is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String op = "REMOVEACL";
+        this.client.restClient().setBaseUrl("{accountName}", accountName, "{adlsFileSystemDnsSuffix}", this.client.adlsFileSystemDnsSuffix());
+        Call<ResponseBody> call = service.removeAcl(aclFilePath, op, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return removeAclDelegate(call.execute());
+    }
+
+    /**
+     * Removes the existing Access Control List (ACL) of the specified file or directory.
+     *
+     * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
+     * @param aclFilePath The Data Lake Store path (starting with '/') of the file or directory with the ACL being removed.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if callback is null
+     * @return the {@link Call} object
+     */
+    public ServiceCall removeAclAsync(String accountName, String aclFilePath, final ServiceCallback<Void> serviceCallback) throws IllegalArgumentException {
+        if (serviceCallback == null) {
+            throw new IllegalArgumentException("ServiceCallback is required for async calls.");
+        }
+        if (accountName == null) {
+            serviceCallback.failure(new IllegalArgumentException("Parameter accountName is required and cannot be null."));
+            return null;
+        }
+        if (this.client.adlsFileSystemDnsSuffix() == null) {
+            serviceCallback.failure(new IllegalArgumentException("Parameter this.client.adlsFileSystemDnsSuffix() is required and cannot be null."));
+            return null;
+        }
+        if (aclFilePath == null) {
+            serviceCallback.failure(new IllegalArgumentException("Parameter aclFilePath is required and cannot be null."));
+            return null;
+        }
+        if (this.client.apiVersion() == null) {
+            serviceCallback.failure(new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null."));
+            return null;
+        }
+        final String op = "REMOVEACL";
+        this.client.restClient().setBaseUrl("{accountName}", accountName, "{adlsFileSystemDnsSuffix}", this.client.adlsFileSystemDnsSuffix());
+        Call<ResponseBody> call = service.removeAcl(aclFilePath, op, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        final ServiceCall serviceCall = new ServiceCall(call);
+        call.enqueue(new ServiceResponseCallback<Void>(serviceCallback) {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    serviceCallback.success(removeAclDelegate(response));
+                } catch (CloudException | IOException exception) {
+                    serviceCallback.failure(exception);
+                }
+            }
+        });
+        return serviceCall;
+    }
+
+    private ServiceResponse<Void> removeAclDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .build(response);
     }
 
@@ -1905,12 +1982,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param aclFilePath The Data Lake Store path (starting with '/') of the file or directory for which to get the ACL.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the AclStatusResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<AclStatusResultInner> getAclStatus(String accountName, String aclFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<AclStatusResultInner> getAclStatus(String accountName, String aclFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -1967,7 +2044,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(getAclStatusDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -1975,10 +2052,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<AclStatusResultInner> getAclStatusDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<AclStatusResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<AclStatusResultInner> getAclStatusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<AclStatusResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<AclStatusResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1987,12 +2064,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param filePath The Data Lake Store path (starting with '/') of the file or directory to delete.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileOperationResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileOperationResultInner> delete(String accountName, String filePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileOperationResultInner> delete(String accountName, String filePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2051,7 +2128,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(deleteDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2065,12 +2142,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param filePath The Data Lake Store path (starting with '/') of the file or directory to delete.
      * @param recursive The optional switch indicating if the delete should be recursive
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileOperationResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileOperationResultInner> delete(String accountName, String filePath, Boolean recursive) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileOperationResultInner> delete(String accountName, String filePath, Boolean recursive) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2128,7 +2205,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(deleteDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2136,10 +2213,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<FileOperationResultInner> deleteDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<FileOperationResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<FileOperationResultInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<FileOperationResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<FileOperationResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -2149,12 +2226,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param renameFilePath The Data Lake Store path (starting with '/') of the file or directory to move/rename.
      * @param destination The path to move/rename the file or folder to
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the FileOperationResultInner object wrapped in {@link ServiceResponse} if successful.
      */
-    public ServiceResponse<FileOperationResultInner> rename(String accountName, String renameFilePath, String destination) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<FileOperationResultInner> rename(String accountName, String renameFilePath, String destination) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2219,7 +2296,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(renameDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2227,10 +2304,10 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<FileOperationResultInner> renameDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<FileOperationResultInner, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<FileOperationResultInner> renameDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<FileOperationResultInner, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<FileOperationResultInner>() { }.getType())
-                .registerError(AdlsErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -2239,12 +2316,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param setOwnerFilePath The Data Lake Store path (starting with '/') of the file or directory for which to set the owner.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> setOwner(String accountName, String setOwnerFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> setOwner(String accountName, String setOwnerFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2305,7 +2382,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(setOwnerDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2320,12 +2397,12 @@ public final class FileSystemsInner {
      * @param setOwnerFilePath The Data Lake Store path (starting with '/') of the file or directory for which to set the owner.
      * @param owner The AAD Object ID of the user owner of the file or directory. If empty, the property will remain unchanged.
      * @param group The AAD Object ID of the group owner of the file or directory. If empty, the property will remain unchanged.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> setOwner(String accountName, String setOwnerFilePath, String owner, String group) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> setOwner(String accountName, String setOwnerFilePath, String owner, String group) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2384,7 +2461,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(setOwnerDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2392,10 +2469,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> setOwnerDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> setOwnerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 
@@ -2404,12 +2480,12 @@ public final class FileSystemsInner {
      *
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param setPermissionFilePath The Data Lake Store path (starting with '/') of the file or directory for which to set the permission.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> setPermission(String accountName, String setPermissionFilePath) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> setPermission(String accountName, String setPermissionFilePath) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2468,7 +2544,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(setPermissionDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2482,12 +2558,12 @@ public final class FileSystemsInner {
      * @param accountName The Azure Data Lake Store account to execute filesystem operations on.
      * @param setPermissionFilePath The Data Lake Store path (starting with '/') of the file or directory for which to set the permission.
      * @param permission A string representation of the permission (i.e 'rwx'). If empty, this property remains unchanged.
-     * @throws AdlsErrorException exception thrown from REST call
+     * @throws CloudException exception thrown from REST call
      * @throws IOException exception thrown from serialization/deserialization
      * @throws IllegalArgumentException exception thrown from invalid parameters
      * @return the {@link ServiceResponse} object if successful.
      */
-    public ServiceResponse<Void> setPermission(String accountName, String setPermissionFilePath, String permission) throws AdlsErrorException, IOException, IllegalArgumentException {
+    public ServiceResponse<Void> setPermission(String accountName, String setPermissionFilePath, String permission) throws CloudException, IOException, IllegalArgumentException {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -2545,7 +2621,7 @@ public final class FileSystemsInner {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     serviceCallback.success(setPermissionDelegate(response));
-                } catch (AdlsErrorException | IOException exception) {
+                } catch (CloudException | IOException exception) {
                     serviceCallback.failure(exception);
                 }
             }
@@ -2553,10 +2629,9 @@ public final class FileSystemsInner {
         return serviceCall;
     }
 
-    private ServiceResponse<Void> setPermissionDelegate(Response<ResponseBody> response) throws AdlsErrorException, IOException, IllegalArgumentException {
-        return new AzureServiceResponseBuilder<Void, AdlsErrorException>(this.client.restClient().mapperAdapter())
+    private ServiceResponse<Void> setPermissionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return new AzureServiceResponseBuilder<Void, CloudException>(this.client.restClient().mapperAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(AdlsErrorException.class)
                 .build(response);
     }
 

@@ -54,7 +54,7 @@ public class VpnClientRootCertificate extends SubResource {
      * @param publicCertData the publicCertData value to set
      * @return the VpnClientRootCertificate object itself.
      */
-    public VpnClientRootCertificate withPublicCertData(String publicCertData) {
+    public VpnClientRootCertificate setPublicCertData(String publicCertData) {
         this.publicCertData = publicCertData;
         return this;
     }
@@ -74,7 +74,7 @@ public class VpnClientRootCertificate extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the VpnClientRootCertificate object itself.
      */
-    public VpnClientRootCertificate withProvisioningState(String provisioningState) {
+    public VpnClientRootCertificate setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -94,7 +94,7 @@ public class VpnClientRootCertificate extends SubResource {
      * @param name the name value to set
      * @return the VpnClientRootCertificate object itself.
      */
-    public VpnClientRootCertificate withName(String name) {
+    public VpnClientRootCertificate setName(String name) {
         this.name = name;
         return this;
     }
@@ -114,7 +114,7 @@ public class VpnClientRootCertificate extends SubResource {
      * @param etag the etag value to set
      * @return the VpnClientRootCertificate object itself.
      */
-    public VpnClientRootCertificate withEtag(String etag) {
+    public VpnClientRootCertificate setEtag(String etag) {
         this.etag = etag;
         return this;
     }

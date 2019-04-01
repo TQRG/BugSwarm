@@ -36,7 +36,7 @@ public class SubscriptionPolicies {
      * @param locationPlacementId the locationPlacementId value to set
      * @return the SubscriptionPolicies object itself.
      */
-    public SubscriptionPolicies withLocationPlacementId(String locationPlacementId) {
+    public SubscriptionPolicies setLocationPlacementId(String locationPlacementId) {
         this.locationPlacementId = locationPlacementId;
         return this;
     }
@@ -56,7 +56,7 @@ public class SubscriptionPolicies {
      * @param quotaId the quotaId value to set
      * @return the SubscriptionPolicies object itself.
      */
-    public SubscriptionPolicies withQuotaId(String quotaId) {
+    public SubscriptionPolicies setQuotaId(String quotaId) {
         this.quotaId = quotaId;
         return this;
     }

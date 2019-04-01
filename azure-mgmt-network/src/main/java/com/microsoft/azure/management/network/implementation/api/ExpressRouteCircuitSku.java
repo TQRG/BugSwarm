@@ -43,7 +43,7 @@ public class ExpressRouteCircuitSku {
      * @param name the name value to set
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku withName(String name) {
+    public ExpressRouteCircuitSku setName(String name) {
         this.name = name;
         return this;
     }
@@ -63,7 +63,7 @@ public class ExpressRouteCircuitSku {
      * @param tier the tier value to set
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku withTier(String tier) {
+    public ExpressRouteCircuitSku setTier(String tier) {
         this.tier = tier;
         return this;
     }
@@ -83,7 +83,7 @@ public class ExpressRouteCircuitSku {
      * @param family the family value to set
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku withFamily(String family) {
+    public ExpressRouteCircuitSku setFamily(String family) {
         this.family = family;
         return this;
     }

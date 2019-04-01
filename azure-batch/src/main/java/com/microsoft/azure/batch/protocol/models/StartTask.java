@@ -62,7 +62,7 @@ public class StartTask {
      * @param commandLine the commandLine value to set
      * @return the StartTask object itself.
      */
-    public StartTask withCommandLine(String commandLine) {
+    public StartTask setCommandLine(String commandLine) {
         this.commandLine = commandLine;
         return this;
     }
@@ -82,7 +82,7 @@ public class StartTask {
      * @param resourceFiles the resourceFiles value to set
      * @return the StartTask object itself.
      */
-    public StartTask withResourceFiles(List<ResourceFile> resourceFiles) {
+    public StartTask setResourceFiles(List<ResourceFile> resourceFiles) {
         this.resourceFiles = resourceFiles;
         return this;
     }
@@ -102,7 +102,7 @@ public class StartTask {
      * @param environmentSettings the environmentSettings value to set
      * @return the StartTask object itself.
      */
-    public StartTask withEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
+    public StartTask setEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
         this.environmentSettings = environmentSettings;
         return this;
     }
@@ -122,7 +122,7 @@ public class StartTask {
      * @param runElevated the runElevated value to set
      * @return the StartTask object itself.
      */
-    public StartTask withRunElevated(Boolean runElevated) {
+    public StartTask setRunElevated(Boolean runElevated) {
         this.runElevated = runElevated;
         return this;
     }
@@ -142,7 +142,7 @@ public class StartTask {
      * @param maxTaskRetryCount the maxTaskRetryCount value to set
      * @return the StartTask object itself.
      */
-    public StartTask withMaxTaskRetryCount(Integer maxTaskRetryCount) {
+    public StartTask setMaxTaskRetryCount(Integer maxTaskRetryCount) {
         this.maxTaskRetryCount = maxTaskRetryCount;
         return this;
     }
@@ -162,7 +162,7 @@ public class StartTask {
      * @param waitForSuccess the waitForSuccess value to set
      * @return the StartTask object itself.
      */
-    public StartTask withWaitForSuccess(Boolean waitForSuccess) {
+    public StartTask setWaitForSuccess(Boolean waitForSuccess) {
         this.waitForSuccess = waitForSuccess;
         return this;
     }

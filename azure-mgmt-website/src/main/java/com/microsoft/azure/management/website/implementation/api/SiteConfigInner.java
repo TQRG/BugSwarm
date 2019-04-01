@@ -274,7 +274,7 @@ public class SiteConfigInner extends Resource {
      * @param numberOfWorkers the numberOfWorkers value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withNumberOfWorkers(Integer numberOfWorkers) {
+    public SiteConfigInner setNumberOfWorkers(Integer numberOfWorkers) {
         this.numberOfWorkers = numberOfWorkers;
         return this;
     }
@@ -294,7 +294,7 @@ public class SiteConfigInner extends Resource {
      * @param defaultDocuments the defaultDocuments value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withDefaultDocuments(List<String> defaultDocuments) {
+    public SiteConfigInner setDefaultDocuments(List<String> defaultDocuments) {
         this.defaultDocuments = defaultDocuments;
         return this;
     }
@@ -314,7 +314,7 @@ public class SiteConfigInner extends Resource {
      * @param netFrameworkVersion the netFrameworkVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withNetFrameworkVersion(String netFrameworkVersion) {
+    public SiteConfigInner setNetFrameworkVersion(String netFrameworkVersion) {
         this.netFrameworkVersion = netFrameworkVersion;
         return this;
     }
@@ -334,7 +334,7 @@ public class SiteConfigInner extends Resource {
      * @param phpVersion the phpVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withPhpVersion(String phpVersion) {
+    public SiteConfigInner setPhpVersion(String phpVersion) {
         this.phpVersion = phpVersion;
         return this;
     }
@@ -354,7 +354,7 @@ public class SiteConfigInner extends Resource {
      * @param pythonVersion the pythonVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withPythonVersion(String pythonVersion) {
+    public SiteConfigInner setPythonVersion(String pythonVersion) {
         this.pythonVersion = pythonVersion;
         return this;
     }
@@ -374,7 +374,7 @@ public class SiteConfigInner extends Resource {
      * @param requestTracingEnabled the requestTracingEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withRequestTracingEnabled(Boolean requestTracingEnabled) {
+    public SiteConfigInner setRequestTracingEnabled(Boolean requestTracingEnabled) {
         this.requestTracingEnabled = requestTracingEnabled;
         return this;
     }
@@ -394,7 +394,7 @@ public class SiteConfigInner extends Resource {
      * @param requestTracingExpirationTime the requestTracingExpirationTime value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withRequestTracingExpirationTime(DateTime requestTracingExpirationTime) {
+    public SiteConfigInner setRequestTracingExpirationTime(DateTime requestTracingExpirationTime) {
         this.requestTracingExpirationTime = requestTracingExpirationTime;
         return this;
     }
@@ -414,7 +414,7 @@ public class SiteConfigInner extends Resource {
      * @param remoteDebuggingEnabled the remoteDebuggingEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withRemoteDebuggingEnabled(Boolean remoteDebuggingEnabled) {
+    public SiteConfigInner setRemoteDebuggingEnabled(Boolean remoteDebuggingEnabled) {
         this.remoteDebuggingEnabled = remoteDebuggingEnabled;
         return this;
     }
@@ -434,7 +434,7 @@ public class SiteConfigInner extends Resource {
      * @param remoteDebuggingVersion the remoteDebuggingVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withRemoteDebuggingVersion(String remoteDebuggingVersion) {
+    public SiteConfigInner setRemoteDebuggingVersion(String remoteDebuggingVersion) {
         this.remoteDebuggingVersion = remoteDebuggingVersion;
         return this;
     }
@@ -454,7 +454,7 @@ public class SiteConfigInner extends Resource {
      * @param httpLoggingEnabled the httpLoggingEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withHttpLoggingEnabled(Boolean httpLoggingEnabled) {
+    public SiteConfigInner setHttpLoggingEnabled(Boolean httpLoggingEnabled) {
         this.httpLoggingEnabled = httpLoggingEnabled;
         return this;
     }
@@ -474,7 +474,7 @@ public class SiteConfigInner extends Resource {
      * @param logsDirectorySizeLimit the logsDirectorySizeLimit value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withLogsDirectorySizeLimit(Integer logsDirectorySizeLimit) {
+    public SiteConfigInner setLogsDirectorySizeLimit(Integer logsDirectorySizeLimit) {
         this.logsDirectorySizeLimit = logsDirectorySizeLimit;
         return this;
     }
@@ -494,7 +494,7 @@ public class SiteConfigInner extends Resource {
      * @param detailedErrorLoggingEnabled the detailedErrorLoggingEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withDetailedErrorLoggingEnabled(Boolean detailedErrorLoggingEnabled) {
+    public SiteConfigInner setDetailedErrorLoggingEnabled(Boolean detailedErrorLoggingEnabled) {
         this.detailedErrorLoggingEnabled = detailedErrorLoggingEnabled;
         return this;
     }
@@ -514,7 +514,7 @@ public class SiteConfigInner extends Resource {
      * @param publishingUsername the publishingUsername value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withPublishingUsername(String publishingUsername) {
+    public SiteConfigInner setPublishingUsername(String publishingUsername) {
         this.publishingUsername = publishingUsername;
         return this;
     }
@@ -534,7 +534,7 @@ public class SiteConfigInner extends Resource {
      * @param publishingPassword the publishingPassword value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withPublishingPassword(String publishingPassword) {
+    public SiteConfigInner setPublishingPassword(String publishingPassword) {
         this.publishingPassword = publishingPassword;
         return this;
     }
@@ -554,7 +554,7 @@ public class SiteConfigInner extends Resource {
      * @param appSettings the appSettings value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withAppSettings(List<NameValuePair> appSettings) {
+    public SiteConfigInner setAppSettings(List<NameValuePair> appSettings) {
         this.appSettings = appSettings;
         return this;
     }
@@ -574,7 +574,7 @@ public class SiteConfigInner extends Resource {
      * @param metadata the metadata value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withMetadata(List<NameValuePair> metadata) {
+    public SiteConfigInner setMetadata(List<NameValuePair> metadata) {
         this.metadata = metadata;
         return this;
     }
@@ -594,7 +594,7 @@ public class SiteConfigInner extends Resource {
      * @param connectionStrings the connectionStrings value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withConnectionStrings(List<ConnStringInfo> connectionStrings) {
+    public SiteConfigInner setConnectionStrings(List<ConnStringInfo> connectionStrings) {
         this.connectionStrings = connectionStrings;
         return this;
     }
@@ -614,7 +614,7 @@ public class SiteConfigInner extends Resource {
      * @param handlerMappings the handlerMappings value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withHandlerMappings(List<HandlerMapping> handlerMappings) {
+    public SiteConfigInner setHandlerMappings(List<HandlerMapping> handlerMappings) {
         this.handlerMappings = handlerMappings;
         return this;
     }
@@ -634,7 +634,7 @@ public class SiteConfigInner extends Resource {
      * @param documentRoot the documentRoot value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withDocumentRoot(String documentRoot) {
+    public SiteConfigInner setDocumentRoot(String documentRoot) {
         this.documentRoot = documentRoot;
         return this;
     }
@@ -654,7 +654,7 @@ public class SiteConfigInner extends Resource {
      * @param scmType the scmType value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withScmType(String scmType) {
+    public SiteConfigInner setScmType(String scmType) {
         this.scmType = scmType;
         return this;
     }
@@ -674,7 +674,7 @@ public class SiteConfigInner extends Resource {
      * @param use32BitWorkerProcess the use32BitWorkerProcess value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withUse32BitWorkerProcess(Boolean use32BitWorkerProcess) {
+    public SiteConfigInner setUse32BitWorkerProcess(Boolean use32BitWorkerProcess) {
         this.use32BitWorkerProcess = use32BitWorkerProcess;
         return this;
     }
@@ -694,7 +694,7 @@ public class SiteConfigInner extends Resource {
      * @param webSocketsEnabled the webSocketsEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withWebSocketsEnabled(Boolean webSocketsEnabled) {
+    public SiteConfigInner setWebSocketsEnabled(Boolean webSocketsEnabled) {
         this.webSocketsEnabled = webSocketsEnabled;
         return this;
     }
@@ -714,7 +714,7 @@ public class SiteConfigInner extends Resource {
      * @param alwaysOn the alwaysOn value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withAlwaysOn(Boolean alwaysOn) {
+    public SiteConfigInner setAlwaysOn(Boolean alwaysOn) {
         this.alwaysOn = alwaysOn;
         return this;
     }
@@ -734,7 +734,7 @@ public class SiteConfigInner extends Resource {
      * @param javaVersion the javaVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withJavaVersion(String javaVersion) {
+    public SiteConfigInner setJavaVersion(String javaVersion) {
         this.javaVersion = javaVersion;
         return this;
     }
@@ -754,7 +754,7 @@ public class SiteConfigInner extends Resource {
      * @param javaContainer the javaContainer value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withJavaContainer(String javaContainer) {
+    public SiteConfigInner setJavaContainer(String javaContainer) {
         this.javaContainer = javaContainer;
         return this;
     }
@@ -774,7 +774,7 @@ public class SiteConfigInner extends Resource {
      * @param javaContainerVersion the javaContainerVersion value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withJavaContainerVersion(String javaContainerVersion) {
+    public SiteConfigInner setJavaContainerVersion(String javaContainerVersion) {
         this.javaContainerVersion = javaContainerVersion;
         return this;
     }
@@ -794,7 +794,7 @@ public class SiteConfigInner extends Resource {
      * @param managedPipelineMode the managedPipelineMode value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withManagedPipelineMode(ManagedPipelineMode managedPipelineMode) {
+    public SiteConfigInner setManagedPipelineMode(ManagedPipelineMode managedPipelineMode) {
         this.managedPipelineMode = managedPipelineMode;
         return this;
     }
@@ -814,7 +814,7 @@ public class SiteConfigInner extends Resource {
      * @param virtualApplications the virtualApplications value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withVirtualApplications(List<VirtualApplication> virtualApplications) {
+    public SiteConfigInner setVirtualApplications(List<VirtualApplication> virtualApplications) {
         this.virtualApplications = virtualApplications;
         return this;
     }
@@ -834,7 +834,7 @@ public class SiteConfigInner extends Resource {
      * @param loadBalancing the loadBalancing value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withLoadBalancing(SiteLoadBalancing loadBalancing) {
+    public SiteConfigInner setLoadBalancing(SiteLoadBalancing loadBalancing) {
         this.loadBalancing = loadBalancing;
         return this;
     }
@@ -854,7 +854,7 @@ public class SiteConfigInner extends Resource {
      * @param experiments the experiments value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withExperiments(Experiments experiments) {
+    public SiteConfigInner setExperiments(Experiments experiments) {
         this.experiments = experiments;
         return this;
     }
@@ -874,7 +874,7 @@ public class SiteConfigInner extends Resource {
      * @param limits the limits value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withLimits(SiteLimits limits) {
+    public SiteConfigInner setLimits(SiteLimits limits) {
         this.limits = limits;
         return this;
     }
@@ -894,7 +894,7 @@ public class SiteConfigInner extends Resource {
      * @param autoHealEnabled the autoHealEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withAutoHealEnabled(Boolean autoHealEnabled) {
+    public SiteConfigInner setAutoHealEnabled(Boolean autoHealEnabled) {
         this.autoHealEnabled = autoHealEnabled;
         return this;
     }
@@ -914,7 +914,7 @@ public class SiteConfigInner extends Resource {
      * @param autoHealRules the autoHealRules value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withAutoHealRules(AutoHealRules autoHealRules) {
+    public SiteConfigInner setAutoHealRules(AutoHealRules autoHealRules) {
         this.autoHealRules = autoHealRules;
         return this;
     }
@@ -934,7 +934,7 @@ public class SiteConfigInner extends Resource {
      * @param tracingOptions the tracingOptions value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withTracingOptions(String tracingOptions) {
+    public SiteConfigInner setTracingOptions(String tracingOptions) {
         this.tracingOptions = tracingOptions;
         return this;
     }
@@ -954,7 +954,7 @@ public class SiteConfigInner extends Resource {
      * @param vnetName the vnetName value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withVnetName(String vnetName) {
+    public SiteConfigInner setVnetName(String vnetName) {
         this.vnetName = vnetName;
         return this;
     }
@@ -974,7 +974,7 @@ public class SiteConfigInner extends Resource {
      * @param cors the cors value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withCors(CorsSettings cors) {
+    public SiteConfigInner setCors(CorsSettings cors) {
         this.cors = cors;
         return this;
     }
@@ -994,7 +994,7 @@ public class SiteConfigInner extends Resource {
      * @param apiDefinition the apiDefinition value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withApiDefinition(ApiDefinitionInfo apiDefinition) {
+    public SiteConfigInner setApiDefinition(ApiDefinitionInfo apiDefinition) {
         this.apiDefinition = apiDefinition;
         return this;
     }
@@ -1014,7 +1014,7 @@ public class SiteConfigInner extends Resource {
      * @param autoSwapSlotName the autoSwapSlotName value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withAutoSwapSlotName(String autoSwapSlotName) {
+    public SiteConfigInner setAutoSwapSlotName(String autoSwapSlotName) {
         this.autoSwapSlotName = autoSwapSlotName;
         return this;
     }
@@ -1034,7 +1034,7 @@ public class SiteConfigInner extends Resource {
      * @param localMySqlEnabled the localMySqlEnabled value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withLocalMySqlEnabled(Boolean localMySqlEnabled) {
+    public SiteConfigInner setLocalMySqlEnabled(Boolean localMySqlEnabled) {
         this.localMySqlEnabled = localMySqlEnabled;
         return this;
     }
@@ -1054,7 +1054,7 @@ public class SiteConfigInner extends Resource {
      * @param ipSecurityRestrictions the ipSecurityRestrictions value to set
      * @return the SiteConfigInner object itself.
      */
-    public SiteConfigInner withIpSecurityRestrictions(List<IpSecurityRestriction> ipSecurityRestrictions) {
+    public SiteConfigInner setIpSecurityRestrictions(List<IpSecurityRestriction> ipSecurityRestrictions) {
         this.ipSecurityRestrictions = ipSecurityRestrictions;
         return this;
     }

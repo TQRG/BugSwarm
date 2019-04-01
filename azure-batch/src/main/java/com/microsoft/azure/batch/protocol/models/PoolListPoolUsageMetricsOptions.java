@@ -11,7 +11,7 @@ import com.microsoft.rest.DateTimeRfc1123;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_ListPoolUsageMetrics operation.
+ * Additional parameters for the ListPoolUsageMetrics operation.
  */
 public class PoolListPoolUsageMetricsOptions {
     /**
@@ -84,7 +84,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param startTime the startTime value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withStartTime(DateTime startTime) {
+    public PoolListPoolUsageMetricsOptions setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -104,7 +104,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param endTime the endTime value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withEndTime(DateTime endTime) {
+    public PoolListPoolUsageMetricsOptions setEndTime(DateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -124,7 +124,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param filter the filter value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withFilter(String filter) {
+    public PoolListPoolUsageMetricsOptions setFilter(String filter) {
         this.filter = filter;
         return this;
     }
@@ -144,7 +144,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param maxResults the maxResults value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withMaxResults(Integer maxResults) {
+    public PoolListPoolUsageMetricsOptions setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
         return this;
     }
@@ -164,7 +164,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param timeout the timeout value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withTimeout(Integer timeout) {
+    public PoolListPoolUsageMetricsOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -184,7 +184,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withClientRequestId(String clientRequestId) {
+    public PoolListPoolUsageMetricsOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -204,7 +204,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolListPoolUsageMetricsOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -227,7 +227,7 @@ public class PoolListPoolUsageMetricsOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolListPoolUsageMetricsOptions object itself.
      */
-    public PoolListPoolUsageMetricsOptions withOcpDate(DateTime ocpDate) {
+    public PoolListPoolUsageMetricsOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

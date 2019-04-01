@@ -51,7 +51,7 @@ public class FileListFromTaskNextOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileListFromTaskNextOptions object itself.
      */
-    public FileListFromTaskNextOptions withClientRequestId(String clientRequestId) {
+    public FileListFromTaskNextOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -71,7 +71,7 @@ public class FileListFromTaskNextOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the FileListFromTaskNextOptions object itself.
      */
-    public FileListFromTaskNextOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public FileListFromTaskNextOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class FileListFromTaskNextOptions {
      * @param ocpDate the ocpDate value to set
      * @return the FileListFromTaskNextOptions object itself.
      */
-    public FileListFromTaskNextOptions withOcpDate(DateTime ocpDate) {
+    public FileListFromTaskNextOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

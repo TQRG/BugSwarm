@@ -36,7 +36,7 @@ public class TagCount {
      * @param type the type value to set
      * @return the TagCount object itself.
      */
-    public TagCount withType(String type) {
+    public TagCount setType(String type) {
         this.type = type;
         return this;
     }
@@ -56,7 +56,7 @@ public class TagCount {
      * @param value the value value to set
      * @return the TagCount object itself.
      */
-    public TagCount withValue(String value) {
+    public TagCount setValue(String value) {
         this.value = value;
         return this;
     }

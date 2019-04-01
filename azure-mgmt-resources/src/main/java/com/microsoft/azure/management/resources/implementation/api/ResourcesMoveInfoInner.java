@@ -37,7 +37,7 @@ public class ResourcesMoveInfoInner {
      * @param resources the resources value to set
      * @return the ResourcesMoveInfoInner object itself.
      */
-    public ResourcesMoveInfoInner withResources(List<String> resources) {
+    public ResourcesMoveInfoInner setResources(List<String> resources) {
         this.resources = resources;
         return this;
     }
@@ -57,7 +57,7 @@ public class ResourcesMoveInfoInner {
      * @param targetResourceGroup the targetResourceGroup value to set
      * @return the ResourcesMoveInfoInner object itself.
      */
-    public ResourcesMoveInfoInner withTargetResourceGroup(String targetResourceGroup) {
+    public ResourcesMoveInfoInner setTargetResourceGroup(String targetResourceGroup) {
         this.targetResourceGroup = targetResourceGroup;
         return this;
     }

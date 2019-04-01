@@ -31,7 +31,7 @@ public class DeploymentExtendedFilter {
      * @param provisioningState the provisioningState value to set
      * @return the DeploymentExtendedFilter object itself.
      */
-    public DeploymentExtendedFilter withProvisioningState(String provisioningState) {
+    public DeploymentExtendedFilter setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

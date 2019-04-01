@@ -33,7 +33,7 @@ public class AddDataLakeStoreParametersInner {
      * @param properties the properties value to set
      * @return the AddDataLakeStoreParametersInner object itself.
      */
-    public AddDataLakeStoreParametersInner withProperties(DataLakeStoreAccountInfoProperties properties) {
+    public AddDataLakeStoreParametersInner setProperties(DataLakeStoreAccountInfoProperties properties) {
         this.properties = properties;
         return this;
     }

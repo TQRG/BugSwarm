@@ -84,7 +84,7 @@ public class RecommendationRuleInner {
      * @param name the name value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withName(String name) {
+    public RecommendationRuleInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -104,7 +104,7 @@ public class RecommendationRuleInner {
      * @param displayName the displayName value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withDisplayName(String displayName) {
+    public RecommendationRuleInner setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -124,7 +124,7 @@ public class RecommendationRuleInner {
      * @param message the message value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withMessage(String message) {
+    public RecommendationRuleInner setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -144,7 +144,7 @@ public class RecommendationRuleInner {
      * @param recommendationId the recommendationId value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withRecommendationId(String recommendationId) {
+    public RecommendationRuleInner setRecommendationId(String recommendationId) {
         this.recommendationId = recommendationId;
         return this;
     }
@@ -164,7 +164,7 @@ public class RecommendationRuleInner {
      * @param description the description value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withDescription(String description) {
+    public RecommendationRuleInner setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -184,7 +184,7 @@ public class RecommendationRuleInner {
      * @param actionName the actionName value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withActionName(String actionName) {
+    public RecommendationRuleInner setActionName(String actionName) {
         this.actionName = actionName;
         return this;
     }
@@ -204,7 +204,7 @@ public class RecommendationRuleInner {
      * @param enabled the enabled value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withEnabled(Integer enabled) {
+    public RecommendationRuleInner setEnabled(Integer enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -224,7 +224,7 @@ public class RecommendationRuleInner {
      * @param level the level value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withLevel(NotificationLevel level) {
+    public RecommendationRuleInner setLevel(NotificationLevel level) {
         this.level = level;
         return this;
     }
@@ -244,7 +244,7 @@ public class RecommendationRuleInner {
      * @param channels the channels value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withChannels(Channels channels) {
+    public RecommendationRuleInner setChannels(Channels channels) {
         this.channels = channels;
         return this;
     }
@@ -264,7 +264,7 @@ public class RecommendationRuleInner {
      * @param tags the tags value to set
      * @return the RecommendationRuleInner object itself.
      */
-    public RecommendationRuleInner withTags(List<String> tags) {
+    public RecommendationRuleInner setTags(List<String> tags) {
         this.tags = tags;
         return this;
     }

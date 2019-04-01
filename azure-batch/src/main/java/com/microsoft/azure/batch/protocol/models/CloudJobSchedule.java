@@ -108,7 +108,7 @@ public class CloudJobSchedule {
      * @param id the id value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withId(String id) {
+    public CloudJobSchedule setId(String id) {
         this.id = id;
         return this;
     }
@@ -128,7 +128,7 @@ public class CloudJobSchedule {
      * @param displayName the displayName value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withDisplayName(String displayName) {
+    public CloudJobSchedule setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -148,7 +148,7 @@ public class CloudJobSchedule {
      * @param url the url value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withUrl(String url) {
+    public CloudJobSchedule setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -168,7 +168,7 @@ public class CloudJobSchedule {
      * @param eTag the eTag value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withETag(String eTag) {
+    public CloudJobSchedule setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -188,7 +188,7 @@ public class CloudJobSchedule {
      * @param lastModified the lastModified value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withLastModified(DateTime lastModified) {
+    public CloudJobSchedule setLastModified(DateTime lastModified) {
         this.lastModified = lastModified;
         return this;
     }
@@ -208,7 +208,7 @@ public class CloudJobSchedule {
      * @param creationTime the creationTime value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withCreationTime(DateTime creationTime) {
+    public CloudJobSchedule setCreationTime(DateTime creationTime) {
         this.creationTime = creationTime;
         return this;
     }
@@ -228,7 +228,7 @@ public class CloudJobSchedule {
      * @param state the state value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withState(JobScheduleState state) {
+    public CloudJobSchedule setState(JobScheduleState state) {
         this.state = state;
         return this;
     }
@@ -248,7 +248,7 @@ public class CloudJobSchedule {
      * @param stateTransitionTime the stateTransitionTime value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withStateTransitionTime(DateTime stateTransitionTime) {
+    public CloudJobSchedule setStateTransitionTime(DateTime stateTransitionTime) {
         this.stateTransitionTime = stateTransitionTime;
         return this;
     }
@@ -268,7 +268,7 @@ public class CloudJobSchedule {
      * @param previousState the previousState value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withPreviousState(JobScheduleState previousState) {
+    public CloudJobSchedule setPreviousState(JobScheduleState previousState) {
         this.previousState = previousState;
         return this;
     }
@@ -288,7 +288,7 @@ public class CloudJobSchedule {
      * @param previousStateTransitionTime the previousStateTransitionTime value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
+    public CloudJobSchedule setPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
         this.previousStateTransitionTime = previousStateTransitionTime;
         return this;
     }
@@ -308,7 +308,7 @@ public class CloudJobSchedule {
      * @param schedule the schedule value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withSchedule(Schedule schedule) {
+    public CloudJobSchedule setSchedule(Schedule schedule) {
         this.schedule = schedule;
         return this;
     }
@@ -328,7 +328,7 @@ public class CloudJobSchedule {
      * @param jobSpecification the jobSpecification value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withJobSpecification(JobSpecification jobSpecification) {
+    public CloudJobSchedule setJobSpecification(JobSpecification jobSpecification) {
         this.jobSpecification = jobSpecification;
         return this;
     }
@@ -348,7 +348,7 @@ public class CloudJobSchedule {
      * @param executionInfo the executionInfo value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withExecutionInfo(JobScheduleExecutionInformation executionInfo) {
+    public CloudJobSchedule setExecutionInfo(JobScheduleExecutionInformation executionInfo) {
         this.executionInfo = executionInfo;
         return this;
     }
@@ -368,7 +368,7 @@ public class CloudJobSchedule {
      * @param metadata the metadata value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withMetadata(List<MetadataItem> metadata) {
+    public CloudJobSchedule setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }
@@ -388,7 +388,7 @@ public class CloudJobSchedule {
      * @param stats the stats value to set
      * @return the CloudJobSchedule object itself.
      */
-    public CloudJobSchedule withStats(JobScheduleStatistics stats) {
+    public CloudJobSchedule setStats(JobScheduleStatistics stats) {
         this.stats = stats;
         return this;
     }

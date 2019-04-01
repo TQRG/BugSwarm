@@ -48,7 +48,7 @@ public class StorageAccountCreateParametersInner {
      * @param location the location value to set
      * @return the StorageAccountCreateParametersInner object itself.
      */
-    public StorageAccountCreateParametersInner withLocation(String location) {
+    public StorageAccountCreateParametersInner setLocation(String location) {
         this.location = location;
         return this;
     }
@@ -68,7 +68,7 @@ public class StorageAccountCreateParametersInner {
      * @param tags the tags value to set
      * @return the StorageAccountCreateParametersInner object itself.
      */
-    public StorageAccountCreateParametersInner withTags(Map<String, String> tags) {
+    public StorageAccountCreateParametersInner setTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -88,7 +88,7 @@ public class StorageAccountCreateParametersInner {
      * @param accountType the accountType value to set
      * @return the StorageAccountCreateParametersInner object itself.
      */
-    public StorageAccountCreateParametersInner withAccountType(AccountType accountType) {
+    public StorageAccountCreateParametersInner setAccountType(AccountType accountType) {
         this.accountType = accountType;
         return this;
     }

@@ -48,7 +48,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      * @param plan the plan value to set
      * @return the VirtualMachineImageInner object itself.
      */
-    public VirtualMachineImageInner withPlan(PurchasePlan plan) {
+    public VirtualMachineImageInner setPlan(PurchasePlan plan) {
         this.plan = plan;
         return this;
     }
@@ -68,7 +68,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      * @param osDiskImage the osDiskImage value to set
      * @return the VirtualMachineImageInner object itself.
      */
-    public VirtualMachineImageInner withOsDiskImage(OSDiskImage osDiskImage) {
+    public VirtualMachineImageInner setOsDiskImage(OSDiskImage osDiskImage) {
         this.osDiskImage = osDiskImage;
         return this;
     }
@@ -88,7 +88,7 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      * @param dataDiskImages the dataDiskImages value to set
      * @return the VirtualMachineImageInner object itself.
      */
-    public VirtualMachineImageInner withDataDiskImages(List<DataDiskImage> dataDiskImages) {
+    public VirtualMachineImageInner setDataDiskImages(List<DataDiskImage> dataDiskImages) {
         this.dataDiskImages = dataDiskImages;
         return this;
     }

@@ -36,7 +36,7 @@ public class LocalizableString {
      * @param value the value value to set
      * @return the LocalizableString object itself.
      */
-    public LocalizableString withValue(String value) {
+    public LocalizableString setValue(String value) {
         this.value = value;
         return this;
     }
@@ -56,7 +56,7 @@ public class LocalizableString {
      * @param localizedValue the localizedValue value to set
      * @return the LocalizableString object itself.
      */
-    public LocalizableString withLocalizedValue(String localizedValue) {
+    public LocalizableString setLocalizedValue(String localizedValue) {
         this.localizedValue = localizedValue;
         return this;
     }

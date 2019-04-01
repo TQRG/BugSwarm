@@ -66,7 +66,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param name the name value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withName(String name) {
+    public VirtualMachineScaleSetOSDisk setName(String name) {
         this.name = name;
         return this;
     }
@@ -86,7 +86,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param caching the caching value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withCaching(CachingTypes caching) {
+    public VirtualMachineScaleSetOSDisk setCaching(CachingTypes caching) {
         this.caching = caching;
         return this;
     }
@@ -106,7 +106,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param createOption the createOption value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withCreateOption(DiskCreateOptionTypes createOption) {
+    public VirtualMachineScaleSetOSDisk setCreateOption(DiskCreateOptionTypes createOption) {
         this.createOption = createOption;
         return this;
     }
@@ -126,7 +126,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param osType the osType value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withOsType(OperatingSystemTypes osType) {
+    public VirtualMachineScaleSetOSDisk setOsType(OperatingSystemTypes osType) {
         this.osType = osType;
         return this;
     }
@@ -146,7 +146,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param image the image value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withImage(VirtualHardDisk image) {
+    public VirtualMachineScaleSetOSDisk setImage(VirtualHardDisk image) {
         this.image = image;
         return this;
     }
@@ -166,7 +166,7 @@ public class VirtualMachineScaleSetOSDisk {
      * @param vhdContainers the vhdContainers value to set
      * @return the VirtualMachineScaleSetOSDisk object itself.
      */
-    public VirtualMachineScaleSetOSDisk withVhdContainers(List<String> vhdContainers) {
+    public VirtualMachineScaleSetOSDisk setVhdContainers(List<String> vhdContainers) {
         this.vhdContainers = vhdContainers;
         return this;
     }

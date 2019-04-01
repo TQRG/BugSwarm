@@ -51,7 +51,7 @@ public class SkuDescription {
      * @param name the name value to set
      * @return the SkuDescription object itself.
      */
-    public SkuDescription withName(String name) {
+    public SkuDescription setName(String name) {
         this.name = name;
         return this;
     }
@@ -71,7 +71,7 @@ public class SkuDescription {
      * @param tier the tier value to set
      * @return the SkuDescription object itself.
      */
-    public SkuDescription withTier(String tier) {
+    public SkuDescription setTier(String tier) {
         this.tier = tier;
         return this;
     }
@@ -91,7 +91,7 @@ public class SkuDescription {
      * @param size the size value to set
      * @return the SkuDescription object itself.
      */
-    public SkuDescription withSize(String size) {
+    public SkuDescription setSize(String size) {
         this.size = size;
         return this;
     }
@@ -111,7 +111,7 @@ public class SkuDescription {
      * @param family the family value to set
      * @return the SkuDescription object itself.
      */
-    public SkuDescription withFamily(String family) {
+    public SkuDescription setFamily(String family) {
         this.family = family;
         return this;
     }
@@ -131,7 +131,7 @@ public class SkuDescription {
      * @param capacity the capacity value to set
      * @return the SkuDescription object itself.
      */
-    public SkuDescription withCapacity(Integer capacity) {
+    public SkuDescription setCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }

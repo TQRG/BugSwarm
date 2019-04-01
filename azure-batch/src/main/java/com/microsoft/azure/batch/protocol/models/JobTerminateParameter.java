@@ -32,7 +32,7 @@ public class JobTerminateParameter {
      * @param terminateReason the terminateReason value to set
      * @return the JobTerminateParameter object itself.
      */
-    public JobTerminateParameter withTerminateReason(String terminateReason) {
+    public JobTerminateParameter setTerminateReason(String terminateReason) {
         this.terminateReason = terminateReason;
         return this;
     }

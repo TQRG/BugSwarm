@@ -40,7 +40,7 @@ public class FileDeleteFromTaskHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileDeleteFromTaskHeaders object itself.
      */
-    public FileDeleteFromTaskHeaders withClientRequestId(String clientRequestId) {
+    public FileDeleteFromTaskHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -60,7 +60,7 @@ public class FileDeleteFromTaskHeaders {
      * @param requestId the requestId value to set
      * @return the FileDeleteFromTaskHeaders object itself.
      */
-    public FileDeleteFromTaskHeaders withRequestId(String requestId) {
+    public FileDeleteFromTaskHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }

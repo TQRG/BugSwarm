@@ -60,7 +60,7 @@ public class ComputeNodeReimageHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeReimageHeaders object itself.
      */
-    public ComputeNodeReimageHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeReimageHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class ComputeNodeReimageHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeReimageHeaders object itself.
      */
-    public ComputeNodeReimageHeaders withRequestId(String requestId) {
+    public ComputeNodeReimageHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class ComputeNodeReimageHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeReimageHeaders object itself.
      */
-    public ComputeNodeReimageHeaders withETag(String eTag) {
+    public ComputeNodeReimageHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class ComputeNodeReimageHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeReimageHeaders object itself.
      */
-    public ComputeNodeReimageHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeReimageHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class ComputeNodeReimageHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the ComputeNodeReimageHeaders object itself.
      */
-    public ComputeNodeReimageHeaders withDataServiceId(String dataServiceId) {
+    public ComputeNodeReimageHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

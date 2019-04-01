@@ -33,7 +33,7 @@ public class NodeReimageParameter {
      * @param nodeReimageOption the nodeReimageOption value to set
      * @return the NodeReimageParameter object itself.
      */
-    public NodeReimageParameter withNodeReimageOption(ComputeNodeReimageOption nodeReimageOption) {
+    public NodeReimageParameter setNodeReimageOption(ComputeNodeReimageOption nodeReimageOption) {
         this.nodeReimageOption = nodeReimageOption;
         return this;
     }

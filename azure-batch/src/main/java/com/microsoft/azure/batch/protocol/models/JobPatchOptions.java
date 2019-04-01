@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Job_Patch operation.
+ * Additional parameters for the Patch operation.
  */
 public class JobPatchOptions {
     /**
@@ -86,7 +86,7 @@ public class JobPatchOptions {
      * @param timeout the timeout value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withTimeout(Integer timeout) {
+    public JobPatchOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobPatchOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withClientRequestId(String clientRequestId) {
+    public JobPatchOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobPatchOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobPatchOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class JobPatchOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withOcpDate(DateTime ocpDate) {
+    public JobPatchOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class JobPatchOptions {
      * @param ifMatch the ifMatch value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withIfMatch(String ifMatch) {
+    public JobPatchOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class JobPatchOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withIfNoneMatch(String ifNoneMatch) {
+    public JobPatchOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobPatchOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public JobPatchOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class JobPatchOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the JobPatchOptions object itself.
      */
-    public JobPatchOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public JobPatchOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

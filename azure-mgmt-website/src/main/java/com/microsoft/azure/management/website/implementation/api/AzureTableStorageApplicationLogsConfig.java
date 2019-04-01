@@ -37,7 +37,7 @@ public class AzureTableStorageApplicationLogsConfig {
      * @param level the level value to set
      * @return the AzureTableStorageApplicationLogsConfig object itself.
      */
-    public AzureTableStorageApplicationLogsConfig withLevel(LogLevel level) {
+    public AzureTableStorageApplicationLogsConfig setLevel(LogLevel level) {
         this.level = level;
         return this;
     }
@@ -57,7 +57,7 @@ public class AzureTableStorageApplicationLogsConfig {
      * @param sasUrl the sasUrl value to set
      * @return the AzureTableStorageApplicationLogsConfig object itself.
      */
-    public AzureTableStorageApplicationLogsConfig withSasUrl(String sasUrl) {
+    public AzureTableStorageApplicationLogsConfig setSasUrl(String sasUrl) {
         this.sasUrl = sasUrl;
         return this;
     }

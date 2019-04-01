@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_EvaluateAutoScale operation.
+ * Additional parameters for the EvaluateAutoScale operation.
  */
 public class PoolEvaluateAutoScaleOptions {
     /**
@@ -58,7 +58,7 @@ public class PoolEvaluateAutoScaleOptions {
      * @param timeout the timeout value to set
      * @return the PoolEvaluateAutoScaleOptions object itself.
      */
-    public PoolEvaluateAutoScaleOptions withTimeout(Integer timeout) {
+    public PoolEvaluateAutoScaleOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class PoolEvaluateAutoScaleOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolEvaluateAutoScaleOptions object itself.
      */
-    public PoolEvaluateAutoScaleOptions withClientRequestId(String clientRequestId) {
+    public PoolEvaluateAutoScaleOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class PoolEvaluateAutoScaleOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolEvaluateAutoScaleOptions object itself.
      */
-    public PoolEvaluateAutoScaleOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolEvaluateAutoScaleOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class PoolEvaluateAutoScaleOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolEvaluateAutoScaleOptions object itself.
      */
-    public PoolEvaluateAutoScaleOptions withOcpDate(DateTime ocpDate) {
+    public PoolEvaluateAutoScaleOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

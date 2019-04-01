@@ -45,7 +45,7 @@ public class HandlerMapping {
      * @param extension the extension value to set
      * @return the HandlerMapping object itself.
      */
-    public HandlerMapping withExtension(String extension) {
+    public HandlerMapping setExtension(String extension) {
         this.extension = extension;
         return this;
     }
@@ -65,7 +65,7 @@ public class HandlerMapping {
      * @param scriptProcessor the scriptProcessor value to set
      * @return the HandlerMapping object itself.
      */
-    public HandlerMapping withScriptProcessor(String scriptProcessor) {
+    public HandlerMapping setScriptProcessor(String scriptProcessor) {
         this.scriptProcessor = scriptProcessor;
         return this;
     }
@@ -85,7 +85,7 @@ public class HandlerMapping {
      * @param arguments the arguments value to set
      * @return the HandlerMapping object itself.
      */
-    public HandlerMapping withArguments(String arguments) {
+    public HandlerMapping setArguments(String arguments) {
         this.arguments = arguments;
         return this;
     }

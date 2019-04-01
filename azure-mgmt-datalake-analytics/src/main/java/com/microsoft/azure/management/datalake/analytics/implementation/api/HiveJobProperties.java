@@ -58,7 +58,7 @@ public class HiveJobProperties extends JobProperties {
      * @param statementInfo the statementInfo value to set
      * @return the HiveJobProperties object itself.
      */
-    public HiveJobProperties withStatementInfo(List<HiveJobStatementInfo> statementInfo) {
+    public HiveJobProperties setStatementInfo(List<HiveJobStatementInfo> statementInfo) {
         this.statementInfo = statementInfo;
         return this;
     }
@@ -78,7 +78,7 @@ public class HiveJobProperties extends JobProperties {
      * @param logsLocation the logsLocation value to set
      * @return the HiveJobProperties object itself.
      */
-    public HiveJobProperties withLogsLocation(String logsLocation) {
+    public HiveJobProperties setLogsLocation(String logsLocation) {
         this.logsLocation = logsLocation;
         return this;
     }
@@ -98,7 +98,7 @@ public class HiveJobProperties extends JobProperties {
      * @param warehouseLocation the warehouseLocation value to set
      * @return the HiveJobProperties object itself.
      */
-    public HiveJobProperties withWarehouseLocation(String warehouseLocation) {
+    public HiveJobProperties setWarehouseLocation(String warehouseLocation) {
         this.warehouseLocation = warehouseLocation;
         return this;
     }
@@ -118,7 +118,7 @@ public class HiveJobProperties extends JobProperties {
      * @param statementCount the statementCount value to set
      * @return the HiveJobProperties object itself.
      */
-    public HiveJobProperties withStatementCount(Integer statementCount) {
+    public HiveJobProperties setStatementCount(Integer statementCount) {
         this.statementCount = statementCount;
         return this;
     }
@@ -138,7 +138,7 @@ public class HiveJobProperties extends JobProperties {
      * @param executedStatementCount the executedStatementCount value to set
      * @return the HiveJobProperties object itself.
      */
-    public HiveJobProperties withExecutedStatementCount(Integer executedStatementCount) {
+    public HiveJobProperties setExecutedStatementCount(Integer executedStatementCount) {
         this.executedStatementCount = executedStatementCount;
         return this;
     }

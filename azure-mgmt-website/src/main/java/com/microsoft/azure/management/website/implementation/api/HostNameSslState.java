@@ -54,7 +54,7 @@ public class HostNameSslState {
      * @param name the name value to set
      * @return the HostNameSslState object itself.
      */
-    public HostNameSslState withName(String name) {
+    public HostNameSslState setName(String name) {
         this.name = name;
         return this;
     }
@@ -74,7 +74,7 @@ public class HostNameSslState {
      * @param sslState the sslState value to set
      * @return the HostNameSslState object itself.
      */
-    public HostNameSslState withSslState(SslState sslState) {
+    public HostNameSslState setSslState(SslState sslState) {
         this.sslState = sslState;
         return this;
     }
@@ -94,7 +94,7 @@ public class HostNameSslState {
      * @param virtualIP the virtualIP value to set
      * @return the HostNameSslState object itself.
      */
-    public HostNameSslState withVirtualIP(String virtualIP) {
+    public HostNameSslState setVirtualIP(String virtualIP) {
         this.virtualIP = virtualIP;
         return this;
     }
@@ -114,7 +114,7 @@ public class HostNameSslState {
      * @param thumbprint the thumbprint value to set
      * @return the HostNameSslState object itself.
      */
-    public HostNameSslState withThumbprint(String thumbprint) {
+    public HostNameSslState setThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -134,7 +134,7 @@ public class HostNameSslState {
      * @param toUpdate the toUpdate value to set
      * @return the HostNameSslState object itself.
      */
-    public HostNameSslState withToUpdate(Boolean toUpdate) {
+    public HostNameSslState setToUpdate(Boolean toUpdate) {
         this.toUpdate = toUpdate;
         return this;
     }

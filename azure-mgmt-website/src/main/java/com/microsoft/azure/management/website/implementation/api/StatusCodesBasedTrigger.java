@@ -51,7 +51,7 @@ public class StatusCodesBasedTrigger {
      * @param status the status value to set
      * @return the StatusCodesBasedTrigger object itself.
      */
-    public StatusCodesBasedTrigger withStatus(Integer status) {
+    public StatusCodesBasedTrigger setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -71,7 +71,7 @@ public class StatusCodesBasedTrigger {
      * @param subStatus the subStatus value to set
      * @return the StatusCodesBasedTrigger object itself.
      */
-    public StatusCodesBasedTrigger withSubStatus(Integer subStatus) {
+    public StatusCodesBasedTrigger setSubStatus(Integer subStatus) {
         this.subStatus = subStatus;
         return this;
     }
@@ -91,7 +91,7 @@ public class StatusCodesBasedTrigger {
      * @param win32Status the win32Status value to set
      * @return the StatusCodesBasedTrigger object itself.
      */
-    public StatusCodesBasedTrigger withWin32Status(Integer win32Status) {
+    public StatusCodesBasedTrigger setWin32Status(Integer win32Status) {
         this.win32Status = win32Status;
         return this;
     }
@@ -111,7 +111,7 @@ public class StatusCodesBasedTrigger {
      * @param count the count value to set
      * @return the StatusCodesBasedTrigger object itself.
      */
-    public StatusCodesBasedTrigger withCount(Integer count) {
+    public StatusCodesBasedTrigger setCount(Integer count) {
         this.count = count;
         return this;
     }
@@ -131,7 +131,7 @@ public class StatusCodesBasedTrigger {
      * @param timeInterval the timeInterval value to set
      * @return the StatusCodesBasedTrigger object itself.
      */
-    public StatusCodesBasedTrigger withTimeInterval(String timeInterval) {
+    public StatusCodesBasedTrigger setTimeInterval(String timeInterval) {
         this.timeInterval = timeInterval;
         return this;
     }

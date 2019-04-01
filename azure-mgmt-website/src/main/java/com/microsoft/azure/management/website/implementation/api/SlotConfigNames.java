@@ -40,7 +40,7 @@ public class SlotConfigNames {
      * @param connectionStringNames the connectionStringNames value to set
      * @return the SlotConfigNames object itself.
      */
-    public SlotConfigNames withConnectionStringNames(List<String> connectionStringNames) {
+    public SlotConfigNames setConnectionStringNames(List<String> connectionStringNames) {
         this.connectionStringNames = connectionStringNames;
         return this;
     }
@@ -60,7 +60,7 @@ public class SlotConfigNames {
      * @param appSettingNames the appSettingNames value to set
      * @return the SlotConfigNames object itself.
      */
-    public SlotConfigNames withAppSettingNames(List<String> appSettingNames) {
+    public SlotConfigNames setAppSettingNames(List<String> appSettingNames) {
         this.appSettingNames = appSettingNames;
         return this;
     }

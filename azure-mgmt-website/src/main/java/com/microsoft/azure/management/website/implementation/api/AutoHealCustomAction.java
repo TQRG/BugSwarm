@@ -37,7 +37,7 @@ public class AutoHealCustomAction {
      * @param exe the exe value to set
      * @return the AutoHealCustomAction object itself.
      */
-    public AutoHealCustomAction withExe(String exe) {
+    public AutoHealCustomAction setExe(String exe) {
         this.exe = exe;
         return this;
     }
@@ -57,7 +57,7 @@ public class AutoHealCustomAction {
      * @param parameters the parameters value to set
      * @return the AutoHealCustomAction object itself.
      */
-    public AutoHealCustomAction withParameters(String parameters) {
+    public AutoHealCustomAction setParameters(String parameters) {
         this.parameters = parameters;
         return this;
     }

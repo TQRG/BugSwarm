@@ -40,7 +40,7 @@ public class PoolDeleteHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolDeleteHeaders object itself.
      */
-    public PoolDeleteHeaders withClientRequestId(String clientRequestId) {
+    public PoolDeleteHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -60,7 +60,7 @@ public class PoolDeleteHeaders {
      * @param requestId the requestId value to set
      * @return the PoolDeleteHeaders object itself.
      */
-    public PoolDeleteHeaders withRequestId(String requestId) {
+    public PoolDeleteHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }

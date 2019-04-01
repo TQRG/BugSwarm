@@ -47,7 +47,7 @@ public class PoolResizeParameter {
      * @param targetDedicated the targetDedicated value to set
      * @return the PoolResizeParameter object itself.
      */
-    public PoolResizeParameter withTargetDedicated(int targetDedicated) {
+    public PoolResizeParameter setTargetDedicated(int targetDedicated) {
         this.targetDedicated = targetDedicated;
         return this;
     }
@@ -67,7 +67,7 @@ public class PoolResizeParameter {
      * @param resizeTimeout the resizeTimeout value to set
      * @return the PoolResizeParameter object itself.
      */
-    public PoolResizeParameter withResizeTimeout(Period resizeTimeout) {
+    public PoolResizeParameter setResizeTimeout(Period resizeTimeout) {
         this.resizeTimeout = resizeTimeout;
         return this;
     }
@@ -87,7 +87,7 @@ public class PoolResizeParameter {
      * @param nodeDeallocationOption the nodeDeallocationOption value to set
      * @return the PoolResizeParameter object itself.
      */
-    public PoolResizeParameter withNodeDeallocationOption(ComputeNodeDeallocationOption nodeDeallocationOption) {
+    public PoolResizeParameter setNodeDeallocationOption(ComputeNodeDeallocationOption nodeDeallocationOption) {
         this.nodeDeallocationOption = nodeDeallocationOption;
         return this;
     }

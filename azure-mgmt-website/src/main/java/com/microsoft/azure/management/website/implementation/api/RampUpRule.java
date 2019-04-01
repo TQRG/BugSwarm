@@ -87,7 +87,7 @@ public class RampUpRule {
      * @param actionHostName the actionHostName value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withActionHostName(String actionHostName) {
+    public RampUpRule setActionHostName(String actionHostName) {
         this.actionHostName = actionHostName;
         return this;
     }
@@ -107,7 +107,7 @@ public class RampUpRule {
      * @param reroutePercentage the reroutePercentage value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withReroutePercentage(Double reroutePercentage) {
+    public RampUpRule setReroutePercentage(Double reroutePercentage) {
         this.reroutePercentage = reroutePercentage;
         return this;
     }
@@ -127,7 +127,7 @@ public class RampUpRule {
      * @param changeStep the changeStep value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withChangeStep(Double changeStep) {
+    public RampUpRule setChangeStep(Double changeStep) {
         this.changeStep = changeStep;
         return this;
     }
@@ -147,7 +147,7 @@ public class RampUpRule {
      * @param changeIntervalInMinutes the changeIntervalInMinutes value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withChangeIntervalInMinutes(Integer changeIntervalInMinutes) {
+    public RampUpRule setChangeIntervalInMinutes(Integer changeIntervalInMinutes) {
         this.changeIntervalInMinutes = changeIntervalInMinutes;
         return this;
     }
@@ -167,7 +167,7 @@ public class RampUpRule {
      * @param minReroutePercentage the minReroutePercentage value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withMinReroutePercentage(Double minReroutePercentage) {
+    public RampUpRule setMinReroutePercentage(Double minReroutePercentage) {
         this.minReroutePercentage = minReroutePercentage;
         return this;
     }
@@ -187,7 +187,7 @@ public class RampUpRule {
      * @param maxReroutePercentage the maxReroutePercentage value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withMaxReroutePercentage(Double maxReroutePercentage) {
+    public RampUpRule setMaxReroutePercentage(Double maxReroutePercentage) {
         this.maxReroutePercentage = maxReroutePercentage;
         return this;
     }
@@ -207,7 +207,7 @@ public class RampUpRule {
      * @param changeDecisionCallbackUrl the changeDecisionCallbackUrl value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withChangeDecisionCallbackUrl(String changeDecisionCallbackUrl) {
+    public RampUpRule setChangeDecisionCallbackUrl(String changeDecisionCallbackUrl) {
         this.changeDecisionCallbackUrl = changeDecisionCallbackUrl;
         return this;
     }
@@ -227,7 +227,7 @@ public class RampUpRule {
      * @param name the name value to set
      * @return the RampUpRule object itself.
      */
-    public RampUpRule withName(String name) {
+    public RampUpRule setName(String name) {
         this.name = name;
         return this;
     }

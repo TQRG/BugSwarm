@@ -82,7 +82,7 @@ public class JobManagerTask {
      * @param id the id value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withId(String id) {
+    public JobManagerTask setId(String id) {
         this.id = id;
         return this;
     }
@@ -102,7 +102,7 @@ public class JobManagerTask {
      * @param displayName the displayName value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withDisplayName(String displayName) {
+    public JobManagerTask setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -122,7 +122,7 @@ public class JobManagerTask {
      * @param commandLine the commandLine value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withCommandLine(String commandLine) {
+    public JobManagerTask setCommandLine(String commandLine) {
         this.commandLine = commandLine;
         return this;
     }
@@ -142,7 +142,7 @@ public class JobManagerTask {
      * @param resourceFiles the resourceFiles value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withResourceFiles(List<ResourceFile> resourceFiles) {
+    public JobManagerTask setResourceFiles(List<ResourceFile> resourceFiles) {
         this.resourceFiles = resourceFiles;
         return this;
     }
@@ -162,7 +162,7 @@ public class JobManagerTask {
      * @param environmentSettings the environmentSettings value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
+    public JobManagerTask setEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
         this.environmentSettings = environmentSettings;
         return this;
     }
@@ -182,7 +182,7 @@ public class JobManagerTask {
      * @param constraints the constraints value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withConstraints(TaskConstraints constraints) {
+    public JobManagerTask setConstraints(TaskConstraints constraints) {
         this.constraints = constraints;
         return this;
     }
@@ -202,7 +202,7 @@ public class JobManagerTask {
      * @param killJobOnCompletion the killJobOnCompletion value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withKillJobOnCompletion(Boolean killJobOnCompletion) {
+    public JobManagerTask setKillJobOnCompletion(Boolean killJobOnCompletion) {
         this.killJobOnCompletion = killJobOnCompletion;
         return this;
     }
@@ -222,7 +222,7 @@ public class JobManagerTask {
      * @param runElevated the runElevated value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withRunElevated(Boolean runElevated) {
+    public JobManagerTask setRunElevated(Boolean runElevated) {
         this.runElevated = runElevated;
         return this;
     }
@@ -242,7 +242,7 @@ public class JobManagerTask {
      * @param runExclusive the runExclusive value to set
      * @return the JobManagerTask object itself.
      */
-    public JobManagerTask withRunExclusive(Boolean runExclusive) {
+    public JobManagerTask setRunExclusive(Boolean runExclusive) {
         this.runExclusive = runExclusive;
         return this;
     }

@@ -75,7 +75,7 @@ public class JobReleaseTask {
      * @param id the id value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withId(String id) {
+    public JobReleaseTask setId(String id) {
         this.id = id;
         return this;
     }
@@ -95,7 +95,7 @@ public class JobReleaseTask {
      * @param commandLine the commandLine value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withCommandLine(String commandLine) {
+    public JobReleaseTask setCommandLine(String commandLine) {
         this.commandLine = commandLine;
         return this;
     }
@@ -115,7 +115,7 @@ public class JobReleaseTask {
      * @param resourceFiles the resourceFiles value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withResourceFiles(List<ResourceFile> resourceFiles) {
+    public JobReleaseTask setResourceFiles(List<ResourceFile> resourceFiles) {
         this.resourceFiles = resourceFiles;
         return this;
     }
@@ -135,7 +135,7 @@ public class JobReleaseTask {
      * @param environmentSettings the environmentSettings value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
+    public JobReleaseTask setEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
         this.environmentSettings = environmentSettings;
         return this;
     }
@@ -155,7 +155,7 @@ public class JobReleaseTask {
      * @param maxWallClockTime the maxWallClockTime value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withMaxWallClockTime(Period maxWallClockTime) {
+    public JobReleaseTask setMaxWallClockTime(Period maxWallClockTime) {
         this.maxWallClockTime = maxWallClockTime;
         return this;
     }
@@ -175,7 +175,7 @@ public class JobReleaseTask {
      * @param retentionTime the retentionTime value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withRetentionTime(Period retentionTime) {
+    public JobReleaseTask setRetentionTime(Period retentionTime) {
         this.retentionTime = retentionTime;
         return this;
     }
@@ -195,7 +195,7 @@ public class JobReleaseTask {
      * @param runElevated the runElevated value to set
      * @return the JobReleaseTask object itself.
      */
-    public JobReleaseTask withRunElevated(Boolean runElevated) {
+    public JobReleaseTask setRunElevated(Boolean runElevated) {
         this.runElevated = runElevated;
         return this;
     }

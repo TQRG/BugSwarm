@@ -75,7 +75,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param securityRules the securityRules value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withSecurityRules(List<SecurityRuleInner> securityRules) {
+    public NetworkSecurityGroupInner setSecurityRules(List<SecurityRuleInner> securityRules) {
         this.securityRules = securityRules;
         return this;
     }
@@ -95,7 +95,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param defaultSecurityRules the defaultSecurityRules value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
+    public NetworkSecurityGroupInner setDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
         this.defaultSecurityRules = defaultSecurityRules;
         return this;
     }
@@ -115,7 +115,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param networkInterfaces the networkInterfaces value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withNetworkInterfaces(List<NetworkInterfaceInner> networkInterfaces) {
+    public NetworkSecurityGroupInner setNetworkInterfaces(List<NetworkInterfaceInner> networkInterfaces) {
         this.networkInterfaces = networkInterfaces;
         return this;
     }
@@ -135,7 +135,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param subnets the subnets value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withSubnets(List<SubnetInner> subnets) {
+    public NetworkSecurityGroupInner setSubnets(List<SubnetInner> subnets) {
         this.subnets = subnets;
         return this;
     }
@@ -155,7 +155,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param resourceGuid the resourceGuid value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withResourceGuid(String resourceGuid) {
+    public NetworkSecurityGroupInner setResourceGuid(String resourceGuid) {
         this.resourceGuid = resourceGuid;
         return this;
     }
@@ -175,7 +175,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withProvisioningState(String provisioningState) {
+    public NetworkSecurityGroupInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -195,7 +195,7 @@ public class NetworkSecurityGroupInner extends Resource {
      * @param etag the etag value to set
      * @return the NetworkSecurityGroupInner object itself.
      */
-    public NetworkSecurityGroupInner withEtag(String etag) {
+    public NetworkSecurityGroupInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

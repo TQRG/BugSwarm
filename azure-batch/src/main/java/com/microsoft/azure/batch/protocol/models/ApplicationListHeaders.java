@@ -54,7 +54,7 @@ public class ApplicationListHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ApplicationListHeaders object itself.
      */
-    public ApplicationListHeaders withClientRequestId(String clientRequestId) {
+    public ApplicationListHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -74,7 +74,7 @@ public class ApplicationListHeaders {
      * @param requestId the requestId value to set
      * @return the ApplicationListHeaders object itself.
      */
-    public ApplicationListHeaders withRequestId(String requestId) {
+    public ApplicationListHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class ApplicationListHeaders {
      * @param eTag the eTag value to set
      * @return the ApplicationListHeaders object itself.
      */
-    public ApplicationListHeaders withETag(String eTag) {
+    public ApplicationListHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -117,7 +117,7 @@ public class ApplicationListHeaders {
      * @param lastModified the lastModified value to set
      * @return the ApplicationListHeaders object itself.
      */
-    public ApplicationListHeaders withLastModified(DateTime lastModified) {
+    public ApplicationListHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }

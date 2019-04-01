@@ -60,7 +60,7 @@ public class DataLakeStoreAccountInner {
      * @param location the location value to set
      * @return the DataLakeStoreAccountInner object itself.
      */
-    public DataLakeStoreAccountInner withLocation(String location) {
+    public DataLakeStoreAccountInner setLocation(String location) {
         this.location = location;
         return this;
     }
@@ -80,7 +80,7 @@ public class DataLakeStoreAccountInner {
      * @param name the name value to set
      * @return the DataLakeStoreAccountInner object itself.
      */
-    public DataLakeStoreAccountInner withName(String name) {
+    public DataLakeStoreAccountInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -118,7 +118,7 @@ public class DataLakeStoreAccountInner {
      * @param tags the tags value to set
      * @return the DataLakeStoreAccountInner object itself.
      */
-    public DataLakeStoreAccountInner withTags(Map<String, String> tags) {
+    public DataLakeStoreAccountInner setTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -138,7 +138,7 @@ public class DataLakeStoreAccountInner {
      * @param properties the properties value to set
      * @return the DataLakeStoreAccountInner object itself.
      */
-    public DataLakeStoreAccountInner withProperties(DataLakeStoreAccountProperties properties) {
+    public DataLakeStoreAccountInner setProperties(DataLakeStoreAccountProperties properties) {
         this.properties = properties;
         return this;
     }

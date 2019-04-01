@@ -46,7 +46,7 @@ public class ApplicationSummary {
      * @param id the id value to set
      * @return the ApplicationSummary object itself.
      */
-    public ApplicationSummary withId(String id) {
+    public ApplicationSummary setId(String id) {
         this.id = id;
         return this;
     }
@@ -66,7 +66,7 @@ public class ApplicationSummary {
      * @param displayName the displayName value to set
      * @return the ApplicationSummary object itself.
      */
-    public ApplicationSummary withDisplayName(String displayName) {
+    public ApplicationSummary setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -86,7 +86,7 @@ public class ApplicationSummary {
      * @param versions the versions value to set
      * @return the ApplicationSummary object itself.
      */
-    public ApplicationSummary withVersions(List<String> versions) {
+    public ApplicationSummary setVersions(List<String> versions) {
         this.versions = versions;
         return this;
     }

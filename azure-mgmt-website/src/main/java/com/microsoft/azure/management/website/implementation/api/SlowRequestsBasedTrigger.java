@@ -41,7 +41,7 @@ public class SlowRequestsBasedTrigger {
      * @param timeTaken the timeTaken value to set
      * @return the SlowRequestsBasedTrigger object itself.
      */
-    public SlowRequestsBasedTrigger withTimeTaken(String timeTaken) {
+    public SlowRequestsBasedTrigger setTimeTaken(String timeTaken) {
         this.timeTaken = timeTaken;
         return this;
     }
@@ -61,7 +61,7 @@ public class SlowRequestsBasedTrigger {
      * @param count the count value to set
      * @return the SlowRequestsBasedTrigger object itself.
      */
-    public SlowRequestsBasedTrigger withCount(Integer count) {
+    public SlowRequestsBasedTrigger setCount(Integer count) {
         this.count = count;
         return this;
     }
@@ -81,7 +81,7 @@ public class SlowRequestsBasedTrigger {
      * @param timeInterval the timeInterval value to set
      * @return the SlowRequestsBasedTrigger object itself.
      */
-    public SlowRequestsBasedTrigger withTimeInterval(String timeInterval) {
+    public SlowRequestsBasedTrigger setTimeInterval(String timeInterval) {
         this.timeInterval = timeInterval;
         return this;
     }

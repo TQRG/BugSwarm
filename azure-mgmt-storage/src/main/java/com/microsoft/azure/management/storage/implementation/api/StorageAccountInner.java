@@ -115,7 +115,7 @@ public class StorageAccountInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withProvisioningState(ProvisioningState provisioningState) {
+    public StorageAccountInner setProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -135,7 +135,7 @@ public class StorageAccountInner extends Resource {
      * @param accountType the accountType value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withAccountType(AccountType accountType) {
+    public StorageAccountInner setAccountType(AccountType accountType) {
         this.accountType = accountType;
         return this;
     }
@@ -155,7 +155,7 @@ public class StorageAccountInner extends Resource {
      * @param primaryEndpoints the primaryEndpoints value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withPrimaryEndpoints(Endpoints primaryEndpoints) {
+    public StorageAccountInner setPrimaryEndpoints(Endpoints primaryEndpoints) {
         this.primaryEndpoints = primaryEndpoints;
         return this;
     }
@@ -175,7 +175,7 @@ public class StorageAccountInner extends Resource {
      * @param primaryLocation the primaryLocation value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withPrimaryLocation(String primaryLocation) {
+    public StorageAccountInner setPrimaryLocation(String primaryLocation) {
         this.primaryLocation = primaryLocation;
         return this;
     }
@@ -195,7 +195,7 @@ public class StorageAccountInner extends Resource {
      * @param statusOfPrimary the statusOfPrimary value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withStatusOfPrimary(AccountStatus statusOfPrimary) {
+    public StorageAccountInner setStatusOfPrimary(AccountStatus statusOfPrimary) {
         this.statusOfPrimary = statusOfPrimary;
         return this;
     }
@@ -215,7 +215,7 @@ public class StorageAccountInner extends Resource {
      * @param lastGeoFailoverTime the lastGeoFailoverTime value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withLastGeoFailoverTime(DateTime lastGeoFailoverTime) {
+    public StorageAccountInner setLastGeoFailoverTime(DateTime lastGeoFailoverTime) {
         this.lastGeoFailoverTime = lastGeoFailoverTime;
         return this;
     }
@@ -235,7 +235,7 @@ public class StorageAccountInner extends Resource {
      * @param secondaryLocation the secondaryLocation value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withSecondaryLocation(String secondaryLocation) {
+    public StorageAccountInner setSecondaryLocation(String secondaryLocation) {
         this.secondaryLocation = secondaryLocation;
         return this;
     }
@@ -255,7 +255,7 @@ public class StorageAccountInner extends Resource {
      * @param statusOfSecondary the statusOfSecondary value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withStatusOfSecondary(AccountStatus statusOfSecondary) {
+    public StorageAccountInner setStatusOfSecondary(AccountStatus statusOfSecondary) {
         this.statusOfSecondary = statusOfSecondary;
         return this;
     }
@@ -275,7 +275,7 @@ public class StorageAccountInner extends Resource {
      * @param creationTime the creationTime value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withCreationTime(DateTime creationTime) {
+    public StorageAccountInner setCreationTime(DateTime creationTime) {
         this.creationTime = creationTime;
         return this;
     }
@@ -295,7 +295,7 @@ public class StorageAccountInner extends Resource {
      * @param customDomain the customDomain value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withCustomDomain(CustomDomain customDomain) {
+    public StorageAccountInner setCustomDomain(CustomDomain customDomain) {
         this.customDomain = customDomain;
         return this;
     }
@@ -315,7 +315,7 @@ public class StorageAccountInner extends Resource {
      * @param secondaryEndpoints the secondaryEndpoints value to set
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner withSecondaryEndpoints(Endpoints secondaryEndpoints) {
+    public StorageAccountInner setSecondaryEndpoints(Endpoints secondaryEndpoints) {
         this.secondaryEndpoints = secondaryEndpoints;
         return this;
     }

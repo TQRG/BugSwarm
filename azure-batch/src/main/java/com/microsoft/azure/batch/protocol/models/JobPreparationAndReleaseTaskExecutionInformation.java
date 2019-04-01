@@ -55,7 +55,7 @@ public class JobPreparationAndReleaseTaskExecutionInformation {
      * @param poolId the poolId value to set
      * @return the JobPreparationAndReleaseTaskExecutionInformation object itself.
      */
-    public JobPreparationAndReleaseTaskExecutionInformation withPoolId(String poolId) {
+    public JobPreparationAndReleaseTaskExecutionInformation setPoolId(String poolId) {
         this.poolId = poolId;
         return this;
     }
@@ -75,7 +75,7 @@ public class JobPreparationAndReleaseTaskExecutionInformation {
      * @param nodeId the nodeId value to set
      * @return the JobPreparationAndReleaseTaskExecutionInformation object itself.
      */
-    public JobPreparationAndReleaseTaskExecutionInformation withNodeId(String nodeId) {
+    public JobPreparationAndReleaseTaskExecutionInformation setNodeId(String nodeId) {
         this.nodeId = nodeId;
         return this;
     }
@@ -95,7 +95,7 @@ public class JobPreparationAndReleaseTaskExecutionInformation {
      * @param nodeUrl the nodeUrl value to set
      * @return the JobPreparationAndReleaseTaskExecutionInformation object itself.
      */
-    public JobPreparationAndReleaseTaskExecutionInformation withNodeUrl(String nodeUrl) {
+    public JobPreparationAndReleaseTaskExecutionInformation setNodeUrl(String nodeUrl) {
         this.nodeUrl = nodeUrl;
         return this;
     }
@@ -115,7 +115,7 @@ public class JobPreparationAndReleaseTaskExecutionInformation {
      * @param jobPreparationTaskExecutionInfo the jobPreparationTaskExecutionInfo value to set
      * @return the JobPreparationAndReleaseTaskExecutionInformation object itself.
      */
-    public JobPreparationAndReleaseTaskExecutionInformation withJobPreparationTaskExecutionInfo(JobPreparationTaskExecutionInformation jobPreparationTaskExecutionInfo) {
+    public JobPreparationAndReleaseTaskExecutionInformation setJobPreparationTaskExecutionInfo(JobPreparationTaskExecutionInformation jobPreparationTaskExecutionInfo) {
         this.jobPreparationTaskExecutionInfo = jobPreparationTaskExecutionInfo;
         return this;
     }
@@ -135,7 +135,7 @@ public class JobPreparationAndReleaseTaskExecutionInformation {
      * @param jobReleaseTaskExecutionInfo the jobReleaseTaskExecutionInfo value to set
      * @return the JobPreparationAndReleaseTaskExecutionInformation object itself.
      */
-    public JobPreparationAndReleaseTaskExecutionInformation withJobReleaseTaskExecutionInfo(JobReleaseTaskExecutionInformation jobReleaseTaskExecutionInfo) {
+    public JobPreparationAndReleaseTaskExecutionInformation setJobReleaseTaskExecutionInfo(JobReleaseTaskExecutionInformation jobReleaseTaskExecutionInfo) {
         this.jobReleaseTaskExecutionInfo = jobReleaseTaskExecutionInfo;
         return this;
     }

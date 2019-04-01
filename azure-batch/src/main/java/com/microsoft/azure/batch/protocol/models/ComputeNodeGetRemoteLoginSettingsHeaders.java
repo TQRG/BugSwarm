@@ -54,7 +54,7 @@ public class ComputeNodeGetRemoteLoginSettingsHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeGetRemoteLoginSettingsHeaders object itself.
      */
-    public ComputeNodeGetRemoteLoginSettingsHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeGetRemoteLoginSettingsHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -74,7 +74,7 @@ public class ComputeNodeGetRemoteLoginSettingsHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeGetRemoteLoginSettingsHeaders object itself.
      */
-    public ComputeNodeGetRemoteLoginSettingsHeaders withRequestId(String requestId) {
+    public ComputeNodeGetRemoteLoginSettingsHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class ComputeNodeGetRemoteLoginSettingsHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeGetRemoteLoginSettingsHeaders object itself.
      */
-    public ComputeNodeGetRemoteLoginSettingsHeaders withETag(String eTag) {
+    public ComputeNodeGetRemoteLoginSettingsHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -117,7 +117,7 @@ public class ComputeNodeGetRemoteLoginSettingsHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeGetRemoteLoginSettingsHeaders object itself.
      */
-    public ComputeNodeGetRemoteLoginSettingsHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeGetRemoteLoginSettingsHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }

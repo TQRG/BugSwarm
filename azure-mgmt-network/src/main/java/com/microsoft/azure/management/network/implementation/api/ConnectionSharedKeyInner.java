@@ -31,7 +31,7 @@ public class ConnectionSharedKeyInner {
      * @param value the value value to set
      * @return the ConnectionSharedKeyInner object itself.
      */
-    public ConnectionSharedKeyInner withValue(String value) {
+    public ConnectionSharedKeyInner setValue(String value) {
         this.value = value;
         return this;
     }

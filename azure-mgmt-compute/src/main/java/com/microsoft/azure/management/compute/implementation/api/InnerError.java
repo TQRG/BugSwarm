@@ -36,7 +36,7 @@ public class InnerError {
      * @param exceptiontype the exceptiontype value to set
      * @return the InnerError object itself.
      */
-    public InnerError withExceptiontype(String exceptiontype) {
+    public InnerError setExceptiontype(String exceptiontype) {
         this.exceptiontype = exceptiontype;
         return this;
     }
@@ -56,7 +56,7 @@ public class InnerError {
      * @param errordetail the errordetail value to set
      * @return the InnerError object itself.
      */
-    public InnerError withErrordetail(String errordetail) {
+    public InnerError setErrordetail(String errordetail) {
         this.errordetail = errordetail;
         return this;
     }

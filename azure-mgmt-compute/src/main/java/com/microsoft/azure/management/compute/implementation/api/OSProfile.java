@@ -62,7 +62,7 @@ public class OSProfile {
      * @param computerName the computerName value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withComputerName(String computerName) {
+    public OSProfile setComputerName(String computerName) {
         this.computerName = computerName;
         return this;
     }
@@ -82,7 +82,7 @@ public class OSProfile {
      * @param adminUsername the adminUsername value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withAdminUsername(String adminUsername) {
+    public OSProfile setAdminUsername(String adminUsername) {
         this.adminUsername = adminUsername;
         return this;
     }
@@ -102,7 +102,7 @@ public class OSProfile {
      * @param adminPassword the adminPassword value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withAdminPassword(String adminPassword) {
+    public OSProfile setAdminPassword(String adminPassword) {
         this.adminPassword = adminPassword;
         return this;
     }
@@ -122,7 +122,7 @@ public class OSProfile {
      * @param customData the customData value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withCustomData(String customData) {
+    public OSProfile setCustomData(String customData) {
         this.customData = customData;
         return this;
     }
@@ -142,7 +142,7 @@ public class OSProfile {
      * @param windowsConfiguration the windowsConfiguration value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
+    public OSProfile setWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
         this.windowsConfiguration = windowsConfiguration;
         return this;
     }
@@ -162,7 +162,7 @@ public class OSProfile {
      * @param linuxConfiguration the linuxConfiguration value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withLinuxConfiguration(LinuxConfiguration linuxConfiguration) {
+    public OSProfile setLinuxConfiguration(LinuxConfiguration linuxConfiguration) {
         this.linuxConfiguration = linuxConfiguration;
         return this;
     }
@@ -182,7 +182,7 @@ public class OSProfile {
      * @param secrets the secrets value to set
      * @return the OSProfile object itself.
      */
-    public OSProfile withSecrets(List<VaultSecretGroup> secrets) {
+    public OSProfile setSecrets(List<VaultSecretGroup> secrets) {
         this.secrets = secrets;
         return this;
     }

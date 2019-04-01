@@ -135,7 +135,7 @@ public class DomainInner extends Resource {
      * @param contactAdmin the contactAdmin value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withContactAdmin(Contact contactAdmin) {
+    public DomainInner setContactAdmin(Contact contactAdmin) {
         this.contactAdmin = contactAdmin;
         return this;
     }
@@ -155,7 +155,7 @@ public class DomainInner extends Resource {
      * @param contactBilling the contactBilling value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withContactBilling(Contact contactBilling) {
+    public DomainInner setContactBilling(Contact contactBilling) {
         this.contactBilling = contactBilling;
         return this;
     }
@@ -175,7 +175,7 @@ public class DomainInner extends Resource {
      * @param contactRegistrant the contactRegistrant value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withContactRegistrant(Contact contactRegistrant) {
+    public DomainInner setContactRegistrant(Contact contactRegistrant) {
         this.contactRegistrant = contactRegistrant;
         return this;
     }
@@ -195,7 +195,7 @@ public class DomainInner extends Resource {
      * @param contactTech the contactTech value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withContactTech(Contact contactTech) {
+    public DomainInner setContactTech(Contact contactTech) {
         this.contactTech = contactTech;
         return this;
     }
@@ -215,7 +215,7 @@ public class DomainInner extends Resource {
      * @param registrationStatus the registrationStatus value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withRegistrationStatus(DomainStatus registrationStatus) {
+    public DomainInner setRegistrationStatus(DomainStatus registrationStatus) {
         this.registrationStatus = registrationStatus;
         return this;
     }
@@ -235,7 +235,7 @@ public class DomainInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withProvisioningState(ProvisioningState provisioningState) {
+    public DomainInner setProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -255,7 +255,7 @@ public class DomainInner extends Resource {
      * @param nameServers the nameServers value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withNameServers(List<String> nameServers) {
+    public DomainInner setNameServers(List<String> nameServers) {
         this.nameServers = nameServers;
         return this;
     }
@@ -275,7 +275,7 @@ public class DomainInner extends Resource {
      * @param privacy the privacy value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withPrivacy(Boolean privacy) {
+    public DomainInner setPrivacy(Boolean privacy) {
         this.privacy = privacy;
         return this;
     }
@@ -295,7 +295,7 @@ public class DomainInner extends Resource {
      * @param createdTime the createdTime value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withCreatedTime(DateTime createdTime) {
+    public DomainInner setCreatedTime(DateTime createdTime) {
         this.createdTime = createdTime;
         return this;
     }
@@ -315,7 +315,7 @@ public class DomainInner extends Resource {
      * @param expirationTime the expirationTime value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withExpirationTime(DateTime expirationTime) {
+    public DomainInner setExpirationTime(DateTime expirationTime) {
         this.expirationTime = expirationTime;
         return this;
     }
@@ -335,7 +335,7 @@ public class DomainInner extends Resource {
      * @param lastRenewedTime the lastRenewedTime value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withLastRenewedTime(DateTime lastRenewedTime) {
+    public DomainInner setLastRenewedTime(DateTime lastRenewedTime) {
         this.lastRenewedTime = lastRenewedTime;
         return this;
     }
@@ -355,7 +355,7 @@ public class DomainInner extends Resource {
      * @param autoRenew the autoRenew value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withAutoRenew(Boolean autoRenew) {
+    public DomainInner setAutoRenew(Boolean autoRenew) {
         this.autoRenew = autoRenew;
         return this;
     }
@@ -375,7 +375,7 @@ public class DomainInner extends Resource {
      * @param readyForDnsRecordManagement the readyForDnsRecordManagement value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withReadyForDnsRecordManagement(Boolean readyForDnsRecordManagement) {
+    public DomainInner setReadyForDnsRecordManagement(Boolean readyForDnsRecordManagement) {
         this.readyForDnsRecordManagement = readyForDnsRecordManagement;
         return this;
     }
@@ -395,7 +395,7 @@ public class DomainInner extends Resource {
      * @param managedHostNames the managedHostNames value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withManagedHostNames(List<HostName> managedHostNames) {
+    public DomainInner setManagedHostNames(List<HostName> managedHostNames) {
         this.managedHostNames = managedHostNames;
         return this;
     }
@@ -415,7 +415,7 @@ public class DomainInner extends Resource {
      * @param consent the consent value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withConsent(DomainPurchaseConsent consent) {
+    public DomainInner setConsent(DomainPurchaseConsent consent) {
         this.consent = consent;
         return this;
     }
@@ -435,7 +435,7 @@ public class DomainInner extends Resource {
      * @param domainNotRenewableReasons the domainNotRenewableReasons value to set
      * @return the DomainInner object itself.
      */
-    public DomainInner withDomainNotRenewableReasons(List<String> domainNotRenewableReasons) {
+    public DomainInner setDomainNotRenewableReasons(List<String> domainNotRenewableReasons) {
         this.domainNotRenewableReasons = domainNotRenewableReasons;
         return this;
     }

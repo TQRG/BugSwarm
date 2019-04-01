@@ -51,7 +51,7 @@ public class VirtualMachineConfiguration {
      * @param imageReference the imageReference value to set
      * @return the VirtualMachineConfiguration object itself.
      */
-    public VirtualMachineConfiguration withImageReference(ImageReference imageReference) {
+    public VirtualMachineConfiguration setImageReference(ImageReference imageReference) {
         this.imageReference = imageReference;
         return this;
     }
@@ -71,7 +71,7 @@ public class VirtualMachineConfiguration {
      * @param nodeAgentSKUId the nodeAgentSKUId value to set
      * @return the VirtualMachineConfiguration object itself.
      */
-    public VirtualMachineConfiguration withNodeAgentSKUId(String nodeAgentSKUId) {
+    public VirtualMachineConfiguration setNodeAgentSKUId(String nodeAgentSKUId) {
         this.nodeAgentSKUId = nodeAgentSKUId;
         return this;
     }
@@ -91,7 +91,7 @@ public class VirtualMachineConfiguration {
      * @param windowsConfiguration the windowsConfiguration value to set
      * @return the VirtualMachineConfiguration object itself.
      */
-    public VirtualMachineConfiguration withWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
+    public VirtualMachineConfiguration setWindowsConfiguration(WindowsConfiguration windowsConfiguration) {
         this.windowsConfiguration = windowsConfiguration;
         return this;
     }

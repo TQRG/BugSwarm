@@ -37,7 +37,7 @@ public class RestoreResponseInner extends Resource {
      * @param operationId the operationId value to set
      * @return the RestoreResponseInner object itself.
      */
-    public RestoreResponseInner withOperationId(String operationId) {
+    public RestoreResponseInner setOperationId(String operationId) {
         this.operationId = operationId;
         return this;
     }

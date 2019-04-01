@@ -49,7 +49,7 @@ public class USqlProcedureInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlProcedureInner object itself.
      */
-    public USqlProcedureInner withDatabaseName(String databaseName) {
+    public USqlProcedureInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -69,7 +69,7 @@ public class USqlProcedureInner extends CatalogItem {
      * @param schemaName the schemaName value to set
      * @return the USqlProcedureInner object itself.
      */
-    public USqlProcedureInner withSchemaName(String schemaName) {
+    public USqlProcedureInner setSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -89,7 +89,7 @@ public class USqlProcedureInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlProcedureInner object itself.
      */
-    public USqlProcedureInner withName(String name) {
+    public USqlProcedureInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -109,7 +109,7 @@ public class USqlProcedureInner extends CatalogItem {
      * @param definition the definition value to set
      * @return the USqlProcedureInner object itself.
      */
-    public USqlProcedureInner withDefinition(String definition) {
+    public USqlProcedureInner setDefinition(String definition) {
         this.definition = definition;
         return this;
     }

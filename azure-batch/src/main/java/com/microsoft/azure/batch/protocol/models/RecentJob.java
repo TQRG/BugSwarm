@@ -36,7 +36,7 @@ public class RecentJob {
      * @param id the id value to set
      * @return the RecentJob object itself.
      */
-    public RecentJob withId(String id) {
+    public RecentJob setId(String id) {
         this.id = id;
         return this;
     }
@@ -56,7 +56,7 @@ public class RecentJob {
      * @param url the url value to set
      * @return the RecentJob object itself.
      */
-    public RecentJob withUrl(String url) {
+    public RecentJob setUrl(String url) {
         this.url = url;
         return this;
     }

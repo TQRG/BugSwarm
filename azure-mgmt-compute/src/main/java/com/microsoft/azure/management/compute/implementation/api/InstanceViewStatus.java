@@ -54,7 +54,7 @@ public class InstanceViewStatus {
      * @param code the code value to set
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withCode(String code) {
+    public InstanceViewStatus setCode(String code) {
         this.code = code;
         return this;
     }
@@ -74,7 +74,7 @@ public class InstanceViewStatus {
      * @param level the level value to set
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withLevel(StatusLevelTypes level) {
+    public InstanceViewStatus setLevel(StatusLevelTypes level) {
         this.level = level;
         return this;
     }
@@ -94,7 +94,7 @@ public class InstanceViewStatus {
      * @param displayStatus the displayStatus value to set
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withDisplayStatus(String displayStatus) {
+    public InstanceViewStatus setDisplayStatus(String displayStatus) {
         this.displayStatus = displayStatus;
         return this;
     }
@@ -114,7 +114,7 @@ public class InstanceViewStatus {
      * @param message the message value to set
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withMessage(String message) {
+    public InstanceViewStatus setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -134,7 +134,7 @@ public class InstanceViewStatus {
      * @param time the time value to set
      * @return the InstanceViewStatus object itself.
      */
-    public InstanceViewStatus withTime(DateTime time) {
+    public InstanceViewStatus setTime(DateTime time) {
         this.time = time;
         return this;
     }

@@ -43,7 +43,7 @@ public class DeploymentExtendedInner {
      * @param id the id value to set
      * @return the DeploymentExtendedInner object itself.
      */
-    public DeploymentExtendedInner withId(String id) {
+    public DeploymentExtendedInner setId(String id) {
         this.id = id;
         return this;
     }
@@ -63,7 +63,7 @@ public class DeploymentExtendedInner {
      * @param name the name value to set
      * @return the DeploymentExtendedInner object itself.
      */
-    public DeploymentExtendedInner withName(String name) {
+    public DeploymentExtendedInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -83,7 +83,7 @@ public class DeploymentExtendedInner {
      * @param properties the properties value to set
      * @return the DeploymentExtendedInner object itself.
      */
-    public DeploymentExtendedInner withProperties(DeploymentPropertiesExtended properties) {
+    public DeploymentExtendedInner setProperties(DeploymentPropertiesExtended properties) {
         this.properties = properties;
         return this;
     }

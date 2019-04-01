@@ -54,7 +54,7 @@ public class SiteLogsConfigInner extends Resource {
      * @param applicationLogs the applicationLogs value to set
      * @return the SiteLogsConfigInner object itself.
      */
-    public SiteLogsConfigInner withApplicationLogs(ApplicationLogsConfig applicationLogs) {
+    public SiteLogsConfigInner setApplicationLogs(ApplicationLogsConfig applicationLogs) {
         this.applicationLogs = applicationLogs;
         return this;
     }
@@ -74,7 +74,7 @@ public class SiteLogsConfigInner extends Resource {
      * @param httpLogs the httpLogs value to set
      * @return the SiteLogsConfigInner object itself.
      */
-    public SiteLogsConfigInner withHttpLogs(HttpLogsConfig httpLogs) {
+    public SiteLogsConfigInner setHttpLogs(HttpLogsConfig httpLogs) {
         this.httpLogs = httpLogs;
         return this;
     }
@@ -94,7 +94,7 @@ public class SiteLogsConfigInner extends Resource {
      * @param failedRequestsTracing the failedRequestsTracing value to set
      * @return the SiteLogsConfigInner object itself.
      */
-    public SiteLogsConfigInner withFailedRequestsTracing(EnabledConfig failedRequestsTracing) {
+    public SiteLogsConfigInner setFailedRequestsTracing(EnabledConfig failedRequestsTracing) {
         this.failedRequestsTracing = failedRequestsTracing;
         return this;
     }
@@ -114,7 +114,7 @@ public class SiteLogsConfigInner extends Resource {
      * @param detailedErrorMessages the detailedErrorMessages value to set
      * @return the SiteLogsConfigInner object itself.
      */
-    public SiteLogsConfigInner withDetailedErrorMessages(EnabledConfig detailedErrorMessages) {
+    public SiteLogsConfigInner setDetailedErrorMessages(EnabledConfig detailedErrorMessages) {
         this.detailedErrorMessages = detailedErrorMessages;
         return this;
     }

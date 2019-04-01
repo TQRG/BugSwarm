@@ -54,7 +54,7 @@ public class DatabaseBackupSetting {
      * @param databaseType the databaseType value to set
      * @return the DatabaseBackupSetting object itself.
      */
-    public DatabaseBackupSetting withDatabaseType(String databaseType) {
+    public DatabaseBackupSetting setDatabaseType(String databaseType) {
         this.databaseType = databaseType;
         return this;
     }
@@ -74,7 +74,7 @@ public class DatabaseBackupSetting {
      * @param name the name value to set
      * @return the DatabaseBackupSetting object itself.
      */
-    public DatabaseBackupSetting withName(String name) {
+    public DatabaseBackupSetting setName(String name) {
         this.name = name;
         return this;
     }
@@ -94,7 +94,7 @@ public class DatabaseBackupSetting {
      * @param connectionStringName the connectionStringName value to set
      * @return the DatabaseBackupSetting object itself.
      */
-    public DatabaseBackupSetting withConnectionStringName(String connectionStringName) {
+    public DatabaseBackupSetting setConnectionStringName(String connectionStringName) {
         this.connectionStringName = connectionStringName;
         return this;
     }
@@ -114,7 +114,7 @@ public class DatabaseBackupSetting {
      * @param connectionString the connectionString value to set
      * @return the DatabaseBackupSetting object itself.
      */
-    public DatabaseBackupSetting withConnectionString(String connectionString) {
+    public DatabaseBackupSetting setConnectionString(String connectionString) {
         this.connectionString = connectionString;
         return this;
     }

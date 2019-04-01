@@ -43,7 +43,7 @@ public class JobSchedulePatchParameter {
      * @param schedule the schedule value to set
      * @return the JobSchedulePatchParameter object itself.
      */
-    public JobSchedulePatchParameter withSchedule(Schedule schedule) {
+    public JobSchedulePatchParameter setSchedule(Schedule schedule) {
         this.schedule = schedule;
         return this;
     }
@@ -63,7 +63,7 @@ public class JobSchedulePatchParameter {
      * @param jobSpecification the jobSpecification value to set
      * @return the JobSchedulePatchParameter object itself.
      */
-    public JobSchedulePatchParameter withJobSpecification(JobSpecification jobSpecification) {
+    public JobSchedulePatchParameter setJobSpecification(JobSpecification jobSpecification) {
         this.jobSpecification = jobSpecification;
         return this;
     }
@@ -83,7 +83,7 @@ public class JobSchedulePatchParameter {
      * @param metadata the metadata value to set
      * @return the JobSchedulePatchParameter object itself.
      */
-    public JobSchedulePatchParameter withMetadata(List<MetadataItem> metadata) {
+    public JobSchedulePatchParameter setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

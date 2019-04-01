@@ -48,7 +48,7 @@ public class NodeRemoveParameter {
      * @param nodeList the nodeList value to set
      * @return the NodeRemoveParameter object itself.
      */
-    public NodeRemoveParameter withNodeList(List<String> nodeList) {
+    public NodeRemoveParameter setNodeList(List<String> nodeList) {
         this.nodeList = nodeList;
         return this;
     }
@@ -68,7 +68,7 @@ public class NodeRemoveParameter {
      * @param resizeTimeout the resizeTimeout value to set
      * @return the NodeRemoveParameter object itself.
      */
-    public NodeRemoveParameter withResizeTimeout(Period resizeTimeout) {
+    public NodeRemoveParameter setResizeTimeout(Period resizeTimeout) {
         this.resizeTimeout = resizeTimeout;
         return this;
     }
@@ -88,7 +88,7 @@ public class NodeRemoveParameter {
      * @param nodeDeallocationOption the nodeDeallocationOption value to set
      * @return the NodeRemoveParameter object itself.
      */
-    public NodeRemoveParameter withNodeDeallocationOption(ComputeNodeDeallocationOption nodeDeallocationOption) {
+    public NodeRemoveParameter setNodeDeallocationOption(ComputeNodeDeallocationOption nodeDeallocationOption) {
         this.nodeDeallocationOption = nodeDeallocationOption;
         return this;
     }

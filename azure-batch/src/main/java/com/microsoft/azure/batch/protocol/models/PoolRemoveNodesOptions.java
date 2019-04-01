@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_RemoveNodes operation.
+ * Additional parameters for the RemoveNodes operation.
  */
 public class PoolRemoveNodesOptions {
     /**
@@ -86,7 +86,7 @@ public class PoolRemoveNodesOptions {
      * @param timeout the timeout value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withTimeout(Integer timeout) {
+    public PoolRemoveNodesOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class PoolRemoveNodesOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withClientRequestId(String clientRequestId) {
+    public PoolRemoveNodesOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class PoolRemoveNodesOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolRemoveNodesOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class PoolRemoveNodesOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withOcpDate(DateTime ocpDate) {
+    public PoolRemoveNodesOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class PoolRemoveNodesOptions {
      * @param ifMatch the ifMatch value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withIfMatch(String ifMatch) {
+    public PoolRemoveNodesOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class PoolRemoveNodesOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withIfNoneMatch(String ifNoneMatch) {
+    public PoolRemoveNodesOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class PoolRemoveNodesOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public PoolRemoveNodesOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class PoolRemoveNodesOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the PoolRemoveNodesOptions object itself.
      */
-    public PoolRemoveNodesOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public PoolRemoveNodesOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

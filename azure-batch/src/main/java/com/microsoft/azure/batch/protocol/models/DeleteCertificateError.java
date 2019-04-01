@@ -45,7 +45,7 @@ public class DeleteCertificateError {
      * @param code the code value to set
      * @return the DeleteCertificateError object itself.
      */
-    public DeleteCertificateError withCode(String code) {
+    public DeleteCertificateError setCode(String code) {
         this.code = code;
         return this;
     }
@@ -65,7 +65,7 @@ public class DeleteCertificateError {
      * @param message the message value to set
      * @return the DeleteCertificateError object itself.
      */
-    public DeleteCertificateError withMessage(String message) {
+    public DeleteCertificateError setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -85,7 +85,7 @@ public class DeleteCertificateError {
      * @param values the values value to set
      * @return the DeleteCertificateError object itself.
      */
-    public DeleteCertificateError withValues(List<NameValuePair> values) {
+    public DeleteCertificateError setValues(List<NameValuePair> values) {
         this.values = values;
         return this;
     }

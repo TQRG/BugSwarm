@@ -48,7 +48,7 @@ public class TaskConstraints {
      * @param maxWallClockTime the maxWallClockTime value to set
      * @return the TaskConstraints object itself.
      */
-    public TaskConstraints withMaxWallClockTime(Period maxWallClockTime) {
+    public TaskConstraints setMaxWallClockTime(Period maxWallClockTime) {
         this.maxWallClockTime = maxWallClockTime;
         return this;
     }
@@ -68,7 +68,7 @@ public class TaskConstraints {
      * @param retentionTime the retentionTime value to set
      * @return the TaskConstraints object itself.
      */
-    public TaskConstraints withRetentionTime(Period retentionTime) {
+    public TaskConstraints setRetentionTime(Period retentionTime) {
         this.retentionTime = retentionTime;
         return this;
     }
@@ -88,7 +88,7 @@ public class TaskConstraints {
      * @param maxTaskRetryCount the maxTaskRetryCount value to set
      * @return the TaskConstraints object itself.
      */
-    public TaskConstraints withMaxTaskRetryCount(Integer maxTaskRetryCount) {
+    public TaskConstraints setMaxTaskRetryCount(Integer maxTaskRetryCount) {
         this.maxTaskRetryCount = maxTaskRetryCount;
         return this;
     }

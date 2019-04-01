@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the File_GetNodeFilePropertiesFromTask operation.
+ * Additional parameters for the GetNodeFilePropertiesFromTask operation.
  */
 public class FileGetNodeFilePropertiesFromTaskOptions {
     /**
@@ -72,7 +72,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param timeout the timeout value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withTimeout(Integer timeout) {
+    public FileGetNodeFilePropertiesFromTaskOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -92,7 +92,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withClientRequestId(String clientRequestId) {
+    public FileGetNodeFilePropertiesFromTaskOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -112,7 +112,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public FileGetNodeFilePropertiesFromTaskOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -135,7 +135,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param ocpDate the ocpDate value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withOcpDate(DateTime ocpDate) {
+    public FileGetNodeFilePropertiesFromTaskOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -158,7 +158,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public FileGetNodeFilePropertiesFromTaskOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -181,7 +181,7 @@ public class FileGetNodeFilePropertiesFromTaskOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the FileGetNodeFilePropertiesFromTaskOptions object itself.
      */
-    public FileGetNodeFilePropertiesFromTaskOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public FileGetNodeFilePropertiesFromTaskOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

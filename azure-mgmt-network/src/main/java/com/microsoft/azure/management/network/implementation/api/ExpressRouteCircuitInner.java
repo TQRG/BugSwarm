@@ -93,7 +93,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param sku the sku value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withSku(ExpressRouteCircuitSku sku) {
+    public ExpressRouteCircuitInner setSku(ExpressRouteCircuitSku sku) {
         this.sku = sku;
         return this;
     }
@@ -113,7 +113,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param circuitProvisioningState the circuitProvisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withCircuitProvisioningState(String circuitProvisioningState) {
+    public ExpressRouteCircuitInner setCircuitProvisioningState(String circuitProvisioningState) {
         this.circuitProvisioningState = circuitProvisioningState;
         return this;
     }
@@ -133,7 +133,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceProviderProvisioningState(String serviceProviderProvisioningState) {
+    public ExpressRouteCircuitInner setServiceProviderProvisioningState(String serviceProviderProvisioningState) {
         this.serviceProviderProvisioningState = serviceProviderProvisioningState;
         return this;
     }
@@ -153,7 +153,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param authorizations the authorizations value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withAuthorizations(List<ExpressRouteCircuitAuthorizationInner> authorizations) {
+    public ExpressRouteCircuitInner setAuthorizations(List<ExpressRouteCircuitAuthorizationInner> authorizations) {
         this.authorizations = authorizations;
         return this;
     }
@@ -173,7 +173,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param peerings the peerings value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
+    public ExpressRouteCircuitInner setPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
         this.peerings = peerings;
         return this;
     }
@@ -193,7 +193,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param serviceKey the serviceKey value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceKey(String serviceKey) {
+    public ExpressRouteCircuitInner setServiceKey(String serviceKey) {
         this.serviceKey = serviceKey;
         return this;
     }
@@ -213,7 +213,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param serviceProviderNotes the serviceProviderNotes value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceProviderNotes(String serviceProviderNotes) {
+    public ExpressRouteCircuitInner setServiceProviderNotes(String serviceProviderNotes) {
         this.serviceProviderNotes = serviceProviderNotes;
         return this;
     }
@@ -233,7 +233,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param serviceProviderProperties the serviceProviderProperties value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withServiceProviderProperties(ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
+    public ExpressRouteCircuitInner setServiceProviderProperties(ExpressRouteCircuitServiceProviderProperties serviceProviderProperties) {
         this.serviceProviderProperties = serviceProviderProperties;
         return this;
     }
@@ -253,7 +253,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withProvisioningState(String provisioningState) {
+    public ExpressRouteCircuitInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -273,7 +273,7 @@ public class ExpressRouteCircuitInner extends Resource {
      * @param etag the etag value to set
      * @return the ExpressRouteCircuitInner object itself.
      */
-    public ExpressRouteCircuitInner withEtag(String etag) {
+    public ExpressRouteCircuitInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

@@ -44,7 +44,7 @@ public class AzureBlobStorageHttpLogsConfig {
      * @param sasUrl the sasUrl value to set
      * @return the AzureBlobStorageHttpLogsConfig object itself.
      */
-    public AzureBlobStorageHttpLogsConfig withSasUrl(String sasUrl) {
+    public AzureBlobStorageHttpLogsConfig setSasUrl(String sasUrl) {
         this.sasUrl = sasUrl;
         return this;
     }
@@ -64,7 +64,7 @@ public class AzureBlobStorageHttpLogsConfig {
      * @param retentionInDays the retentionInDays value to set
      * @return the AzureBlobStorageHttpLogsConfig object itself.
      */
-    public AzureBlobStorageHttpLogsConfig withRetentionInDays(Integer retentionInDays) {
+    public AzureBlobStorageHttpLogsConfig setRetentionInDays(Integer retentionInDays) {
         this.retentionInDays = retentionInDays;
         return this;
     }
@@ -84,7 +84,7 @@ public class AzureBlobStorageHttpLogsConfig {
      * @param enabled the enabled value to set
      * @return the AzureBlobStorageHttpLogsConfig object itself.
      */
-    public AzureBlobStorageHttpLogsConfig withEnabled(Boolean enabled) {
+    public AzureBlobStorageHttpLogsConfig setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }

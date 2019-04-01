@@ -58,7 +58,7 @@ public class Schedule {
      * @param doNotRunUntil the doNotRunUntil value to set
      * @return the Schedule object itself.
      */
-    public Schedule withDoNotRunUntil(DateTime doNotRunUntil) {
+    public Schedule setDoNotRunUntil(DateTime doNotRunUntil) {
         this.doNotRunUntil = doNotRunUntil;
         return this;
     }
@@ -78,7 +78,7 @@ public class Schedule {
      * @param doNotRunAfter the doNotRunAfter value to set
      * @return the Schedule object itself.
      */
-    public Schedule withDoNotRunAfter(DateTime doNotRunAfter) {
+    public Schedule setDoNotRunAfter(DateTime doNotRunAfter) {
         this.doNotRunAfter = doNotRunAfter;
         return this;
     }
@@ -98,7 +98,7 @@ public class Schedule {
      * @param startWindow the startWindow value to set
      * @return the Schedule object itself.
      */
-    public Schedule withStartWindow(Period startWindow) {
+    public Schedule setStartWindow(Period startWindow) {
         this.startWindow = startWindow;
         return this;
     }
@@ -118,7 +118,7 @@ public class Schedule {
      * @param recurrenceInterval the recurrenceInterval value to set
      * @return the Schedule object itself.
      */
-    public Schedule withRecurrenceInterval(Period recurrenceInterval) {
+    public Schedule setRecurrenceInterval(Period recurrenceInterval) {
         this.recurrenceInterval = recurrenceInterval;
         return this;
     }

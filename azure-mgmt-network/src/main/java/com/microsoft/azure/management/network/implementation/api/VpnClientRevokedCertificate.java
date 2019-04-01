@@ -54,7 +54,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param thumbprint the thumbprint value to set
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate withThumbprint(String thumbprint) {
+    public VpnClientRevokedCertificate setThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -74,7 +74,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate withProvisioningState(String provisioningState) {
+    public VpnClientRevokedCertificate setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -94,7 +94,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param name the name value to set
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate withName(String name) {
+    public VpnClientRevokedCertificate setName(String name) {
         this.name = name;
         return this;
     }
@@ -114,7 +114,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param etag the etag value to set
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate withEtag(String etag) {
+    public VpnClientRevokedCertificate setEtag(String etag) {
         this.etag = etag;
         return this;
     }

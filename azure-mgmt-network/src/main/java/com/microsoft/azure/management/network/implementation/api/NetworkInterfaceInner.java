@@ -93,7 +93,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param virtualMachine the virtualMachine value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withVirtualMachine(SubResource virtualMachine) {
+    public NetworkInterfaceInner setVirtualMachine(SubResource virtualMachine) {
         this.virtualMachine = virtualMachine;
         return this;
     }
@@ -113,7 +113,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param networkSecurityGroup the networkSecurityGroup value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withNetworkSecurityGroup(NetworkSecurityGroupInner networkSecurityGroup) {
+    public NetworkInterfaceInner setNetworkSecurityGroup(NetworkSecurityGroupInner networkSecurityGroup) {
         this.networkSecurityGroup = networkSecurityGroup;
         return this;
     }
@@ -133,7 +133,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param ipConfigurations the ipConfigurations value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withIpConfigurations(List<NetworkInterfaceIPConfiguration> ipConfigurations) {
+    public NetworkInterfaceInner setIpConfigurations(List<NetworkInterfaceIPConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }
@@ -153,7 +153,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param dnsSettings the dnsSettings value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withDnsSettings(NetworkInterfaceDnsSettings dnsSettings) {
+    public NetworkInterfaceInner setDnsSettings(NetworkInterfaceDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
         return this;
     }
@@ -173,7 +173,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param macAddress the macAddress value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withMacAddress(String macAddress) {
+    public NetworkInterfaceInner setMacAddress(String macAddress) {
         this.macAddress = macAddress;
         return this;
     }
@@ -193,7 +193,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param primary the primary value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withPrimary(Boolean primary) {
+    public NetworkInterfaceInner setPrimary(Boolean primary) {
         this.primary = primary;
         return this;
     }
@@ -213,7 +213,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param enableIPForwarding the enableIPForwarding value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withEnableIPForwarding(Boolean enableIPForwarding) {
+    public NetworkInterfaceInner setEnableIPForwarding(Boolean enableIPForwarding) {
         this.enableIPForwarding = enableIPForwarding;
         return this;
     }
@@ -233,7 +233,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param resourceGuid the resourceGuid value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withResourceGuid(String resourceGuid) {
+    public NetworkInterfaceInner setResourceGuid(String resourceGuid) {
         this.resourceGuid = resourceGuid;
         return this;
     }
@@ -253,7 +253,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withProvisioningState(String provisioningState) {
+    public NetworkInterfaceInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -273,7 +273,7 @@ public class NetworkInterfaceInner extends Resource {
      * @param etag the etag value to set
      * @return the NetworkInterfaceInner object itself.
      */
-    public NetworkInterfaceInner withEtag(String etag) {
+    public NetworkInterfaceInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

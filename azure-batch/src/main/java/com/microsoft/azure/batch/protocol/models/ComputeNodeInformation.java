@@ -58,7 +58,7 @@ public class ComputeNodeInformation {
      * @param affinityId the affinityId value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withAffinityId(String affinityId) {
+    public ComputeNodeInformation setAffinityId(String affinityId) {
         this.affinityId = affinityId;
         return this;
     }
@@ -78,7 +78,7 @@ public class ComputeNodeInformation {
      * @param nodeUrl the nodeUrl value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withNodeUrl(String nodeUrl) {
+    public ComputeNodeInformation setNodeUrl(String nodeUrl) {
         this.nodeUrl = nodeUrl;
         return this;
     }
@@ -98,7 +98,7 @@ public class ComputeNodeInformation {
      * @param poolId the poolId value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withPoolId(String poolId) {
+    public ComputeNodeInformation setPoolId(String poolId) {
         this.poolId = poolId;
         return this;
     }
@@ -118,7 +118,7 @@ public class ComputeNodeInformation {
      * @param nodeId the nodeId value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withNodeId(String nodeId) {
+    public ComputeNodeInformation setNodeId(String nodeId) {
         this.nodeId = nodeId;
         return this;
     }
@@ -138,7 +138,7 @@ public class ComputeNodeInformation {
      * @param taskRootDirectory the taskRootDirectory value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withTaskRootDirectory(String taskRootDirectory) {
+    public ComputeNodeInformation setTaskRootDirectory(String taskRootDirectory) {
         this.taskRootDirectory = taskRootDirectory;
         return this;
     }
@@ -158,7 +158,7 @@ public class ComputeNodeInformation {
      * @param taskRootDirectoryUrl the taskRootDirectoryUrl value to set
      * @return the ComputeNodeInformation object itself.
      */
-    public ComputeNodeInformation withTaskRootDirectoryUrl(String taskRootDirectoryUrl) {
+    public ComputeNodeInformation setTaskRootDirectoryUrl(String taskRootDirectoryUrl) {
         this.taskRootDirectoryUrl = taskRootDirectoryUrl;
         return this;
     }

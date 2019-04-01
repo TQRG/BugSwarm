@@ -67,7 +67,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param paths the paths value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withPaths(List<String> paths) {
+    public ApplicationGatewayPathRule setPaths(List<String> paths) {
         this.paths = paths;
         return this;
     }
@@ -87,7 +87,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param backendAddressPool the backendAddressPool value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withBackendAddressPool(SubResource backendAddressPool) {
+    public ApplicationGatewayPathRule setBackendAddressPool(SubResource backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
@@ -107,7 +107,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param backendHttpSettings the backendHttpSettings value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withBackendHttpSettings(SubResource backendHttpSettings) {
+    public ApplicationGatewayPathRule setBackendHttpSettings(SubResource backendHttpSettings) {
         this.backendHttpSettings = backendHttpSettings;
         return this;
     }
@@ -127,7 +127,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withProvisioningState(String provisioningState) {
+    public ApplicationGatewayPathRule setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -147,7 +147,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param name the name value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withName(String name) {
+    public ApplicationGatewayPathRule setName(String name) {
         this.name = name;
         return this;
     }
@@ -167,7 +167,7 @@ public class ApplicationGatewayPathRule extends SubResource {
      * @param etag the etag value to set
      * @return the ApplicationGatewayPathRule object itself.
      */
-    public ApplicationGatewayPathRule withEtag(String etag) {
+    public ApplicationGatewayPathRule setEtag(String etag) {
         this.etag = etag;
         return this;
     }

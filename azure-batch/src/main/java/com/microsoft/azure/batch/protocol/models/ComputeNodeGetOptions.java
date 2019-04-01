@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the ComputeNode_Get operation.
+ * Additional parameters for the Get operation.
  */
 public class ComputeNodeGetOptions {
     /**
@@ -64,7 +64,7 @@ public class ComputeNodeGetOptions {
      * @param select the select value to set
      * @return the ComputeNodeGetOptions object itself.
      */
-    public ComputeNodeGetOptions withSelect(String select) {
+    public ComputeNodeGetOptions setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -84,7 +84,7 @@ public class ComputeNodeGetOptions {
      * @param timeout the timeout value to set
      * @return the ComputeNodeGetOptions object itself.
      */
-    public ComputeNodeGetOptions withTimeout(Integer timeout) {
+    public ComputeNodeGetOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -104,7 +104,7 @@ public class ComputeNodeGetOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeGetOptions object itself.
      */
-    public ComputeNodeGetOptions withClientRequestId(String clientRequestId) {
+    public ComputeNodeGetOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -124,7 +124,7 @@ public class ComputeNodeGetOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the ComputeNodeGetOptions object itself.
      */
-    public ComputeNodeGetOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public ComputeNodeGetOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -147,7 +147,7 @@ public class ComputeNodeGetOptions {
      * @param ocpDate the ocpDate value to set
      * @return the ComputeNodeGetOptions object itself.
      */
-    public ComputeNodeGetOptions withOcpDate(DateTime ocpDate) {
+    public ComputeNodeGetOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

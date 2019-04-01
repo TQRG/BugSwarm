@@ -46,7 +46,7 @@ public class AutoHealActions {
      * @param actionType the actionType value to set
      * @return the AutoHealActions object itself.
      */
-    public AutoHealActions withActionType(AutoHealActionType actionType) {
+    public AutoHealActions setActionType(AutoHealActionType actionType) {
         this.actionType = actionType;
         return this;
     }
@@ -66,7 +66,7 @@ public class AutoHealActions {
      * @param customAction the customAction value to set
      * @return the AutoHealActions object itself.
      */
-    public AutoHealActions withCustomAction(AutoHealCustomAction customAction) {
+    public AutoHealActions setCustomAction(AutoHealCustomAction customAction) {
         this.customAction = customAction;
         return this;
     }
@@ -86,7 +86,7 @@ public class AutoHealActions {
      * @param minProcessExecutionTime the minProcessExecutionTime value to set
      * @return the AutoHealActions object itself.
      */
-    public AutoHealActions withMinProcessExecutionTime(String minProcessExecutionTime) {
+    public AutoHealActions setMinProcessExecutionTime(String minProcessExecutionTime) {
         this.minProcessExecutionTime = minProcessExecutionTime;
         return this;
     }

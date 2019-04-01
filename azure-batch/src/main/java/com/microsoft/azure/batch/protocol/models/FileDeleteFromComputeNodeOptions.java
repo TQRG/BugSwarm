@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the File_DeleteFromComputeNode operation.
+ * Additional parameters for the DeleteFromComputeNode operation.
  */
 public class FileDeleteFromComputeNodeOptions {
     /**
@@ -58,7 +58,7 @@ public class FileDeleteFromComputeNodeOptions {
      * @param timeout the timeout value to set
      * @return the FileDeleteFromComputeNodeOptions object itself.
      */
-    public FileDeleteFromComputeNodeOptions withTimeout(Integer timeout) {
+    public FileDeleteFromComputeNodeOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class FileDeleteFromComputeNodeOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileDeleteFromComputeNodeOptions object itself.
      */
-    public FileDeleteFromComputeNodeOptions withClientRequestId(String clientRequestId) {
+    public FileDeleteFromComputeNodeOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class FileDeleteFromComputeNodeOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the FileDeleteFromComputeNodeOptions object itself.
      */
-    public FileDeleteFromComputeNodeOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public FileDeleteFromComputeNodeOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class FileDeleteFromComputeNodeOptions {
      * @param ocpDate the ocpDate value to set
      * @return the FileDeleteFromComputeNodeOptions object itself.
      */
-    public FileDeleteFromComputeNodeOptions withOcpDate(DateTime ocpDate) {
+    public FileDeleteFromComputeNodeOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

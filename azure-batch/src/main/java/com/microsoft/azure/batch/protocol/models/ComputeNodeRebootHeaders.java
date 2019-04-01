@@ -60,7 +60,7 @@ public class ComputeNodeRebootHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeRebootHeaders object itself.
      */
-    public ComputeNodeRebootHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeRebootHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class ComputeNodeRebootHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeRebootHeaders object itself.
      */
-    public ComputeNodeRebootHeaders withRequestId(String requestId) {
+    public ComputeNodeRebootHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class ComputeNodeRebootHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeRebootHeaders object itself.
      */
-    public ComputeNodeRebootHeaders withETag(String eTag) {
+    public ComputeNodeRebootHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class ComputeNodeRebootHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeRebootHeaders object itself.
      */
-    public ComputeNodeRebootHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeRebootHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class ComputeNodeRebootHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the ComputeNodeRebootHeaders object itself.
      */
-    public ComputeNodeRebootHeaders withDataServiceId(String dataServiceId) {
+    public ComputeNodeRebootHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

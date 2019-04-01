@@ -48,7 +48,7 @@ public class USqlTableValuedFunctionInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlTableValuedFunctionInner object itself.
      */
-    public USqlTableValuedFunctionInner withDatabaseName(String databaseName) {
+    public USqlTableValuedFunctionInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -68,7 +68,7 @@ public class USqlTableValuedFunctionInner extends CatalogItem {
      * @param schemaName the schemaName value to set
      * @return the USqlTableValuedFunctionInner object itself.
      */
-    public USqlTableValuedFunctionInner withSchemaName(String schemaName) {
+    public USqlTableValuedFunctionInner setSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -88,7 +88,7 @@ public class USqlTableValuedFunctionInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlTableValuedFunctionInner object itself.
      */
-    public USqlTableValuedFunctionInner withName(String name) {
+    public USqlTableValuedFunctionInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -108,7 +108,7 @@ public class USqlTableValuedFunctionInner extends CatalogItem {
      * @param definition the definition value to set
      * @return the USqlTableValuedFunctionInner object itself.
      */
-    public USqlTableValuedFunctionInner withDefinition(String definition) {
+    public USqlTableValuedFunctionInner setDefinition(String definition) {
         this.definition = definition;
         return this;
     }

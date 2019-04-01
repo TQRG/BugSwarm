@@ -11,6 +11,7 @@ import com.microsoft.azure.AzureServiceClient;
 import com.microsoft.azure.serializer.AzureJacksonMapperAdapter;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
+import java.util.UUID;
 
 /**
  * Initializes a new instance of the DataLakeAnalyticsJobManagementClientImpl class.
@@ -56,7 +57,7 @@ public final class DataLakeAnalyticsJobManagementClientImpl extends AzureService
      *
      * @param adlaJobDnsSuffix the adlaJobDnsSuffix value.
      */
-    public void withAdlaJobDnsSuffix(String adlaJobDnsSuffix) {
+    public void setAdlaJobDnsSuffix(String adlaJobDnsSuffix) {
         this.adlaJobDnsSuffix = adlaJobDnsSuffix;
     }
 
@@ -77,7 +78,7 @@ public final class DataLakeAnalyticsJobManagementClientImpl extends AzureService
      *
      * @param acceptLanguage the acceptLanguage value.
      */
-    public void withAcceptLanguage(String acceptLanguage) {
+    public void setAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
     }
 
@@ -98,7 +99,7 @@ public final class DataLakeAnalyticsJobManagementClientImpl extends AzureService
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      */
-    public void withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
+    public void setLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout) {
         this.longRunningOperationRetryTimeout = longRunningOperationRetryTimeout;
     }
 
@@ -119,7 +120,7 @@ public final class DataLakeAnalyticsJobManagementClientImpl extends AzureService
      *
      * @param generateClientRequestId the generateClientRequestId value.
      */
-    public void withGenerateClientRequestId(boolean generateClientRequestId) {
+    public void setGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
     }
 
@@ -183,7 +184,6 @@ public final class DataLakeAnalyticsJobManagementClientImpl extends AzureService
      *
      * @return the user agent string.
      */
-    @Override
     public String userAgent() {
         return String.format("Azure-SDK-For-Java/%s (%s)",
                 getClass().getPackage().getImplementationVersion(),

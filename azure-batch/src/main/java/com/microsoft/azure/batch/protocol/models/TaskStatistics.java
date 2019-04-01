@@ -101,7 +101,7 @@ public class TaskStatistics {
      * @param url the url value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withUrl(String url) {
+    public TaskStatistics setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -121,7 +121,7 @@ public class TaskStatistics {
      * @param startTime the startTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withStartTime(DateTime startTime) {
+    public TaskStatistics setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -141,7 +141,7 @@ public class TaskStatistics {
      * @param lastUpdateTime the lastUpdateTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withLastUpdateTime(DateTime lastUpdateTime) {
+    public TaskStatistics setLastUpdateTime(DateTime lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
         return this;
     }
@@ -161,7 +161,7 @@ public class TaskStatistics {
      * @param userCPUTime the userCPUTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withUserCPUTime(Period userCPUTime) {
+    public TaskStatistics setUserCPUTime(Period userCPUTime) {
         this.userCPUTime = userCPUTime;
         return this;
     }
@@ -181,7 +181,7 @@ public class TaskStatistics {
      * @param kernelCPUTime the kernelCPUTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withKernelCPUTime(Period kernelCPUTime) {
+    public TaskStatistics setKernelCPUTime(Period kernelCPUTime) {
         this.kernelCPUTime = kernelCPUTime;
         return this;
     }
@@ -201,7 +201,7 @@ public class TaskStatistics {
      * @param wallClockTime the wallClockTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withWallClockTime(Period wallClockTime) {
+    public TaskStatistics setWallClockTime(Period wallClockTime) {
         this.wallClockTime = wallClockTime;
         return this;
     }
@@ -221,7 +221,7 @@ public class TaskStatistics {
      * @param readIOps the readIOps value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withReadIOps(long readIOps) {
+    public TaskStatistics setReadIOps(long readIOps) {
         this.readIOps = readIOps;
         return this;
     }
@@ -241,7 +241,7 @@ public class TaskStatistics {
      * @param writeIOps the writeIOps value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withWriteIOps(long writeIOps) {
+    public TaskStatistics setWriteIOps(long writeIOps) {
         this.writeIOps = writeIOps;
         return this;
     }
@@ -261,7 +261,7 @@ public class TaskStatistics {
      * @param readIOGiB the readIOGiB value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withReadIOGiB(double readIOGiB) {
+    public TaskStatistics setReadIOGiB(double readIOGiB) {
         this.readIOGiB = readIOGiB;
         return this;
     }
@@ -281,7 +281,7 @@ public class TaskStatistics {
      * @param writeIOGiB the writeIOGiB value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withWriteIOGiB(double writeIOGiB) {
+    public TaskStatistics setWriteIOGiB(double writeIOGiB) {
         this.writeIOGiB = writeIOGiB;
         return this;
     }
@@ -301,7 +301,7 @@ public class TaskStatistics {
      * @param waitTime the waitTime value to set
      * @return the TaskStatistics object itself.
      */
-    public TaskStatistics withWaitTime(Period waitTime) {
+    public TaskStatistics setWaitTime(Period waitTime) {
         this.waitTime = waitTime;
         return this;
     }

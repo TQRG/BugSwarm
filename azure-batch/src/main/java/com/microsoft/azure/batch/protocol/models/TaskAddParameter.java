@@ -88,7 +88,7 @@ public class TaskAddParameter {
      * @param id the id value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withId(String id) {
+    public TaskAddParameter setId(String id) {
         this.id = id;
         return this;
     }
@@ -108,7 +108,7 @@ public class TaskAddParameter {
      * @param displayName the displayName value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withDisplayName(String displayName) {
+    public TaskAddParameter setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -128,7 +128,7 @@ public class TaskAddParameter {
      * @param commandLine the commandLine value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withCommandLine(String commandLine) {
+    public TaskAddParameter setCommandLine(String commandLine) {
         this.commandLine = commandLine;
         return this;
     }
@@ -148,7 +148,7 @@ public class TaskAddParameter {
      * @param resourceFiles the resourceFiles value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withResourceFiles(List<ResourceFile> resourceFiles) {
+    public TaskAddParameter setResourceFiles(List<ResourceFile> resourceFiles) {
         this.resourceFiles = resourceFiles;
         return this;
     }
@@ -168,7 +168,7 @@ public class TaskAddParameter {
      * @param environmentSettings the environmentSettings value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
+    public TaskAddParameter setEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
         this.environmentSettings = environmentSettings;
         return this;
     }
@@ -188,7 +188,7 @@ public class TaskAddParameter {
      * @param affinityInfo the affinityInfo value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withAffinityInfo(AffinityInformation affinityInfo) {
+    public TaskAddParameter setAffinityInfo(AffinityInformation affinityInfo) {
         this.affinityInfo = affinityInfo;
         return this;
     }
@@ -208,7 +208,7 @@ public class TaskAddParameter {
      * @param constraints the constraints value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withConstraints(TaskConstraints constraints) {
+    public TaskAddParameter setConstraints(TaskConstraints constraints) {
         this.constraints = constraints;
         return this;
     }
@@ -228,7 +228,7 @@ public class TaskAddParameter {
      * @param runElevated the runElevated value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withRunElevated(Boolean runElevated) {
+    public TaskAddParameter setRunElevated(Boolean runElevated) {
         this.runElevated = runElevated;
         return this;
     }
@@ -248,7 +248,7 @@ public class TaskAddParameter {
      * @param multiInstanceSettings the multiInstanceSettings value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withMultiInstanceSettings(MultiInstanceSettings multiInstanceSettings) {
+    public TaskAddParameter setMultiInstanceSettings(MultiInstanceSettings multiInstanceSettings) {
         this.multiInstanceSettings = multiInstanceSettings;
         return this;
     }
@@ -268,7 +268,7 @@ public class TaskAddParameter {
      * @param dependsOn the dependsOn value to set
      * @return the TaskAddParameter object itself.
      */
-    public TaskAddParameter withDependsOn(TaskDependencies dependsOn) {
+    public TaskAddParameter setDependsOn(TaskDependencies dependsOn) {
         this.dependsOn = dependsOn;
         return this;
     }

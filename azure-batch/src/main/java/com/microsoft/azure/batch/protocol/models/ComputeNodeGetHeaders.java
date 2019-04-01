@@ -54,7 +54,7 @@ public class ComputeNodeGetHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeGetHeaders object itself.
      */
-    public ComputeNodeGetHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeGetHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -74,7 +74,7 @@ public class ComputeNodeGetHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeGetHeaders object itself.
      */
-    public ComputeNodeGetHeaders withRequestId(String requestId) {
+    public ComputeNodeGetHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class ComputeNodeGetHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeGetHeaders object itself.
      */
-    public ComputeNodeGetHeaders withETag(String eTag) {
+    public ComputeNodeGetHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -117,7 +117,7 @@ public class ComputeNodeGetHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeGetHeaders object itself.
      */
-    public ComputeNodeGetHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeGetHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }

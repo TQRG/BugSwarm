@@ -70,7 +70,7 @@ public class RouteInner extends SubResource {
      * @param addressPrefix the addressPrefix value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withAddressPrefix(String addressPrefix) {
+    public RouteInner setAddressPrefix(String addressPrefix) {
         this.addressPrefix = addressPrefix;
         return this;
     }
@@ -90,7 +90,7 @@ public class RouteInner extends SubResource {
      * @param nextHopType the nextHopType value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withNextHopType(String nextHopType) {
+    public RouteInner setNextHopType(String nextHopType) {
         this.nextHopType = nextHopType;
         return this;
     }
@@ -110,7 +110,7 @@ public class RouteInner extends SubResource {
      * @param nextHopIpAddress the nextHopIpAddress value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withNextHopIpAddress(String nextHopIpAddress) {
+    public RouteInner setNextHopIpAddress(String nextHopIpAddress) {
         this.nextHopIpAddress = nextHopIpAddress;
         return this;
     }
@@ -130,7 +130,7 @@ public class RouteInner extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withProvisioningState(String provisioningState) {
+    public RouteInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -150,7 +150,7 @@ public class RouteInner extends SubResource {
      * @param name the name value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withName(String name) {
+    public RouteInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -170,7 +170,7 @@ public class RouteInner extends SubResource {
      * @param etag the etag value to set
      * @return the RouteInner object itself.
      */
-    public RouteInner withEtag(String etag) {
+    public RouteInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

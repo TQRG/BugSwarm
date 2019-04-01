@@ -37,7 +37,7 @@ public class PoolEnableAutoScaleParameter {
      * @param autoScaleFormula the autoScaleFormula value to set
      * @return the PoolEnableAutoScaleParameter object itself.
      */
-    public PoolEnableAutoScaleParameter withAutoScaleFormula(String autoScaleFormula) {
+    public PoolEnableAutoScaleParameter setAutoScaleFormula(String autoScaleFormula) {
         this.autoScaleFormula = autoScaleFormula;
         return this;
     }
@@ -57,7 +57,7 @@ public class PoolEnableAutoScaleParameter {
      * @param autoScaleEvaluationInterval the autoScaleEvaluationInterval value to set
      * @return the PoolEnableAutoScaleParameter object itself.
      */
-    public PoolEnableAutoScaleParameter withAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
+    public PoolEnableAutoScaleParameter setAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
         this.autoScaleEvaluationInterval = autoScaleEvaluationInterval;
         return this;
     }

@@ -73,7 +73,7 @@ public class Contact {
      * @param addressMailing the addressMailing value to set
      * @return the Contact object itself.
      */
-    public Contact withAddressMailing(Address addressMailing) {
+    public Contact setAddressMailing(Address addressMailing) {
         this.addressMailing = addressMailing;
         return this;
     }
@@ -93,7 +93,7 @@ public class Contact {
      * @param email the email value to set
      * @return the Contact object itself.
      */
-    public Contact withEmail(String email) {
+    public Contact setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -113,7 +113,7 @@ public class Contact {
      * @param fax the fax value to set
      * @return the Contact object itself.
      */
-    public Contact withFax(String fax) {
+    public Contact setFax(String fax) {
         this.fax = fax;
         return this;
     }
@@ -133,7 +133,7 @@ public class Contact {
      * @param jobTitle the jobTitle value to set
      * @return the Contact object itself.
      */
-    public Contact withJobTitle(String jobTitle) {
+    public Contact setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
         return this;
     }
@@ -153,7 +153,7 @@ public class Contact {
      * @param nameFirst the nameFirst value to set
      * @return the Contact object itself.
      */
-    public Contact withNameFirst(String nameFirst) {
+    public Contact setNameFirst(String nameFirst) {
         this.nameFirst = nameFirst;
         return this;
     }
@@ -173,7 +173,7 @@ public class Contact {
      * @param nameLast the nameLast value to set
      * @return the Contact object itself.
      */
-    public Contact withNameLast(String nameLast) {
+    public Contact setNameLast(String nameLast) {
         this.nameLast = nameLast;
         return this;
     }
@@ -193,7 +193,7 @@ public class Contact {
      * @param nameMiddle the nameMiddle value to set
      * @return the Contact object itself.
      */
-    public Contact withNameMiddle(String nameMiddle) {
+    public Contact setNameMiddle(String nameMiddle) {
         this.nameMiddle = nameMiddle;
         return this;
     }
@@ -213,7 +213,7 @@ public class Contact {
      * @param organization the organization value to set
      * @return the Contact object itself.
      */
-    public Contact withOrganization(String organization) {
+    public Contact setOrganization(String organization) {
         this.organization = organization;
         return this;
     }
@@ -233,7 +233,7 @@ public class Contact {
      * @param phone the phone value to set
      * @return the Contact object itself.
      */
-    public Contact withPhone(String phone) {
+    public Contact setPhone(String phone) {
         this.phone = phone;
         return this;
     }

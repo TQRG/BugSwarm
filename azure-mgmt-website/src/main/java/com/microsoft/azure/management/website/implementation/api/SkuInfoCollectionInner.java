@@ -37,7 +37,7 @@ public class SkuInfoCollectionInner {
      * @param value the value value to set
      * @return the SkuInfoCollectionInner object itself.
      */
-    public SkuInfoCollectionInner withValue(List<SkuInfo> value) {
+    public SkuInfoCollectionInner setValue(List<SkuInfo> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class SkuInfoCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the SkuInfoCollectionInner object itself.
      */
-    public SkuInfoCollectionInner withNextLink(String nextLink) {
+    public SkuInfoCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

@@ -50,7 +50,7 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
      * @param name the name value to set
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
-    public VirtualMachineScaleSetNetworkConfiguration withName(String name) {
+    public VirtualMachineScaleSetNetworkConfiguration setName(String name) {
         this.name = name;
         return this;
     }
@@ -70,7 +70,7 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
      * @param primary the primary value to set
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
-    public VirtualMachineScaleSetNetworkConfiguration withPrimary(Boolean primary) {
+    public VirtualMachineScaleSetNetworkConfiguration setPrimary(Boolean primary) {
         this.primary = primary;
         return this;
     }
@@ -90,7 +90,7 @@ public class VirtualMachineScaleSetNetworkConfiguration extends SubResource {
      * @param ipConfigurations the ipConfigurations value to set
      * @return the VirtualMachineScaleSetNetworkConfiguration object itself.
      */
-    public VirtualMachineScaleSetNetworkConfiguration withIpConfigurations(List<VirtualMachineScaleSetIPConfiguration> ipConfigurations) {
+    public VirtualMachineScaleSetNetworkConfiguration setIpConfigurations(List<VirtualMachineScaleSetIPConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }

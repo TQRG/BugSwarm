@@ -36,7 +36,7 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
      * @param offerName the offerName value to set
      * @return the ExpressRouteServiceProviderBandwidthsOffered object itself.
      */
-    public ExpressRouteServiceProviderBandwidthsOffered withOfferName(String offerName) {
+    public ExpressRouteServiceProviderBandwidthsOffered setOfferName(String offerName) {
         this.offerName = offerName;
         return this;
     }
@@ -56,7 +56,7 @@ public class ExpressRouteServiceProviderBandwidthsOffered {
      * @param valueInMbps the valueInMbps value to set
      * @return the ExpressRouteServiceProviderBandwidthsOffered object itself.
      */
-    public ExpressRouteServiceProviderBandwidthsOffered withValueInMbps(Integer valueInMbps) {
+    public ExpressRouteServiceProviderBandwidthsOffered setValueInMbps(Integer valueInMbps) {
         this.valueInMbps = valueInMbps;
         return this;
     }

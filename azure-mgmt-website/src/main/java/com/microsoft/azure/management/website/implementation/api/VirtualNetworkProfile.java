@@ -46,7 +46,7 @@ public class VirtualNetworkProfile {
      * @param id the id value to set
      * @return the VirtualNetworkProfile object itself.
      */
-    public VirtualNetworkProfile withId(String id) {
+    public VirtualNetworkProfile setId(String id) {
         this.id = id;
         return this;
     }
@@ -66,7 +66,7 @@ public class VirtualNetworkProfile {
      * @param name the name value to set
      * @return the VirtualNetworkProfile object itself.
      */
-    public VirtualNetworkProfile withName(String name) {
+    public VirtualNetworkProfile setName(String name) {
         this.name = name;
         return this;
     }
@@ -86,7 +86,7 @@ public class VirtualNetworkProfile {
      * @param type the type value to set
      * @return the VirtualNetworkProfile object itself.
      */
-    public VirtualNetworkProfile withType(String type) {
+    public VirtualNetworkProfile setType(String type) {
         this.type = type;
         return this;
     }
@@ -106,7 +106,7 @@ public class VirtualNetworkProfile {
      * @param subnet the subnet value to set
      * @return the VirtualNetworkProfile object itself.
      */
-    public VirtualNetworkProfile withSubnet(String subnet) {
+    public VirtualNetworkProfile setSubnet(String subnet) {
         this.subnet = subnet;
         return this;
     }

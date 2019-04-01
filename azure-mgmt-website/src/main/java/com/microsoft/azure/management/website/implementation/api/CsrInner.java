@@ -72,7 +72,7 @@ public class CsrInner extends Resource {
      * @param csrName the csrName value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withCsrName(String csrName) {
+    public CsrInner setCsrName(String csrName) {
         this.csrName = csrName;
         return this;
     }
@@ -92,7 +92,7 @@ public class CsrInner extends Resource {
      * @param distinguishedName the distinguishedName value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withDistinguishedName(String distinguishedName) {
+    public CsrInner setDistinguishedName(String distinguishedName) {
         this.distinguishedName = distinguishedName;
         return this;
     }
@@ -112,7 +112,7 @@ public class CsrInner extends Resource {
      * @param csrString the csrString value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withCsrString(String csrString) {
+    public CsrInner setCsrString(String csrString) {
         this.csrString = csrString;
         return this;
     }
@@ -132,7 +132,7 @@ public class CsrInner extends Resource {
      * @param pfxBlob the pfxBlob value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withPfxBlob(String pfxBlob) {
+    public CsrInner setPfxBlob(String pfxBlob) {
         this.pfxBlob = pfxBlob;
         return this;
     }
@@ -152,7 +152,7 @@ public class CsrInner extends Resource {
      * @param password the password value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withPassword(String password) {
+    public CsrInner setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -172,7 +172,7 @@ public class CsrInner extends Resource {
      * @param publicKeyHash the publicKeyHash value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withPublicKeyHash(String publicKeyHash) {
+    public CsrInner setPublicKeyHash(String publicKeyHash) {
         this.publicKeyHash = publicKeyHash;
         return this;
     }
@@ -192,7 +192,7 @@ public class CsrInner extends Resource {
      * @param hostingEnvironment the hostingEnvironment value to set
      * @return the CsrInner object itself.
      */
-    public CsrInner withHostingEnvironment(String hostingEnvironment) {
+    public CsrInner setHostingEnvironment(String hostingEnvironment) {
         this.hostingEnvironment = hostingEnvironment;
         return this;
     }

@@ -60,7 +60,7 @@ public class PoolUpgradeOSHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolUpgradeOSHeaders object itself.
      */
-    public PoolUpgradeOSHeaders withClientRequestId(String clientRequestId) {
+    public PoolUpgradeOSHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class PoolUpgradeOSHeaders {
      * @param requestId the requestId value to set
      * @return the PoolUpgradeOSHeaders object itself.
      */
-    public PoolUpgradeOSHeaders withRequestId(String requestId) {
+    public PoolUpgradeOSHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class PoolUpgradeOSHeaders {
      * @param eTag the eTag value to set
      * @return the PoolUpgradeOSHeaders object itself.
      */
-    public PoolUpgradeOSHeaders withETag(String eTag) {
+    public PoolUpgradeOSHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class PoolUpgradeOSHeaders {
      * @param lastModified the lastModified value to set
      * @return the PoolUpgradeOSHeaders object itself.
      */
-    public PoolUpgradeOSHeaders withLastModified(DateTime lastModified) {
+    public PoolUpgradeOSHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class PoolUpgradeOSHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the PoolUpgradeOSHeaders object itself.
      */
-    public PoolUpgradeOSHeaders withDataServiceId(String dataServiceId) {
+    public PoolUpgradeOSHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

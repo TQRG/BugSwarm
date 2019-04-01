@@ -41,7 +41,7 @@ public class ErrorDetails {
      * @param code the code value to set
      * @return the ErrorDetails object itself.
      */
-    public ErrorDetails withCode(String code) {
+    public ErrorDetails setCode(String code) {
         this.code = code;
         return this;
     }
@@ -61,7 +61,7 @@ public class ErrorDetails {
      * @param target the target value to set
      * @return the ErrorDetails object itself.
      */
-    public ErrorDetails withTarget(String target) {
+    public ErrorDetails setTarget(String target) {
         this.target = target;
         return this;
     }
@@ -81,7 +81,7 @@ public class ErrorDetails {
      * @param message the message value to set
      * @return the ErrorDetails object itself.
      */
-    public ErrorDetails withMessage(String message) {
+    public ErrorDetails setMessage(String message) {
         this.message = message;
         return this;
     }

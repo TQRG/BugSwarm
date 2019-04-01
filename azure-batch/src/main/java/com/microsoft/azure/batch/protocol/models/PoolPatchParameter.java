@@ -53,7 +53,7 @@ public class PoolPatchParameter {
      * @param startTask the startTask value to set
      * @return the PoolPatchParameter object itself.
      */
-    public PoolPatchParameter withStartTask(StartTask startTask) {
+    public PoolPatchParameter setStartTask(StartTask startTask) {
         this.startTask = startTask;
         return this;
     }
@@ -73,7 +73,7 @@ public class PoolPatchParameter {
      * @param certificateReferences the certificateReferences value to set
      * @return the PoolPatchParameter object itself.
      */
-    public PoolPatchParameter withCertificateReferences(List<CertificateReference> certificateReferences) {
+    public PoolPatchParameter setCertificateReferences(List<CertificateReference> certificateReferences) {
         this.certificateReferences = certificateReferences;
         return this;
     }
@@ -93,7 +93,7 @@ public class PoolPatchParameter {
      * @param applicationPackageReferences the applicationPackageReferences value to set
      * @return the PoolPatchParameter object itself.
      */
-    public PoolPatchParameter withApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
+    public PoolPatchParameter setApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
         this.applicationPackageReferences = applicationPackageReferences;
         return this;
     }
@@ -113,7 +113,7 @@ public class PoolPatchParameter {
      * @param metadata the metadata value to set
      * @return the PoolPatchParameter object itself.
      */
-    public PoolPatchParameter withMetadata(List<MetadataItem> metadata) {
+    public PoolPatchParameter setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

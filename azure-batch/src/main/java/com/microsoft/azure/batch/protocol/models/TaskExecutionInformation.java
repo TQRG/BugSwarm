@@ -76,7 +76,7 @@ public class TaskExecutionInformation {
      * @param startTime the startTime value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withStartTime(DateTime startTime) {
+    public TaskExecutionInformation setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -96,7 +96,7 @@ public class TaskExecutionInformation {
      * @param endTime the endTime value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withEndTime(DateTime endTime) {
+    public TaskExecutionInformation setEndTime(DateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -116,7 +116,7 @@ public class TaskExecutionInformation {
      * @param exitCode the exitCode value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withExitCode(Integer exitCode) {
+    public TaskExecutionInformation setExitCode(Integer exitCode) {
         this.exitCode = exitCode;
         return this;
     }
@@ -136,7 +136,7 @@ public class TaskExecutionInformation {
      * @param schedulingError the schedulingError value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withSchedulingError(TaskSchedulingError schedulingError) {
+    public TaskExecutionInformation setSchedulingError(TaskSchedulingError schedulingError) {
         this.schedulingError = schedulingError;
         return this;
     }
@@ -156,7 +156,7 @@ public class TaskExecutionInformation {
      * @param retryCount the retryCount value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withRetryCount(int retryCount) {
+    public TaskExecutionInformation setRetryCount(int retryCount) {
         this.retryCount = retryCount;
         return this;
     }
@@ -176,7 +176,7 @@ public class TaskExecutionInformation {
      * @param lastRetryTime the lastRetryTime value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withLastRetryTime(DateTime lastRetryTime) {
+    public TaskExecutionInformation setLastRetryTime(DateTime lastRetryTime) {
         this.lastRetryTime = lastRetryTime;
         return this;
     }
@@ -196,7 +196,7 @@ public class TaskExecutionInformation {
      * @param requeueCount the requeueCount value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withRequeueCount(int requeueCount) {
+    public TaskExecutionInformation setRequeueCount(int requeueCount) {
         this.requeueCount = requeueCount;
         return this;
     }
@@ -216,7 +216,7 @@ public class TaskExecutionInformation {
      * @param lastRequeueTime the lastRequeueTime value to set
      * @return the TaskExecutionInformation object itself.
      */
-    public TaskExecutionInformation withLastRequeueTime(DateTime lastRequeueTime) {
+    public TaskExecutionInformation setLastRequeueTime(DateTime lastRequeueTime) {
         this.lastRequeueTime = lastRequeueTime;
         return this;
     }

@@ -81,7 +81,7 @@ public class PublicIPAddressInner extends Resource {
      * @param publicIPAllocationMethod the publicIPAllocationMethod value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withPublicIPAllocationMethod(String publicIPAllocationMethod) {
+    public PublicIPAddressInner setPublicIPAllocationMethod(String publicIPAllocationMethod) {
         this.publicIPAllocationMethod = publicIPAllocationMethod;
         return this;
     }
@@ -101,7 +101,7 @@ public class PublicIPAddressInner extends Resource {
      * @param ipConfiguration the ipConfiguration value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withIpConfiguration(IPConfiguration ipConfiguration) {
+    public PublicIPAddressInner setIpConfiguration(IPConfiguration ipConfiguration) {
         this.ipConfiguration = ipConfiguration;
         return this;
     }
@@ -121,7 +121,7 @@ public class PublicIPAddressInner extends Resource {
      * @param dnsSettings the dnsSettings value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withDnsSettings(PublicIPAddressDnsSettings dnsSettings) {
+    public PublicIPAddressInner setDnsSettings(PublicIPAddressDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
         return this;
     }
@@ -141,7 +141,7 @@ public class PublicIPAddressInner extends Resource {
      * @param ipAddress the ipAddress value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withIpAddress(String ipAddress) {
+    public PublicIPAddressInner setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
         return this;
     }
@@ -161,7 +161,7 @@ public class PublicIPAddressInner extends Resource {
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
+    public PublicIPAddressInner setIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
         this.idleTimeoutInMinutes = idleTimeoutInMinutes;
         return this;
     }
@@ -181,7 +181,7 @@ public class PublicIPAddressInner extends Resource {
      * @param resourceGuid the resourceGuid value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withResourceGuid(String resourceGuid) {
+    public PublicIPAddressInner setResourceGuid(String resourceGuid) {
         this.resourceGuid = resourceGuid;
         return this;
     }
@@ -201,7 +201,7 @@ public class PublicIPAddressInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withProvisioningState(String provisioningState) {
+    public PublicIPAddressInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -221,7 +221,7 @@ public class PublicIPAddressInner extends Resource {
      * @param etag the etag value to set
      * @return the PublicIPAddressInner object itself.
      */
-    public PublicIPAddressInner withEtag(String etag) {
+    public PublicIPAddressInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

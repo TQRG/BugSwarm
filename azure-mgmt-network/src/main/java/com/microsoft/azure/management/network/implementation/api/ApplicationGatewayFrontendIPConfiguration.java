@@ -74,7 +74,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param privateIPAddress the privateIPAddress value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withPrivateIPAddress(String privateIPAddress) {
+    public ApplicationGatewayFrontendIPConfiguration setPrivateIPAddress(String privateIPAddress) {
         this.privateIPAddress = privateIPAddress;
         return this;
     }
@@ -94,7 +94,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param privateIPAllocationMethod the privateIPAllocationMethod value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withPrivateIPAllocationMethod(String privateIPAllocationMethod) {
+    public ApplicationGatewayFrontendIPConfiguration setPrivateIPAllocationMethod(String privateIPAllocationMethod) {
         this.privateIPAllocationMethod = privateIPAllocationMethod;
         return this;
     }
@@ -114,7 +114,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param subnet the subnet value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withSubnet(SubResource subnet) {
+    public ApplicationGatewayFrontendIPConfiguration setSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -134,7 +134,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withPublicIPAddress(SubResource publicIPAddress) {
+    public ApplicationGatewayFrontendIPConfiguration setPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
         return this;
     }
@@ -154,7 +154,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withProvisioningState(String provisioningState) {
+    public ApplicationGatewayFrontendIPConfiguration setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -174,7 +174,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param name the name value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withName(String name) {
+    public ApplicationGatewayFrontendIPConfiguration setName(String name) {
         this.name = name;
         return this;
     }
@@ -194,7 +194,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param etag the etag value to set
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration withEtag(String etag) {
+    public ApplicationGatewayFrontendIPConfiguration setEtag(String etag) {
         this.etag = etag;
         return this;
     }

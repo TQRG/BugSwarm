@@ -36,7 +36,7 @@ public class ResourceMetricName {
      * @param value the value value to set
      * @return the ResourceMetricName object itself.
      */
-    public ResourceMetricName withValue(String value) {
+    public ResourceMetricName setValue(String value) {
         this.value = value;
         return this;
     }
@@ -56,7 +56,7 @@ public class ResourceMetricName {
      * @param localizedValue the localizedValue value to set
      * @return the ResourceMetricName object itself.
      */
-    public ResourceMetricName withLocalizedValue(String localizedValue) {
+    public ResourceMetricName setLocalizedValue(String localizedValue) {
         this.localizedValue = localizedValue;
         return this;
     }

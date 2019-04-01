@@ -43,7 +43,7 @@ public class HostingEnvironmentProfile {
      * @param id the id value to set
      * @return the HostingEnvironmentProfile object itself.
      */
-    public HostingEnvironmentProfile withId(String id) {
+    public HostingEnvironmentProfile setId(String id) {
         this.id = id;
         return this;
     }
@@ -63,7 +63,7 @@ public class HostingEnvironmentProfile {
      * @param name the name value to set
      * @return the HostingEnvironmentProfile object itself.
      */
-    public HostingEnvironmentProfile withName(String name) {
+    public HostingEnvironmentProfile setName(String name) {
         this.name = name;
         return this;
     }
@@ -83,7 +83,7 @@ public class HostingEnvironmentProfile {
      * @param type the type value to set
      * @return the HostingEnvironmentProfile object itself.
      */
-    public HostingEnvironmentProfile withType(String type) {
+    public HostingEnvironmentProfile setType(String type) {
         this.type = type;
         return this;
     }

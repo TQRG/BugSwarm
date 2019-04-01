@@ -36,7 +36,7 @@ public class ExpressRouteCircuitArpTableInner {
      * @param ipAddress the ipAddress value to set
      * @return the ExpressRouteCircuitArpTableInner object itself.
      */
-    public ExpressRouteCircuitArpTableInner withIpAddress(String ipAddress) {
+    public ExpressRouteCircuitArpTableInner setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
         return this;
     }
@@ -56,7 +56,7 @@ public class ExpressRouteCircuitArpTableInner {
      * @param macAddress the macAddress value to set
      * @return the ExpressRouteCircuitArpTableInner object itself.
      */
-    public ExpressRouteCircuitArpTableInner withMacAddress(String macAddress) {
+    public ExpressRouteCircuitArpTableInner setMacAddress(String macAddress) {
         this.macAddress = macAddress;
         return this;
     }

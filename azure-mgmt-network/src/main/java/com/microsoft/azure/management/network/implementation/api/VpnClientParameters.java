@@ -34,7 +34,7 @@ public class VpnClientParameters {
      * @param processorArchitecture the processorArchitecture value to set
      * @return the VpnClientParameters object itself.
      */
-    public VpnClientParameters withProcessorArchitecture(String processorArchitecture) {
+    public VpnClientParameters setProcessorArchitecture(String processorArchitecture) {
         this.processorArchitecture = processorArchitecture;
         return this;
     }

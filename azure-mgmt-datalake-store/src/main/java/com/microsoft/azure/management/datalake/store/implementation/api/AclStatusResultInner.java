@@ -33,7 +33,7 @@ public class AclStatusResultInner {
      * @param aclStatus the aclStatus value to set
      * @return the AclStatusResultInner object itself.
      */
-    public AclStatusResultInner withAclStatus(AclStatus aclStatus) {
+    public AclStatusResultInner setAclStatus(AclStatus aclStatus) {
         this.aclStatus = aclStatus;
         return this;
     }

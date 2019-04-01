@@ -41,7 +41,7 @@ public class ApiErrorBase {
      * @param code the code value to set
      * @return the ApiErrorBase object itself.
      */
-    public ApiErrorBase withCode(String code) {
+    public ApiErrorBase setCode(String code) {
         this.code = code;
         return this;
     }
@@ -61,7 +61,7 @@ public class ApiErrorBase {
      * @param target the target value to set
      * @return the ApiErrorBase object itself.
      */
-    public ApiErrorBase withTarget(String target) {
+    public ApiErrorBase setTarget(String target) {
         this.target = target;
         return this;
     }
@@ -81,7 +81,7 @@ public class ApiErrorBase {
      * @param message the message value to set
      * @return the ApiErrorBase object itself.
      */
-    public ApiErrorBase withMessage(String message) {
+    public ApiErrorBase setMessage(String message) {
         this.message = message;
         return this;
     }

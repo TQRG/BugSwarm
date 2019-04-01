@@ -90,7 +90,7 @@ public class FileGetFromTaskHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withClientRequestId(String clientRequestId) {
+    public FileGetFromTaskHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -110,7 +110,7 @@ public class FileGetFromTaskHeaders {
      * @param requestId the requestId value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withRequestId(String requestId) {
+    public FileGetFromTaskHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -130,7 +130,7 @@ public class FileGetFromTaskHeaders {
      * @param eTag the eTag value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withETag(String eTag) {
+    public FileGetFromTaskHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -153,7 +153,7 @@ public class FileGetFromTaskHeaders {
      * @param lastModified the lastModified value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withLastModified(DateTime lastModified) {
+    public FileGetFromTaskHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -176,7 +176,7 @@ public class FileGetFromTaskHeaders {
      * @param ocpCreationTime the ocpCreationTime value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withOcpCreationTime(DateTime ocpCreationTime) {
+    public FileGetFromTaskHeaders setOcpCreationTime(DateTime ocpCreationTime) {
         this.ocpCreationTime = new DateTimeRfc1123(ocpCreationTime);
         return this;
     }
@@ -196,7 +196,7 @@ public class FileGetFromTaskHeaders {
      * @param ocpBatchFileIsdirectory the ocpBatchFileIsdirectory value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withOcpBatchFileIsdirectory(Boolean ocpBatchFileIsdirectory) {
+    public FileGetFromTaskHeaders setOcpBatchFileIsdirectory(Boolean ocpBatchFileIsdirectory) {
         this.ocpBatchFileIsdirectory = ocpBatchFileIsdirectory;
         return this;
     }
@@ -216,7 +216,7 @@ public class FileGetFromTaskHeaders {
      * @param ocpBatchFileUrl the ocpBatchFileUrl value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withOcpBatchFileUrl(String ocpBatchFileUrl) {
+    public FileGetFromTaskHeaders setOcpBatchFileUrl(String ocpBatchFileUrl) {
         this.ocpBatchFileUrl = ocpBatchFileUrl;
         return this;
     }
@@ -236,7 +236,7 @@ public class FileGetFromTaskHeaders {
      * @param ocpBatchFileMode the ocpBatchFileMode value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withOcpBatchFileMode(String ocpBatchFileMode) {
+    public FileGetFromTaskHeaders setOcpBatchFileMode(String ocpBatchFileMode) {
         this.ocpBatchFileMode = ocpBatchFileMode;
         return this;
     }
@@ -256,7 +256,7 @@ public class FileGetFromTaskHeaders {
      * @param contentType the contentType value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withContentType(String contentType) {
+    public FileGetFromTaskHeaders setContentType(String contentType) {
         this.contentType = contentType;
         return this;
     }
@@ -276,7 +276,7 @@ public class FileGetFromTaskHeaders {
      * @param contentLength the contentLength value to set
      * @return the FileGetFromTaskHeaders object itself.
      */
-    public FileGetFromTaskHeaders withContentLength(Long contentLength) {
+    public FileGetFromTaskHeaders setContentLength(Long contentLength) {
         this.contentLength = contentLength;
         return this;
     }

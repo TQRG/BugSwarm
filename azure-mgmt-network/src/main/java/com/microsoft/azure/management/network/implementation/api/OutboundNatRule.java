@@ -68,7 +68,7 @@ public class OutboundNatRule extends SubResource {
      * @param allocatedOutboundPorts the allocatedOutboundPorts value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withAllocatedOutboundPorts(Integer allocatedOutboundPorts) {
+    public OutboundNatRule setAllocatedOutboundPorts(Integer allocatedOutboundPorts) {
         this.allocatedOutboundPorts = allocatedOutboundPorts;
         return this;
     }
@@ -88,7 +88,7 @@ public class OutboundNatRule extends SubResource {
      * @param frontendIPConfigurations the frontendIPConfigurations value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withFrontendIPConfigurations(List<SubResource> frontendIPConfigurations) {
+    public OutboundNatRule setFrontendIPConfigurations(List<SubResource> frontendIPConfigurations) {
         this.frontendIPConfigurations = frontendIPConfigurations;
         return this;
     }
@@ -108,7 +108,7 @@ public class OutboundNatRule extends SubResource {
      * @param backendAddressPool the backendAddressPool value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withBackendAddressPool(SubResource backendAddressPool) {
+    public OutboundNatRule setBackendAddressPool(SubResource backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
@@ -128,7 +128,7 @@ public class OutboundNatRule extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withProvisioningState(String provisioningState) {
+    public OutboundNatRule setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -148,7 +148,7 @@ public class OutboundNatRule extends SubResource {
      * @param name the name value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withName(String name) {
+    public OutboundNatRule setName(String name) {
         this.name = name;
         return this;
     }
@@ -168,7 +168,7 @@ public class OutboundNatRule extends SubResource {
      * @param etag the etag value to set
      * @return the OutboundNatRule object itself.
      */
-    public OutboundNatRule withEtag(String etag) {
+    public OutboundNatRule setEtag(String etag) {
         this.etag = etag;
         return this;
     }

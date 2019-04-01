@@ -39,7 +39,7 @@ public class DataLakeStoreAccountInfoInner {
      * @param name the name value to set
      * @return the DataLakeStoreAccountInfoInner object itself.
      */
-    public DataLakeStoreAccountInfoInner withName(String name) {
+    public DataLakeStoreAccountInfoInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -59,7 +59,7 @@ public class DataLakeStoreAccountInfoInner {
      * @param properties the properties value to set
      * @return the DataLakeStoreAccountInfoInner object itself.
      */
-    public DataLakeStoreAccountInfoInner withProperties(DataLakeStoreAccountInfoProperties properties) {
+    public DataLakeStoreAccountInfoInner setProperties(DataLakeStoreAccountInfoProperties properties) {
         this.properties = properties;
         return this;
     }

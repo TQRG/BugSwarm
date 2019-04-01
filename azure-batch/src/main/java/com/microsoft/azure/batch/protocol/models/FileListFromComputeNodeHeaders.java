@@ -54,7 +54,7 @@ public class FileListFromComputeNodeHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileListFromComputeNodeHeaders object itself.
      */
-    public FileListFromComputeNodeHeaders withClientRequestId(String clientRequestId) {
+    public FileListFromComputeNodeHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -74,7 +74,7 @@ public class FileListFromComputeNodeHeaders {
      * @param requestId the requestId value to set
      * @return the FileListFromComputeNodeHeaders object itself.
      */
-    public FileListFromComputeNodeHeaders withRequestId(String requestId) {
+    public FileListFromComputeNodeHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class FileListFromComputeNodeHeaders {
      * @param eTag the eTag value to set
      * @return the FileListFromComputeNodeHeaders object itself.
      */
-    public FileListFromComputeNodeHeaders withETag(String eTag) {
+    public FileListFromComputeNodeHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -117,7 +117,7 @@ public class FileListFromComputeNodeHeaders {
      * @param lastModified the lastModified value to set
      * @return the FileListFromComputeNodeHeaders object itself.
      */
-    public FileListFromComputeNodeHeaders withLastModified(DateTime lastModified) {
+    public FileListFromComputeNodeHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }

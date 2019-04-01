@@ -33,7 +33,7 @@ public class NodeDisableSchedulingParameter {
      * @param nodeDisableSchedulingOption the nodeDisableSchedulingOption value to set
      * @return the NodeDisableSchedulingParameter object itself.
      */
-    public NodeDisableSchedulingParameter withNodeDisableSchedulingOption(DisableComputeNodeSchedulingOption nodeDisableSchedulingOption) {
+    public NodeDisableSchedulingParameter setNodeDisableSchedulingOption(DisableComputeNodeSchedulingOption nodeDisableSchedulingOption) {
         this.nodeDisableSchedulingOption = nodeDisableSchedulingOption;
         return this;
     }

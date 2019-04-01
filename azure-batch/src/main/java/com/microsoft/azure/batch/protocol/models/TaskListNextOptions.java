@@ -51,7 +51,7 @@ public class TaskListNextOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the TaskListNextOptions object itself.
      */
-    public TaskListNextOptions withClientRequestId(String clientRequestId) {
+    public TaskListNextOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -71,7 +71,7 @@ public class TaskListNextOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the TaskListNextOptions object itself.
      */
-    public TaskListNextOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public TaskListNextOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class TaskListNextOptions {
      * @param ocpDate the ocpDate value to set
      * @return the TaskListNextOptions object itself.
      */
-    public TaskListNextOptions withOcpDate(DateTime ocpDate) {
+    public TaskListNextOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

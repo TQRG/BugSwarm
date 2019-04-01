@@ -42,7 +42,7 @@ public class TopLevelDomainInner extends Resource {
      * @param topLevelDomainName the topLevelDomainName value to set
      * @return the TopLevelDomainInner object itself.
      */
-    public TopLevelDomainInner withTopLevelDomainName(String topLevelDomainName) {
+    public TopLevelDomainInner setTopLevelDomainName(String topLevelDomainName) {
         this.topLevelDomainName = topLevelDomainName;
         return this;
     }
@@ -62,7 +62,7 @@ public class TopLevelDomainInner extends Resource {
      * @param privacy the privacy value to set
      * @return the TopLevelDomainInner object itself.
      */
-    public TopLevelDomainInner withPrivacy(Boolean privacy) {
+    public TopLevelDomainInner setPrivacy(Boolean privacy) {
         this.privacy = privacy;
         return this;
     }

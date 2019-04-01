@@ -60,7 +60,7 @@ public class PoolPatchHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolPatchHeaders object itself.
      */
-    public PoolPatchHeaders withClientRequestId(String clientRequestId) {
+    public PoolPatchHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class PoolPatchHeaders {
      * @param requestId the requestId value to set
      * @return the PoolPatchHeaders object itself.
      */
-    public PoolPatchHeaders withRequestId(String requestId) {
+    public PoolPatchHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class PoolPatchHeaders {
      * @param eTag the eTag value to set
      * @return the PoolPatchHeaders object itself.
      */
-    public PoolPatchHeaders withETag(String eTag) {
+    public PoolPatchHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class PoolPatchHeaders {
      * @param lastModified the lastModified value to set
      * @return the PoolPatchHeaders object itself.
      */
-    public PoolPatchHeaders withLastModified(DateTime lastModified) {
+    public PoolPatchHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class PoolPatchHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the PoolPatchHeaders object itself.
      */
-    public PoolPatchHeaders withDataServiceId(String dataServiceId) {
+    public PoolPatchHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

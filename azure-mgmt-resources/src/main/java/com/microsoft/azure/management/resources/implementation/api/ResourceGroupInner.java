@@ -67,7 +67,7 @@ public class ResourceGroupInner {
      * @param name the name value to set
      * @return the ResourceGroupInner object itself.
      */
-    public ResourceGroupInner withName(String name) {
+    public ResourceGroupInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -87,7 +87,7 @@ public class ResourceGroupInner {
      * @param properties the properties value to set
      * @return the ResourceGroupInner object itself.
      */
-    public ResourceGroupInner withProperties(ResourceGroupProperties properties) {
+    public ResourceGroupInner setProperties(ResourceGroupProperties properties) {
         this.properties = properties;
         return this;
     }
@@ -107,7 +107,7 @@ public class ResourceGroupInner {
      * @param location the location value to set
      * @return the ResourceGroupInner object itself.
      */
-    public ResourceGroupInner withLocation(String location) {
+    public ResourceGroupInner setLocation(String location) {
         this.location = location;
         return this;
     }
@@ -127,7 +127,7 @@ public class ResourceGroupInner {
      * @param tags the tags value to set
      * @return the ResourceGroupInner object itself.
      */
-    public ResourceGroupInner withTags(Map<String, String> tags) {
+    public ResourceGroupInner setTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

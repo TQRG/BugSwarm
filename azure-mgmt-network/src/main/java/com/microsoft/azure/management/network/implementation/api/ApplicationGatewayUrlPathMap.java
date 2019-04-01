@@ -67,7 +67,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param defaultBackendAddressPool the defaultBackendAddressPool value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withDefaultBackendAddressPool(SubResource defaultBackendAddressPool) {
+    public ApplicationGatewayUrlPathMap setDefaultBackendAddressPool(SubResource defaultBackendAddressPool) {
         this.defaultBackendAddressPool = defaultBackendAddressPool;
         return this;
     }
@@ -87,7 +87,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param defaultBackendHttpSettings the defaultBackendHttpSettings value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withDefaultBackendHttpSettings(SubResource defaultBackendHttpSettings) {
+    public ApplicationGatewayUrlPathMap setDefaultBackendHttpSettings(SubResource defaultBackendHttpSettings) {
         this.defaultBackendHttpSettings = defaultBackendHttpSettings;
         return this;
     }
@@ -107,7 +107,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param pathRules the pathRules value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withPathRules(List<ApplicationGatewayPathRule> pathRules) {
+    public ApplicationGatewayUrlPathMap setPathRules(List<ApplicationGatewayPathRule> pathRules) {
         this.pathRules = pathRules;
         return this;
     }
@@ -127,7 +127,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withProvisioningState(String provisioningState) {
+    public ApplicationGatewayUrlPathMap setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -147,7 +147,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param name the name value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withName(String name) {
+    public ApplicationGatewayUrlPathMap setName(String name) {
         this.name = name;
         return this;
     }
@@ -167,7 +167,7 @@ public class ApplicationGatewayUrlPathMap extends SubResource {
      * @param etag the etag value to set
      * @return the ApplicationGatewayUrlPathMap object itself.
      */
-    public ApplicationGatewayUrlPathMap withEtag(String etag) {
+    public ApplicationGatewayUrlPathMap setEtag(String etag) {
         this.etag = etag;
         return this;
     }

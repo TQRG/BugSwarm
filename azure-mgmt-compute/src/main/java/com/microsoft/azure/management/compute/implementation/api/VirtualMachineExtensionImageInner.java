@@ -64,7 +64,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * @param operatingSystem the operatingSystem value to set
      * @return the VirtualMachineExtensionImageInner object itself.
      */
-    public VirtualMachineExtensionImageInner withOperatingSystem(String operatingSystem) {
+    public VirtualMachineExtensionImageInner setOperatingSystem(String operatingSystem) {
         this.operatingSystem = operatingSystem;
         return this;
     }
@@ -84,7 +84,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * @param computeRole the computeRole value to set
      * @return the VirtualMachineExtensionImageInner object itself.
      */
-    public VirtualMachineExtensionImageInner withComputeRole(String computeRole) {
+    public VirtualMachineExtensionImageInner setComputeRole(String computeRole) {
         this.computeRole = computeRole;
         return this;
     }
@@ -104,7 +104,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * @param handlerSchema the handlerSchema value to set
      * @return the VirtualMachineExtensionImageInner object itself.
      */
-    public VirtualMachineExtensionImageInner withHandlerSchema(String handlerSchema) {
+    public VirtualMachineExtensionImageInner setHandlerSchema(String handlerSchema) {
         this.handlerSchema = handlerSchema;
         return this;
     }
@@ -124,7 +124,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * @param vmScaleSetEnabled the vmScaleSetEnabled value to set
      * @return the VirtualMachineExtensionImageInner object itself.
      */
-    public VirtualMachineExtensionImageInner withVmScaleSetEnabled(Boolean vmScaleSetEnabled) {
+    public VirtualMachineExtensionImageInner setVmScaleSetEnabled(Boolean vmScaleSetEnabled) {
         this.vmScaleSetEnabled = vmScaleSetEnabled;
         return this;
     }
@@ -144,7 +144,7 @@ public class VirtualMachineExtensionImageInner extends Resource {
      * @param supportsMultipleExtensions the supportsMultipleExtensions value to set
      * @return the VirtualMachineExtensionImageInner object itself.
      */
-    public VirtualMachineExtensionImageInner withSupportsMultipleExtensions(Boolean supportsMultipleExtensions) {
+    public VirtualMachineExtensionImageInner setSupportsMultipleExtensions(Boolean supportsMultipleExtensions) {
         this.supportsMultipleExtensions = supportsMultipleExtensions;
         return this;
     }

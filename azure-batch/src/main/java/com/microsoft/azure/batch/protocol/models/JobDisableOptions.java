@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Job_Disable operation.
+ * Additional parameters for the Disable operation.
  */
 public class JobDisableOptions {
     /**
@@ -86,7 +86,7 @@ public class JobDisableOptions {
      * @param timeout the timeout value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withTimeout(Integer timeout) {
+    public JobDisableOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobDisableOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withClientRequestId(String clientRequestId) {
+    public JobDisableOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobDisableOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobDisableOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class JobDisableOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withOcpDate(DateTime ocpDate) {
+    public JobDisableOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class JobDisableOptions {
      * @param ifMatch the ifMatch value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withIfMatch(String ifMatch) {
+    public JobDisableOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class JobDisableOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withIfNoneMatch(String ifNoneMatch) {
+    public JobDisableOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobDisableOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public JobDisableOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class JobDisableOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the JobDisableOptions object itself.
      */
-    public JobDisableOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public JobDisableOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

@@ -44,7 +44,7 @@ public class NodeUpdateUserParameter {
      * @param password the password value to set
      * @return the NodeUpdateUserParameter object itself.
      */
-    public NodeUpdateUserParameter withPassword(String password) {
+    public NodeUpdateUserParameter setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -64,7 +64,7 @@ public class NodeUpdateUserParameter {
      * @param expiryTime the expiryTime value to set
      * @return the NodeUpdateUserParameter object itself.
      */
-    public NodeUpdateUserParameter withExpiryTime(DateTime expiryTime) {
+    public NodeUpdateUserParameter setExpiryTime(DateTime expiryTime) {
         this.expiryTime = expiryTime;
         return this;
     }
@@ -84,7 +84,7 @@ public class NodeUpdateUserParameter {
      * @param sshPublicKey the sshPublicKey value to set
      * @return the NodeUpdateUserParameter object itself.
      */
-    public NodeUpdateUserParameter withSshPublicKey(String sshPublicKey) {
+    public NodeUpdateUserParameter setSshPublicKey(String sshPublicKey) {
         this.sshPublicKey = sshPublicKey;
         return this;
     }

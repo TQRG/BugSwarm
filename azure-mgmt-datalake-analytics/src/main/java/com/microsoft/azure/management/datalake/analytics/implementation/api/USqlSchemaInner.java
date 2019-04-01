@@ -38,7 +38,7 @@ public class USqlSchemaInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlSchemaInner object itself.
      */
-    public USqlSchemaInner withDatabaseName(String databaseName) {
+    public USqlSchemaInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -58,7 +58,7 @@ public class USqlSchemaInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlSchemaInner object itself.
      */
-    public USqlSchemaInner withName(String name) {
+    public USqlSchemaInner setName(String name) {
         this.name = name;
         return this;
     }

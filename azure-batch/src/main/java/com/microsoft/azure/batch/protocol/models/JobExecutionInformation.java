@@ -56,7 +56,7 @@ public class JobExecutionInformation {
      * @param startTime the startTime value to set
      * @return the JobExecutionInformation object itself.
      */
-    public JobExecutionInformation withStartTime(DateTime startTime) {
+    public JobExecutionInformation setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -76,7 +76,7 @@ public class JobExecutionInformation {
      * @param endTime the endTime value to set
      * @return the JobExecutionInformation object itself.
      */
-    public JobExecutionInformation withEndTime(DateTime endTime) {
+    public JobExecutionInformation setEndTime(DateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -96,7 +96,7 @@ public class JobExecutionInformation {
      * @param poolId the poolId value to set
      * @return the JobExecutionInformation object itself.
      */
-    public JobExecutionInformation withPoolId(String poolId) {
+    public JobExecutionInformation setPoolId(String poolId) {
         this.poolId = poolId;
         return this;
     }
@@ -116,7 +116,7 @@ public class JobExecutionInformation {
      * @param schedulingError the schedulingError value to set
      * @return the JobExecutionInformation object itself.
      */
-    public JobExecutionInformation withSchedulingError(JobSchedulingError schedulingError) {
+    public JobExecutionInformation setSchedulingError(JobSchedulingError schedulingError) {
         this.schedulingError = schedulingError;
         return this;
     }
@@ -136,7 +136,7 @@ public class JobExecutionInformation {
      * @param terminateReason the terminateReason value to set
      * @return the JobExecutionInformation object itself.
      */
-    public JobExecutionInformation withTerminateReason(String terminateReason) {
+    public JobExecutionInformation setTerminateReason(String terminateReason) {
         this.terminateReason = terminateReason;
         return this;
     }

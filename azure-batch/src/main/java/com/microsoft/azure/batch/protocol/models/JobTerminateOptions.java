@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Job_Terminate operation.
+ * Additional parameters for the Terminate operation.
  */
 public class JobTerminateOptions {
     /**
@@ -86,7 +86,7 @@ public class JobTerminateOptions {
      * @param timeout the timeout value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withTimeout(Integer timeout) {
+    public JobTerminateOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobTerminateOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withClientRequestId(String clientRequestId) {
+    public JobTerminateOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobTerminateOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobTerminateOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class JobTerminateOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withOcpDate(DateTime ocpDate) {
+    public JobTerminateOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class JobTerminateOptions {
      * @param ifMatch the ifMatch value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withIfMatch(String ifMatch) {
+    public JobTerminateOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class JobTerminateOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withIfNoneMatch(String ifNoneMatch) {
+    public JobTerminateOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobTerminateOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public JobTerminateOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class JobTerminateOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the JobTerminateOptions object itself.
      */
-    public JobTerminateOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public JobTerminateOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

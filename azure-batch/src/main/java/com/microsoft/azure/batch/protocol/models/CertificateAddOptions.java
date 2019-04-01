@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Certificate_Add operation.
+ * Additional parameters for the Add operation.
  */
 public class CertificateAddOptions {
     /**
@@ -58,7 +58,7 @@ public class CertificateAddOptions {
      * @param timeout the timeout value to set
      * @return the CertificateAddOptions object itself.
      */
-    public CertificateAddOptions withTimeout(Integer timeout) {
+    public CertificateAddOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class CertificateAddOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the CertificateAddOptions object itself.
      */
-    public CertificateAddOptions withClientRequestId(String clientRequestId) {
+    public CertificateAddOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class CertificateAddOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the CertificateAddOptions object itself.
      */
-    public CertificateAddOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public CertificateAddOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class CertificateAddOptions {
      * @param ocpDate the ocpDate value to set
      * @return the CertificateAddOptions object itself.
      */
-    public CertificateAddOptions withOcpDate(DateTime ocpDate) {
+    public CertificateAddOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

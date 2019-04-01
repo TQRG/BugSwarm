@@ -61,7 +61,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
      * @param authorizationKey the authorizationKey value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
-    public ExpressRouteCircuitAuthorizationInner withAuthorizationKey(String authorizationKey) {
+    public ExpressRouteCircuitAuthorizationInner setAuthorizationKey(String authorizationKey) {
         this.authorizationKey = authorizationKey;
         return this;
     }
@@ -81,7 +81,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
      * @param authorizationUseStatus the authorizationUseStatus value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
-    public ExpressRouteCircuitAuthorizationInner withAuthorizationUseStatus(String authorizationUseStatus) {
+    public ExpressRouteCircuitAuthorizationInner setAuthorizationUseStatus(String authorizationUseStatus) {
         this.authorizationUseStatus = authorizationUseStatus;
         return this;
     }
@@ -101,7 +101,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
-    public ExpressRouteCircuitAuthorizationInner withProvisioningState(String provisioningState) {
+    public ExpressRouteCircuitAuthorizationInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -121,7 +121,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
      * @param name the name value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
-    public ExpressRouteCircuitAuthorizationInner withName(String name) {
+    public ExpressRouteCircuitAuthorizationInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -141,7 +141,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
      * @param etag the etag value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
      */
-    public ExpressRouteCircuitAuthorizationInner withEtag(String etag) {
+    public ExpressRouteCircuitAuthorizationInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

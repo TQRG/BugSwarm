@@ -46,7 +46,7 @@ public class NetworkAccessControlEntry {
      * @param action the action value to set
      * @return the NetworkAccessControlEntry object itself.
      */
-    public NetworkAccessControlEntry withAction(AccessControlEntryAction action) {
+    public NetworkAccessControlEntry setAction(AccessControlEntryAction action) {
         this.action = action;
         return this;
     }
@@ -66,7 +66,7 @@ public class NetworkAccessControlEntry {
      * @param description the description value to set
      * @return the NetworkAccessControlEntry object itself.
      */
-    public NetworkAccessControlEntry withDescription(String description) {
+    public NetworkAccessControlEntry setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -86,7 +86,7 @@ public class NetworkAccessControlEntry {
      * @param order the order value to set
      * @return the NetworkAccessControlEntry object itself.
      */
-    public NetworkAccessControlEntry withOrder(Integer order) {
+    public NetworkAccessControlEntry setOrder(Integer order) {
         this.order = order;
         return this;
     }
@@ -106,7 +106,7 @@ public class NetworkAccessControlEntry {
      * @param remoteSubnet the remoteSubnet value to set
      * @return the NetworkAccessControlEntry object itself.
      */
-    public NetworkAccessControlEntry withRemoteSubnet(String remoteSubnet) {
+    public NetworkAccessControlEntry setRemoteSubnet(String remoteSubnet) {
         this.remoteSubnet = remoteSubnet;
         return this;
     }

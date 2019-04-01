@@ -100,7 +100,7 @@ public class VirtualMachineInner extends Resource {
      * @param plan the plan value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withPlan(Plan plan) {
+    public VirtualMachineInner setPlan(Plan plan) {
         this.plan = plan;
         return this;
     }
@@ -120,7 +120,7 @@ public class VirtualMachineInner extends Resource {
      * @param hardwareProfile the hardwareProfile value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withHardwareProfile(HardwareProfile hardwareProfile) {
+    public VirtualMachineInner setHardwareProfile(HardwareProfile hardwareProfile) {
         this.hardwareProfile = hardwareProfile;
         return this;
     }
@@ -140,7 +140,7 @@ public class VirtualMachineInner extends Resource {
      * @param storageProfile the storageProfile value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withStorageProfile(StorageProfile storageProfile) {
+    public VirtualMachineInner setStorageProfile(StorageProfile storageProfile) {
         this.storageProfile = storageProfile;
         return this;
     }
@@ -160,7 +160,7 @@ public class VirtualMachineInner extends Resource {
      * @param osProfile the osProfile value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withOsProfile(OSProfile osProfile) {
+    public VirtualMachineInner setOsProfile(OSProfile osProfile) {
         this.osProfile = osProfile;
         return this;
     }
@@ -180,7 +180,7 @@ public class VirtualMachineInner extends Resource {
      * @param networkProfile the networkProfile value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withNetworkProfile(NetworkProfile networkProfile) {
+    public VirtualMachineInner setNetworkProfile(NetworkProfile networkProfile) {
         this.networkProfile = networkProfile;
         return this;
     }
@@ -200,7 +200,7 @@ public class VirtualMachineInner extends Resource {
      * @param diagnosticsProfile the diagnosticsProfile value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withDiagnosticsProfile(DiagnosticsProfile diagnosticsProfile) {
+    public VirtualMachineInner setDiagnosticsProfile(DiagnosticsProfile diagnosticsProfile) {
         this.diagnosticsProfile = diagnosticsProfile;
         return this;
     }
@@ -220,7 +220,7 @@ public class VirtualMachineInner extends Resource {
      * @param availabilitySet the availabilitySet value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withAvailabilitySet(SubResource availabilitySet) {
+    public VirtualMachineInner setAvailabilitySet(SubResource availabilitySet) {
         this.availabilitySet = availabilitySet;
         return this;
     }
@@ -240,7 +240,7 @@ public class VirtualMachineInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withProvisioningState(String provisioningState) {
+    public VirtualMachineInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -269,7 +269,7 @@ public class VirtualMachineInner extends Resource {
      * @param licenseType the licenseType value to set
      * @return the VirtualMachineInner object itself.
      */
-    public VirtualMachineInner withLicenseType(String licenseType) {
+    public VirtualMachineInner setLicenseType(String licenseType) {
         this.licenseType = licenseType;
         return this;
     }

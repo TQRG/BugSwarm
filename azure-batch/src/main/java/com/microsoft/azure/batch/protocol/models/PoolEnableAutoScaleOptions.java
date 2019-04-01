@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_EnableAutoScale operation.
+ * Additional parameters for the EnableAutoScale operation.
  */
 public class PoolEnableAutoScaleOptions {
     /**
@@ -86,7 +86,7 @@ public class PoolEnableAutoScaleOptions {
      * @param timeout the timeout value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withTimeout(Integer timeout) {
+    public PoolEnableAutoScaleOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class PoolEnableAutoScaleOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withClientRequestId(String clientRequestId) {
+    public PoolEnableAutoScaleOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class PoolEnableAutoScaleOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolEnableAutoScaleOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class PoolEnableAutoScaleOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withOcpDate(DateTime ocpDate) {
+    public PoolEnableAutoScaleOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class PoolEnableAutoScaleOptions {
      * @param ifMatch the ifMatch value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withIfMatch(String ifMatch) {
+    public PoolEnableAutoScaleOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class PoolEnableAutoScaleOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withIfNoneMatch(String ifNoneMatch) {
+    public PoolEnableAutoScaleOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class PoolEnableAutoScaleOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public PoolEnableAutoScaleOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class PoolEnableAutoScaleOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the PoolEnableAutoScaleOptions object itself.
      */
-    public PoolEnableAutoScaleOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public PoolEnableAutoScaleOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

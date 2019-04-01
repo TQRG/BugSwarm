@@ -50,7 +50,7 @@ public class DdlName {
      * @param firstPart the firstPart value to set
      * @return the DdlName object itself.
      */
-    public DdlName withFirstPart(String firstPart) {
+    public DdlName setFirstPart(String firstPart) {
         this.firstPart = firstPart;
         return this;
     }
@@ -70,7 +70,7 @@ public class DdlName {
      * @param secondPart the secondPart value to set
      * @return the DdlName object itself.
      */
-    public DdlName withSecondPart(String secondPart) {
+    public DdlName setSecondPart(String secondPart) {
         this.secondPart = secondPart;
         return this;
     }
@@ -90,7 +90,7 @@ public class DdlName {
      * @param thirdPart the thirdPart value to set
      * @return the DdlName object itself.
      */
-    public DdlName withThirdPart(String thirdPart) {
+    public DdlName setThirdPart(String thirdPart) {
         this.thirdPart = thirdPart;
         return this;
     }
@@ -110,7 +110,7 @@ public class DdlName {
      * @param server the server value to set
      * @return the DdlName object itself.
      */
-    public DdlName withServer(String server) {
+    public DdlName setServer(String server) {
         this.server = server;
         return this;
     }

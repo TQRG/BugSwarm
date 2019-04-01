@@ -51,7 +51,7 @@ public class PoolListPoolUsageMetricsNextOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolListPoolUsageMetricsNextOptions object itself.
      */
-    public PoolListPoolUsageMetricsNextOptions withClientRequestId(String clientRequestId) {
+    public PoolListPoolUsageMetricsNextOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -71,7 +71,7 @@ public class PoolListPoolUsageMetricsNextOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolListPoolUsageMetricsNextOptions object itself.
      */
-    public PoolListPoolUsageMetricsNextOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolListPoolUsageMetricsNextOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class PoolListPoolUsageMetricsNextOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolListPoolUsageMetricsNextOptions object itself.
      */
-    public PoolListPoolUsageMetricsNextOptions withOcpDate(DateTime ocpDate) {
+    public PoolListPoolUsageMetricsNextOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

@@ -32,7 +32,7 @@ public class VirtualHardDisk {
      * @param uri the uri value to set
      * @return the VirtualHardDisk object itself.
      */
-    public VirtualHardDisk withUri(String uri) {
+    public VirtualHardDisk setUri(String uri) {
         this.uri = uri;
         return this;
     }

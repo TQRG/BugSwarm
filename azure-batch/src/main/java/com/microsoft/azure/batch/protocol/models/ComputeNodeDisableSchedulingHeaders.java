@@ -60,7 +60,7 @@ public class ComputeNodeDisableSchedulingHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeDisableSchedulingHeaders object itself.
      */
-    public ComputeNodeDisableSchedulingHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeDisableSchedulingHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class ComputeNodeDisableSchedulingHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeDisableSchedulingHeaders object itself.
      */
-    public ComputeNodeDisableSchedulingHeaders withRequestId(String requestId) {
+    public ComputeNodeDisableSchedulingHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class ComputeNodeDisableSchedulingHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeDisableSchedulingHeaders object itself.
      */
-    public ComputeNodeDisableSchedulingHeaders withETag(String eTag) {
+    public ComputeNodeDisableSchedulingHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class ComputeNodeDisableSchedulingHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeDisableSchedulingHeaders object itself.
      */
-    public ComputeNodeDisableSchedulingHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeDisableSchedulingHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class ComputeNodeDisableSchedulingHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the ComputeNodeDisableSchedulingHeaders object itself.
      */
-    public ComputeNodeDisableSchedulingHeaders withDataServiceId(String dataServiceId) {
+    public ComputeNodeDisableSchedulingHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

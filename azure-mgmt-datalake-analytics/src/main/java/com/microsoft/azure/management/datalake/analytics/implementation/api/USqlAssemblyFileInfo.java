@@ -42,7 +42,7 @@ public class USqlAssemblyFileInfo {
      * @param type the type value to set
      * @return the USqlAssemblyFileInfo object itself.
      */
-    public USqlAssemblyFileInfo withType(FileType type) {
+    public USqlAssemblyFileInfo setType(FileType type) {
         this.type = type;
         return this;
     }
@@ -62,7 +62,7 @@ public class USqlAssemblyFileInfo {
      * @param originalPath the originalPath value to set
      * @return the USqlAssemblyFileInfo object itself.
      */
-    public USqlAssemblyFileInfo withOriginalPath(String originalPath) {
+    public USqlAssemblyFileInfo setOriginalPath(String originalPath) {
         this.originalPath = originalPath;
         return this;
     }
@@ -82,7 +82,7 @@ public class USqlAssemblyFileInfo {
      * @param contentPath the contentPath value to set
      * @return the USqlAssemblyFileInfo object itself.
      */
-    public USqlAssemblyFileInfo withContentPath(String contentPath) {
+    public USqlAssemblyFileInfo setContentPath(String contentPath) {
         this.contentPath = contentPath;
         return this;
     }

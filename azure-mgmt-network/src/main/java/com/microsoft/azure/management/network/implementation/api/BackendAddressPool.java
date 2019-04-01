@@ -66,7 +66,7 @@ public class BackendAddressPool extends SubResource {
      * @param backendIPConfigurations the backendIPConfigurations value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withBackendIPConfigurations(List<NetworkInterfaceIPConfiguration> backendIPConfigurations) {
+    public BackendAddressPool setBackendIPConfigurations(List<NetworkInterfaceIPConfiguration> backendIPConfigurations) {
         this.backendIPConfigurations = backendIPConfigurations;
         return this;
     }
@@ -86,7 +86,7 @@ public class BackendAddressPool extends SubResource {
      * @param loadBalancingRules the loadBalancingRules value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withLoadBalancingRules(List<SubResource> loadBalancingRules) {
+    public BackendAddressPool setLoadBalancingRules(List<SubResource> loadBalancingRules) {
         this.loadBalancingRules = loadBalancingRules;
         return this;
     }
@@ -106,7 +106,7 @@ public class BackendAddressPool extends SubResource {
      * @param outboundNatRule the outboundNatRule value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withOutboundNatRule(SubResource outboundNatRule) {
+    public BackendAddressPool setOutboundNatRule(SubResource outboundNatRule) {
         this.outboundNatRule = outboundNatRule;
         return this;
     }
@@ -126,7 +126,7 @@ public class BackendAddressPool extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withProvisioningState(String provisioningState) {
+    public BackendAddressPool setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -146,7 +146,7 @@ public class BackendAddressPool extends SubResource {
      * @param name the name value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withName(String name) {
+    public BackendAddressPool setName(String name) {
         this.name = name;
         return this;
     }
@@ -166,7 +166,7 @@ public class BackendAddressPool extends SubResource {
      * @param etag the etag value to set
      * @return the BackendAddressPool object itself.
      */
-    public BackendAddressPool withEtag(String etag) {
+    public BackendAddressPool setEtag(String etag) {
         this.etag = etag;
         return this;
     }

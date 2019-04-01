@@ -82,7 +82,7 @@ public class StampCapacity {
      * @param name the name value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withName(String name) {
+    public StampCapacity setName(String name) {
         this.name = name;
         return this;
     }
@@ -102,7 +102,7 @@ public class StampCapacity {
      * @param availableCapacity the availableCapacity value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withAvailableCapacity(Long availableCapacity) {
+    public StampCapacity setAvailableCapacity(Long availableCapacity) {
         this.availableCapacity = availableCapacity;
         return this;
     }
@@ -122,7 +122,7 @@ public class StampCapacity {
      * @param totalCapacity the totalCapacity value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withTotalCapacity(Long totalCapacity) {
+    public StampCapacity setTotalCapacity(Long totalCapacity) {
         this.totalCapacity = totalCapacity;
         return this;
     }
@@ -142,7 +142,7 @@ public class StampCapacity {
      * @param unit the unit value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withUnit(String unit) {
+    public StampCapacity setUnit(String unit) {
         this.unit = unit;
         return this;
     }
@@ -162,7 +162,7 @@ public class StampCapacity {
      * @param computeMode the computeMode value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withComputeMode(ComputeModeOptions computeMode) {
+    public StampCapacity setComputeMode(ComputeModeOptions computeMode) {
         this.computeMode = computeMode;
         return this;
     }
@@ -182,7 +182,7 @@ public class StampCapacity {
      * @param workerSize the workerSize value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withWorkerSize(WorkerSizeOptions workerSize) {
+    public StampCapacity setWorkerSize(WorkerSizeOptions workerSize) {
         this.workerSize = workerSize;
         return this;
     }
@@ -202,7 +202,7 @@ public class StampCapacity {
      * @param workerSizeId the workerSizeId value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withWorkerSizeId(Integer workerSizeId) {
+    public StampCapacity setWorkerSizeId(Integer workerSizeId) {
         this.workerSizeId = workerSizeId;
         return this;
     }
@@ -222,7 +222,7 @@ public class StampCapacity {
      * @param excludeFromCapacityAllocation the excludeFromCapacityAllocation value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withExcludeFromCapacityAllocation(Boolean excludeFromCapacityAllocation) {
+    public StampCapacity setExcludeFromCapacityAllocation(Boolean excludeFromCapacityAllocation) {
         this.excludeFromCapacityAllocation = excludeFromCapacityAllocation;
         return this;
     }
@@ -242,7 +242,7 @@ public class StampCapacity {
      * @param isApplicableForAllComputeModes the isApplicableForAllComputeModes value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withIsApplicableForAllComputeModes(Boolean isApplicableForAllComputeModes) {
+    public StampCapacity setIsApplicableForAllComputeModes(Boolean isApplicableForAllComputeModes) {
         this.isApplicableForAllComputeModes = isApplicableForAllComputeModes;
         return this;
     }
@@ -262,7 +262,7 @@ public class StampCapacity {
      * @param siteMode the siteMode value to set
      * @return the StampCapacity object itself.
      */
-    public StampCapacity withSiteMode(String siteMode) {
+    public StampCapacity setSiteMode(String siteMode) {
         this.siteMode = siteMode;
         return this;
     }

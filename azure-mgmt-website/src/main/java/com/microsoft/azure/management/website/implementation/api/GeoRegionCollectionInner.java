@@ -37,7 +37,7 @@ public class GeoRegionCollectionInner {
      * @param value the value value to set
      * @return the GeoRegionCollectionInner object itself.
      */
-    public GeoRegionCollectionInner withValue(List<GeoRegion> value) {
+    public GeoRegionCollectionInner setValue(List<GeoRegion> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class GeoRegionCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the GeoRegionCollectionInner object itself.
      */
-    public GeoRegionCollectionInner withNextLink(String nextLink) {
+    public GeoRegionCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

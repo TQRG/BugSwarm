@@ -80,7 +80,7 @@ public class Certificate {
      * @param thumbprint the thumbprint value to set
      * @return the Certificate object itself.
      */
-    public Certificate withThumbprint(String thumbprint) {
+    public Certificate setThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -100,7 +100,7 @@ public class Certificate {
      * @param thumbprintAlgorithm the thumbprintAlgorithm value to set
      * @return the Certificate object itself.
      */
-    public Certificate withThumbprintAlgorithm(String thumbprintAlgorithm) {
+    public Certificate setThumbprintAlgorithm(String thumbprintAlgorithm) {
         this.thumbprintAlgorithm = thumbprintAlgorithm;
         return this;
     }
@@ -120,7 +120,7 @@ public class Certificate {
      * @param url the url value to set
      * @return the Certificate object itself.
      */
-    public Certificate withUrl(String url) {
+    public Certificate setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -140,7 +140,7 @@ public class Certificate {
      * @param state the state value to set
      * @return the Certificate object itself.
      */
-    public Certificate withState(CertificateState state) {
+    public Certificate setState(CertificateState state) {
         this.state = state;
         return this;
     }
@@ -160,7 +160,7 @@ public class Certificate {
      * @param stateTransitionTime the stateTransitionTime value to set
      * @return the Certificate object itself.
      */
-    public Certificate withStateTransitionTime(DateTime stateTransitionTime) {
+    public Certificate setStateTransitionTime(DateTime stateTransitionTime) {
         this.stateTransitionTime = stateTransitionTime;
         return this;
     }
@@ -180,7 +180,7 @@ public class Certificate {
      * @param previousState the previousState value to set
      * @return the Certificate object itself.
      */
-    public Certificate withPreviousState(CertificateState previousState) {
+    public Certificate setPreviousState(CertificateState previousState) {
         this.previousState = previousState;
         return this;
     }
@@ -200,7 +200,7 @@ public class Certificate {
      * @param previousStateTransitionTime the previousStateTransitionTime value to set
      * @return the Certificate object itself.
      */
-    public Certificate withPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
+    public Certificate setPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
         this.previousStateTransitionTime = previousStateTransitionTime;
         return this;
     }
@@ -220,7 +220,7 @@ public class Certificate {
      * @param publicData the publicData value to set
      * @return the Certificate object itself.
      */
-    public Certificate withPublicData(String publicData) {
+    public Certificate setPublicData(String publicData) {
         this.publicData = publicData;
         return this;
     }
@@ -240,7 +240,7 @@ public class Certificate {
      * @param deleteCertificateError the deleteCertificateError value to set
      * @return the Certificate object itself.
      */
-    public Certificate withDeleteCertificateError(DeleteCertificateError deleteCertificateError) {
+    public Certificate setDeleteCertificateError(DeleteCertificateError deleteCertificateError) {
         this.deleteCertificateError = deleteCertificateError;
         return this;
     }

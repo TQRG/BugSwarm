@@ -33,7 +33,7 @@ public class USqlDatabaseInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlDatabaseInner object itself.
      */
-    public USqlDatabaseInner withName(String name) {
+    public USqlDatabaseInner setName(String name) {
         this.name = name;
         return this;
     }

@@ -36,7 +36,7 @@ public class SiteCloneabilityCriterion {
      * @param name the name value to set
      * @return the SiteCloneabilityCriterion object itself.
      */
-    public SiteCloneabilityCriterion withName(String name) {
+    public SiteCloneabilityCriterion setName(String name) {
         this.name = name;
         return this;
     }
@@ -56,7 +56,7 @@ public class SiteCloneabilityCriterion {
      * @param description the description value to set
      * @return the SiteCloneabilityCriterion object itself.
      */
-    public SiteCloneabilityCriterion withDescription(String description) {
+    public SiteCloneabilityCriterion setDescription(String description) {
         this.description = description;
         return this;
     }

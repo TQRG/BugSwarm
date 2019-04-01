@@ -37,7 +37,7 @@ public class StampCapacityCollectionInner {
      * @param value the value value to set
      * @return the StampCapacityCollectionInner object itself.
      */
-    public StampCapacityCollectionInner withValue(List<StampCapacity> value) {
+    public StampCapacityCollectionInner setValue(List<StampCapacity> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class StampCapacityCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the StampCapacityCollectionInner object itself.
      */
-    public StampCapacityCollectionInner withNextLink(String nextLink) {
+    public StampCapacityCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

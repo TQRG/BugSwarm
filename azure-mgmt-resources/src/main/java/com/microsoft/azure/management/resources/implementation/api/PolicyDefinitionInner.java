@@ -36,7 +36,7 @@ public class PolicyDefinitionInner {
      * @param properties the properties value to set
      * @return the PolicyDefinitionInner object itself.
      */
-    public PolicyDefinitionInner withProperties(PolicyDefinitionProperties properties) {
+    public PolicyDefinitionInner setProperties(PolicyDefinitionProperties properties) {
         this.properties = properties;
         return this;
     }
@@ -56,7 +56,7 @@ public class PolicyDefinitionInner {
      * @param name the name value to set
      * @return the PolicyDefinitionInner object itself.
      */
-    public PolicyDefinitionInner withName(String name) {
+    public PolicyDefinitionInner setName(String name) {
         this.name = name;
         return this;
     }

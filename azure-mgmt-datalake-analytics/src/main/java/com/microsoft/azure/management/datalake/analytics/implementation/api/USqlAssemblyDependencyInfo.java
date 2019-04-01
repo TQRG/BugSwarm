@@ -31,7 +31,7 @@ public class USqlAssemblyDependencyInfo {
      * @param entityId the entityId value to set
      * @return the USqlAssemblyDependencyInfo object itself.
      */
-    public USqlAssemblyDependencyInfo withEntityId(EntityId entityId) {
+    public USqlAssemblyDependencyInfo setEntityId(EntityId entityId) {
         this.entityId = entityId;
         return this;
     }

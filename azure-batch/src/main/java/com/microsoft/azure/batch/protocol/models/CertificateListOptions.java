@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Certificate_List operation.
+ * Additional parameters for the List operation.
  */
 public class CertificateListOptions {
     /**
@@ -76,7 +76,7 @@ public class CertificateListOptions {
      * @param filter the filter value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withFilter(String filter) {
+    public CertificateListOptions setFilter(String filter) {
         this.filter = filter;
         return this;
     }
@@ -96,7 +96,7 @@ public class CertificateListOptions {
      * @param select the select value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withSelect(String select) {
+    public CertificateListOptions setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -116,7 +116,7 @@ public class CertificateListOptions {
      * @param maxResults the maxResults value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withMaxResults(Integer maxResults) {
+    public CertificateListOptions setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
         return this;
     }
@@ -136,7 +136,7 @@ public class CertificateListOptions {
      * @param timeout the timeout value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withTimeout(Integer timeout) {
+    public CertificateListOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -156,7 +156,7 @@ public class CertificateListOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withClientRequestId(String clientRequestId) {
+    public CertificateListOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -176,7 +176,7 @@ public class CertificateListOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public CertificateListOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -199,7 +199,7 @@ public class CertificateListOptions {
      * @param ocpDate the ocpDate value to set
      * @return the CertificateListOptions object itself.
      */
-    public CertificateListOptions withOcpDate(DateTime ocpDate) {
+    public CertificateListOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

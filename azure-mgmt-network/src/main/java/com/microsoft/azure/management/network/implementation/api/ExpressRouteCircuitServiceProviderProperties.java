@@ -41,7 +41,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
      * @param serviceProviderName the serviceProviderName value to set
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties withServiceProviderName(String serviceProviderName) {
+    public ExpressRouteCircuitServiceProviderProperties setServiceProviderName(String serviceProviderName) {
         this.serviceProviderName = serviceProviderName;
         return this;
     }
@@ -61,7 +61,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
      * @param peeringLocation the peeringLocation value to set
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties withPeeringLocation(String peeringLocation) {
+    public ExpressRouteCircuitServiceProviderProperties setPeeringLocation(String peeringLocation) {
         this.peeringLocation = peeringLocation;
         return this;
     }
@@ -81,7 +81,7 @@ public class ExpressRouteCircuitServiceProviderProperties {
      * @param bandwidthInMbps the bandwidthInMbps value to set
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties withBandwidthInMbps(Integer bandwidthInMbps) {
+    public ExpressRouteCircuitServiceProviderProperties setBandwidthInMbps(Integer bandwidthInMbps) {
         this.bandwidthInMbps = bandwidthInMbps;
         return this;
     }

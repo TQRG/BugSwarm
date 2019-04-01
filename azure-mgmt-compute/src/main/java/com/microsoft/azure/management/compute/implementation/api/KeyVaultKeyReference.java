@@ -40,7 +40,7 @@ public class KeyVaultKeyReference {
      * @param keyUrl the keyUrl value to set
      * @return the KeyVaultKeyReference object itself.
      */
-    public KeyVaultKeyReference withKeyUrl(String keyUrl) {
+    public KeyVaultKeyReference setKeyUrl(String keyUrl) {
         this.keyUrl = keyUrl;
         return this;
     }
@@ -60,7 +60,7 @@ public class KeyVaultKeyReference {
      * @param sourceVault the sourceVault value to set
      * @return the KeyVaultKeyReference object itself.
      */
-    public KeyVaultKeyReference withSourceVault(SubResource sourceVault) {
+    public KeyVaultKeyReference setSourceVault(SubResource sourceVault) {
         this.sourceVault = sourceVault;
         return this;
     }

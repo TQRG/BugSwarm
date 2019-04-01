@@ -84,7 +84,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param protocol the protocol value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withProtocol(String protocol) {
+    public ApplicationGatewayProbe setProtocol(String protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -104,7 +104,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param host the host value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withHost(String host) {
+    public ApplicationGatewayProbe setHost(String host) {
         this.host = host;
         return this;
     }
@@ -124,7 +124,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param path the path value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withPath(String path) {
+    public ApplicationGatewayProbe setPath(String path) {
         this.path = path;
         return this;
     }
@@ -144,7 +144,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param interval the interval value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withInterval(Integer interval) {
+    public ApplicationGatewayProbe setInterval(Integer interval) {
         this.interval = interval;
         return this;
     }
@@ -164,7 +164,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param timeout the timeout value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withTimeout(Integer timeout) {
+    public ApplicationGatewayProbe setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -184,7 +184,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param unhealthyThreshold the unhealthyThreshold value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withUnhealthyThreshold(Integer unhealthyThreshold) {
+    public ApplicationGatewayProbe setUnhealthyThreshold(Integer unhealthyThreshold) {
         this.unhealthyThreshold = unhealthyThreshold;
         return this;
     }
@@ -204,7 +204,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withProvisioningState(String provisioningState) {
+    public ApplicationGatewayProbe setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -224,7 +224,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param name the name value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withName(String name) {
+    public ApplicationGatewayProbe setName(String name) {
         this.name = name;
         return this;
     }
@@ -244,7 +244,7 @@ public class ApplicationGatewayProbe extends SubResource {
      * @param etag the etag value to set
      * @return the ApplicationGatewayProbe object itself.
      */
-    public ApplicationGatewayProbe withEtag(String etag) {
+    public ApplicationGatewayProbe setEtag(String etag) {
         this.etag = etag;
         return this;
     }

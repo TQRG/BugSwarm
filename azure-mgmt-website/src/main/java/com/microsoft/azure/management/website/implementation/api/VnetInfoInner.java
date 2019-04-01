@@ -71,7 +71,7 @@ public class VnetInfoInner extends Resource {
      * @param vnetResourceId the vnetResourceId value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withVnetResourceId(String vnetResourceId) {
+    public VnetInfoInner setVnetResourceId(String vnetResourceId) {
         this.vnetResourceId = vnetResourceId;
         return this;
     }
@@ -91,7 +91,7 @@ public class VnetInfoInner extends Resource {
      * @param certThumbprint the certThumbprint value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withCertThumbprint(String certThumbprint) {
+    public VnetInfoInner setCertThumbprint(String certThumbprint) {
         this.certThumbprint = certThumbprint;
         return this;
     }
@@ -111,7 +111,7 @@ public class VnetInfoInner extends Resource {
      * @param certBlob the certBlob value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withCertBlob(String certBlob) {
+    public VnetInfoInner setCertBlob(String certBlob) {
         this.certBlob = certBlob;
         return this;
     }
@@ -131,7 +131,7 @@ public class VnetInfoInner extends Resource {
      * @param routes the routes value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withRoutes(List<VnetRouteInner> routes) {
+    public VnetInfoInner setRoutes(List<VnetRouteInner> routes) {
         this.routes = routes;
         return this;
     }
@@ -151,7 +151,7 @@ public class VnetInfoInner extends Resource {
      * @param resyncRequired the resyncRequired value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withResyncRequired(Boolean resyncRequired) {
+    public VnetInfoInner setResyncRequired(Boolean resyncRequired) {
         this.resyncRequired = resyncRequired;
         return this;
     }
@@ -171,7 +171,7 @@ public class VnetInfoInner extends Resource {
      * @param dnsServers the dnsServers value to set
      * @return the VnetInfoInner object itself.
      */
-    public VnetInfoInner withDnsServers(String dnsServers) {
+    public VnetInfoInner setDnsServers(String dnsServers) {
         this.dnsServers = dnsServers;
         return this;
     }

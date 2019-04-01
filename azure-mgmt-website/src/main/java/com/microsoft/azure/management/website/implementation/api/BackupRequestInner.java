@@ -69,7 +69,7 @@ public class BackupRequestInner extends Resource {
      * @param backupRequestName the backupRequestName value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withBackupRequestName(String backupRequestName) {
+    public BackupRequestInner setBackupRequestName(String backupRequestName) {
         this.backupRequestName = backupRequestName;
         return this;
     }
@@ -89,7 +89,7 @@ public class BackupRequestInner extends Resource {
      * @param enabled the enabled value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withEnabled(Boolean enabled) {
+    public BackupRequestInner setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -109,7 +109,7 @@ public class BackupRequestInner extends Resource {
      * @param storageAccountUrl the storageAccountUrl value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withStorageAccountUrl(String storageAccountUrl) {
+    public BackupRequestInner setStorageAccountUrl(String storageAccountUrl) {
         this.storageAccountUrl = storageAccountUrl;
         return this;
     }
@@ -129,7 +129,7 @@ public class BackupRequestInner extends Resource {
      * @param backupSchedule the backupSchedule value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withBackupSchedule(BackupSchedule backupSchedule) {
+    public BackupRequestInner setBackupSchedule(BackupSchedule backupSchedule) {
         this.backupSchedule = backupSchedule;
         return this;
     }
@@ -149,7 +149,7 @@ public class BackupRequestInner extends Resource {
      * @param databases the databases value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withDatabases(List<DatabaseBackupSetting> databases) {
+    public BackupRequestInner setDatabases(List<DatabaseBackupSetting> databases) {
         this.databases = databases;
         return this;
     }
@@ -169,7 +169,7 @@ public class BackupRequestInner extends Resource {
      * @param backupRequestType the backupRequestType value to set
      * @return the BackupRequestInner object itself.
      */
-    public BackupRequestInner withBackupRequestType(BackupRestoreOperationType backupRequestType) {
+    public BackupRequestInner setBackupRequestType(BackupRestoreOperationType backupRequestType) {
         this.backupRequestType = backupRequestType;
         return this;
     }

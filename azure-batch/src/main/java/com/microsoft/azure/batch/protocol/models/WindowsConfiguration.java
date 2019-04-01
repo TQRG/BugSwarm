@@ -32,7 +32,7 @@ public class WindowsConfiguration {
      * @param enableAutomaticUpdates the enableAutomaticUpdates value to set
      * @return the WindowsConfiguration object itself.
      */
-    public WindowsConfiguration withEnableAutomaticUpdates(Boolean enableAutomaticUpdates) {
+    public WindowsConfiguration setEnableAutomaticUpdates(Boolean enableAutomaticUpdates) {
         this.enableAutomaticUpdates = enableAutomaticUpdates;
         return this;
     }

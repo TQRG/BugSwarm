@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_GetAllPoolsLifetimeStatistics operation.
+ * Additional parameters for the GetAllPoolsLifetimeStatistics operation.
  */
 public class PoolGetAllPoolsLifetimeStatisticsOptions {
     /**
@@ -58,7 +58,7 @@ public class PoolGetAllPoolsLifetimeStatisticsOptions {
      * @param timeout the timeout value to set
      * @return the PoolGetAllPoolsLifetimeStatisticsOptions object itself.
      */
-    public PoolGetAllPoolsLifetimeStatisticsOptions withTimeout(Integer timeout) {
+    public PoolGetAllPoolsLifetimeStatisticsOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class PoolGetAllPoolsLifetimeStatisticsOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolGetAllPoolsLifetimeStatisticsOptions object itself.
      */
-    public PoolGetAllPoolsLifetimeStatisticsOptions withClientRequestId(String clientRequestId) {
+    public PoolGetAllPoolsLifetimeStatisticsOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class PoolGetAllPoolsLifetimeStatisticsOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolGetAllPoolsLifetimeStatisticsOptions object itself.
      */
-    public PoolGetAllPoolsLifetimeStatisticsOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolGetAllPoolsLifetimeStatisticsOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class PoolGetAllPoolsLifetimeStatisticsOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolGetAllPoolsLifetimeStatisticsOptions object itself.
      */
-    public PoolGetAllPoolsLifetimeStatisticsOptions withOcpDate(DateTime ocpDate) {
+    public PoolGetAllPoolsLifetimeStatisticsOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

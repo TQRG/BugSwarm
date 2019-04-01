@@ -78,7 +78,7 @@ public class JobErrorDetails {
     /**
      * Gets the inner error of this specific job error message, if any.
      */
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "InnerError", access = JsonProperty.Access.WRITE_ONLY)
     private JobInnerError innerError;
 
     /**

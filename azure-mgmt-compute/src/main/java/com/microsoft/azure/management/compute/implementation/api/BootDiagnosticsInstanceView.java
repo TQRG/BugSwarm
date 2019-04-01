@@ -36,7 +36,7 @@ public class BootDiagnosticsInstanceView {
      * @param consoleScreenshotBlobUri the consoleScreenshotBlobUri value to set
      * @return the BootDiagnosticsInstanceView object itself.
      */
-    public BootDiagnosticsInstanceView withConsoleScreenshotBlobUri(String consoleScreenshotBlobUri) {
+    public BootDiagnosticsInstanceView setConsoleScreenshotBlobUri(String consoleScreenshotBlobUri) {
         this.consoleScreenshotBlobUri = consoleScreenshotBlobUri;
         return this;
     }
@@ -56,7 +56,7 @@ public class BootDiagnosticsInstanceView {
      * @param serialConsoleLogBlobUri the serialConsoleLogBlobUri value to set
      * @return the BootDiagnosticsInstanceView object itself.
      */
-    public BootDiagnosticsInstanceView withSerialConsoleLogBlobUri(String serialConsoleLogBlobUri) {
+    public BootDiagnosticsInstanceView setSerialConsoleLogBlobUri(String serialConsoleLogBlobUri) {
         this.serialConsoleLogBlobUri = serialConsoleLogBlobUri;
         return this;
     }

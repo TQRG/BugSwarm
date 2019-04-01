@@ -32,7 +32,7 @@ public class ApiEntityReference {
      * @param id the id value to set
      * @return the ApiEntityReference object itself.
      */
-    public ApiEntityReference withId(String id) {
+    public ApiEntityReference setId(String id) {
         this.id = id;
         return this;
     }

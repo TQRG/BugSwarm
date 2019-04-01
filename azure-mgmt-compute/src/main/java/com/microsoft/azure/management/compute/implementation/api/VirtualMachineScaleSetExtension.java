@@ -78,7 +78,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param name the name value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withName(String name) {
+    public VirtualMachineScaleSetExtension setName(String name) {
         this.name = name;
         return this;
     }
@@ -98,7 +98,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param publisher the publisher value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withPublisher(String publisher) {
+    public VirtualMachineScaleSetExtension setPublisher(String publisher) {
         this.publisher = publisher;
         return this;
     }
@@ -118,7 +118,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param type the type value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withType(String type) {
+    public VirtualMachineScaleSetExtension setType(String type) {
         this.type = type;
         return this;
     }
@@ -138,7 +138,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param typeHandlerVersion the typeHandlerVersion value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withTypeHandlerVersion(String typeHandlerVersion) {
+    public VirtualMachineScaleSetExtension setTypeHandlerVersion(String typeHandlerVersion) {
         this.typeHandlerVersion = typeHandlerVersion;
         return this;
     }
@@ -158,7 +158,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param autoUpgradeMinorVersion the autoUpgradeMinorVersion value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withAutoUpgradeMinorVersion(Boolean autoUpgradeMinorVersion) {
+    public VirtualMachineScaleSetExtension setAutoUpgradeMinorVersion(Boolean autoUpgradeMinorVersion) {
         this.autoUpgradeMinorVersion = autoUpgradeMinorVersion;
         return this;
     }
@@ -178,7 +178,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param settings the settings value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withSettings(Object settings) {
+    public VirtualMachineScaleSetExtension setSettings(Object settings) {
         this.settings = settings;
         return this;
     }
@@ -198,7 +198,7 @@ public class VirtualMachineScaleSetExtension extends SubResource {
      * @param protectedSettings the protectedSettings value to set
      * @return the VirtualMachineScaleSetExtension object itself.
      */
-    public VirtualMachineScaleSetExtension withProtectedSettings(Object protectedSettings) {
+    public VirtualMachineScaleSetExtension setProtectedSettings(Object protectedSettings) {
         this.protectedSettings = protectedSettings;
         return this;
     }

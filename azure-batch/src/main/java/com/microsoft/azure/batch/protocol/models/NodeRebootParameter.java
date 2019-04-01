@@ -33,7 +33,7 @@ public class NodeRebootParameter {
      * @param nodeRebootOption the nodeRebootOption value to set
      * @return the NodeRebootParameter object itself.
      */
-    public NodeRebootParameter withNodeRebootOption(ComputeNodeRebootOption nodeRebootOption) {
+    public NodeRebootParameter setNodeRebootOption(ComputeNodeRebootOption nodeRebootOption) {
         this.nodeRebootOption = nodeRebootOption;
         return this;
     }

@@ -60,7 +60,7 @@ public class PoolEvaluateAutoScaleHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolEvaluateAutoScaleHeaders object itself.
      */
-    public PoolEvaluateAutoScaleHeaders withClientRequestId(String clientRequestId) {
+    public PoolEvaluateAutoScaleHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class PoolEvaluateAutoScaleHeaders {
      * @param requestId the requestId value to set
      * @return the PoolEvaluateAutoScaleHeaders object itself.
      */
-    public PoolEvaluateAutoScaleHeaders withRequestId(String requestId) {
+    public PoolEvaluateAutoScaleHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class PoolEvaluateAutoScaleHeaders {
      * @param eTag the eTag value to set
      * @return the PoolEvaluateAutoScaleHeaders object itself.
      */
-    public PoolEvaluateAutoScaleHeaders withETag(String eTag) {
+    public PoolEvaluateAutoScaleHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class PoolEvaluateAutoScaleHeaders {
      * @param lastModified the lastModified value to set
      * @return the PoolEvaluateAutoScaleHeaders object itself.
      */
-    public PoolEvaluateAutoScaleHeaders withLastModified(DateTime lastModified) {
+    public PoolEvaluateAutoScaleHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class PoolEvaluateAutoScaleHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the PoolEvaluateAutoScaleHeaders object itself.
      */
-    public PoolEvaluateAutoScaleHeaders withDataServiceId(String dataServiceId) {
+    public PoolEvaluateAutoScaleHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

@@ -48,7 +48,7 @@ public class JobProperties {
      * @param runtimeVersion the runtimeVersion value to set
      * @return the JobProperties object itself.
      */
-    public JobProperties withRuntimeVersion(String runtimeVersion) {
+    public JobProperties setRuntimeVersion(String runtimeVersion) {
         this.runtimeVersion = runtimeVersion;
         return this;
     }
@@ -68,7 +68,7 @@ public class JobProperties {
      * @param script the script value to set
      * @return the JobProperties object itself.
      */
-    public JobProperties withScript(String script) {
+    public JobProperties setScript(String script) {
         this.script = script;
         return this;
     }

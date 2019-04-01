@@ -31,7 +31,7 @@ public class EnabledConfig {
      * @param enabled the enabled value to set
      * @return the EnabledConfig object itself.
      */
-    public EnabledConfig withEnabled(Boolean enabled) {
+    public EnabledConfig setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }

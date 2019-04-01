@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Task_Delete operation.
+ * Additional parameters for the Delete operation.
  */
 public class TaskDeleteOptions {
     /**
@@ -86,7 +86,7 @@ public class TaskDeleteOptions {
      * @param timeout the timeout value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withTimeout(Integer timeout) {
+    public TaskDeleteOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class TaskDeleteOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withClientRequestId(String clientRequestId) {
+    public TaskDeleteOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class TaskDeleteOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public TaskDeleteOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class TaskDeleteOptions {
      * @param ocpDate the ocpDate value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withOcpDate(DateTime ocpDate) {
+    public TaskDeleteOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class TaskDeleteOptions {
      * @param ifMatch the ifMatch value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withIfMatch(String ifMatch) {
+    public TaskDeleteOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class TaskDeleteOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withIfNoneMatch(String ifNoneMatch) {
+    public TaskDeleteOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class TaskDeleteOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public TaskDeleteOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class TaskDeleteOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the TaskDeleteOptions object itself.
      */
-    public TaskDeleteOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public TaskDeleteOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

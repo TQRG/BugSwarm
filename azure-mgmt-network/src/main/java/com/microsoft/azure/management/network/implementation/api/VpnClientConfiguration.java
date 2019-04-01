@@ -43,7 +43,7 @@ public class VpnClientConfiguration {
      * @param vpnClientAddressPool the vpnClientAddressPool value to set
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration withVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
+    public VpnClientConfiguration setVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
         this.vpnClientAddressPool = vpnClientAddressPool;
         return this;
     }
@@ -63,7 +63,7 @@ public class VpnClientConfiguration {
      * @param vpnClientRootCertificates the vpnClientRootCertificates value to set
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration withVpnClientRootCertificates(List<VpnClientRootCertificate> vpnClientRootCertificates) {
+    public VpnClientConfiguration setVpnClientRootCertificates(List<VpnClientRootCertificate> vpnClientRootCertificates) {
         this.vpnClientRootCertificates = vpnClientRootCertificates;
         return this;
     }
@@ -83,7 +83,7 @@ public class VpnClientConfiguration {
      * @param vpnClientRevokedCertificates the vpnClientRevokedCertificates value to set
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration withVpnClientRevokedCertificates(List<VpnClientRevokedCertificate> vpnClientRevokedCertificates) {
+    public VpnClientConfiguration setVpnClientRevokedCertificates(List<VpnClientRevokedCertificate> vpnClientRevokedCertificates) {
         this.vpnClientRevokedCertificates = vpnClientRevokedCertificates;
         return this;
     }

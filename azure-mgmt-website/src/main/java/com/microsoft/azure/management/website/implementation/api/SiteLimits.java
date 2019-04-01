@@ -41,7 +41,7 @@ public class SiteLimits {
      * @param maxPercentageCpu the maxPercentageCpu value to set
      * @return the SiteLimits object itself.
      */
-    public SiteLimits withMaxPercentageCpu(Double maxPercentageCpu) {
+    public SiteLimits setMaxPercentageCpu(Double maxPercentageCpu) {
         this.maxPercentageCpu = maxPercentageCpu;
         return this;
     }
@@ -61,7 +61,7 @@ public class SiteLimits {
      * @param maxMemoryInMb the maxMemoryInMb value to set
      * @return the SiteLimits object itself.
      */
-    public SiteLimits withMaxMemoryInMb(Long maxMemoryInMb) {
+    public SiteLimits setMaxMemoryInMb(Long maxMemoryInMb) {
         this.maxMemoryInMb = maxMemoryInMb;
         return this;
     }
@@ -81,7 +81,7 @@ public class SiteLimits {
      * @param maxDiskSizeInMb the maxDiskSizeInMb value to set
      * @return the SiteLimits object itself.
      */
-    public SiteLimits withMaxDiskSizeInMb(Long maxDiskSizeInMb) {
+    public SiteLimits setMaxDiskSizeInMb(Long maxDiskSizeInMb) {
         this.maxDiskSizeInMb = maxDiskSizeInMb;
         return this;
     }

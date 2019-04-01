@@ -61,7 +61,7 @@ public class SourceControlInner extends Resource {
      * @param sourceControlName the sourceControlName value to set
      * @return the SourceControlInner object itself.
      */
-    public SourceControlInner withSourceControlName(String sourceControlName) {
+    public SourceControlInner setSourceControlName(String sourceControlName) {
         this.sourceControlName = sourceControlName;
         return this;
     }
@@ -81,7 +81,7 @@ public class SourceControlInner extends Resource {
      * @param token the token value to set
      * @return the SourceControlInner object itself.
      */
-    public SourceControlInner withToken(String token) {
+    public SourceControlInner setToken(String token) {
         this.token = token;
         return this;
     }
@@ -101,7 +101,7 @@ public class SourceControlInner extends Resource {
      * @param tokenSecret the tokenSecret value to set
      * @return the SourceControlInner object itself.
      */
-    public SourceControlInner withTokenSecret(String tokenSecret) {
+    public SourceControlInner setTokenSecret(String tokenSecret) {
         this.tokenSecret = tokenSecret;
         return this;
     }
@@ -121,7 +121,7 @@ public class SourceControlInner extends Resource {
      * @param refreshToken the refreshToken value to set
      * @return the SourceControlInner object itself.
      */
-    public SourceControlInner withRefreshToken(String refreshToken) {
+    public SourceControlInner setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
         return this;
     }
@@ -141,7 +141,7 @@ public class SourceControlInner extends Resource {
      * @param expirationTime the expirationTime value to set
      * @return the SourceControlInner object itself.
      */
-    public SourceControlInner withExpirationTime(DateTime expirationTime) {
+    public SourceControlInner setExpirationTime(DateTime expirationTime) {
         this.expirationTime = expirationTime;
         return this;
     }

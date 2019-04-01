@@ -45,7 +45,7 @@ public class AzureBlobStorageApplicationLogsConfig {
      * @param level the level value to set
      * @return the AzureBlobStorageApplicationLogsConfig object itself.
      */
-    public AzureBlobStorageApplicationLogsConfig withLevel(LogLevel level) {
+    public AzureBlobStorageApplicationLogsConfig setLevel(LogLevel level) {
         this.level = level;
         return this;
     }
@@ -65,7 +65,7 @@ public class AzureBlobStorageApplicationLogsConfig {
      * @param sasUrl the sasUrl value to set
      * @return the AzureBlobStorageApplicationLogsConfig object itself.
      */
-    public AzureBlobStorageApplicationLogsConfig withSasUrl(String sasUrl) {
+    public AzureBlobStorageApplicationLogsConfig setSasUrl(String sasUrl) {
         this.sasUrl = sasUrl;
         return this;
     }
@@ -85,7 +85,7 @@ public class AzureBlobStorageApplicationLogsConfig {
      * @param retentionInDays the retentionInDays value to set
      * @return the AzureBlobStorageApplicationLogsConfig object itself.
      */
-    public AzureBlobStorageApplicationLogsConfig withRetentionInDays(Integer retentionInDays) {
+    public AzureBlobStorageApplicationLogsConfig setRetentionInDays(Integer retentionInDays) {
         this.retentionInDays = retentionInDays;
         return this;
     }

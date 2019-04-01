@@ -49,7 +49,7 @@ public class CloudServiceConfiguration {
      * @param osFamily the osFamily value to set
      * @return the CloudServiceConfiguration object itself.
      */
-    public CloudServiceConfiguration withOsFamily(String osFamily) {
+    public CloudServiceConfiguration setOsFamily(String osFamily) {
         this.osFamily = osFamily;
         return this;
     }
@@ -69,7 +69,7 @@ public class CloudServiceConfiguration {
      * @param targetOSVersion the targetOSVersion value to set
      * @return the CloudServiceConfiguration object itself.
      */
-    public CloudServiceConfiguration withTargetOSVersion(String targetOSVersion) {
+    public CloudServiceConfiguration setTargetOSVersion(String targetOSVersion) {
         this.targetOSVersion = targetOSVersion;
         return this;
     }
@@ -89,7 +89,7 @@ public class CloudServiceConfiguration {
      * @param currentOSVersion the currentOSVersion value to set
      * @return the CloudServiceConfiguration object itself.
      */
-    public CloudServiceConfiguration withCurrentOSVersion(String currentOSVersion) {
+    public CloudServiceConfiguration setCurrentOSVersion(String currentOSVersion) {
         this.currentOSVersion = currentOSVersion;
         return this;
     }

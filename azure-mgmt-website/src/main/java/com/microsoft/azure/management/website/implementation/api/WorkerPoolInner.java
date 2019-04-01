@@ -67,7 +67,7 @@ public class WorkerPoolInner extends Resource {
      * @param workerSizeId the workerSizeId value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withWorkerSizeId(Integer workerSizeId) {
+    public WorkerPoolInner setWorkerSizeId(Integer workerSizeId) {
         this.workerSizeId = workerSizeId;
         return this;
     }
@@ -87,7 +87,7 @@ public class WorkerPoolInner extends Resource {
      * @param computeMode the computeMode value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withComputeMode(ComputeModeOptions computeMode) {
+    public WorkerPoolInner setComputeMode(ComputeModeOptions computeMode) {
         this.computeMode = computeMode;
         return this;
     }
@@ -107,7 +107,7 @@ public class WorkerPoolInner extends Resource {
      * @param workerSize the workerSize value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withWorkerSize(String workerSize) {
+    public WorkerPoolInner setWorkerSize(String workerSize) {
         this.workerSize = workerSize;
         return this;
     }
@@ -127,7 +127,7 @@ public class WorkerPoolInner extends Resource {
      * @param workerCount the workerCount value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withWorkerCount(Integer workerCount) {
+    public WorkerPoolInner setWorkerCount(Integer workerCount) {
         this.workerCount = workerCount;
         return this;
     }
@@ -147,7 +147,7 @@ public class WorkerPoolInner extends Resource {
      * @param instanceNames the instanceNames value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withInstanceNames(List<String> instanceNames) {
+    public WorkerPoolInner setInstanceNames(List<String> instanceNames) {
         this.instanceNames = instanceNames;
         return this;
     }
@@ -167,7 +167,7 @@ public class WorkerPoolInner extends Resource {
      * @param sku the sku value to set
      * @return the WorkerPoolInner object itself.
      */
-    public WorkerPoolInner withSku(SkuDescription sku) {
+    public WorkerPoolInner setSku(SkuDescription sku) {
         this.sku = sku;
         return this;
     }

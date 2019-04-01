@@ -41,7 +41,7 @@ public class DomainAvailablilityCheckResultInner {
      * @param name the name value to set
      * @return the DomainAvailablilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withName(String name) {
+    public DomainAvailablilityCheckResultInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -61,7 +61,7 @@ public class DomainAvailablilityCheckResultInner {
      * @param available the available value to set
      * @return the DomainAvailablilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withAvailable(Boolean available) {
+    public DomainAvailablilityCheckResultInner setAvailable(Boolean available) {
         this.available = available;
         return this;
     }
@@ -81,7 +81,7 @@ public class DomainAvailablilityCheckResultInner {
      * @param domainType the domainType value to set
      * @return the DomainAvailablilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withDomainType(DomainType domainType) {
+    public DomainAvailablilityCheckResultInner setDomainType(DomainType domainType) {
         this.domainType = domainType;
         return this;
     }

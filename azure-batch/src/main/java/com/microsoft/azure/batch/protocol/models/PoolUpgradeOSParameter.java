@@ -34,7 +34,7 @@ public class PoolUpgradeOSParameter {
      * @param targetOSVersion the targetOSVersion value to set
      * @return the PoolUpgradeOSParameter object itself.
      */
-    public PoolUpgradeOSParameter withTargetOSVersion(String targetOSVersion) {
+    public PoolUpgradeOSParameter setTargetOSVersion(String targetOSVersion) {
         this.targetOSVersion = targetOSVersion;
         return this;
     }

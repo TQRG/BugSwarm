@@ -37,7 +37,7 @@ public class BackupItemCollectionInner {
      * @param value the value value to set
      * @return the BackupItemCollectionInner object itself.
      */
-    public BackupItemCollectionInner withValue(List<BackupItemInner> value) {
+    public BackupItemCollectionInner setValue(List<BackupItemInner> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class BackupItemCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the BackupItemCollectionInner object itself.
      */
-    public BackupItemCollectionInner withNextLink(String nextLink) {
+    public BackupItemCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

@@ -37,7 +37,7 @@ public class WorkerPoolCollectionInner {
      * @param value the value value to set
      * @return the WorkerPoolCollectionInner object itself.
      */
-    public WorkerPoolCollectionInner withValue(List<WorkerPoolInner> value) {
+    public WorkerPoolCollectionInner setValue(List<WorkerPoolInner> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class WorkerPoolCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the WorkerPoolCollectionInner object itself.
      */
-    public WorkerPoolCollectionInner withNextLink(String nextLink) {
+    public WorkerPoolCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

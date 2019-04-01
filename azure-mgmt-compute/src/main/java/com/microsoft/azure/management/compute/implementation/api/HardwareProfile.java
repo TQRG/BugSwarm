@@ -44,7 +44,7 @@ public class HardwareProfile {
      * @param vmSize the vmSize value to set
      * @return the HardwareProfile object itself.
      */
-    public HardwareProfile withVmSize(String vmSize) {
+    public HardwareProfile setVmSize(String vmSize) {
         this.vmSize = vmSize;
         return this;
     }

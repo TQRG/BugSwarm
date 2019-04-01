@@ -122,7 +122,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param peeringType the peeringType value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPeeringType(String peeringType) {
+    public ExpressRouteCircuitPeeringInner setPeeringType(String peeringType) {
         this.peeringType = peeringType;
         return this;
     }
@@ -142,7 +142,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param state the state value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withState(String state) {
+    public ExpressRouteCircuitPeeringInner setState(String state) {
         this.state = state;
         return this;
     }
@@ -162,7 +162,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param azureASN the azureASN value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withAzureASN(Integer azureASN) {
+    public ExpressRouteCircuitPeeringInner setAzureASN(Integer azureASN) {
         this.azureASN = azureASN;
         return this;
     }
@@ -182,7 +182,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param peerASN the peerASN value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPeerASN(Integer peerASN) {
+    public ExpressRouteCircuitPeeringInner setPeerASN(Integer peerASN) {
         this.peerASN = peerASN;
         return this;
     }
@@ -202,7 +202,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param primaryPeerAddressPrefix the primaryPeerAddressPrefix value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPrimaryPeerAddressPrefix(String primaryPeerAddressPrefix) {
+    public ExpressRouteCircuitPeeringInner setPrimaryPeerAddressPrefix(String primaryPeerAddressPrefix) {
         this.primaryPeerAddressPrefix = primaryPeerAddressPrefix;
         return this;
     }
@@ -222,7 +222,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param secondaryPeerAddressPrefix the secondaryPeerAddressPrefix value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withSecondaryPeerAddressPrefix(String secondaryPeerAddressPrefix) {
+    public ExpressRouteCircuitPeeringInner setSecondaryPeerAddressPrefix(String secondaryPeerAddressPrefix) {
         this.secondaryPeerAddressPrefix = secondaryPeerAddressPrefix;
         return this;
     }
@@ -242,7 +242,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param primaryAzurePort the primaryAzurePort value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withPrimaryAzurePort(String primaryAzurePort) {
+    public ExpressRouteCircuitPeeringInner setPrimaryAzurePort(String primaryAzurePort) {
         this.primaryAzurePort = primaryAzurePort;
         return this;
     }
@@ -262,7 +262,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param secondaryAzurePort the secondaryAzurePort value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withSecondaryAzurePort(String secondaryAzurePort) {
+    public ExpressRouteCircuitPeeringInner setSecondaryAzurePort(String secondaryAzurePort) {
         this.secondaryAzurePort = secondaryAzurePort;
         return this;
     }
@@ -282,7 +282,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param sharedKey the sharedKey value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withSharedKey(String sharedKey) {
+    public ExpressRouteCircuitPeeringInner setSharedKey(String sharedKey) {
         this.sharedKey = sharedKey;
         return this;
     }
@@ -302,7 +302,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param vlanId the vlanId value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withVlanId(Integer vlanId) {
+    public ExpressRouteCircuitPeeringInner setVlanId(Integer vlanId) {
         this.vlanId = vlanId;
         return this;
     }
@@ -322,7 +322,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param microsoftPeeringConfig the microsoftPeeringConfig value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withMicrosoftPeeringConfig(ExpressRouteCircuitPeeringConfig microsoftPeeringConfig) {
+    public ExpressRouteCircuitPeeringInner setMicrosoftPeeringConfig(ExpressRouteCircuitPeeringConfig microsoftPeeringConfig) {
         this.microsoftPeeringConfig = microsoftPeeringConfig;
         return this;
     }
@@ -342,7 +342,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param stats the stats value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withStats(ExpressRouteCircuitStatsInner stats) {
+    public ExpressRouteCircuitPeeringInner setStats(ExpressRouteCircuitStatsInner stats) {
         this.stats = stats;
         return this;
     }
@@ -362,7 +362,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withProvisioningState(String provisioningState) {
+    public ExpressRouteCircuitPeeringInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -382,7 +382,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param name the name value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withName(String name) {
+    public ExpressRouteCircuitPeeringInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -402,7 +402,7 @@ public class ExpressRouteCircuitPeeringInner extends SubResource {
      * @param etag the etag value to set
      * @return the ExpressRouteCircuitPeeringInner object itself.
      */
-    public ExpressRouteCircuitPeeringInner withEtag(String etag) {
+    public ExpressRouteCircuitPeeringInner setEtag(String etag) {
         this.etag = etag;
         return this;
     }

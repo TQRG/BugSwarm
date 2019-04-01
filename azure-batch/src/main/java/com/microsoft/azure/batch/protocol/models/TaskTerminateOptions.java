@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Task_Terminate operation.
+ * Additional parameters for the Terminate operation.
  */
 public class TaskTerminateOptions {
     /**
@@ -86,7 +86,7 @@ public class TaskTerminateOptions {
      * @param timeout the timeout value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withTimeout(Integer timeout) {
+    public TaskTerminateOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class TaskTerminateOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withClientRequestId(String clientRequestId) {
+    public TaskTerminateOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class TaskTerminateOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public TaskTerminateOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class TaskTerminateOptions {
      * @param ocpDate the ocpDate value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withOcpDate(DateTime ocpDate) {
+    public TaskTerminateOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class TaskTerminateOptions {
      * @param ifMatch the ifMatch value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withIfMatch(String ifMatch) {
+    public TaskTerminateOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class TaskTerminateOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withIfNoneMatch(String ifNoneMatch) {
+    public TaskTerminateOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class TaskTerminateOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public TaskTerminateOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class TaskTerminateOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the TaskTerminateOptions object itself.
      */
-    public TaskTerminateOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public TaskTerminateOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

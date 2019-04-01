@@ -43,7 +43,7 @@ public class ReissueCertificateOrderRequestInner extends Resource {
      * @param keySize the keySize value to set
      * @return the ReissueCertificateOrderRequestInner object itself.
      */
-    public ReissueCertificateOrderRequestInner withKeySize(Integer keySize) {
+    public ReissueCertificateOrderRequestInner setKeySize(Integer keySize) {
         this.keySize = keySize;
         return this;
     }
@@ -63,7 +63,7 @@ public class ReissueCertificateOrderRequestInner extends Resource {
      * @param delayExistingRevokeInHours the delayExistingRevokeInHours value to set
      * @return the ReissueCertificateOrderRequestInner object itself.
      */
-    public ReissueCertificateOrderRequestInner withDelayExistingRevokeInHours(Integer delayExistingRevokeInHours) {
+    public ReissueCertificateOrderRequestInner setDelayExistingRevokeInHours(Integer delayExistingRevokeInHours) {
         this.delayExistingRevokeInHours = delayExistingRevokeInHours;
         return this;
     }

@@ -52,7 +52,7 @@ public class ApiError {
      * @param details the details value to set
      * @return the ApiError object itself.
      */
-    public ApiError withDetails(List<ApiErrorBase> details) {
+    public ApiError setDetails(List<ApiErrorBase> details) {
         this.details = details;
         return this;
     }
@@ -72,7 +72,7 @@ public class ApiError {
      * @param innererror the innererror value to set
      * @return the ApiError object itself.
      */
-    public ApiError withInnererror(InnerError innererror) {
+    public ApiError setInnererror(InnerError innererror) {
         this.innererror = innererror;
         return this;
     }
@@ -92,7 +92,7 @@ public class ApiError {
      * @param code the code value to set
      * @return the ApiError object itself.
      */
-    public ApiError withCode(String code) {
+    public ApiError setCode(String code) {
         this.code = code;
         return this;
     }
@@ -112,7 +112,7 @@ public class ApiError {
      * @param target the target value to set
      * @return the ApiError object itself.
      */
-    public ApiError withTarget(String target) {
+    public ApiError setTarget(String target) {
         this.target = target;
         return this;
     }
@@ -132,7 +132,7 @@ public class ApiError {
      * @param message the message value to set
      * @return the ApiError object itself.
      */
-    public ApiError withMessage(String message) {
+    public ApiError setMessage(String message) {
         this.message = message;
         return this;
     }

@@ -63,7 +63,7 @@ public class VirtualMachineScaleSetInstanceViewInner {
      * @param statuses the statuses value to set
      * @return the VirtualMachineScaleSetInstanceViewInner object itself.
      */
-    public VirtualMachineScaleSetInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
+    public VirtualMachineScaleSetInstanceViewInner setStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
     }

@@ -92,7 +92,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendIPConfiguration the frontendIPConfiguration value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withFrontendIPConfiguration(SubResource frontendIPConfiguration) {
+    public InboundNatPool setFrontendIPConfiguration(SubResource frontendIPConfiguration) {
         this.frontendIPConfiguration = frontendIPConfiguration;
         return this;
     }
@@ -112,7 +112,7 @@ public class InboundNatPool extends SubResource {
      * @param protocol the protocol value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withProtocol(String protocol) {
+    public InboundNatPool setProtocol(String protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -132,7 +132,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendPortRangeStart the frontendPortRangeStart value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withFrontendPortRangeStart(int frontendPortRangeStart) {
+    public InboundNatPool setFrontendPortRangeStart(int frontendPortRangeStart) {
         this.frontendPortRangeStart = frontendPortRangeStart;
         return this;
     }
@@ -152,7 +152,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendPortRangeEnd the frontendPortRangeEnd value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withFrontendPortRangeEnd(int frontendPortRangeEnd) {
+    public InboundNatPool setFrontendPortRangeEnd(int frontendPortRangeEnd) {
         this.frontendPortRangeEnd = frontendPortRangeEnd;
         return this;
     }
@@ -172,7 +172,7 @@ public class InboundNatPool extends SubResource {
      * @param backendPort the backendPort value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withBackendPort(int backendPort) {
+    public InboundNatPool setBackendPort(int backendPort) {
         this.backendPort = backendPort;
         return this;
     }
@@ -192,7 +192,7 @@ public class InboundNatPool extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withProvisioningState(String provisioningState) {
+    public InboundNatPool setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -212,7 +212,7 @@ public class InboundNatPool extends SubResource {
      * @param name the name value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withName(String name) {
+    public InboundNatPool setName(String name) {
         this.name = name;
         return this;
     }
@@ -232,7 +232,7 @@ public class InboundNatPool extends SubResource {
      * @param etag the etag value to set
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool withEtag(String etag) {
+    public InboundNatPool setEtag(String etag) {
         this.etag = etag;
         return this;
     }

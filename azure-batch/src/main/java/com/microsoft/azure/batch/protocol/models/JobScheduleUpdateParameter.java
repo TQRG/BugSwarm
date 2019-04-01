@@ -49,7 +49,7 @@ public class JobScheduleUpdateParameter {
      * @param schedule the schedule value to set
      * @return the JobScheduleUpdateParameter object itself.
      */
-    public JobScheduleUpdateParameter withSchedule(Schedule schedule) {
+    public JobScheduleUpdateParameter setSchedule(Schedule schedule) {
         this.schedule = schedule;
         return this;
     }
@@ -69,7 +69,7 @@ public class JobScheduleUpdateParameter {
      * @param jobSpecification the jobSpecification value to set
      * @return the JobScheduleUpdateParameter object itself.
      */
-    public JobScheduleUpdateParameter withJobSpecification(JobSpecification jobSpecification) {
+    public JobScheduleUpdateParameter setJobSpecification(JobSpecification jobSpecification) {
         this.jobSpecification = jobSpecification;
         return this;
     }
@@ -89,7 +89,7 @@ public class JobScheduleUpdateParameter {
      * @param metadata the metadata value to set
      * @return the JobScheduleUpdateParameter object itself.
      */
-    public JobScheduleUpdateParameter withMetadata(List<MetadataItem> metadata) {
+    public JobScheduleUpdateParameter setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

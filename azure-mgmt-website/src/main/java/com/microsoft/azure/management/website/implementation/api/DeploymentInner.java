@@ -91,7 +91,7 @@ public class DeploymentInner extends Resource {
      * @param deploymentId the deploymentId value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withDeploymentId(String deploymentId) {
+    public DeploymentInner setDeploymentId(String deploymentId) {
         this.deploymentId = deploymentId;
         return this;
     }
@@ -111,7 +111,7 @@ public class DeploymentInner extends Resource {
      * @param status the status value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withStatus(Integer status) {
+    public DeploymentInner setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -131,7 +131,7 @@ public class DeploymentInner extends Resource {
      * @param message the message value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withMessage(String message) {
+    public DeploymentInner setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -151,7 +151,7 @@ public class DeploymentInner extends Resource {
      * @param author the author value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withAuthor(String author) {
+    public DeploymentInner setAuthor(String author) {
         this.author = author;
         return this;
     }
@@ -171,7 +171,7 @@ public class DeploymentInner extends Resource {
      * @param deployer the deployer value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withDeployer(String deployer) {
+    public DeploymentInner setDeployer(String deployer) {
         this.deployer = deployer;
         return this;
     }
@@ -191,7 +191,7 @@ public class DeploymentInner extends Resource {
      * @param authorEmail the authorEmail value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withAuthorEmail(String authorEmail) {
+    public DeploymentInner setAuthorEmail(String authorEmail) {
         this.authorEmail = authorEmail;
         return this;
     }
@@ -211,7 +211,7 @@ public class DeploymentInner extends Resource {
      * @param startTime the startTime value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withStartTime(DateTime startTime) {
+    public DeploymentInner setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -231,7 +231,7 @@ public class DeploymentInner extends Resource {
      * @param endTime the endTime value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withEndTime(DateTime endTime) {
+    public DeploymentInner setEndTime(DateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -251,7 +251,7 @@ public class DeploymentInner extends Resource {
      * @param active the active value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withActive(Boolean active) {
+    public DeploymentInner setActive(Boolean active) {
         this.active = active;
         return this;
     }
@@ -271,7 +271,7 @@ public class DeploymentInner extends Resource {
      * @param details the details value to set
      * @return the DeploymentInner object itself.
      */
-    public DeploymentInner withDetails(String details) {
+    public DeploymentInner setDetails(String details) {
         this.details = details;
         return this;
     }

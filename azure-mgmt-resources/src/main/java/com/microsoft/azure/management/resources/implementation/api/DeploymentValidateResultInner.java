@@ -36,7 +36,7 @@ public class DeploymentValidateResultInner {
      * @param error the error value to set
      * @return the DeploymentValidateResultInner object itself.
      */
-    public DeploymentValidateResultInner withError(ResourceManagementErrorWithDetails error) {
+    public DeploymentValidateResultInner setError(ResourceManagementErrorWithDetails error) {
         this.error = error;
         return this;
     }
@@ -56,7 +56,7 @@ public class DeploymentValidateResultInner {
      * @param properties the properties value to set
      * @return the DeploymentValidateResultInner object itself.
      */
-    public DeploymentValidateResultInner withProperties(DeploymentPropertiesExtended properties) {
+    public DeploymentValidateResultInner setProperties(DeploymentPropertiesExtended properties) {
         this.properties = properties;
         return this;
     }

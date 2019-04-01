@@ -40,7 +40,7 @@ public class JobConstraints {
      * @param maxWallClockTime the maxWallClockTime value to set
      * @return the JobConstraints object itself.
      */
-    public JobConstraints withMaxWallClockTime(Period maxWallClockTime) {
+    public JobConstraints setMaxWallClockTime(Period maxWallClockTime) {
         this.maxWallClockTime = maxWallClockTime;
         return this;
     }
@@ -60,7 +60,7 @@ public class JobConstraints {
      * @param maxTaskRetryCount the maxTaskRetryCount value to set
      * @return the JobConstraints object itself.
      */
-    public JobConstraints withMaxTaskRetryCount(Integer maxTaskRetryCount) {
+    public JobConstraints setMaxTaskRetryCount(Integer maxTaskRetryCount) {
         this.maxTaskRetryCount = maxTaskRetryCount;
         return this;
     }

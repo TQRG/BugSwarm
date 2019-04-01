@@ -51,7 +51,7 @@ public class CertificateListNextOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the CertificateListNextOptions object itself.
      */
-    public CertificateListNextOptions withClientRequestId(String clientRequestId) {
+    public CertificateListNextOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -71,7 +71,7 @@ public class CertificateListNextOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the CertificateListNextOptions object itself.
      */
-    public CertificateListNextOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public CertificateListNextOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -94,7 +94,7 @@ public class CertificateListNextOptions {
      * @param ocpDate the ocpDate value to set
      * @return the CertificateListNextOptions object itself.
      */
-    public CertificateListNextOptions withOcpDate(DateTime ocpDate) {
+    public CertificateListNextOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

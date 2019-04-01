@@ -48,7 +48,7 @@ public class AddressResponseInner {
      * @param serviceIpAddress the serviceIpAddress value to set
      * @return the AddressResponseInner object itself.
      */
-    public AddressResponseInner withServiceIpAddress(String serviceIpAddress) {
+    public AddressResponseInner setServiceIpAddress(String serviceIpAddress) {
         this.serviceIpAddress = serviceIpAddress;
         return this;
     }
@@ -68,7 +68,7 @@ public class AddressResponseInner {
      * @param internalIpAddress the internalIpAddress value to set
      * @return the AddressResponseInner object itself.
      */
-    public AddressResponseInner withInternalIpAddress(String internalIpAddress) {
+    public AddressResponseInner setInternalIpAddress(String internalIpAddress) {
         this.internalIpAddress = internalIpAddress;
         return this;
     }
@@ -88,7 +88,7 @@ public class AddressResponseInner {
      * @param outboundIpAddresses the outboundIpAddresses value to set
      * @return the AddressResponseInner object itself.
      */
-    public AddressResponseInner withOutboundIpAddresses(List<String> outboundIpAddresses) {
+    public AddressResponseInner setOutboundIpAddresses(List<String> outboundIpAddresses) {
         this.outboundIpAddresses = outboundIpAddresses;
         return this;
     }
@@ -108,7 +108,7 @@ public class AddressResponseInner {
      * @param vipMappings the vipMappings value to set
      * @return the AddressResponseInner object itself.
      */
-    public AddressResponseInner withVipMappings(List<VirtualIPMapping> vipMappings) {
+    public AddressResponseInner setVipMappings(List<VirtualIPMapping> vipMappings) {
         this.vipMappings = vipMappings;
         return this;
     }

@@ -48,7 +48,7 @@ public class SkuCapacity {
      * @param minimum the minimum value to set
      * @return the SkuCapacity object itself.
      */
-    public SkuCapacity withMinimum(Integer minimum) {
+    public SkuCapacity setMinimum(Integer minimum) {
         this.minimum = minimum;
         return this;
     }
@@ -68,7 +68,7 @@ public class SkuCapacity {
      * @param maximum the maximum value to set
      * @return the SkuCapacity object itself.
      */
-    public SkuCapacity withMaximum(Integer maximum) {
+    public SkuCapacity setMaximum(Integer maximum) {
         this.maximum = maximum;
         return this;
     }
@@ -88,7 +88,7 @@ public class SkuCapacity {
      * @param defaultProperty the defaultProperty value to set
      * @return the SkuCapacity object itself.
      */
-    public SkuCapacity withDefaultProperty(Integer defaultProperty) {
+    public SkuCapacity setDefaultProperty(Integer defaultProperty) {
         this.defaultProperty = defaultProperty;
         return this;
     }
@@ -108,7 +108,7 @@ public class SkuCapacity {
      * @param scaleType the scaleType value to set
      * @return the SkuCapacity object itself.
      */
-    public SkuCapacity withScaleType(String scaleType) {
+    public SkuCapacity setScaleType(String scaleType) {
         this.scaleType = scaleType;
         return this;
     }

@@ -42,7 +42,7 @@ public class BgpSettings {
      * @param asn the asn value to set
      * @return the BgpSettings object itself.
      */
-    public BgpSettings withAsn(Long asn) {
+    public BgpSettings setAsn(Long asn) {
         this.asn = asn;
         return this;
     }
@@ -62,7 +62,7 @@ public class BgpSettings {
      * @param bgpPeeringAddress the bgpPeeringAddress value to set
      * @return the BgpSettings object itself.
      */
-    public BgpSettings withBgpPeeringAddress(String bgpPeeringAddress) {
+    public BgpSettings setBgpPeeringAddress(String bgpPeeringAddress) {
         this.bgpPeeringAddress = bgpPeeringAddress;
         return this;
     }
@@ -82,7 +82,7 @@ public class BgpSettings {
      * @param peerWeight the peerWeight value to set
      * @return the BgpSettings object itself.
      */
-    public BgpSettings withPeerWeight(Integer peerWeight) {
+    public BgpSettings setPeerWeight(Integer peerWeight) {
         this.peerWeight = peerWeight;
         return this;
     }

@@ -58,7 +58,7 @@ public class PoolStatistics {
      * @param url the url value to set
      * @return the PoolStatistics object itself.
      */
-    public PoolStatistics withUrl(String url) {
+    public PoolStatistics setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -78,7 +78,7 @@ public class PoolStatistics {
      * @param startTime the startTime value to set
      * @return the PoolStatistics object itself.
      */
-    public PoolStatistics withStartTime(DateTime startTime) {
+    public PoolStatistics setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -98,7 +98,7 @@ public class PoolStatistics {
      * @param lastUpdateTime the lastUpdateTime value to set
      * @return the PoolStatistics object itself.
      */
-    public PoolStatistics withLastUpdateTime(DateTime lastUpdateTime) {
+    public PoolStatistics setLastUpdateTime(DateTime lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
         return this;
     }
@@ -118,7 +118,7 @@ public class PoolStatistics {
      * @param usageStats the usageStats value to set
      * @return the PoolStatistics object itself.
      */
-    public PoolStatistics withUsageStats(UsageStatistics usageStats) {
+    public PoolStatistics setUsageStats(UsageStatistics usageStats) {
         this.usageStats = usageStats;
         return this;
     }
@@ -138,7 +138,7 @@ public class PoolStatistics {
      * @param resourceStats the resourceStats value to set
      * @return the PoolStatistics object itself.
      */
-    public PoolStatistics withResourceStats(ResourceStatistics resourceStats) {
+    public PoolStatistics setResourceStats(ResourceStatistics resourceStats) {
         this.resourceStats = resourceStats;
         return this;
     }

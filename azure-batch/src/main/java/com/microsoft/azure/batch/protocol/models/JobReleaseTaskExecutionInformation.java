@@ -73,7 +73,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param startTime the startTime value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withStartTime(DateTime startTime) {
+    public JobReleaseTaskExecutionInformation setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -93,7 +93,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param endTime the endTime value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withEndTime(DateTime endTime) {
+    public JobReleaseTaskExecutionInformation setEndTime(DateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -113,7 +113,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param state the state value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withState(JobReleaseTaskState state) {
+    public JobReleaseTaskExecutionInformation setState(JobReleaseTaskState state) {
         this.state = state;
         return this;
     }
@@ -133,7 +133,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param taskRootDirectory the taskRootDirectory value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withTaskRootDirectory(String taskRootDirectory) {
+    public JobReleaseTaskExecutionInformation setTaskRootDirectory(String taskRootDirectory) {
         this.taskRootDirectory = taskRootDirectory;
         return this;
     }
@@ -153,7 +153,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param taskRootDirectoryUrl the taskRootDirectoryUrl value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withTaskRootDirectoryUrl(String taskRootDirectoryUrl) {
+    public JobReleaseTaskExecutionInformation setTaskRootDirectoryUrl(String taskRootDirectoryUrl) {
         this.taskRootDirectoryUrl = taskRootDirectoryUrl;
         return this;
     }
@@ -173,7 +173,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param exitCode the exitCode value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withExitCode(Integer exitCode) {
+    public JobReleaseTaskExecutionInformation setExitCode(Integer exitCode) {
         this.exitCode = exitCode;
         return this;
     }
@@ -193,7 +193,7 @@ public class JobReleaseTaskExecutionInformation {
      * @param schedulingError the schedulingError value to set
      * @return the JobReleaseTaskExecutionInformation object itself.
      */
-    public JobReleaseTaskExecutionInformation withSchedulingError(TaskSchedulingError schedulingError) {
+    public JobReleaseTaskExecutionInformation setSchedulingError(TaskSchedulingError schedulingError) {
         this.schedulingError = schedulingError;
         return this;
     }

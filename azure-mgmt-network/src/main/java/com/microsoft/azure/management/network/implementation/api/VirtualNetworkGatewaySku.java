@@ -43,7 +43,7 @@ public class VirtualNetworkGatewaySku {
      * @param name the name value to set
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku withName(String name) {
+    public VirtualNetworkGatewaySku setName(String name) {
         this.name = name;
         return this;
     }
@@ -63,7 +63,7 @@ public class VirtualNetworkGatewaySku {
      * @param tier the tier value to set
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku withTier(String tier) {
+    public VirtualNetworkGatewaySku setTier(String tier) {
         this.tier = tier;
         return this;
     }
@@ -83,7 +83,7 @@ public class VirtualNetworkGatewaySku {
      * @param capacity the capacity value to set
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku withCapacity(Integer capacity) {
+    public VirtualNetworkGatewaySku setCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }

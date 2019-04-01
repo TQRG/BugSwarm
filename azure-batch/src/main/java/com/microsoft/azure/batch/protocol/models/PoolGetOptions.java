@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_Get operation.
+ * Additional parameters for the Get operation.
  */
 public class PoolGetOptions {
     /**
@@ -98,7 +98,7 @@ public class PoolGetOptions {
      * @param select the select value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withSelect(String select) {
+    public PoolGetOptions setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -118,7 +118,7 @@ public class PoolGetOptions {
      * @param expand the expand value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withExpand(String expand) {
+    public PoolGetOptions setExpand(String expand) {
         this.expand = expand;
         return this;
     }
@@ -138,7 +138,7 @@ public class PoolGetOptions {
      * @param timeout the timeout value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withTimeout(Integer timeout) {
+    public PoolGetOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -158,7 +158,7 @@ public class PoolGetOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withClientRequestId(String clientRequestId) {
+    public PoolGetOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -178,7 +178,7 @@ public class PoolGetOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolGetOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -201,7 +201,7 @@ public class PoolGetOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withOcpDate(DateTime ocpDate) {
+    public PoolGetOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -221,7 +221,7 @@ public class PoolGetOptions {
      * @param ifMatch the ifMatch value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withIfMatch(String ifMatch) {
+    public PoolGetOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -241,7 +241,7 @@ public class PoolGetOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withIfNoneMatch(String ifNoneMatch) {
+    public PoolGetOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -264,7 +264,7 @@ public class PoolGetOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public PoolGetOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -287,7 +287,7 @@ public class PoolGetOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the PoolGetOptions object itself.
      */
-    public PoolGetOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public PoolGetOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the File_GetFromTask operation.
+ * Additional parameters for the GetFromTask operation.
  */
 public class FileGetFromTaskOptions {
     /**
@@ -79,7 +79,7 @@ public class FileGetFromTaskOptions {
      * @param timeout the timeout value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withTimeout(Integer timeout) {
+    public FileGetFromTaskOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -99,7 +99,7 @@ public class FileGetFromTaskOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withClientRequestId(String clientRequestId) {
+    public FileGetFromTaskOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -119,7 +119,7 @@ public class FileGetFromTaskOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public FileGetFromTaskOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -142,7 +142,7 @@ public class FileGetFromTaskOptions {
      * @param ocpDate the ocpDate value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withOcpDate(DateTime ocpDate) {
+    public FileGetFromTaskOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -162,7 +162,7 @@ public class FileGetFromTaskOptions {
      * @param ocpRange the ocpRange value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withOcpRange(String ocpRange) {
+    public FileGetFromTaskOptions setOcpRange(String ocpRange) {
         this.ocpRange = ocpRange;
         return this;
     }
@@ -185,7 +185,7 @@ public class FileGetFromTaskOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public FileGetFromTaskOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -208,7 +208,7 @@ public class FileGetFromTaskOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the FileGetFromTaskOptions object itself.
      */
-    public FileGetFromTaskOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public FileGetFromTaskOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

@@ -37,7 +37,7 @@ public class TopLevelDomainCollectionInner {
      * @param value the value value to set
      * @return the TopLevelDomainCollectionInner object itself.
      */
-    public TopLevelDomainCollectionInner withValue(List<TopLevelDomainInner> value) {
+    public TopLevelDomainCollectionInner setValue(List<TopLevelDomainInner> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class TopLevelDomainCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the TopLevelDomainCollectionInner object itself.
      */
-    public TopLevelDomainCollectionInner withNextLink(String nextLink) {
+    public TopLevelDomainCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

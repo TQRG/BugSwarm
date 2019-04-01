@@ -60,7 +60,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * @param sku the sku value to set
      * @return the VirtualMachineScaleSetInner object itself.
      */
-    public VirtualMachineScaleSetInner withSku(Sku sku) {
+    public VirtualMachineScaleSetInner setSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -80,7 +80,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * @param upgradePolicy the upgradePolicy value to set
      * @return the VirtualMachineScaleSetInner object itself.
      */
-    public VirtualMachineScaleSetInner withUpgradePolicy(UpgradePolicy upgradePolicy) {
+    public VirtualMachineScaleSetInner setUpgradePolicy(UpgradePolicy upgradePolicy) {
         this.upgradePolicy = upgradePolicy;
         return this;
     }
@@ -100,7 +100,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * @param virtualMachineProfile the virtualMachineProfile value to set
      * @return the VirtualMachineScaleSetInner object itself.
      */
-    public VirtualMachineScaleSetInner withVirtualMachineProfile(VirtualMachineScaleSetVMProfile virtualMachineProfile) {
+    public VirtualMachineScaleSetInner setVirtualMachineProfile(VirtualMachineScaleSetVMProfile virtualMachineProfile) {
         this.virtualMachineProfile = virtualMachineProfile;
         return this;
     }
@@ -120,7 +120,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * @param provisioningState the provisioningState value to set
      * @return the VirtualMachineScaleSetInner object itself.
      */
-    public VirtualMachineScaleSetInner withProvisioningState(String provisioningState) {
+    public VirtualMachineScaleSetInner setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -140,7 +140,7 @@ public class VirtualMachineScaleSetInner extends Resource {
      * @param overProvision the overProvision value to set
      * @return the VirtualMachineScaleSetInner object itself.
      */
-    public VirtualMachineScaleSetInner withOverProvision(Boolean overProvision) {
+    public VirtualMachineScaleSetInner setOverProvision(Boolean overProvision) {
         this.overProvision = overProvision;
         return this;
     }

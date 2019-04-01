@@ -65,7 +65,7 @@ public class USqlTableInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withDatabaseName(String databaseName) {
+    public USqlTableInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -85,7 +85,7 @@ public class USqlTableInner extends CatalogItem {
      * @param schemaName the schemaName value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withSchemaName(String schemaName) {
+    public USqlTableInner setSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -105,7 +105,7 @@ public class USqlTableInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withName(String name) {
+    public USqlTableInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -125,7 +125,7 @@ public class USqlTableInner extends CatalogItem {
      * @param columnList the columnList value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withColumnList(List<USqlTableColumn> columnList) {
+    public USqlTableInner setColumnList(List<USqlTableColumn> columnList) {
         this.columnList = columnList;
         return this;
     }
@@ -145,7 +145,7 @@ public class USqlTableInner extends CatalogItem {
      * @param indexList the indexList value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withIndexList(List<USqlIndex> indexList) {
+    public USqlTableInner setIndexList(List<USqlIndex> indexList) {
         this.indexList = indexList;
         return this;
     }
@@ -165,7 +165,7 @@ public class USqlTableInner extends CatalogItem {
      * @param partitionKeyList the partitionKeyList value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withPartitionKeyList(List<String> partitionKeyList) {
+    public USqlTableInner setPartitionKeyList(List<String> partitionKeyList) {
         this.partitionKeyList = partitionKeyList;
         return this;
     }
@@ -185,7 +185,7 @@ public class USqlTableInner extends CatalogItem {
      * @param externalTable the externalTable value to set
      * @return the USqlTableInner object itself.
      */
-    public USqlTableInner withExternalTable(ExternalTable externalTable) {
+    public USqlTableInner setExternalTable(ExternalTable externalTable) {
         this.externalTable = externalTable;
         return this;
     }

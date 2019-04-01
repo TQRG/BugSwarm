@@ -37,7 +37,7 @@ public class TldLegalAgreementCollectionInner {
      * @param value the value value to set
      * @return the TldLegalAgreementCollectionInner object itself.
      */
-    public TldLegalAgreementCollectionInner withValue(List<TldLegalAgreement> value) {
+    public TldLegalAgreementCollectionInner setValue(List<TldLegalAgreement> value) {
         this.value = value;
         return this;
     }
@@ -57,7 +57,7 @@ public class TldLegalAgreementCollectionInner {
      * @param nextLink the nextLink value to set
      * @return the TldLegalAgreementCollectionInner object itself.
      */
-    public TldLegalAgreementCollectionInner withNextLink(String nextLink) {
+    public TldLegalAgreementCollectionInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

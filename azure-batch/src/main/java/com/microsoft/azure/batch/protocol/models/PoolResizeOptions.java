@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Pool_Resize operation.
+ * Additional parameters for the Resize operation.
  */
 public class PoolResizeOptions {
     /**
@@ -86,7 +86,7 @@ public class PoolResizeOptions {
      * @param timeout the timeout value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withTimeout(Integer timeout) {
+    public PoolResizeOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class PoolResizeOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withClientRequestId(String clientRequestId) {
+    public PoolResizeOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class PoolResizeOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public PoolResizeOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class PoolResizeOptions {
      * @param ocpDate the ocpDate value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withOcpDate(DateTime ocpDate) {
+    public PoolResizeOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class PoolResizeOptions {
      * @param ifMatch the ifMatch value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withIfMatch(String ifMatch) {
+    public PoolResizeOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class PoolResizeOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withIfNoneMatch(String ifNoneMatch) {
+    public PoolResizeOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class PoolResizeOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public PoolResizeOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class PoolResizeOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the PoolResizeOptions object itself.
      */
-    public PoolResizeOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public PoolResizeOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }

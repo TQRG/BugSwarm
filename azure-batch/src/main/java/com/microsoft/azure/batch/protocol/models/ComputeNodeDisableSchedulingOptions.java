@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the ComputeNode_DisableScheduling operation.
+ * Additional parameters for the DisableScheduling operation.
  */
 public class ComputeNodeDisableSchedulingOptions {
     /**
@@ -58,7 +58,7 @@ public class ComputeNodeDisableSchedulingOptions {
      * @param timeout the timeout value to set
      * @return the ComputeNodeDisableSchedulingOptions object itself.
      */
-    public ComputeNodeDisableSchedulingOptions withTimeout(Integer timeout) {
+    public ComputeNodeDisableSchedulingOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class ComputeNodeDisableSchedulingOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeDisableSchedulingOptions object itself.
      */
-    public ComputeNodeDisableSchedulingOptions withClientRequestId(String clientRequestId) {
+    public ComputeNodeDisableSchedulingOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class ComputeNodeDisableSchedulingOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the ComputeNodeDisableSchedulingOptions object itself.
      */
-    public ComputeNodeDisableSchedulingOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public ComputeNodeDisableSchedulingOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class ComputeNodeDisableSchedulingOptions {
      * @param ocpDate the ocpDate value to set
      * @return the ComputeNodeDisableSchedulingOptions object itself.
      */
-    public ComputeNodeDisableSchedulingOptions withOcpDate(DateTime ocpDate) {
+    public ComputeNodeDisableSchedulingOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

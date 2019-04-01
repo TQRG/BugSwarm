@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the ComputeNode_Reboot operation.
+ * Additional parameters for the Reboot operation.
  */
 public class ComputeNodeRebootOptions {
     /**
@@ -58,7 +58,7 @@ public class ComputeNodeRebootOptions {
      * @param timeout the timeout value to set
      * @return the ComputeNodeRebootOptions object itself.
      */
-    public ComputeNodeRebootOptions withTimeout(Integer timeout) {
+    public ComputeNodeRebootOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -78,7 +78,7 @@ public class ComputeNodeRebootOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeRebootOptions object itself.
      */
-    public ComputeNodeRebootOptions withClientRequestId(String clientRequestId) {
+    public ComputeNodeRebootOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -98,7 +98,7 @@ public class ComputeNodeRebootOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the ComputeNodeRebootOptions object itself.
      */
-    public ComputeNodeRebootOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public ComputeNodeRebootOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -121,7 +121,7 @@ public class ComputeNodeRebootOptions {
      * @param ocpDate the ocpDate value to set
      * @return the ComputeNodeRebootOptions object itself.
      */
-    public ComputeNodeRebootOptions withOcpDate(DateTime ocpDate) {
+    public ComputeNodeRebootOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

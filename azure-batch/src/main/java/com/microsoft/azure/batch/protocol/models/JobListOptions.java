@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the Job_List operation.
+ * Additional parameters for the List operation.
  */
 public class JobListOptions {
     /**
@@ -82,7 +82,7 @@ public class JobListOptions {
      * @param filter the filter value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withFilter(String filter) {
+    public JobListOptions setFilter(String filter) {
         this.filter = filter;
         return this;
     }
@@ -102,7 +102,7 @@ public class JobListOptions {
      * @param select the select value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withSelect(String select) {
+    public JobListOptions setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -122,7 +122,7 @@ public class JobListOptions {
      * @param expand the expand value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withExpand(String expand) {
+    public JobListOptions setExpand(String expand) {
         this.expand = expand;
         return this;
     }
@@ -142,7 +142,7 @@ public class JobListOptions {
      * @param maxResults the maxResults value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withMaxResults(Integer maxResults) {
+    public JobListOptions setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
         return this;
     }
@@ -162,7 +162,7 @@ public class JobListOptions {
      * @param timeout the timeout value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withTimeout(Integer timeout) {
+    public JobListOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -182,7 +182,7 @@ public class JobListOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withClientRequestId(String clientRequestId) {
+    public JobListOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -202,7 +202,7 @@ public class JobListOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobListOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -225,7 +225,7 @@ public class JobListOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobListOptions object itself.
      */
-    public JobListOptions withOcpDate(DateTime ocpDate) {
+    public JobListOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }

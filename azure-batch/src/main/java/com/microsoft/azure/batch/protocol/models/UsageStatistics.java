@@ -49,7 +49,7 @@ public class UsageStatistics {
      * @param startTime the startTime value to set
      * @return the UsageStatistics object itself.
      */
-    public UsageStatistics withStartTime(DateTime startTime) {
+    public UsageStatistics setStartTime(DateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -69,7 +69,7 @@ public class UsageStatistics {
      * @param lastUpdateTime the lastUpdateTime value to set
      * @return the UsageStatistics object itself.
      */
-    public UsageStatistics withLastUpdateTime(DateTime lastUpdateTime) {
+    public UsageStatistics setLastUpdateTime(DateTime lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
         return this;
     }
@@ -89,7 +89,7 @@ public class UsageStatistics {
      * @param dedicatedCoreTime the dedicatedCoreTime value to set
      * @return the UsageStatistics object itself.
      */
-    public UsageStatistics withDedicatedCoreTime(Period dedicatedCoreTime) {
+    public UsageStatistics setDedicatedCoreTime(Period dedicatedCoreTime) {
         this.dedicatedCoreTime = dedicatedCoreTime;
         return this;
     }

@@ -196,7 +196,7 @@ public class CloudPool {
      * @param id the id value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withId(String id) {
+    public CloudPool setId(String id) {
         this.id = id;
         return this;
     }
@@ -216,7 +216,7 @@ public class CloudPool {
      * @param displayName the displayName value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withDisplayName(String displayName) {
+    public CloudPool setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -236,7 +236,7 @@ public class CloudPool {
      * @param url the url value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withUrl(String url) {
+    public CloudPool setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -256,7 +256,7 @@ public class CloudPool {
      * @param eTag the eTag value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withETag(String eTag) {
+    public CloudPool setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -276,7 +276,7 @@ public class CloudPool {
      * @param lastModified the lastModified value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withLastModified(DateTime lastModified) {
+    public CloudPool setLastModified(DateTime lastModified) {
         this.lastModified = lastModified;
         return this;
     }
@@ -296,7 +296,7 @@ public class CloudPool {
      * @param creationTime the creationTime value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withCreationTime(DateTime creationTime) {
+    public CloudPool setCreationTime(DateTime creationTime) {
         this.creationTime = creationTime;
         return this;
     }
@@ -316,7 +316,7 @@ public class CloudPool {
      * @param state the state value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withState(PoolState state) {
+    public CloudPool setState(PoolState state) {
         this.state = state;
         return this;
     }
@@ -336,7 +336,7 @@ public class CloudPool {
      * @param stateTransitionTime the stateTransitionTime value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withStateTransitionTime(DateTime stateTransitionTime) {
+    public CloudPool setStateTransitionTime(DateTime stateTransitionTime) {
         this.stateTransitionTime = stateTransitionTime;
         return this;
     }
@@ -356,7 +356,7 @@ public class CloudPool {
      * @param allocationState the allocationState value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withAllocationState(AllocationState allocationState) {
+    public CloudPool setAllocationState(AllocationState allocationState) {
         this.allocationState = allocationState;
         return this;
     }
@@ -376,7 +376,7 @@ public class CloudPool {
      * @param allocationStateTransitionTime the allocationStateTransitionTime value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withAllocationStateTransitionTime(DateTime allocationStateTransitionTime) {
+    public CloudPool setAllocationStateTransitionTime(DateTime allocationStateTransitionTime) {
         this.allocationStateTransitionTime = allocationStateTransitionTime;
         return this;
     }
@@ -396,7 +396,7 @@ public class CloudPool {
      * @param vmSize the vmSize value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withVmSize(String vmSize) {
+    public CloudPool setVmSize(String vmSize) {
         this.vmSize = vmSize;
         return this;
     }
@@ -416,7 +416,7 @@ public class CloudPool {
      * @param cloudServiceConfiguration the cloudServiceConfiguration value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withCloudServiceConfiguration(CloudServiceConfiguration cloudServiceConfiguration) {
+    public CloudPool setCloudServiceConfiguration(CloudServiceConfiguration cloudServiceConfiguration) {
         this.cloudServiceConfiguration = cloudServiceConfiguration;
         return this;
     }
@@ -436,7 +436,7 @@ public class CloudPool {
      * @param virtualMachineConfiguration the virtualMachineConfiguration value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withVirtualMachineConfiguration(VirtualMachineConfiguration virtualMachineConfiguration) {
+    public CloudPool setVirtualMachineConfiguration(VirtualMachineConfiguration virtualMachineConfiguration) {
         this.virtualMachineConfiguration = virtualMachineConfiguration;
         return this;
     }
@@ -456,7 +456,7 @@ public class CloudPool {
      * @param resizeTimeout the resizeTimeout value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withResizeTimeout(Period resizeTimeout) {
+    public CloudPool setResizeTimeout(Period resizeTimeout) {
         this.resizeTimeout = resizeTimeout;
         return this;
     }
@@ -476,7 +476,7 @@ public class CloudPool {
      * @param resizeError the resizeError value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withResizeError(ResizeError resizeError) {
+    public CloudPool setResizeError(ResizeError resizeError) {
         this.resizeError = resizeError;
         return this;
     }
@@ -496,7 +496,7 @@ public class CloudPool {
      * @param currentDedicated the currentDedicated value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withCurrentDedicated(Integer currentDedicated) {
+    public CloudPool setCurrentDedicated(Integer currentDedicated) {
         this.currentDedicated = currentDedicated;
         return this;
     }
@@ -516,7 +516,7 @@ public class CloudPool {
      * @param targetDedicated the targetDedicated value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withTargetDedicated(Integer targetDedicated) {
+    public CloudPool setTargetDedicated(Integer targetDedicated) {
         this.targetDedicated = targetDedicated;
         return this;
     }
@@ -536,7 +536,7 @@ public class CloudPool {
      * @param enableAutoScale the enableAutoScale value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withEnableAutoScale(Boolean enableAutoScale) {
+    public CloudPool setEnableAutoScale(Boolean enableAutoScale) {
         this.enableAutoScale = enableAutoScale;
         return this;
     }
@@ -556,7 +556,7 @@ public class CloudPool {
      * @param autoScaleFormula the autoScaleFormula value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withAutoScaleFormula(String autoScaleFormula) {
+    public CloudPool setAutoScaleFormula(String autoScaleFormula) {
         this.autoScaleFormula = autoScaleFormula;
         return this;
     }
@@ -576,7 +576,7 @@ public class CloudPool {
      * @param autoScaleEvaluationInterval the autoScaleEvaluationInterval value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
+    public CloudPool setAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
         this.autoScaleEvaluationInterval = autoScaleEvaluationInterval;
         return this;
     }
@@ -596,7 +596,7 @@ public class CloudPool {
      * @param autoScaleRun the autoScaleRun value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withAutoScaleRun(AutoScaleRun autoScaleRun) {
+    public CloudPool setAutoScaleRun(AutoScaleRun autoScaleRun) {
         this.autoScaleRun = autoScaleRun;
         return this;
     }
@@ -616,7 +616,7 @@ public class CloudPool {
      * @param enableInterNodeCommunication the enableInterNodeCommunication value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withEnableInterNodeCommunication(Boolean enableInterNodeCommunication) {
+    public CloudPool setEnableInterNodeCommunication(Boolean enableInterNodeCommunication) {
         this.enableInterNodeCommunication = enableInterNodeCommunication;
         return this;
     }
@@ -636,7 +636,7 @@ public class CloudPool {
      * @param startTask the startTask value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withStartTask(StartTask startTask) {
+    public CloudPool setStartTask(StartTask startTask) {
         this.startTask = startTask;
         return this;
     }
@@ -656,7 +656,7 @@ public class CloudPool {
      * @param certificateReferences the certificateReferences value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withCertificateReferences(List<CertificateReference> certificateReferences) {
+    public CloudPool setCertificateReferences(List<CertificateReference> certificateReferences) {
         this.certificateReferences = certificateReferences;
         return this;
     }
@@ -676,7 +676,7 @@ public class CloudPool {
      * @param applicationPackageReferences the applicationPackageReferences value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
+    public CloudPool setApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
         this.applicationPackageReferences = applicationPackageReferences;
         return this;
     }
@@ -696,7 +696,7 @@ public class CloudPool {
      * @param maxTasksPerNode the maxTasksPerNode value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withMaxTasksPerNode(Integer maxTasksPerNode) {
+    public CloudPool setMaxTasksPerNode(Integer maxTasksPerNode) {
         this.maxTasksPerNode = maxTasksPerNode;
         return this;
     }
@@ -716,7 +716,7 @@ public class CloudPool {
      * @param taskSchedulingPolicy the taskSchedulingPolicy value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy) {
+    public CloudPool setTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy) {
         this.taskSchedulingPolicy = taskSchedulingPolicy;
         return this;
     }
@@ -736,7 +736,7 @@ public class CloudPool {
      * @param metadata the metadata value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withMetadata(List<MetadataItem> metadata) {
+    public CloudPool setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }
@@ -756,7 +756,7 @@ public class CloudPool {
      * @param stats the stats value to set
      * @return the CloudPool object itself.
      */
-    public CloudPool withStats(PoolStatistics stats) {
+    public CloudPool setStats(PoolStatistics stats) {
         this.stats = stats;
         return this;
     }

@@ -54,7 +54,7 @@ public class JobUpdateParameter {
      * @param priority the priority value to set
      * @return the JobUpdateParameter object itself.
      */
-    public JobUpdateParameter withPriority(Integer priority) {
+    public JobUpdateParameter setPriority(Integer priority) {
         this.priority = priority;
         return this;
     }
@@ -74,7 +74,7 @@ public class JobUpdateParameter {
      * @param constraints the constraints value to set
      * @return the JobUpdateParameter object itself.
      */
-    public JobUpdateParameter withConstraints(JobConstraints constraints) {
+    public JobUpdateParameter setConstraints(JobConstraints constraints) {
         this.constraints = constraints;
         return this;
     }
@@ -94,7 +94,7 @@ public class JobUpdateParameter {
      * @param poolInfo the poolInfo value to set
      * @return the JobUpdateParameter object itself.
      */
-    public JobUpdateParameter withPoolInfo(PoolInformation poolInfo) {
+    public JobUpdateParameter setPoolInfo(PoolInformation poolInfo) {
         this.poolInfo = poolInfo;
         return this;
     }
@@ -114,7 +114,7 @@ public class JobUpdateParameter {
      * @param metadata the metadata value to set
      * @return the JobUpdateParameter object itself.
      */
-    public JobUpdateParameter withMetadata(List<MetadataItem> metadata) {
+    public JobUpdateParameter setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

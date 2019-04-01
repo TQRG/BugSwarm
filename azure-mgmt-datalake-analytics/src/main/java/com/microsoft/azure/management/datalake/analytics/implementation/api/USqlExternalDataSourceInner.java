@@ -56,7 +56,7 @@ public class USqlExternalDataSourceInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlExternalDataSourceInner object itself.
      */
-    public USqlExternalDataSourceInner withDatabaseName(String databaseName) {
+    public USqlExternalDataSourceInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -76,7 +76,7 @@ public class USqlExternalDataSourceInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlExternalDataSourceInner object itself.
      */
-    public USqlExternalDataSourceInner withName(String name) {
+    public USqlExternalDataSourceInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -96,7 +96,7 @@ public class USqlExternalDataSourceInner extends CatalogItem {
      * @param provider the provider value to set
      * @return the USqlExternalDataSourceInner object itself.
      */
-    public USqlExternalDataSourceInner withProvider(String provider) {
+    public USqlExternalDataSourceInner setProvider(String provider) {
         this.provider = provider;
         return this;
     }
@@ -116,7 +116,7 @@ public class USqlExternalDataSourceInner extends CatalogItem {
      * @param providerString the providerString value to set
      * @return the USqlExternalDataSourceInner object itself.
      */
-    public USqlExternalDataSourceInner withProviderString(String providerString) {
+    public USqlExternalDataSourceInner setProviderString(String providerString) {
         this.providerString = providerString;
         return this;
     }
@@ -136,7 +136,7 @@ public class USqlExternalDataSourceInner extends CatalogItem {
      * @param pushdownTypes the pushdownTypes value to set
      * @return the USqlExternalDataSourceInner object itself.
      */
-    public USqlExternalDataSourceInner withPushdownTypes(List<String> pushdownTypes) {
+    public USqlExternalDataSourceInner setPushdownTypes(List<String> pushdownTypes) {
         this.pushdownTypes = pushdownTypes;
         return this;
     }

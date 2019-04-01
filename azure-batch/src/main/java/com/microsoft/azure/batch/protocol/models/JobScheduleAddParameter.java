@@ -58,7 +58,7 @@ public class JobScheduleAddParameter {
      * @param id the id value to set
      * @return the JobScheduleAddParameter object itself.
      */
-    public JobScheduleAddParameter withId(String id) {
+    public JobScheduleAddParameter setId(String id) {
         this.id = id;
         return this;
     }
@@ -78,7 +78,7 @@ public class JobScheduleAddParameter {
      * @param displayName the displayName value to set
      * @return the JobScheduleAddParameter object itself.
      */
-    public JobScheduleAddParameter withDisplayName(String displayName) {
+    public JobScheduleAddParameter setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -98,7 +98,7 @@ public class JobScheduleAddParameter {
      * @param schedule the schedule value to set
      * @return the JobScheduleAddParameter object itself.
      */
-    public JobScheduleAddParameter withSchedule(Schedule schedule) {
+    public JobScheduleAddParameter setSchedule(Schedule schedule) {
         this.schedule = schedule;
         return this;
     }
@@ -118,7 +118,7 @@ public class JobScheduleAddParameter {
      * @param jobSpecification the jobSpecification value to set
      * @return the JobScheduleAddParameter object itself.
      */
-    public JobScheduleAddParameter withJobSpecification(JobSpecification jobSpecification) {
+    public JobScheduleAddParameter setJobSpecification(JobSpecification jobSpecification) {
         this.jobSpecification = jobSpecification;
         return this;
     }
@@ -138,7 +138,7 @@ public class JobScheduleAddParameter {
      * @param metadata the metadata value to set
      * @return the JobScheduleAddParameter object itself.
      */
-    public JobScheduleAddParameter withMetadata(List<MetadataItem> metadata) {
+    public JobScheduleAddParameter setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

@@ -72,7 +72,7 @@ public class DataDisk {
      * @param lun the lun value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withLun(int lun) {
+    public DataDisk setLun(int lun) {
         this.lun = lun;
         return this;
     }
@@ -92,7 +92,7 @@ public class DataDisk {
      * @param name the name value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withName(String name) {
+    public DataDisk setName(String name) {
         this.name = name;
         return this;
     }
@@ -112,7 +112,7 @@ public class DataDisk {
      * @param vhd the vhd value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withVhd(VirtualHardDisk vhd) {
+    public DataDisk setVhd(VirtualHardDisk vhd) {
         this.vhd = vhd;
         return this;
     }
@@ -132,7 +132,7 @@ public class DataDisk {
      * @param image the image value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withImage(VirtualHardDisk image) {
+    public DataDisk setImage(VirtualHardDisk image) {
         this.image = image;
         return this;
     }
@@ -152,7 +152,7 @@ public class DataDisk {
      * @param caching the caching value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withCaching(CachingTypes caching) {
+    public DataDisk setCaching(CachingTypes caching) {
         this.caching = caching;
         return this;
     }
@@ -172,7 +172,7 @@ public class DataDisk {
      * @param createOption the createOption value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withCreateOption(DiskCreateOptionTypes createOption) {
+    public DataDisk setCreateOption(DiskCreateOptionTypes createOption) {
         this.createOption = createOption;
         return this;
     }
@@ -192,7 +192,7 @@ public class DataDisk {
      * @param diskSizeGB the diskSizeGB value to set
      * @return the DataDisk object itself.
      */
-    public DataDisk withDiskSizeGB(Integer diskSizeGB) {
+    public DataDisk setDiskSizeGB(Integer diskSizeGB) {
         this.diskSizeGB = diskSizeGB;
         return this;
     }

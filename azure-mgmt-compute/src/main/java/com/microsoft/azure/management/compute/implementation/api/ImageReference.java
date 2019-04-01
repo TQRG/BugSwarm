@@ -48,7 +48,7 @@ public class ImageReference {
      * @param publisher the publisher value to set
      * @return the ImageReference object itself.
      */
-    public ImageReference withPublisher(String publisher) {
+    public ImageReference setPublisher(String publisher) {
         this.publisher = publisher;
         return this;
     }
@@ -68,7 +68,7 @@ public class ImageReference {
      * @param offer the offer value to set
      * @return the ImageReference object itself.
      */
-    public ImageReference withOffer(String offer) {
+    public ImageReference setOffer(String offer) {
         this.offer = offer;
         return this;
     }
@@ -88,7 +88,7 @@ public class ImageReference {
      * @param sku the sku value to set
      * @return the ImageReference object itself.
      */
-    public ImageReference withSku(String sku) {
+    public ImageReference setSku(String sku) {
         this.sku = sku;
         return this;
     }
@@ -108,7 +108,7 @@ public class ImageReference {
      * @param version the version value to set
      * @return the ImageReference object itself.
      */
-    public ImageReference withVersion(String version) {
+    public ImageReference setVersion(String version) {
         this.version = version;
         return this;
     }

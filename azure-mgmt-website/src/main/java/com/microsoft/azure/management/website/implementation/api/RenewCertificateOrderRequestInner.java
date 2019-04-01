@@ -36,7 +36,7 @@ public class RenewCertificateOrderRequestInner extends Resource {
      * @param keySize the keySize value to set
      * @return the RenewCertificateOrderRequestInner object itself.
      */
-    public RenewCertificateOrderRequestInner withKeySize(Integer keySize) {
+    public RenewCertificateOrderRequestInner setKeySize(Integer keySize) {
         this.keySize = keySize;
         return this;
     }

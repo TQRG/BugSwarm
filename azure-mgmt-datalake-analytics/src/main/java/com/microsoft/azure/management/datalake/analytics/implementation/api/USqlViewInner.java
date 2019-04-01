@@ -49,7 +49,7 @@ public class USqlViewInner extends CatalogItem {
      * @param databaseName the databaseName value to set
      * @return the USqlViewInner object itself.
      */
-    public USqlViewInner withDatabaseName(String databaseName) {
+    public USqlViewInner setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -69,7 +69,7 @@ public class USqlViewInner extends CatalogItem {
      * @param schemaName the schemaName value to set
      * @return the USqlViewInner object itself.
      */
-    public USqlViewInner withSchemaName(String schemaName) {
+    public USqlViewInner setSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -89,7 +89,7 @@ public class USqlViewInner extends CatalogItem {
      * @param name the name value to set
      * @return the USqlViewInner object itself.
      */
-    public USqlViewInner withName(String name) {
+    public USqlViewInner setName(String name) {
         this.name = name;
         return this;
     }
@@ -109,7 +109,7 @@ public class USqlViewInner extends CatalogItem {
      * @param definition the definition value to set
      * @return the USqlViewInner object itself.
      */
-    public USqlViewInner withDefinition(String definition) {
+    public USqlViewInner setDefinition(String definition) {
         this.definition = definition;
         return this;
     }

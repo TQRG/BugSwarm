@@ -45,7 +45,7 @@ public class BatchError {
      * @param code the code value to set
      * @return the BatchError object itself.
      */
-    public BatchError withCode(String code) {
+    public BatchError setCode(String code) {
         this.code = code;
         return this;
     }
@@ -65,7 +65,7 @@ public class BatchError {
      * @param message the message value to set
      * @return the BatchError object itself.
      */
-    public BatchError withMessage(ErrorMessage message) {
+    public BatchError setMessage(ErrorMessage message) {
         this.message = message;
         return this;
     }
@@ -85,7 +85,7 @@ public class BatchError {
      * @param values the values value to set
      * @return the BatchError object itself.
      */
-    public BatchError withValues(List<BatchErrorDetail> values) {
+    public BatchError setValues(List<BatchErrorDetail> values) {
         this.values = values;
         return this;
     }

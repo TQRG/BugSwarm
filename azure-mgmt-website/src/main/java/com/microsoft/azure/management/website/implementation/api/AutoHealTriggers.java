@@ -47,7 +47,7 @@ public class AutoHealTriggers {
      * @param requests the requests value to set
      * @return the AutoHealTriggers object itself.
      */
-    public AutoHealTriggers withRequests(RequestsBasedTrigger requests) {
+    public AutoHealTriggers setRequests(RequestsBasedTrigger requests) {
         this.requests = requests;
         return this;
     }
@@ -67,7 +67,7 @@ public class AutoHealTriggers {
      * @param privateBytesInKB the privateBytesInKB value to set
      * @return the AutoHealTriggers object itself.
      */
-    public AutoHealTriggers withPrivateBytesInKB(Integer privateBytesInKB) {
+    public AutoHealTriggers setPrivateBytesInKB(Integer privateBytesInKB) {
         this.privateBytesInKB = privateBytesInKB;
         return this;
     }
@@ -87,7 +87,7 @@ public class AutoHealTriggers {
      * @param statusCodes the statusCodes value to set
      * @return the AutoHealTriggers object itself.
      */
-    public AutoHealTriggers withStatusCodes(List<StatusCodesBasedTrigger> statusCodes) {
+    public AutoHealTriggers setStatusCodes(List<StatusCodesBasedTrigger> statusCodes) {
         this.statusCodes = statusCodes;
         return this;
     }
@@ -107,7 +107,7 @@ public class AutoHealTriggers {
      * @param slowRequests the slowRequests value to set
      * @return the AutoHealTriggers object itself.
      */
-    public AutoHealTriggers withSlowRequests(SlowRequestsBasedTrigger slowRequests) {
+    public AutoHealTriggers setSlowRequests(SlowRequestsBasedTrigger slowRequests) {
         this.slowRequests = slowRequests;
         return this;
     }

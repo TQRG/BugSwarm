@@ -36,7 +36,7 @@ public class EnvironmentSetting {
      * @param name the name value to set
      * @return the EnvironmentSetting object itself.
      */
-    public EnvironmentSetting withName(String name) {
+    public EnvironmentSetting setName(String name) {
         this.name = name;
         return this;
     }
@@ -56,7 +56,7 @@ public class EnvironmentSetting {
      * @param value the value value to set
      * @return the EnvironmentSetting object itself.
      */
-    public EnvironmentSetting withValue(String value) {
+    public EnvironmentSetting setValue(String value) {
         this.value = value;
         return this;
     }

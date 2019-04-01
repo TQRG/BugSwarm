@@ -40,7 +40,7 @@ public class FileDeleteFromComputeNodeHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the FileDeleteFromComputeNodeHeaders object itself.
      */
-    public FileDeleteFromComputeNodeHeaders withClientRequestId(String clientRequestId) {
+    public FileDeleteFromComputeNodeHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -60,7 +60,7 @@ public class FileDeleteFromComputeNodeHeaders {
      * @param requestId the requestId value to set
      * @return the FileDeleteFromComputeNodeHeaders object itself.
      */
-    public FileDeleteFromComputeNodeHeaders withRequestId(String requestId) {
+    public FileDeleteFromComputeNodeHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }

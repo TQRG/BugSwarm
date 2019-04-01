@@ -56,7 +56,7 @@ public class Address {
      * @param address1 the address1 value to set
      * @return the Address object itself.
      */
-    public Address withAddress1(String address1) {
+    public Address setAddress1(String address1) {
         this.address1 = address1;
         return this;
     }
@@ -76,7 +76,7 @@ public class Address {
      * @param address2 the address2 value to set
      * @return the Address object itself.
      */
-    public Address withAddress2(String address2) {
+    public Address setAddress2(String address2) {
         this.address2 = address2;
         return this;
     }
@@ -96,7 +96,7 @@ public class Address {
      * @param city the city value to set
      * @return the Address object itself.
      */
-    public Address withCity(String city) {
+    public Address setCity(String city) {
         this.city = city;
         return this;
     }
@@ -116,7 +116,7 @@ public class Address {
      * @param country the country value to set
      * @return the Address object itself.
      */
-    public Address withCountry(String country) {
+    public Address setCountry(String country) {
         this.country = country;
         return this;
     }
@@ -136,7 +136,7 @@ public class Address {
      * @param postalCode the postalCode value to set
      * @return the Address object itself.
      */
-    public Address withPostalCode(String postalCode) {
+    public Address setPostalCode(String postalCode) {
         this.postalCode = postalCode;
         return this;
     }
@@ -156,7 +156,7 @@ public class Address {
      * @param state the state value to set
      * @return the Address object itself.
      */
-    public Address withState(String state) {
+    public Address setState(String state) {
         this.state = state;
         return this;
     }

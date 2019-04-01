@@ -51,7 +51,7 @@ public class ResourceProviderOperationDisplayProperties {
      * @param publisher the publisher value to set
      * @return the ResourceProviderOperationDisplayProperties object itself.
      */
-    public ResourceProviderOperationDisplayProperties withPublisher(String publisher) {
+    public ResourceProviderOperationDisplayProperties setPublisher(String publisher) {
         this.publisher = publisher;
         return this;
     }
@@ -71,7 +71,7 @@ public class ResourceProviderOperationDisplayProperties {
      * @param provider the provider value to set
      * @return the ResourceProviderOperationDisplayProperties object itself.
      */
-    public ResourceProviderOperationDisplayProperties withProvider(String provider) {
+    public ResourceProviderOperationDisplayProperties setProvider(String provider) {
         this.provider = provider;
         return this;
     }
@@ -91,7 +91,7 @@ public class ResourceProviderOperationDisplayProperties {
      * @param resource the resource value to set
      * @return the ResourceProviderOperationDisplayProperties object itself.
      */
-    public ResourceProviderOperationDisplayProperties withResource(String resource) {
+    public ResourceProviderOperationDisplayProperties setResource(String resource) {
         this.resource = resource;
         return this;
     }
@@ -111,7 +111,7 @@ public class ResourceProviderOperationDisplayProperties {
      * @param operation the operation value to set
      * @return the ResourceProviderOperationDisplayProperties object itself.
      */
-    public ResourceProviderOperationDisplayProperties withOperation(String operation) {
+    public ResourceProviderOperationDisplayProperties setOperation(String operation) {
         this.operation = operation;
         return this;
     }
@@ -131,7 +131,7 @@ public class ResourceProviderOperationDisplayProperties {
      * @param description the description value to set
      * @return the ResourceProviderOperationDisplayProperties object itself.
      */
-    public ResourceProviderOperationDisplayProperties withDescription(String description) {
+    public ResourceProviderOperationDisplayProperties setDescription(String description) {
         this.description = description;
         return this;
     }

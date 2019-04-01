@@ -36,7 +36,7 @@ public class ExpressRouteCircuitStatsInner {
      * @param bytesIn the bytesIn value to set
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
-    public ExpressRouteCircuitStatsInner withBytesIn(Integer bytesIn) {
+    public ExpressRouteCircuitStatsInner setBytesIn(Integer bytesIn) {
         this.bytesIn = bytesIn;
         return this;
     }
@@ -56,7 +56,7 @@ public class ExpressRouteCircuitStatsInner {
      * @param bytesOut the bytesOut value to set
      * @return the ExpressRouteCircuitStatsInner object itself.
      */
-    public ExpressRouteCircuitStatsInner withBytesOut(Integer bytesOut) {
+    public ExpressRouteCircuitStatsInner setBytesOut(Integer bytesOut) {
         this.bytesOut = bytesOut;
         return this;
     }

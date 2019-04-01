@@ -52,7 +52,7 @@ public interface BatchServiceClient {
      *
      * @param acceptLanguage the acceptLanguage value.
      */
-    void withAcceptLanguage(String acceptLanguage);
+    void setAcceptLanguage(String acceptLanguage);
 
     /**
      * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30..
@@ -66,7 +66,7 @@ public interface BatchServiceClient {
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      */
-    void withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout);
+    void setLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout);
 
     /**
      * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
@@ -80,7 +80,7 @@ public interface BatchServiceClient {
      *
      * @param generateClientRequestId the generateClientRequestId value.
      */
-    void withGenerateClientRequestId(boolean generateClientRequestId);
+    void setGenerateClientRequestId(boolean generateClientRequestId);
 
     /**
      * Gets the Applications object to access its operations.

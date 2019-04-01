@@ -145,7 +145,7 @@ public class CloudTask {
      * @param id the id value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withId(String id) {
+    public CloudTask setId(String id) {
         this.id = id;
         return this;
     }
@@ -165,7 +165,7 @@ public class CloudTask {
      * @param displayName the displayName value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withDisplayName(String displayName) {
+    public CloudTask setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -185,7 +185,7 @@ public class CloudTask {
      * @param url the url value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withUrl(String url) {
+    public CloudTask setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -205,7 +205,7 @@ public class CloudTask {
      * @param eTag the eTag value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withETag(String eTag) {
+    public CloudTask setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -225,7 +225,7 @@ public class CloudTask {
      * @param lastModified the lastModified value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withLastModified(DateTime lastModified) {
+    public CloudTask setLastModified(DateTime lastModified) {
         this.lastModified = lastModified;
         return this;
     }
@@ -245,7 +245,7 @@ public class CloudTask {
      * @param creationTime the creationTime value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withCreationTime(DateTime creationTime) {
+    public CloudTask setCreationTime(DateTime creationTime) {
         this.creationTime = creationTime;
         return this;
     }
@@ -265,7 +265,7 @@ public class CloudTask {
      * @param state the state value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withState(TaskState state) {
+    public CloudTask setState(TaskState state) {
         this.state = state;
         return this;
     }
@@ -285,7 +285,7 @@ public class CloudTask {
      * @param stateTransitionTime the stateTransitionTime value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withStateTransitionTime(DateTime stateTransitionTime) {
+    public CloudTask setStateTransitionTime(DateTime stateTransitionTime) {
         this.stateTransitionTime = stateTransitionTime;
         return this;
     }
@@ -305,7 +305,7 @@ public class CloudTask {
      * @param previousState the previousState value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withPreviousState(TaskState previousState) {
+    public CloudTask setPreviousState(TaskState previousState) {
         this.previousState = previousState;
         return this;
     }
@@ -325,7 +325,7 @@ public class CloudTask {
      * @param previousStateTransitionTime the previousStateTransitionTime value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
+    public CloudTask setPreviousStateTransitionTime(DateTime previousStateTransitionTime) {
         this.previousStateTransitionTime = previousStateTransitionTime;
         return this;
     }
@@ -345,7 +345,7 @@ public class CloudTask {
      * @param commandLine the commandLine value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withCommandLine(String commandLine) {
+    public CloudTask setCommandLine(String commandLine) {
         this.commandLine = commandLine;
         return this;
     }
@@ -365,7 +365,7 @@ public class CloudTask {
      * @param resourceFiles the resourceFiles value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withResourceFiles(List<ResourceFile> resourceFiles) {
+    public CloudTask setResourceFiles(List<ResourceFile> resourceFiles) {
         this.resourceFiles = resourceFiles;
         return this;
     }
@@ -385,7 +385,7 @@ public class CloudTask {
      * @param environmentSettings the environmentSettings value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
+    public CloudTask setEnvironmentSettings(List<EnvironmentSetting> environmentSettings) {
         this.environmentSettings = environmentSettings;
         return this;
     }
@@ -405,7 +405,7 @@ public class CloudTask {
      * @param affinityInfo the affinityInfo value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withAffinityInfo(AffinityInformation affinityInfo) {
+    public CloudTask setAffinityInfo(AffinityInformation affinityInfo) {
         this.affinityInfo = affinityInfo;
         return this;
     }
@@ -425,7 +425,7 @@ public class CloudTask {
      * @param constraints the constraints value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withConstraints(TaskConstraints constraints) {
+    public CloudTask setConstraints(TaskConstraints constraints) {
         this.constraints = constraints;
         return this;
     }
@@ -445,7 +445,7 @@ public class CloudTask {
      * @param runElevated the runElevated value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withRunElevated(Boolean runElevated) {
+    public CloudTask setRunElevated(Boolean runElevated) {
         this.runElevated = runElevated;
         return this;
     }
@@ -465,7 +465,7 @@ public class CloudTask {
      * @param executionInfo the executionInfo value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withExecutionInfo(TaskExecutionInformation executionInfo) {
+    public CloudTask setExecutionInfo(TaskExecutionInformation executionInfo) {
         this.executionInfo = executionInfo;
         return this;
     }
@@ -485,7 +485,7 @@ public class CloudTask {
      * @param nodeInfo the nodeInfo value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withNodeInfo(ComputeNodeInformation nodeInfo) {
+    public CloudTask setNodeInfo(ComputeNodeInformation nodeInfo) {
         this.nodeInfo = nodeInfo;
         return this;
     }
@@ -505,7 +505,7 @@ public class CloudTask {
      * @param multiInstanceSettings the multiInstanceSettings value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withMultiInstanceSettings(MultiInstanceSettings multiInstanceSettings) {
+    public CloudTask setMultiInstanceSettings(MultiInstanceSettings multiInstanceSettings) {
         this.multiInstanceSettings = multiInstanceSettings;
         return this;
     }
@@ -525,7 +525,7 @@ public class CloudTask {
      * @param stats the stats value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withStats(TaskStatistics stats) {
+    public CloudTask setStats(TaskStatistics stats) {
         this.stats = stats;
         return this;
     }
@@ -545,7 +545,7 @@ public class CloudTask {
      * @param dependsOn the dependsOn value to set
      * @return the CloudTask object itself.
      */
-    public CloudTask withDependsOn(TaskDependencies dependsOn) {
+    public CloudTask setDependsOn(TaskDependencies dependsOn) {
         this.dependsOn = dependsOn;
         return this;
     }

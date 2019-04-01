@@ -37,7 +37,7 @@ public class BootDiagnostics {
      * @param enabled the enabled value to set
      * @return the BootDiagnostics object itself.
      */
-    public BootDiagnostics withEnabled(Boolean enabled) {
+    public BootDiagnostics setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -57,7 +57,7 @@ public class BootDiagnostics {
      * @param storageUri the storageUri value to set
      * @return the BootDiagnostics object itself.
      */
-    public BootDiagnostics withStorageUri(String storageUri) {
+    public BootDiagnostics setStorageUri(String storageUri) {
         this.storageUri = storageUri;
         return this;
     }

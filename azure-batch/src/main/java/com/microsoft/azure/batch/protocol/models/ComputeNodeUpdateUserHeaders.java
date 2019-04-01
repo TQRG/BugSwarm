@@ -60,7 +60,7 @@ public class ComputeNodeUpdateUserHeaders {
      * @param clientRequestId the clientRequestId value to set
      * @return the ComputeNodeUpdateUserHeaders object itself.
      */
-    public ComputeNodeUpdateUserHeaders withClientRequestId(String clientRequestId) {
+    public ComputeNodeUpdateUserHeaders setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -80,7 +80,7 @@ public class ComputeNodeUpdateUserHeaders {
      * @param requestId the requestId value to set
      * @return the ComputeNodeUpdateUserHeaders object itself.
      */
-    public ComputeNodeUpdateUserHeaders withRequestId(String requestId) {
+    public ComputeNodeUpdateUserHeaders setRequestId(String requestId) {
         this.requestId = requestId;
         return this;
     }
@@ -100,7 +100,7 @@ public class ComputeNodeUpdateUserHeaders {
      * @param eTag the eTag value to set
      * @return the ComputeNodeUpdateUserHeaders object itself.
      */
-    public ComputeNodeUpdateUserHeaders withETag(String eTag) {
+    public ComputeNodeUpdateUserHeaders setETag(String eTag) {
         this.eTag = eTag;
         return this;
     }
@@ -123,7 +123,7 @@ public class ComputeNodeUpdateUserHeaders {
      * @param lastModified the lastModified value to set
      * @return the ComputeNodeUpdateUserHeaders object itself.
      */
-    public ComputeNodeUpdateUserHeaders withLastModified(DateTime lastModified) {
+    public ComputeNodeUpdateUserHeaders setLastModified(DateTime lastModified) {
         this.lastModified = new DateTimeRfc1123(lastModified);
         return this;
     }
@@ -143,7 +143,7 @@ public class ComputeNodeUpdateUserHeaders {
      * @param dataServiceId the dataServiceId value to set
      * @return the ComputeNodeUpdateUserHeaders object itself.
      */
-    public ComputeNodeUpdateUserHeaders withDataServiceId(String dataServiceId) {
+    public ComputeNodeUpdateUserHeaders setDataServiceId(String dataServiceId) {
         this.dataServiceId = dataServiceId;
         return this;
     }

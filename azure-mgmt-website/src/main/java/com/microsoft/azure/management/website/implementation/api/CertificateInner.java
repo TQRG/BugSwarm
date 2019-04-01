@@ -123,7 +123,7 @@ public class CertificateInner extends Resource {
      * @param friendlyName the friendlyName value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withFriendlyName(String friendlyName) {
+    public CertificateInner setFriendlyName(String friendlyName) {
         this.friendlyName = friendlyName;
         return this;
     }
@@ -143,7 +143,7 @@ public class CertificateInner extends Resource {
      * @param subjectName the subjectName value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withSubjectName(String subjectName) {
+    public CertificateInner setSubjectName(String subjectName) {
         this.subjectName = subjectName;
         return this;
     }
@@ -163,7 +163,7 @@ public class CertificateInner extends Resource {
      * @param hostNames the hostNames value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withHostNames(List<String> hostNames) {
+    public CertificateInner setHostNames(List<String> hostNames) {
         this.hostNames = hostNames;
         return this;
     }
@@ -183,7 +183,7 @@ public class CertificateInner extends Resource {
      * @param pfxBlob the pfxBlob value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withPfxBlob(String pfxBlob) {
+    public CertificateInner setPfxBlob(String pfxBlob) {
         this.pfxBlob = pfxBlob;
         return this;
     }
@@ -203,7 +203,7 @@ public class CertificateInner extends Resource {
      * @param siteName the siteName value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withSiteName(String siteName) {
+    public CertificateInner setSiteName(String siteName) {
         this.siteName = siteName;
         return this;
     }
@@ -223,7 +223,7 @@ public class CertificateInner extends Resource {
      * @param selfLink the selfLink value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withSelfLink(String selfLink) {
+    public CertificateInner setSelfLink(String selfLink) {
         this.selfLink = selfLink;
         return this;
     }
@@ -243,7 +243,7 @@ public class CertificateInner extends Resource {
      * @param issuer the issuer value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withIssuer(String issuer) {
+    public CertificateInner setIssuer(String issuer) {
         this.issuer = issuer;
         return this;
     }
@@ -263,7 +263,7 @@ public class CertificateInner extends Resource {
      * @param issueDate the issueDate value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withIssueDate(DateTime issueDate) {
+    public CertificateInner setIssueDate(DateTime issueDate) {
         this.issueDate = issueDate;
         return this;
     }
@@ -283,7 +283,7 @@ public class CertificateInner extends Resource {
      * @param expirationDate the expirationDate value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withExpirationDate(DateTime expirationDate) {
+    public CertificateInner setExpirationDate(DateTime expirationDate) {
         this.expirationDate = expirationDate;
         return this;
     }
@@ -303,7 +303,7 @@ public class CertificateInner extends Resource {
      * @param password the password value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withPassword(String password) {
+    public CertificateInner setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -323,7 +323,7 @@ public class CertificateInner extends Resource {
      * @param thumbprint the thumbprint value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withThumbprint(String thumbprint) {
+    public CertificateInner setThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -343,7 +343,7 @@ public class CertificateInner extends Resource {
      * @param valid the valid value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withValid(Boolean valid) {
+    public CertificateInner setValid(Boolean valid) {
         this.valid = valid;
         return this;
     }
@@ -363,7 +363,7 @@ public class CertificateInner extends Resource {
      * @param cerBlob the cerBlob value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withCerBlob(String cerBlob) {
+    public CertificateInner setCerBlob(String cerBlob) {
         this.cerBlob = cerBlob;
         return this;
     }
@@ -383,7 +383,7 @@ public class CertificateInner extends Resource {
      * @param publicKeyHash the publicKeyHash value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withPublicKeyHash(String publicKeyHash) {
+    public CertificateInner setPublicKeyHash(String publicKeyHash) {
         this.publicKeyHash = publicKeyHash;
         return this;
     }
@@ -403,7 +403,7 @@ public class CertificateInner extends Resource {
      * @param hostingEnvironmentProfile the hostingEnvironmentProfile value to set
      * @return the CertificateInner object itself.
      */
-    public CertificateInner withHostingEnvironmentProfile(HostingEnvironmentProfile hostingEnvironmentProfile) {
+    public CertificateInner setHostingEnvironmentProfile(HostingEnvironmentProfile hostingEnvironmentProfile) {
         this.hostingEnvironmentProfile = hostingEnvironmentProfile;
         return this;
     }

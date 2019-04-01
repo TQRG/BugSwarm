@@ -116,7 +116,7 @@ public class PoolSpecification {
      * @param displayName the displayName value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withDisplayName(String displayName) {
+    public PoolSpecification setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -136,7 +136,7 @@ public class PoolSpecification {
      * @param vmSize the vmSize value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withVmSize(String vmSize) {
+    public PoolSpecification setVmSize(String vmSize) {
         this.vmSize = vmSize;
         return this;
     }
@@ -156,7 +156,7 @@ public class PoolSpecification {
      * @param cloudServiceConfiguration the cloudServiceConfiguration value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withCloudServiceConfiguration(CloudServiceConfiguration cloudServiceConfiguration) {
+    public PoolSpecification setCloudServiceConfiguration(CloudServiceConfiguration cloudServiceConfiguration) {
         this.cloudServiceConfiguration = cloudServiceConfiguration;
         return this;
     }
@@ -176,7 +176,7 @@ public class PoolSpecification {
      * @param virtualMachineConfiguration the virtualMachineConfiguration value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withVirtualMachineConfiguration(VirtualMachineConfiguration virtualMachineConfiguration) {
+    public PoolSpecification setVirtualMachineConfiguration(VirtualMachineConfiguration virtualMachineConfiguration) {
         this.virtualMachineConfiguration = virtualMachineConfiguration;
         return this;
     }
@@ -196,7 +196,7 @@ public class PoolSpecification {
      * @param maxTasksPerNode the maxTasksPerNode value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withMaxTasksPerNode(Integer maxTasksPerNode) {
+    public PoolSpecification setMaxTasksPerNode(Integer maxTasksPerNode) {
         this.maxTasksPerNode = maxTasksPerNode;
         return this;
     }
@@ -216,7 +216,7 @@ public class PoolSpecification {
      * @param taskSchedulingPolicy the taskSchedulingPolicy value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy) {
+    public PoolSpecification setTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy) {
         this.taskSchedulingPolicy = taskSchedulingPolicy;
         return this;
     }
@@ -236,7 +236,7 @@ public class PoolSpecification {
      * @param resizeTimeout the resizeTimeout value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withResizeTimeout(Period resizeTimeout) {
+    public PoolSpecification setResizeTimeout(Period resizeTimeout) {
         this.resizeTimeout = resizeTimeout;
         return this;
     }
@@ -256,7 +256,7 @@ public class PoolSpecification {
      * @param targetDedicated the targetDedicated value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withTargetDedicated(Integer targetDedicated) {
+    public PoolSpecification setTargetDedicated(Integer targetDedicated) {
         this.targetDedicated = targetDedicated;
         return this;
     }
@@ -276,7 +276,7 @@ public class PoolSpecification {
      * @param enableAutoScale the enableAutoScale value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withEnableAutoScale(Boolean enableAutoScale) {
+    public PoolSpecification setEnableAutoScale(Boolean enableAutoScale) {
         this.enableAutoScale = enableAutoScale;
         return this;
     }
@@ -296,7 +296,7 @@ public class PoolSpecification {
      * @param autoScaleFormula the autoScaleFormula value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withAutoScaleFormula(String autoScaleFormula) {
+    public PoolSpecification setAutoScaleFormula(String autoScaleFormula) {
         this.autoScaleFormula = autoScaleFormula;
         return this;
     }
@@ -316,7 +316,7 @@ public class PoolSpecification {
      * @param autoScaleEvaluationInterval the autoScaleEvaluationInterval value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
+    public PoolSpecification setAutoScaleEvaluationInterval(Period autoScaleEvaluationInterval) {
         this.autoScaleEvaluationInterval = autoScaleEvaluationInterval;
         return this;
     }
@@ -336,7 +336,7 @@ public class PoolSpecification {
      * @param enableInterNodeCommunication the enableInterNodeCommunication value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withEnableInterNodeCommunication(Boolean enableInterNodeCommunication) {
+    public PoolSpecification setEnableInterNodeCommunication(Boolean enableInterNodeCommunication) {
         this.enableInterNodeCommunication = enableInterNodeCommunication;
         return this;
     }
@@ -356,7 +356,7 @@ public class PoolSpecification {
      * @param startTask the startTask value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withStartTask(StartTask startTask) {
+    public PoolSpecification setStartTask(StartTask startTask) {
         this.startTask = startTask;
         return this;
     }
@@ -376,7 +376,7 @@ public class PoolSpecification {
      * @param certificateReferences the certificateReferences value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withCertificateReferences(List<CertificateReference> certificateReferences) {
+    public PoolSpecification setCertificateReferences(List<CertificateReference> certificateReferences) {
         this.certificateReferences = certificateReferences;
         return this;
     }
@@ -396,7 +396,7 @@ public class PoolSpecification {
      * @param applicationPackageReferences the applicationPackageReferences value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
+    public PoolSpecification setApplicationPackageReferences(List<ApplicationPackageReference> applicationPackageReferences) {
         this.applicationPackageReferences = applicationPackageReferences;
         return this;
     }
@@ -416,7 +416,7 @@ public class PoolSpecification {
      * @param metadata the metadata value to set
      * @return the PoolSpecification object itself.
      */
-    public PoolSpecification withMetadata(List<MetadataItem> metadata) {
+    public PoolSpecification setMetadata(List<MetadataItem> metadata) {
         this.metadata = metadata;
         return this;
     }

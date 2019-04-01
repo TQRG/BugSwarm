@@ -32,7 +32,7 @@ public class UpgradePolicy {
      * @param mode the mode value to set
      * @return the UpgradePolicy object itself.
      */
-    public UpgradePolicy withMode(UpgradeMode mode) {
+    public UpgradePolicy setMode(UpgradeMode mode) {
         this.mode = mode;
         return this;
     }

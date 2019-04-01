@@ -40,7 +40,7 @@ public class ApplicationPackageReference {
      * @param applicationId the applicationId value to set
      * @return the ApplicationPackageReference object itself.
      */
-    public ApplicationPackageReference withApplicationId(String applicationId) {
+    public ApplicationPackageReference setApplicationId(String applicationId) {
         this.applicationId = applicationId;
         return this;
     }
@@ -60,7 +60,7 @@ public class ApplicationPackageReference {
      * @param version the version value to set
      * @return the ApplicationPackageReference object itself.
      */
-    public ApplicationPackageReference withVersion(String version) {
+    public ApplicationPackageReference setVersion(String version) {
         this.version = version;
         return this;
     }

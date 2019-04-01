@@ -32,7 +32,7 @@ public class TaskUpdateParameter {
      * @param constraints the constraints value to set
      * @return the TaskUpdateParameter object itself.
      */
-    public TaskUpdateParameter withConstraints(TaskConstraints constraints) {
+    public TaskUpdateParameter setConstraints(TaskConstraints constraints) {
         this.constraints = constraints;
         return this;
     }

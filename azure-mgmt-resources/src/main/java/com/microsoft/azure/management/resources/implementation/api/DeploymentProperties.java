@@ -55,7 +55,7 @@ public class DeploymentProperties {
      * @param template the template value to set
      * @return the DeploymentProperties object itself.
      */
-    public DeploymentProperties withTemplate(Object template) {
+    public DeploymentProperties setTemplate(Object template) {
         this.template = template;
         return this;
     }
@@ -75,7 +75,7 @@ public class DeploymentProperties {
      * @param templateLink the templateLink value to set
      * @return the DeploymentProperties object itself.
      */
-    public DeploymentProperties withTemplateLink(TemplateLink templateLink) {
+    public DeploymentProperties setTemplateLink(TemplateLink templateLink) {
         this.templateLink = templateLink;
         return this;
     }
@@ -95,7 +95,7 @@ public class DeploymentProperties {
      * @param parameters the parameters value to set
      * @return the DeploymentProperties object itself.
      */
-    public DeploymentProperties withParameters(Object parameters) {
+    public DeploymentProperties setParameters(Object parameters) {
         this.parameters = parameters;
         return this;
     }
@@ -115,7 +115,7 @@ public class DeploymentProperties {
      * @param parametersLink the parametersLink value to set
      * @return the DeploymentProperties object itself.
      */
-    public DeploymentProperties withParametersLink(ParametersLink parametersLink) {
+    public DeploymentProperties setParametersLink(ParametersLink parametersLink) {
         this.parametersLink = parametersLink;
         return this;
     }
@@ -135,7 +135,7 @@ public class DeploymentProperties {
      * @param mode the mode value to set
      * @return the DeploymentProperties object itself.
      */
-    public DeploymentProperties withMode(DeploymentMode mode) {
+    public DeploymentProperties setMode(DeploymentMode mode) {
         this.mode = mode;
         return this;
     }

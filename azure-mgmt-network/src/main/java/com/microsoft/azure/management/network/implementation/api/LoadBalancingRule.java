@@ -121,7 +121,7 @@ public class LoadBalancingRule extends SubResource {
      * @param frontendIPConfiguration the frontendIPConfiguration value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withFrontendIPConfiguration(SubResource frontendIPConfiguration) {
+    public LoadBalancingRule setFrontendIPConfiguration(SubResource frontendIPConfiguration) {
         this.frontendIPConfiguration = frontendIPConfiguration;
         return this;
     }
@@ -141,7 +141,7 @@ public class LoadBalancingRule extends SubResource {
      * @param backendAddressPool the backendAddressPool value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withBackendAddressPool(SubResource backendAddressPool) {
+    public LoadBalancingRule setBackendAddressPool(SubResource backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
@@ -161,7 +161,7 @@ public class LoadBalancingRule extends SubResource {
      * @param probe the probe value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withProbe(SubResource probe) {
+    public LoadBalancingRule setProbe(SubResource probe) {
         this.probe = probe;
         return this;
     }
@@ -181,7 +181,7 @@ public class LoadBalancingRule extends SubResource {
      * @param protocol the protocol value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withProtocol(String protocol) {
+    public LoadBalancingRule setProtocol(String protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -201,7 +201,7 @@ public class LoadBalancingRule extends SubResource {
      * @param loadDistribution the loadDistribution value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withLoadDistribution(String loadDistribution) {
+    public LoadBalancingRule setLoadDistribution(String loadDistribution) {
         this.loadDistribution = loadDistribution;
         return this;
     }
@@ -221,7 +221,7 @@ public class LoadBalancingRule extends SubResource {
      * @param frontendPort the frontendPort value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withFrontendPort(int frontendPort) {
+    public LoadBalancingRule setFrontendPort(int frontendPort) {
         this.frontendPort = frontendPort;
         return this;
     }
@@ -241,7 +241,7 @@ public class LoadBalancingRule extends SubResource {
      * @param backendPort the backendPort value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withBackendPort(Integer backendPort) {
+    public LoadBalancingRule setBackendPort(Integer backendPort) {
         this.backendPort = backendPort;
         return this;
     }
@@ -261,7 +261,7 @@ public class LoadBalancingRule extends SubResource {
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
+    public LoadBalancingRule setIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
         this.idleTimeoutInMinutes = idleTimeoutInMinutes;
         return this;
     }
@@ -281,7 +281,7 @@ public class LoadBalancingRule extends SubResource {
      * @param enableFloatingIP the enableFloatingIP value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withEnableFloatingIP(Boolean enableFloatingIP) {
+    public LoadBalancingRule setEnableFloatingIP(Boolean enableFloatingIP) {
         this.enableFloatingIP = enableFloatingIP;
         return this;
     }
@@ -301,7 +301,7 @@ public class LoadBalancingRule extends SubResource {
      * @param provisioningState the provisioningState value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withProvisioningState(String provisioningState) {
+    public LoadBalancingRule setProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -321,7 +321,7 @@ public class LoadBalancingRule extends SubResource {
      * @param name the name value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withName(String name) {
+    public LoadBalancingRule setName(String name) {
         this.name = name;
         return this;
     }
@@ -341,7 +341,7 @@ public class LoadBalancingRule extends SubResource {
      * @param etag the etag value to set
      * @return the LoadBalancingRule object itself.
      */
-    public LoadBalancingRule withEtag(String etag) {
+    public LoadBalancingRule setEtag(String etag) {
         this.etag = etag;
         return this;
     }

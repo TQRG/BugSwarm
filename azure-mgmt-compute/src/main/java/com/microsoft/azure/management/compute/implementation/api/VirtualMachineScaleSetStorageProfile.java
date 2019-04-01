@@ -36,7 +36,7 @@ public class VirtualMachineScaleSetStorageProfile {
      * @param imageReference the imageReference value to set
      * @return the VirtualMachineScaleSetStorageProfile object itself.
      */
-    public VirtualMachineScaleSetStorageProfile withImageReference(ImageReference imageReference) {
+    public VirtualMachineScaleSetStorageProfile setImageReference(ImageReference imageReference) {
         this.imageReference = imageReference;
         return this;
     }
@@ -56,7 +56,7 @@ public class VirtualMachineScaleSetStorageProfile {
      * @param osDisk the osDisk value to set
      * @return the VirtualMachineScaleSetStorageProfile object itself.
      */
-    public VirtualMachineScaleSetStorageProfile withOsDisk(VirtualMachineScaleSetOSDisk osDisk) {
+    public VirtualMachineScaleSetStorageProfile setOsDisk(VirtualMachineScaleSetOSDisk osDisk) {
         this.osDisk = osDisk;
         return this;
     }

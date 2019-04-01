@@ -11,7 +11,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Additional parameters for the JobSchedule_Exists operation.
+ * Additional parameters for the Exists operation.
  */
 public class JobScheduleExistsOptions {
     /**
@@ -86,7 +86,7 @@ public class JobScheduleExistsOptions {
      * @param timeout the timeout value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withTimeout(Integer timeout) {
+    public JobScheduleExistsOptions setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -106,7 +106,7 @@ public class JobScheduleExistsOptions {
      * @param clientRequestId the clientRequestId value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withClientRequestId(String clientRequestId) {
+    public JobScheduleExistsOptions setClientRequestId(String clientRequestId) {
         this.clientRequestId = clientRequestId;
         return this;
     }
@@ -126,7 +126,7 @@ public class JobScheduleExistsOptions {
      * @param returnClientRequestId the returnClientRequestId value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withReturnClientRequestId(Boolean returnClientRequestId) {
+    public JobScheduleExistsOptions setReturnClientRequestId(Boolean returnClientRequestId) {
         this.returnClientRequestId = returnClientRequestId;
         return this;
     }
@@ -149,7 +149,7 @@ public class JobScheduleExistsOptions {
      * @param ocpDate the ocpDate value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withOcpDate(DateTime ocpDate) {
+    public JobScheduleExistsOptions setOcpDate(DateTime ocpDate) {
         this.ocpDate = new DateTimeRfc1123(ocpDate);
         return this;
     }
@@ -169,7 +169,7 @@ public class JobScheduleExistsOptions {
      * @param ifMatch the ifMatch value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withIfMatch(String ifMatch) {
+    public JobScheduleExistsOptions setIfMatch(String ifMatch) {
         this.ifMatch = ifMatch;
         return this;
     }
@@ -189,7 +189,7 @@ public class JobScheduleExistsOptions {
      * @param ifNoneMatch the ifNoneMatch value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withIfNoneMatch(String ifNoneMatch) {
+    public JobScheduleExistsOptions setIfNoneMatch(String ifNoneMatch) {
         this.ifNoneMatch = ifNoneMatch;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobScheduleExistsOptions {
      * @param ifModifiedSince the ifModifiedSince value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withIfModifiedSince(DateTime ifModifiedSince) {
+    public JobScheduleExistsOptions setIfModifiedSince(DateTime ifModifiedSince) {
         this.ifModifiedSince = new DateTimeRfc1123(ifModifiedSince);
         return this;
     }
@@ -235,7 +235,7 @@ public class JobScheduleExistsOptions {
      * @param ifUnmodifiedSince the ifUnmodifiedSince value to set
      * @return the JobScheduleExistsOptions object itself.
      */
-    public JobScheduleExistsOptions withIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
+    public JobScheduleExistsOptions setIfUnmodifiedSince(DateTime ifUnmodifiedSince) {
         this.ifUnmodifiedSince = new DateTimeRfc1123(ifUnmodifiedSince);
         return this;
     }
