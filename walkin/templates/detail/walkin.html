@@ -1,0 +1,55 @@
+{% load panels %}
+{% load modalsummary %}
+<div class="col-md-12">
+  <div class="panel panel-active">
+    <div class="panel-heading text-center">
+      <h3>
+        {% block title %}
+          Walk in clinic visit [[ epidsode.start | shortDate ]]
+        {% endblock title %}
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <span ng-show="episode.category_name == 'Walkin' && ((episode.hasTag('walkin_doctor') || episode.hasTag('walkin_review') ) || episode.getTags().length == 1)">
+            {% modalsummary 'walkindoctor' %}
+          </span>
+
+          <span ng-show="episode.category_name == 'Walkin' && episode.getTags().length == 1">
+            {% modalsummary 'walkinnurse' %}
+          </span>
+
+          <button
+             ng-hide="profile.readonly"
+             ng-click="dischargeEpisode(episode)"
+             class="btn btn-primary">
+            <i class="fa fa-check"></i>
+            Next stage
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  {% include "partials/current_location.html" %}
+  {% teams_panel %}
+  {% record_panel models.Travel %}
+  {% if GLOSS_ENABLED %}
+    {% record_panel models.InpatientAdmission editable=False %}
+  {% endif %}
+  {% record_panel models.Allergies %}
+  {% include 'obs/detail_panel.html' %}
+</div>
+
+<div class="col-md-6">
+  {% record_panel models.PresentingComplaint title="Symptoms" %}
+  {% record_panel models.ClinicalFindings %}
+  {% record_panel models.Diagnosis %}
+  {% record_panel models.Antimicrobial %}
+  {% record_panel models.MicrobiologyTest %}
+  {% record_panel models.WalkinNurseLedCare %}
+  {% record_panel models.Management %}
+  {% record_panel models.MicrobiologyInput %}
+</div>

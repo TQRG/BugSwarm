@@ -1,0 +1,11 @@
+[[row.category ]]
+<br />
+<span ng-hide="item.hospital=='UCH'">[[item.hospital]] </span>
+[[item.ward]] [[item.bed]]<br />
+Admitted: [[row.start | shortDate]] <br />
+<span ng-show="row.end">
+  Discharged [[row.end | shortDate]] <br />
+</span>
+Referred: [[item.opat_referral | shortDate]] <br />
+Team: [[ item.opat_referral_team ]] <br />
+Consultant: [[ item.opat_referral_consultant ]]

@@ -1,0 +1,124 @@
+{% load forms %}
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-sm-3">Lymphadenopathy</label>
+        <div class="col-sm-8">
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="Y" ng-model="editing.clinical_findings.lymphadenopathy">
+                Yes
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="N" ng-model="editing.clinical_findings.lymphadenopathy">
+                No
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="NAD" ng-model="editing.clinical_findings.lymphadenopathy">
+                Not assessed
+            </label>
+        </div>
+    </div>
+
+    <span ng-show="editing.clinical_findings.lymphadenopathy == 'Y'">
+        <div class="form-group">
+            <label class="control-label col-sm-3">Details</label>
+            <div class="col-sm-8">
+                <input class="form-control" type="text"
+                     ng-model="editing.clinical_findings.lymphadenopathy_details">
+            </div>
+        </div>
+    </span>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Jaundice</label>
+        <div class="col-sm-8">
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="Y" ng-model="editing.clinical_findings.jaundice">
+                Yes
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="N" ng-model="editing.clinical_findings.jaundice">
+                No
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="NAD" ng-model="editing.clinical_findings.jaundice">
+                Not assessed
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Dehydrated</label>
+        <div class="col-sm-8">
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="Y" ng-model="editing.clinical_findings.dehydrated">
+                Yes
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="N" ng-model="editing.clinical_findings.dehydrated">
+                No
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="NAD" ng-model="editing.clinical_findings.dehydrated">
+                Not assessed
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Rash</label>
+        <div class="col-sm-8">
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="Y" ng-model="editing.clinical_findings.rash">
+                Yes
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="N" ng-model="editing.clinical_findings.rash">
+                No
+            </label>
+
+            <label class="radio-inline">
+                <input class="" type="radio" value="NAD" ng-model="editing.clinical_findings.rash">
+                Not assessed
+            </label>
+        </div>
+    </div>
+
+    {% input field="ClinicalFindings.rash_type" show="editing.clinical_findings.rash == 'Y'" %}
+    {% input field="ClinicalFindings.rash_distribution" show="editing.clinical_findings.rash == 'Y'" %}
+
+    {% input field="ClinicalFindings.cardiovascular" %}
+    {% input field="ClinicalFindings.respiratory" %}
+    {% input field="ClinicalFindings.abdominal" %}
+    {% input field="ClinicalFindings.oropharnyx" %}
+    {% input field="ClinicalFindings.neurological" %}
+    {% input field="ClinicalFindings.other_findings" %}
+
+</form>
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-secondary pull-left"
+              ng-click="prepopulate($event)"
+              data-lymphadenopathy="N"
+              data-jaundice="N"
+              data-dehydrated="N"
+              data-rash="N"
+              data-cardiovascular="NAD"
+              data-respiratory="NAD"
+              data-abdominal="NAD"
+              data-oropharnyx="NAD"
+              data-neurological="NAD"
+              data-other_findings="NAD"
+              ><i class="fa fa-file-text"></i> NAD</button>
+    </div>
+</div>
