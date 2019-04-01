@@ -22,8 +22,8 @@
 
         * :doc:`../ImplementationAtEachLayer/CreateWebApplicationProject`
         * :doc:`../Overview/FirstApplication`
-        * :doc:`../Tutorial/TutorialSecurity`
-        * :doc:`../Tutorial/TutorialTodo`
+        * :doc:`../Security/Tutorial`
+        * :doc:`../TutorialTodo/index`
 
     * -  
       - :doc:`../Security/Authorization`  
