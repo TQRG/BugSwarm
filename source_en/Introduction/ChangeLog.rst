@@ -25,7 +25,7 @@ Change Log
       - Description details added
 
         * Added warning for the classes on JSR-310 Date and Time API, refer \ `@DateTimeFormat is not strict with JSR310 #1991 <https://github.com/terasolunaorg/guideline/issues/1991>`_\ .
-\
+
     * -
       - :doc:`../ArchitectureInDetail/WebApplicationDetail/Validation`
       - Description details modified
