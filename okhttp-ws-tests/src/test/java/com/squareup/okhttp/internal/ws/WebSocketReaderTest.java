@@ -348,7 +348,7 @@ public final class WebSocketReaderTest {
   }
 
   @Test public void closeLengthOfOneThrows() throws IOException {
-    data.write(ByteString.decodeHex("8801")); // Close with invalid 1-byte payload
+    data.write(ByteString.decodeHex("880100")); // Close with invalid 1-byte payload
     try {
       clientReader.processNextFrame();
       fail();
