@@ -270,11 +270,11 @@ List of OSS being used in version 5.2.0.RELEASE.
       - \*
       -
     * - Spring  
-	  - org.springframework.security.oauth  
-	  - spring-security-oauth2  
-	  - 2.0.12.RELEASE  
-	  - \*  
-	  -
+      - org.springframework.security.oauth  
+      - spring-security-oauth2  
+      - 2.0.12.RELEASE  
+      - \*  
+      -
     * - MyBatis3
       - org.mybatis
       - mybatis
