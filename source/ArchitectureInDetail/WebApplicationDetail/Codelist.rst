@@ -1154,7 +1154,7 @@ BeanValidationや、メッセージ出力方法の詳細については、 :doc:
 
 
 複数選択可能な画面項目（チェックボックスや複数選択ドロップダウンなど）に\ ``@ExistInCodeList``\ アノテーションを対応させるための方法は
-:ref:`Validation_for_parameter_object_in_collection`\ で紹介している。
+:ref:`Validation_for_parameter_object_in_collection_corresponding_annotation`\ で紹介している。
 
 \ ``@ExistInCodeList``\ アノテーションを使用して入力チェックを行う場合は、
 \ ``@ExistInCodeList``\ 用の「:ref:`Validation_message_def`」を行う必要がある。
