@@ -1,0 +1,9 @@
+FROM quay.io/travisci/travis-python:latest
+RUN sudo apt-get update && sudo apt-get install --only-upgrade openssl libssl-dev
+ADD repo-to-docker.tar /home/travis/build/
+RUN chmod 777 -R /home/travis/build
+ADD 105433445.sh /usr/local/bin/run.sh
+RUN chmod +x /usr/local/bin/run.sh
+RUN replace "</settings>" "<mirrors><mirror><id>central-no-ssl</id><name>Central without ssl</name><url>http://repo.maven.apache.org/maven2</url><mirrorOf>central</mirrorOf></mirror></mirrors></settings>" -- /home/travis/.m2/settings.xml
+USER travis
+CMD ["usr/local/bin/run.sh"]
