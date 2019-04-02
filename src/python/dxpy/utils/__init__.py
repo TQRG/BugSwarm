@@ -162,19 +162,12 @@ def normalize_time_input(t, future=False, default_unit='ms'):
 
     if isinstance(t, basestring):
         try:
-            print("converting 1", t)
             t = normalize_timedelta(t)
         except ValueError:
             try:
-                print("converting 2", t)
                 t = int(time.mktime(dateutil.parser.parse(t).timetuple())*1000)
-                print("converted 2", t)
             except (ValueError, OverflowError):
-                print("converting 3 fail", t)
                 raise ValueError(error_msg.format(t=t))
-            except Exception as e:
-                print("RAISED", e)
-                raise
     elif isinstance(t, int):
         units_multipliers = {'ms': 1, 's': 1000}
         if default_unit not in units_multipliers:
