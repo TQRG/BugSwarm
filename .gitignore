@@ -1,0 +1,15 @@
+/bin
+/*.classpath
+/*.project
+/tmp/
+/.settings/
+*.DS_Store
+/target/
+/test/nutz-test.properties
+/test/log4j.properties
+/build/tmp
+/build/pub
+/mores
+/root
+/performance
+/.idea
