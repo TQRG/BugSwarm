@@ -397,11 +397,11 @@ def ridge_regression(X, y, alpha, sample_weight=None, solver='auto',
         n_iter = np.empty(y.shape[1], dtype=np.int32)
         intercept = np.zeros((y.shape[1], ))
         for i, (alpha_i, target) in enumerate(zip(alpha, y.T)):
-            start = {'coef': np.zeros(n_features + int(return_intercept))}
+            init = {'coef': np.zeros((n_features + int(return_intercept), 1))}
             coef_, n_iter_, _ = sag_solver(
                 X, target.ravel(), sample_weight, 'squared', alpha_i,
                 max_iter, tol, verbose, random_state, False, max_squared_sum,
-                start)
+                init)
             if return_intercept:
                 coef[i] = coef_[:-1]
                 intercept[i] = coef_[-1]

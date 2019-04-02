@@ -649,7 +649,7 @@ def logistic_regression_path(X, y, pos_class=None, Cs=10, fit_intercept=True,
             le = LabelEncoder()
             Y_multi = le.fit_transform(y)
 
-        w0 = np.zeros((Y_multi.shape[1], n_features + int(fit_intercept)),
+        w0 = np.zeros((classes.size, n_features + int(fit_intercept)),
                       order='F')
 
     if coef is not None:
