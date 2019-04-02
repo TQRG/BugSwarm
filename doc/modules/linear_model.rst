@@ -1161,7 +1161,6 @@ This way, we can solve the XOR problem with a linear classifier::
            [ 1.,  0.,  1.,  0.],
            [ 1.,  1.,  0.,  0.],
            [ 1.,  1.,  1.,  1.]])
-    >>> clf = Perceptron(fit_intercept=False, tol=0, max_iter=10,
-    shuffle=False).fit(X, y)
+    >>> clf = Perceptron(fit_intercept=False, tol=0, max_iter=10, shuffle=False).fit(X, y)
     >>> clf.score(X, y)
     1.0
