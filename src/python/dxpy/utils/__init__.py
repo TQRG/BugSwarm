@@ -166,7 +166,8 @@ def normalize_time_input(t, future=False, default_unit='ms'):
         except ValueError:
             try:
                 t = int(time.mktime(dateutil.parser.parse(t).timetuple())*1000)
-            except (ValueError, OverflowError):
+                assert t > 0
+            except (ValueError, OverflowError, AssertionError):
                 raise ValueError(error_msg.format(t=t))
     elif isinstance(t, int):
         units_multipliers = {'ms': 1, 's': 1000}
