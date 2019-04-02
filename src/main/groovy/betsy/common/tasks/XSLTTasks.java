@@ -39,6 +39,9 @@ public class XSLTTasks {
 
         transform.setTaskName("xslt");
         transform.setProject(AntUtil.builder().getProject());
+
+        transform.createFactory().setName("net.sf.saxon.TransformerFactoryImpl");
+
         return transform;
     }
 
