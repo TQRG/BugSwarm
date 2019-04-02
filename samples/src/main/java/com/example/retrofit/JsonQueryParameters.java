@@ -37,7 +37,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public final class JsonQueryParameters {
   @Retention(RUNTIME)
-  @interface Json {}
+  @interface Json {
+  }
 
   static class JsonStringConverterFactory extends Converter.Factory {
     private final Converter.Factory delegateFactory;
