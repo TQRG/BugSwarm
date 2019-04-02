@@ -3,6 +3,9 @@ from __future__ import division
 
 import sys
 import warnings
+import tempfile
+import os
+from time import sleep
 
 import numpy as np
 from scipy.sparse import coo_matrix, csr_matrix
@@ -58,6 +61,12 @@ from sklearn.datasets import make_classification
 from sklearn.datasets import make_multilabel_classification
 
 from sklearn.model_selection.tests.test_split import MockClassifier
+
+
+try:
+    WindowsError
+except NameError:
+    WindowsError = None
 
 
 class MockImprovingEstimator(BaseEstimator):
@@ -769,3 +778,30 @@ def test_cross_val_predict_with_method():
         predictions = cross_val_predict(est, X, y, method=method,
                                         cv=kfold)
         assert_array_almost_equal(expected_predictions, predictions)
+
+
+def test_score_memmap():
+    # Ensure a scalar score of memmap type is accepted
+    iris = load_iris()
+    X, y = iris.data, iris.target
+    clf = MockClassifier()
+    tf = tempfile.NamedTemporaryFile(mode='wb', delete=False)
+    tf.write(b'Hello world!!!!!')
+    tf.close()
+    scores = np.memmap(tf.name, dtype=np.float64)
+    score = np.memmap(tf.name, shape=(), mode='r', dtype=np.float64)
+    try:
+        cross_val_score(clf, X, y, scoring=lambda est, X, y: score)
+        # non-scalar should still fail
+        assert_raises(ValueError, cross_val_score, clf, X, y,
+                      scoring=lambda est, X, y: scores)
+    finally:
+        # Best effort to release the mmap file handles before deleting the
+        # backing file under Windows
+        scores, score = None, None
+        for _ in range(3):
+            try:
+                os.unlink(tf.name)
+                break
+            except WindowsError:
+                sleep(1.)
