@@ -40,7 +40,7 @@ import java.util.List;
 
 public class TreeFactory {
 
-  private <T extends Treeg> List<T> optionalList(Optional<List<T>> list) {
+  private <T extends Tree> List<T> optionalList(Optional<List<T>> list) {
     if (list.isPresent()) {
       return list.get();
     } else {
