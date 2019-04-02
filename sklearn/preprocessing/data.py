@@ -248,7 +248,7 @@ class MinMaxScaler(BaseEstimator, TransformerMixin):
 
     @property
     @deprecated("Attribute data_min will be removed in "
-                "0.19. Use  ``data_min_`` instead")
+                "0.19. Use ``data_min_`` instead")
     def data_min(self):
         return self.data_min_
 
