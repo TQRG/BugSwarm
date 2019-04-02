@@ -82,7 +82,7 @@ class NoEstimator(object):
 
 
 class VargEstimator(BaseEstimator):
-    """Sklearn estimators shouldn't have vargs."""
+    """scikit-learn estimators shouldn't have vargs."""
     def __init__(self, *vargs):
         pass
 
@@ -260,6 +260,11 @@ def test_score_sample_weight():
                              "are unexpectedly equal")
 
 
+class TreeNoVersion(DecisionTreeClassifier):
+    def __getstate__(self):
+        return self.__dict__
+
+
 def test_pickle_version_warning():
     # check that warnings are raised when unpickling in a different version
 
@@ -267,6 +272,7 @@ def test_pickle_version_warning():
     iris = datasets.load_iris()
     tree = DecisionTreeClassifier().fit(iris.data, iris.target)
     tree_pickle = pickle.dumps(tree)
+    assert_true(b"version" in tree_pickle)
     assert_no_warnings(pickle.loads, tree_pickle)
 
     # check that warning is raised on different version
@@ -279,18 +285,16 @@ def test_pickle_version_warning():
     assert_warns_message(UserWarning, message, pickle.loads, tree_pickle_other)
 
     # check that not including any version also works:
-    # don't do this at home, kids
-    from sklearn.base import BaseEstimator
-    old_getstate = BaseEstimator.__getstate__
-    del BaseEstimator.__getstate__
-    # tree lost its getstate, like pre-0.18
-    assert_false(hasattr(tree, "__getstate__"))
+    # TreeNoVersion has no getstate, like pre-0.18
+    tree = TreeNoVersion().fit(iris.data, iris.target)
+
     tree_pickle_noversion = pickle.dumps(tree)
+    assert_false(b"version" in tree_pickle_noversion)
     message = message.replace("something", "pre-0.18")
+    message = message.replace("DecisionTreeClassifier", "TreeNoVersion")
     # check we got the warning about using pre-0.18 pickle
     assert_warns_message(UserWarning, message, pickle.loads, tree_pickle_noversion)
-    BaseEstimator.__getstate__ = old_getstate
 
     # check that no warning is raised for external estimators
-    DecisionTreeClassifier.__module__ = "notsklearn"
+    TreeNoVersion.__module__ = "notsklearn"
     assert_no_warnings(pickle.loads, tree_pickle_noversion)
