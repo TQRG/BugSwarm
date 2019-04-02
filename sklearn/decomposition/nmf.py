@@ -25,7 +25,7 @@ from ..utils.extmath import fast_dot, squared_norm
 from ..utils.validation import check_is_fitted
 from ..utils import deprecated
 from ..utils import ConvergenceWarning
-from .cdnmf_fast import _update_cdnmf_fast, _update_greedy_cdnmf_fast
+from .cdnmf_fast import _update_cdnmf_fast
 
 
 def safe_vstack(Xs):
@@ -89,7 +89,7 @@ def _check_string_param(sparseness, solver):
             'Invalid sparseness parameter: got %r instead of one of %r' %
             (sparseness, allowed_sparseness))
 
-    allowed_solver = ('greedy', 'proj-grad', 'coordinate')
+    allowed_solver = ('proj-grad', 'coordinate')
     if solver not in allowed_solver:
         raise ValueError(
             'Invalid solver parameter: got %r instead of one of %r' %
@@ -456,8 +456,8 @@ def _fit_projected_gradient(X, W, H, tol, max_iter,
     return W, H, n_iter
 
 
-def _update_coordinate_descent(X, W, Ht, alpha, l1_ratio, tol_greedy, greedy,
-                               shuffle, random_state):
+def _update_coordinate_descent(X, W, Ht, alpha, l1_ratio, shuffle,
+                               random_state):
     """Helper function for _fit_coordinate_descent"""
     n_components = Ht.shape[1]
 
@@ -476,25 +476,17 @@ def _update_coordinate_descent(X, W, Ht, alpha, l1_ratio, tol_greedy, greedy,
         XHt -= l1_reg
 
     seed = random_state.randint(np.iinfo(np.int32).max)
-    if greedy:
-        G = fast_dot(W, HHt) - XHt
-        max_inner = n_components ** 2
-        return _update_greedy_cdnmf_fast(W, HHt, G, max_inner, tol_greedy,
-                                         shuffle, seed)
-    else:
-        return _update_cdnmf_fast(W, HHt, XHt, shuffle, seed)
+    return _update_cdnmf_fast(W, HHt, XHt, shuffle, seed)
 
 
 def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, alpha=0.001,
-                            l1_ratio=0., regularization=None,
-                            update_H=True, verbose=0,
-                            tol_greedy=0.001, greedy=False,
-                            shuffle=False, random_state=None):
+                            l1_ratio=0., regularization=None, update_H=True,
+                            verbose=0, shuffle=False, random_state=None):
     """Compute Non-negative Matrix Factorization (NMF) with Coordinate Descent
 
     Find (W, H) that minimize || X - W.H ||_2
     with an alternative least square minimization of W and H.
-    Each minimization is done with a Coordinate Descent.
+    Each minimization is done with a Cyclic Coordinate Descent.
 
     Parameters
     ----------
@@ -532,12 +524,6 @@ def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, alpha=0.001,
 
     verbose : integer, default: 0
         The verbosity level.
-
-    tol_greedy : float, default: 0.001
-        Tolerance in inner loops of the greedy coordinate descent.
-
-    greedy : boolean, default: False
-        Use the greedy coordinate descent instead of the normal one.
 
     shuffle : boolean, default: False
         If True, the samples will be taken in shuffled order during
@@ -582,13 +568,11 @@ def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, alpha=0.001,
 
             # Update W
             v += _update_coordinate_descent(X, W, Ht, alpha_W, l1_ratio,
-                                            tol_greedy, greedy, shuffle,
-                                            rng)
+                                            shuffle, rng)
             # Update H
             if update_H:
                 v += _update_coordinate_descent(Xt, Ht, W, alpha_H, l1_ratio,
-                                                tol_greedy, greedy, shuffle,
-                                                rng)
+                                                shuffle, rng)
 
             if n_iter == 0:
                 violation_init = v
@@ -608,12 +592,11 @@ def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, alpha=0.001,
 
 
 def non_negative_matrix_factorization(X, W=None, H=None, n_components=None,
-                                      init='random',
-                                      update_H=True, solver='proj-grad',
-                                      tol=1e-4, max_iter=200, alpha=0.,
-                                      l1_ratio=0., regularization=None,
-                                      random_state=None, verbose=0,
-                                      tol_greedy=0.001, shuffle=False,
+                                      init='random', update_H=True,
+                                      solver='proj-grad', tol=1e-4,
+                                      max_iter=200, alpha=0., l1_ratio=0.,
+                                      regularization=None, random_state=None,
+                                      verbose=0, shuffle=False,
                                       nls_max_iter=2000, sparseness=None,
                                       beta=1, eta=0.1):
     """Compute Non-negative Matrix Factorization (NMF)
@@ -684,9 +667,6 @@ def non_negative_matrix_factorization(X, W=None, H=None, n_components=None,
 
     verbose : integer, default: 0
         The verbosity level.
-
-    tol_greedy : float, default: 0.001
-        Tolerance in inner loops of the greedy coordinate descent.
 
     shuffle : boolean
         If True, the samples will be taken in shuffled order during
@@ -776,16 +756,13 @@ def non_negative_matrix_factorization(X, W=None, H=None, n_components=None,
                                                         alpha, l1_ratio,
                                                         sparseness, beta,
                                                         eta)
-    elif solver in ('coordinate', 'greedy'):
-        greedy = (solver == 'greedy')
+    elif solver == 'coordinate':
         W, H, n_iter = _fit_coordinate_descent(X, W, H, tol,
                                                max_iter,
                                                alpha, l1_ratio,
                                                regularization,
                                                update_H=update_H,
                                                verbose=verbose,
-                                               tol_greedy=tol_greedy,
-                                               greedy=greedy,
                                                shuffle=shuffle,
                                                random_state=random_state)
     else:
@@ -947,10 +924,18 @@ class NMF(BaseEstimator, TransformerMixin):
         H : array-like, shape (n_components, n_features)
             If init='custom', it is used as initial guess for the solution.
 
+        Attributes
+        ----------
+        components_ : array-like, shape (n_components, n_features)
+            Factorization matrix, sometimes called 'dictionary'.
+
+        n_iter_ : int
+            Actual number of iterations for the transform.
+
         Returns
         -------
         W: array, shape (n_samples, n_components)
-            Transformed data
+            Transformed data.
         """
         X = check_array(X, accept_sparse=('csr', 'csc'))
 
@@ -960,7 +945,7 @@ class NMF(BaseEstimator, TransformerMixin):
             tol=self.tol, max_iter=self.max_iter, alpha=self.alpha,
             l1_ratio=self.l1_ratio, regularization='both',
             random_state=self.random_state, verbose=self.verbose,
-            tol_greedy=0.001, shuffle=self.shuffle,
+            shuffle=self.shuffle,
             nls_max_iter=self.nls_max_iter, sparseness=self.sparseness,
             beta=self.beta, eta=self.eta)
 
@@ -983,6 +968,14 @@ class NMF(BaseEstimator, TransformerMixin):
         ----------
         X: {array-like, sparse matrix}, shape (n_samples, n_features)
             Data matrix to be decomposed
+
+        Attributes
+        ----------
+        components_ : array-like, shape (n_components, n_features)
+            Factorization matrix, sometimes called 'dictionary'.
+
+        n_iter_ : int
+            Actual number of iterations for the transform.
 
         Returns
         -------
@@ -1017,7 +1010,7 @@ class NMF(BaseEstimator, TransformerMixin):
             tol=self.tol, max_iter=self.max_iter, alpha=self.alpha,
             l1_ratio=self.l1_ratio, regularization='both',
             random_state=self.random_state, verbose=self.verbose,
-            tol_greedy=0.001, shuffle=self.shuffle,
+            shuffle=self.shuffle,
             nls_max_iter=self.nls_max_iter, sparseness=self.sparseness,
             beta=self.beta, eta=self.eta)
 

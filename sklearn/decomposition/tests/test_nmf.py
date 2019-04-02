@@ -71,7 +71,7 @@ def test_nmf_fit_nn_output():
     # Test that the decomposition does not contain negative values
     A = np.c_[5 * np.ones(5) - np.arange(1, 6),
               5 * np.ones(5) + np.arange(1, 6)]
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         for init in (None, 'nndsvd', 'nndsvda', 'nndsvdar'):
             model = nmf.NMF(n_components=2, solver=solver, init=init,
                             random_state=0)
@@ -83,7 +83,7 @@ def test_nmf_fit_nn_output():
 @ignore_warnings
 def test_nmf_fit_close():
     # Test that the fit is not too far away
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         pnmf = nmf.NMF(5, solver=solver, init='nndsvda', random_state=0)
         X = np.abs(random_state.randn(6, 5))
         assert_less(pnmf.fit(X).reconstruction_err_, 0.05)
@@ -108,7 +108,7 @@ def test_nls_close():
 def test_nmf_transform():
     # Test that NMF.transform returns close values
     A = np.abs(random_state.randn(6, 5))
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         m = nmf.NMF(solver=solver, n_components=4, init='nndsvd',
                     random_state=0)
         ft = m.fit_transform(A)
@@ -120,8 +120,7 @@ def test_nmf_transform():
 def test_n_components_greater_n_features():
     # Smoke test for the case of more components than features.
     A = np.abs(random_state.randn(30, 10))
-    nmf.NMF(n_components=15, sparseness='data',
-            random_state=0, tol=1e-2).fit(A)
+    nmf.NMF(n_components=15, random_state=0, tol=1e-2).fit(A)
 
 
 @ignore_warnings
@@ -152,7 +151,7 @@ def test_sparse_input():
     A[:, 2 * np.arange(5)] = 0
     A_sparse = csc_matrix(A)
 
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         est1 = nmf.NMF(solver=solver, n_components=5, init='random',
                        random_state=0, tol=1e-2)
         est2 = clone(est1)
@@ -178,7 +177,7 @@ def test_sparse_transform():
     A[A > 1.0] = 0
     A = csc_matrix(A)
 
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         model = nmf.NMF(solver=solver, random_state=0, tol=1e-4,
                         n_components=2)
         A_fit_tr = model.fit_transform(A)
@@ -193,7 +192,7 @@ def test_non_negative_matrix_factorization_consistency():
     A = np.abs(random_state.randn(10, 10))
     A[:, 2 * np.arange(5)] = 0
 
-    for solver in ('proj-grad', 'coordinate', 'greedy'):
+    for solver in ('proj-grad', 'coordinate'):
         W_nmf, H, _ = nmf.non_negative_matrix_factorization(
             A, solver=solver, random_state=1, tol=1e-2)
         W_nmf_2, _, _ = nmf.non_negative_matrix_factorization(
