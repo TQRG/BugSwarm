@@ -242,7 +242,7 @@ public final class ConnectionSpec {
       return cipherSuites(strings);
     }
 
-    public Builder cipherSuites(String[] cipherSuites) {
+    public Builder cipherSuites(String... cipherSuites) {
       this.cipherSuites = cipherSuites; // No defensive copy.
       return this;
     }
