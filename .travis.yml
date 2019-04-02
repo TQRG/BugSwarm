@@ -1,0 +1,9 @@
+language: java
+sudo: false
+
+jdk:
+  - oraclejdk8
+
+script:
+  - mvn install -DskipTests=true
+  - mvn --projects runtimes,azure-mgmt-storage,azure-mgmt-network,azure-mgmt-compute checkstyle:check
