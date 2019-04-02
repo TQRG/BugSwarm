@@ -1,0 +1,25 @@
+<p>
+According to PSR2 convention:
+</p>
+<blockquote>
+The keyword <code>elseif</code> SHOULD be used instead of <code>else if</code> so that all control keywords look like single words.
+</blockquote>
+
+<h2>Noncompliant Code Example</h2>
+<pre>
+if ($expr1) {
+  ...
+} else if ($expr2) {
+  ...
+} else {...}
+</pre>
+
+<h2>Compliant Solution</h2>
+<pre>
+if ($expr1) {
+  ...
+} elseif ($expr2) {
+  ...
+} else {...}
+</pre>
+
