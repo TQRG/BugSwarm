@@ -15,6 +15,7 @@ from .data import binarize
 from .data import normalize
 from .data import scale
 from .data import robust_scale
+from .data import maxabs_scale
 from .data import OneHotEncoder
 
 from .data import PolynomialFeatures

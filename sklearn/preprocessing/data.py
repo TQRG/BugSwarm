@@ -535,7 +535,7 @@ class MaxAbsScaler(BaseEstimator, TransformerMixin):
         return X
 
 
-def maxabs_scale(X, copy=True):
+def maxabs_scale(X, axis=0, copy=True):
     """Scale each feature to the [-1, 1] range without breaking the sparsity.
 
     This estimator scales and translates each feature individually such
@@ -546,6 +546,10 @@ def maxabs_scale(X, copy=True):
 
     Parameters
     ----------
+    axis : int (0 by default)
+        axis used to scale along. If 0, independently scale each feature,
+        otherwise (if 1) scale each sample.
+
     copy : boolean, optional, default is True
         Set to False to perform inplace scaling and avoid a copy (if the input
         is already a numpy array).
@@ -556,7 +560,10 @@ def maxabs_scale(X, copy=True):
         Per feature relative scaling of the data.
     """
     s = MaxAbsScaler(copy=copy)
-    return s.fit_transform(X)
+    if axis == 0:
+        return s.fit_transform(X)
+    else:
+        return s.fit_transform(X.T).T
 
 
 class RobustScaler(BaseEstimator, TransformerMixin):
