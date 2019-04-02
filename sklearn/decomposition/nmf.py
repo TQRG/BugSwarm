@@ -596,7 +596,7 @@ def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, alpha=0.001,
 
 
 def non_negative_factorization(X, W=None, H=None, n_components=None,
-                               solver='cd', init='random', update_H=True,
+                               init='random', update_H=True, solver='cd',
                                tol=1e-4, max_iter=200, alpha=0., l1_ratio=0.,
                                regularization=None, random_state=None,
                                verbose=0, shuffle=False, nls_max_iter=2000,
@@ -639,11 +639,6 @@ def non_negative_factorization(X, W=None, H=None, n_components=None,
         Number of components, if n_components is not set all features
         are kept.
 
-    solver : 'pg' | 'cd'
-        Numerical solver to use:
-        'pg' is a (deprecated) Projected Gradient solver.
-        'cd' is a Coordinate Descent solver.
-
     init :  None | 'random' | 'nndsvd' | 'nndsvda' | 'nndsvdar' | 'custom'
         Method used to initialize the procedure.
         Default: 'nndsvd' if n_components < n_features, otherwise random.
@@ -662,6 +657,11 @@ def non_negative_factorization(X, W=None, H=None, n_components=None,
     update_H : boolean, default: True
         Set to True, both W and H will be estimated from initial guesses.
         Set to False, only W will be estimated.
+
+    solver : 'pg' | 'cd'
+        Numerical solver to use:
+        'pg' is a (deprecated) Projected Gradient solver.
+        'cd' is a Coordinate Descent solver.
 
     tol : float, default: 1e-4
         Tolerance of the stopping condition.
@@ -822,11 +822,6 @@ class NMF(BaseEstimator, TransformerMixin):
         Number of components, if n_components is not set all features
         are kept.
 
-    solver : 'pg' | 'cd'
-        Numerical solver to use:
-        'pg' is a (deprecated) Projected Gradient solver.
-        'cd' is a Coordinate Descent solver.
-
     init :  'random' | 'nndsvd' |  'nndsvda' | 'nndsvdar' | 'custom'
         Method used to initialize the procedure.
         Default: 'nndsvdar' if n_components < n_features, otherwise random.
@@ -840,6 +835,11 @@ class NMF(BaseEstimator, TransformerMixin):
                 (generally faster, less accurate alternative to NNDSVDa
                 for when sparsity is not desired)
             'custom': use custom matrices W and H, given in 'fit' method.
+
+    solver : 'pg' | 'cd'
+        Numerical solver to use:
+        'pg' is a (deprecated) Projected Gradient solver.
+        'cd' is a Coordinate Descent solver.
 
     tol : double, default: 1e-4
         Tolerance value used in stopping conditions.
@@ -918,13 +918,13 @@ class NMF(BaseEstimator, TransformerMixin):
     http://www.csie.ntu.edu.tw/~cjlin/nmf/
     """
 
-    def __init__(self, n_components=None, solver='cd', init=None,
+    def __init__(self, n_components=None, init=None, solver='cd',
                  tol=1e-4, max_iter=200, random_state=None,
                  alpha=0., l1_ratio=0., verbose=0, shuffle=False,
                  nls_max_iter=2000, sparseness=None, beta=1, eta=0.1):
         self.n_components = n_components
-        self.solver = solver
         self.init = init
+        self.solver = solver
         self.tol = tol
         self.max_iter = max_iter
         self.random_state = random_state
@@ -977,7 +977,7 @@ class NMF(BaseEstimator, TransformerMixin):
 
         W, H, n_iter_ = non_negative_factorization(
             X=X, W=W, H=H, n_components=self.n_components,
-            solver=self.solver, init=self.init, update_H=True,
+            init=self.init, update_H=True, solver=self.solver,
             tol=self.tol, max_iter=self.max_iter, alpha=self.alpha,
             l1_ratio=self.l1_ratio, regularization='both',
             random_state=self.random_state, verbose=self.verbose,
@@ -1042,7 +1042,7 @@ class NMF(BaseEstimator, TransformerMixin):
 
         W, _, n_iter_ = non_negative_factorization(
             X=X, W=None, H=self.components_, n_components=self.n_components_,
-            solver=self.solver, init=self.init, update_H=False,
+            init=self.init, update_H=False, solver=self.solver,
             tol=self.tol, max_iter=self.max_iter, alpha=self.alpha,
             l1_ratio=self.l1_ratio, regularization='both',
             random_state=self.random_state, verbose=self.verbose,
@@ -1063,7 +1063,7 @@ class ProjectedGradientNMF(NMF):
                  alpha=0., l1_ratio=0., verbose=0,
                  nls_max_iter=2000, sparseness=None, beta=1, eta=0.1):
         super(ProjectedGradientNMF, self).__init__(
-            n_components=n_components, solver='pg', init=init, tol=tol,
+            n_components=n_components, init=init, solver='pg', tol=tol,
             max_iter=max_iter, random_state=random_state, alpha=alpha,
             l1_ratio=l1_ratio, verbose=verbose, nls_max_iter=nls_max_iter,
             sparseness=sparseness, beta=beta, eta=eta)
