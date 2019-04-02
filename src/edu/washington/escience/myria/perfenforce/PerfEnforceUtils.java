@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.core.Context;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -19,12 +21,15 @@ import com.google.gson.Gson;
 import edu.washington.escience.myria.RelationKey;
 import edu.washington.escience.myria.Schema;
 import edu.washington.escience.myria.Type;
+import edu.washington.escience.myria.parallel.Server;
 import edu.washington.escience.myria.perfenforce.encoding.TableDescriptionEncoding;
 
 /**
  * Helper Methods
  */
 public class PerfEnforceUtils {
+
+  @Context private static Server server;
 
   public static List<TableDescriptionEncoding> getTablesOfType(
       final String type, final String configFilePath) throws PerfEnforceException {
@@ -105,56 +110,62 @@ public class PerfEnforceUtils {
     return keySchema;
   }
 
-  public static String getMaxFeature(final String sqlQuery, final int configuration) {
-    String explainQuery = "EXPLAIN " + sqlQuery;
-    explainQuery = explainQuery.replace("lineitem", "lineitem" + configuration);
+  public static String getMaxFeature(final String sqlQuery, final int configuration)
+      throws PerfEnforceException {
 
-    List<String> featuresList = new ArrayList<String>();
-    String maxFeature = "";
-    double maxCost = Integer.MIN_VALUE;
+    try {
+      String explainQuery = "EXPLAIN " + sqlQuery;
+      explainQuery = explainQuery.replace("lineitem", "lineitem" + configuration);
 
-    for (int w = 1; w <= configuration; w++) {
-      String features = "";
-      features =
-          server.executeSQLCommandSingleRowSingleWorker(
-              explainQuery, Schema.ofFields("explain", Type.STRING_TYPE), w);
+      List<String> featuresList = new ArrayList<String>();
+      String maxFeature = "";
+      double maxCost = Integer.MIN_VALUE;
 
-      features = features.substring(features.indexOf("cost"));
-      features = features.replace("\"", " ");
-      String[] cmd = {
-        "sh",
-        "-c",
-        "echo \""
-            + features
-            + "\" | sed -e 's/.*cost=//' -e 's/\\.\\./,/' -e 's/ rows=/,/' -e 's/ width=/,/' -e 's/)//'"
-      };
-      ProcessBuilder pb = new ProcessBuilder(cmd);
-      Process p;
+      for (int w = 1; w <= configuration; w++) {
+        String features = "";
+        features =
+            server.executeSQLCommandSingleRowSingleWorker(
+                explainQuery, Schema.ofFields("explain", Type.STRING_TYPE), w);
 
-      p = pb.start();
-      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-      features = input.readLine();
+        features = features.substring(features.indexOf("cost"));
+        features = features.replace("\"", " ");
+        String[] cmd = {
+          "sh",
+          "-c",
+          "echo \""
+              + features
+              + "\" | sed -e 's/.*cost=//' -e 's/\\.\\./,/' -e 's/ rows=/,/' -e 's/ width=/,/' -e 's/)//'"
+        };
+        ProcessBuilder pb = new ProcessBuilder(cmd);
+        Process p;
 
-      if (sqlQuery.contains("WHERE")) {
-        String[] tables =
-            sqlQuery.substring(sqlQuery.indexOf("FROM"), sqlQuery.indexOf("WHERE")).split(",");
-        features = tables.length + "," + features;
-      } else {
-        features = "1," + features;
+        p = pb.start();
+        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        features = input.readLine();
+
+        if (sqlQuery.contains("WHERE")) {
+          String[] tables =
+              sqlQuery.substring(sqlQuery.indexOf("FROM"), sqlQuery.indexOf("WHERE")).split(",");
+          features = tables.length + "," + features;
+        } else {
+          features = "1," + features;
+        }
+
+        features += "," + configuration + ",0";
+        featuresList.add(features);
       }
 
-      features += "," + configuration + ",0";
-      featuresList.add(features);
-    }
-
-    for (String f : featuresList) {
-      double cost = Double.parseDouble(f.split(",")[2]);
-      if (cost > maxCost) {
-        maxCost = cost;
-        maxFeature = f;
+      for (String f : featuresList) {
+        double cost = Double.parseDouble(f.split(",")[2]);
+        if (cost > maxCost) {
+          maxCost = cost;
+          maxFeature = f;
+        }
       }
-    }
 
-    return maxFeature;
+      return maxFeature;
+    } catch (Exception e) {
+      throw new PerfEnforceException("Error collecting the max feature");
+    }
   }
 }

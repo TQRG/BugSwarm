@@ -1182,13 +1182,54 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
             workerId,
             new SubQueryPlan(
                 new DbCreateView(
-                    EmptyRelation.of(Schema.EMPTY_SCHEMA), viewName, viewDefinition, null)));
+                    EmptyRelation.of(Schema.EMPTY_SCHEMA), viewName, viewDefinition, false, null)));
       }
       ListenableFuture<Query> qf =
           queryManager.submitQuery(
               "create view",
               "create view",
               "create view",
+              new SubQueryPlan(new SinkRoot(new EOSSource())),
+              workerPlans);
+      try {
+        queryID = qf.get().getQueryId();
+      } catch (ExecutionException e) {
+        throw new DbException("Error executing query", e.getCause());
+      }
+    } catch (CatalogException e) {
+      throw new DbException(e);
+    }
+
+    return queryID;
+  }
+
+  /**
+   * Create a materialized view
+   */
+  public long createMaterializedView(
+      final String viewName, final String viewDefinition, final Set<Integer> workers)
+      throws DbException, InterruptedException {
+    long queryID;
+    Set<Integer> actualWorkers = workers;
+    if (workers == null) {
+      actualWorkers = getWorkers().keySet();
+    }
+
+    /* Create the view */
+    try {
+      Map<Integer, SubQueryPlan> workerPlans = new HashMap<>();
+      for (Integer workerId : actualWorkers) {
+        workerPlans.put(
+            workerId,
+            new SubQueryPlan(
+                new DbCreateView(
+                    EmptyRelation.of(Schema.EMPTY_SCHEMA), viewName, viewDefinition, true, null)));
+      }
+      ListenableFuture<Query> qf =
+          queryManager.submitQuery(
+              "create materialized view",
+              "create materialized view",
+              "create materialized view",
               new SubQueryPlan(new SinkRoot(new EOSSource())),
               workerPlans);
       try {
@@ -1304,19 +1345,20 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
   /**
    * Execute a SQL Statement and retrieve a tuple result
    *
+   * @throws CatalogException
+   * @throws ExecutionException
+   * @throws InterruptedException
+   *
    * @throws IOException
    * @throws DbException
    */
   public String executeSQLCommandSingleRowSingleWorker(
       final String sqlString, final Schema outputSchema, final int workerId)
-      throws IOException, DbException {
-
-    LOGGER.warn("SCHEMA : " + outputSchema.toString());
+      throws InterruptedException, ExecutionException, DbException, CatalogException, IOException {
 
     ByteSink byteSink = new ByteSink();
     TupleWriter writer = new CsvTupleWriter();
 
-    // worker plan
     DbQueryScan scan = new DbQueryScan(sqlString, outputSchema);
     final ExchangePairID operatorId = ExchangePairID.newID();
     CollectProducer producer = new CollectProducer(scan, operatorId, MyriaConstants.MASTER_ID);
@@ -1324,7 +1366,6 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
     Map<Integer, SubQueryPlan> workerPlans = new HashMap<>(workerId);
     workerPlans.put(workerId, workerPlan);
 
-    // master plan
     final CollectConsumer consumer =
         new CollectConsumer(
             outputSchema, operatorId, new HashSet<Integer>(Arrays.asList(workerId)));
@@ -1332,18 +1373,12 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
     final SubQueryPlan masterPlan = new SubQueryPlan(output);
 
     String planString = "execute single worker : " + sqlString;
-    try {
-      queryManager.submitQuery(planString, planString, planString, masterPlan, workerPlans).get();
-    } catch (CatalogException | DbException | InterruptedException | ExecutionException e) {
-      throw new DbException(e);
-    }
+    queryManager.submitQuery(planString, planString, planString, masterPlan, workerPlans).get();
 
     // get query response
     byte[] responseBytes = ((ByteArrayOutputStream) byteSink.getOutputStream()).toByteArray();
-    // LOGGER.warn("BYTES FROM SERVER: " + responseBytes.length);
     String response = new String(responseBytes, Charset.forName("UTF-8"));
     String[] pieces = response.split("\r\n");
-    // LOGGER.warn("RESPONSE FROM SERVER: " + response);
     return pieces[1];
   }
 

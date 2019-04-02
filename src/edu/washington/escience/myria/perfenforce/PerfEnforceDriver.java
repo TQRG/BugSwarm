@@ -6,7 +6,6 @@ package edu.washington.escience.myria.perfenforce;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,27 +44,31 @@ public class PerfEnforceDriver {
 
   @Inject
   public PerfEnforceDriver(final Path configurationPath) {
-    this.configurationPath = configurationPath;
-    queryCounter = 0;
+    PerfEnforceDriver.configurationPath = configurationPath;
     isDonePSLA = false;
   }
 
   /*
    * Fetch necessary files from S3
    */
-  public void fetchS3Files() throws IOException {
+  public void fetchS3Files() throws PerfEnforceException {
     AmazonS3 s3Client = new AmazonS3Client(new AnonymousAWSCredentials());
     String currentFile = "";
-    BufferedReader bufferedReader =
-        new BufferedReader(new FileReader(configurationPath + "filesToFetch.txt"));
-    while ((currentFile = bufferedReader.readLine()) != null) {
-      Path filePath = configurationPath.resolve(currentFile);
-      s3Client.getObject(
-          new GetObjectRequest("perfenforce", currentFile), new File(filePath.toString()));
+    BufferedReader bufferedReader;
+    try {
+      bufferedReader = new BufferedReader(new FileReader(configurationPath + "filesToFetch.txt"));
+      while ((currentFile = bufferedReader.readLine()) != null) {
+        Path filePath = configurationPath.resolve(currentFile);
+        s3Client.getObject(
+            new GetObjectRequest("perfenforce", currentFile), new File(filePath.toString()));
+      }
+      bufferedReader.close();
+    } catch (Exception e) {
+      throw new PerfEnforceException("Error while fetching files from S3");
     }
   }
 
-  public void preparePSLA() {
+  public void preparePSLA() throws PerfEnforceException {
     fetchS3Files();
 
     PerfEnforceDataPreparation perfenforceDataPrepare = new PerfEnforceDataPreparation();
@@ -85,7 +88,7 @@ public class PerfEnforceDriver {
     PSLAManagerWrapper pslaManager = new PSLAManagerWrapper();
     pslaManager.generateQueries();
 
-    perfenforceDataPrepare.collectFeatures();
+    perfenforceDataPrepare.collectFeaturesFromQueries();
 
     pslaManager.generatePSLA();
     isDonePSLA = true;
@@ -102,11 +105,12 @@ public class PerfEnforceDriver {
     perfenforceOnlineLearning = new PerfEnforceOnlineLearning(tier);
   }
 
-  public void findSLA(final String querySQL) {
+  public void findSLA(final String querySQL) throws PerfEnforceException {
     perfenforceOnlineLearning.findSLA(querySQL);
+    perfenforceOnlineLearning.findBestClusterSize();
   }
 
-  public void recordRealRuntime(final Double queryRuntime) {
+  public void recordRealRuntime(final Double queryRuntime) throws PerfEnforceException {
     perfenforceOnlineLearning.recordRealRuntime(queryRuntime);
   }
 

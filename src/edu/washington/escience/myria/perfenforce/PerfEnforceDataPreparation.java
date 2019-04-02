@@ -5,7 +5,6 @@ package edu.washington.escience.myria.perfenforce;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +27,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.washington.escience.myria.MyriaConstants;
 import edu.washington.escience.myria.RelationKey;
 import edu.washington.escience.myria.Schema;
-import edu.washington.escience.myria.Type;
 import edu.washington.escience.myria.operator.DbInsert;
 import edu.washington.escience.myria.operator.DbQueryScan;
 import edu.washington.escience.myria.operator.EOSSource;
@@ -61,7 +59,8 @@ public class PerfEnforceDataPreparation {
   /*
    * Ingesting the fact table in a parallel sequence
    */
-  public HashMap<Integer, RelationKey> ingestFact(final TableDescriptionEncoding factTableDesc) {
+  public HashMap<Integer, RelationKey> ingestFact(final TableDescriptionEncoding factTableDesc)
+      throws PerfEnforceException {
     factTableRelationMapper = new HashMap<Integer, RelationKey>();
 
     ArrayList<RelationKey> relationKeysToUnion = new ArrayList<RelationKey>();
@@ -76,97 +75,101 @@ public class PerfEnforceDataPreparation {
      * the original relationKey name and add it to the catalog. This is what the user will be using on the MyriaL front
      * end.
      */
-    RelationKey relationKeyWithUnion =
-        new RelationKey(
-            factTableDesc.relationKey.getUserName(),
-            factTableDesc.relationKey.getProgramName(),
-            factTableDesc.relationKey.getRelationName() + maxConfig + "_U");
-    server.parallelIngestDataset(
-        relationKeyWithUnion,
-        factTableDesc.schema,
-        factTableDesc.delimiter,
-        null,
-        null,
-        null,
-        factTableDesc.source,
-        maxWorkerRange);
-    relationKeysToUnion.add(relationKeyWithUnion);
-
-    RelationKey relationKeyOriginal =
-        new RelationKey(
-            factTableDesc.relationKey.getUserName(),
-            factTableDesc.relationKey.getProgramName(),
-            factTableDesc.relationKey.getRelationName() + maxConfig);
-    server.createMaterializedView(
-        relationKeyOriginal.toString(MyriaConstants.STORAGE_SYSTEM_POSTGRESQL),
-        PerfEnforceUtils.createUnionQuery(relationKeysToUnion),
-        maxWorkerRange);
-    server.addDatasetToCatalog(relationKeyOriginal, factTableDesc.schema, maxWorkerRange);
-    factTableRelationMapper.put(maxConfig, relationKeyOriginal);
-
-    /*
-     * Iterate and run this for the rest of the workers
-     */
-    Set<Integer> previousWorkerRange = maxWorkerRange;
-    RelationKey previousRelationKey = relationKeyWithUnion;
-    for (int c = 1; c < PerfEnforceDriver.configurations.size(); c++) {
-      // Get the next sequence of workers
-      int currentSize = PerfEnforceDriver.configurations.get(c);
-      Set<Integer> currentWorkerRange = PerfEnforceUtils.getWorkerRangeSet(currentSize);
-      Set<Integer> diff =
-          com.google.common.collect.Sets.difference(previousWorkerRange, currentWorkerRange);
-
-      RelationKey currentRelationKeyToUnion =
+    try {
+      RelationKey relationKeyWithUnion =
           new RelationKey(
               factTableDesc.relationKey.getUserName(),
               factTableDesc.relationKey.getProgramName(),
-              factTableDesc.relationKey.getRelationName() + currentSize + "_U");
+              factTableDesc.relationKey.getRelationName() + maxConfig + "_U");
+      server.parallelIngestDataset(
+          relationKeyWithUnion,
+          factTableDesc.schema,
+          factTableDesc.delimiter,
+          null,
+          null,
+          null,
+          factTableDesc.source,
+          maxWorkerRange);
+      relationKeysToUnion.add(relationKeyWithUnion);
 
-      final ExchangePairID shuffleId = ExchangePairID.newID();
-      DbQueryScan scan = new DbQueryScan(previousRelationKey, factTableDesc.schema);
-
-      int[] producingWorkers =
-          PerfEnforceUtils.getRangeInclusiveArray(Collections.min(diff), Collections.max(diff));
-      int[] receivingWorkers =
-          PerfEnforceUtils.getRangeInclusiveArray(1, Collections.max(currentWorkerRange));
-
-      GenericShuffleProducer producer =
-          new GenericShuffleProducer(
-              scan,
-              shuffleId,
-              receivingWorkers,
-              new RoundRobinPartitionFunction(receivingWorkers.length));
-      GenericShuffleConsumer consumer =
-          new GenericShuffleConsumer(factTableDesc.schema, shuffleId, producingWorkers);
-      DbInsert insert = new DbInsert(consumer, currentRelationKeyToUnion, true);
-
-      Map<Integer, RootOperator[]> workerPlans = new HashMap<>(currentSize);
-      for (Integer workerID : producingWorkers) {
-        workerPlans.put(workerID, new RootOperator[] {producer});
-      }
-      for (Integer workerID : receivingWorkers) {
-        workerPlans.put(workerID, new RootOperator[] {insert});
-      }
-
-      server.submitQueryPlan(new SinkRoot(new EOSSource()), workerPlans).get();
-      relationKeysToUnion.add(currentRelationKeyToUnion);
-
-      RelationKey currentConfigRelationKey =
+      RelationKey relationKeyOriginal =
           new RelationKey(
               factTableDesc.relationKey.getUserName(),
               factTableDesc.relationKey.getProgramName(),
-              factTableDesc.relationKey.getRelationName() + currentSize);
+              factTableDesc.relationKey.getRelationName() + maxConfig);
       server.createMaterializedView(
-          currentConfigRelationKey.toString(MyriaConstants.STORAGE_SYSTEM_POSTGRESQL),
+          relationKeyOriginal.toString(MyriaConstants.STORAGE_SYSTEM_POSTGRESQL),
           PerfEnforceUtils.createUnionQuery(relationKeysToUnion),
-          currentWorkerRange);
-      server.addDatasetToCatalog(
-          currentConfigRelationKey, factTableDesc.schema, currentWorkerRange);
-      factTableRelationMapper.put(currentSize, currentConfigRelationKey);
-      previousWorkerRange = currentWorkerRange;
-      previousRelationKey = currentConfigRelationKey;
+          maxWorkerRange);
+      server.addDatasetToCatalog(relationKeyOriginal, factTableDesc.schema, maxWorkerRange);
+      factTableRelationMapper.put(maxConfig, relationKeyOriginal);
+
+      /*
+       * Iterate and run this for the rest of the workers
+       */
+      Set<Integer> previousWorkerRange = maxWorkerRange;
+      RelationKey previousRelationKey = relationKeyWithUnion;
+      for (int c = 1; c < PerfEnforceDriver.configurations.size(); c++) {
+        // Get the next sequence of workers
+        int currentSize = PerfEnforceDriver.configurations.get(c);
+        Set<Integer> currentWorkerRange = PerfEnforceUtils.getWorkerRangeSet(currentSize);
+        Set<Integer> diff =
+            com.google.common.collect.Sets.difference(previousWorkerRange, currentWorkerRange);
+
+        RelationKey currentRelationKeyToUnion =
+            new RelationKey(
+                factTableDesc.relationKey.getUserName(),
+                factTableDesc.relationKey.getProgramName(),
+                factTableDesc.relationKey.getRelationName() + currentSize + "_U");
+
+        final ExchangePairID shuffleId = ExchangePairID.newID();
+        DbQueryScan scan = new DbQueryScan(previousRelationKey, factTableDesc.schema);
+
+        int[] producingWorkers =
+            PerfEnforceUtils.getRangeInclusiveArray(Collections.min(diff), Collections.max(diff));
+        int[] receivingWorkers =
+            PerfEnforceUtils.getRangeInclusiveArray(1, Collections.max(currentWorkerRange));
+
+        GenericShuffleProducer producer =
+            new GenericShuffleProducer(
+                scan,
+                shuffleId,
+                receivingWorkers,
+                new RoundRobinPartitionFunction(receivingWorkers.length));
+        GenericShuffleConsumer consumer =
+            new GenericShuffleConsumer(factTableDesc.schema, shuffleId, producingWorkers);
+        DbInsert insert = new DbInsert(consumer, currentRelationKeyToUnion, true);
+
+        Map<Integer, RootOperator[]> workerPlans = new HashMap<>(currentSize);
+        for (Integer workerID : producingWorkers) {
+          workerPlans.put(workerID, new RootOperator[] {producer});
+        }
+        for (Integer workerID : receivingWorkers) {
+          workerPlans.put(workerID, new RootOperator[] {insert});
+        }
+
+        server.submitQueryPlan(new SinkRoot(new EOSSource()), workerPlans).get();
+        relationKeysToUnion.add(currentRelationKeyToUnion);
+
+        RelationKey currentConfigRelationKey =
+            new RelationKey(
+                factTableDesc.relationKey.getUserName(),
+                factTableDesc.relationKey.getProgramName(),
+                factTableDesc.relationKey.getRelationName() + currentSize);
+        server.createMaterializedView(
+            currentConfigRelationKey.toString(MyriaConstants.STORAGE_SYSTEM_POSTGRESQL),
+            PerfEnforceUtils.createUnionQuery(relationKeysToUnion),
+            currentWorkerRange);
+        server.addDatasetToCatalog(
+            currentConfigRelationKey, factTableDesc.schema, currentWorkerRange);
+        factTableRelationMapper.put(currentSize, currentConfigRelationKey);
+        previousWorkerRange = currentWorkerRange;
+        previousRelationKey = currentConfigRelationKey;
+      }
+      return factTableRelationMapper;
+    } catch (Exception e) {
+      throw new PerfEnforceException("Error while ingesting fact table");
     }
-    return factTableRelationMapper;
   }
 
   /*
@@ -178,46 +181,50 @@ public class PerfEnforceDataPreparation {
     Set<Integer> totalWorkers =
         PerfEnforceUtils.getWorkerRangeSet(Collections.max(PerfEnforceDriver.configurations));
 
-    server.parallelIngestDataset(
-        dimTableDesc.relationKey,
-        dimTableDesc.schema,
-        dimTableDesc.delimiter,
-        null,
-        null,
-        null,
-        dimTableDesc.source,
-        totalWorkers);
+    try {
+      server.parallelIngestDataset(
+          dimTableDesc.relationKey,
+          dimTableDesc.schema,
+          dimTableDesc.delimiter,
+          null,
+          null,
+          null,
+          dimTableDesc.source,
+          totalWorkers);
 
-    DbQueryScan dbscan = new DbQueryScan(dimTableDesc.relationKey, dimTableDesc.schema);
-    /*
-     * Is there a better way to broadcast relations?
-     */
-    final ExchangePairID broadcastID = ExchangePairID.newID();
-    int[][] cellPartition = new int[1][];
-    int[] allCells = new int[totalWorkers.size()];
-    for (int i = 0; i < totalWorkers.size(); i++) {
-      allCells[i] = i;
+      DbQueryScan dbscan = new DbQueryScan(dimTableDesc.relationKey, dimTableDesc.schema);
+      /*
+       * Is there a better way to broadcast relations?
+       */
+      final ExchangePairID broadcastID = ExchangePairID.newID();
+      int[][] cellPartition = new int[1][];
+      int[] allCells = new int[totalWorkers.size()];
+      for (int i = 0; i < totalWorkers.size(); i++) {
+        allCells[i] = i;
+      }
+      cellPartition[0] = allCells;
+
+      GenericShuffleProducer producer =
+          new GenericShuffleProducer(
+              dbscan,
+              broadcastID,
+              cellPartition,
+              MyriaUtils.integerSetToIntArray(totalWorkers),
+              new FixValuePartitionFunction(0));
+
+      GenericShuffleConsumer consumer =
+          new GenericShuffleConsumer(
+              dimTableDesc.schema, broadcastID, MyriaUtils.integerSetToIntArray(totalWorkers));
+      DbInsert insert = new DbInsert(consumer, dimTableDesc.relationKey, true);
+      Map<Integer, RootOperator[]> workerPlans = new HashMap<>(totalWorkers.size());
+      for (Integer workerID : totalWorkers) {
+        workerPlans.put(workerID, new RootOperator[] {producer, insert});
+      }
+
+      server.submitQueryPlan(new SinkRoot(new EOSSource()), workerPlans).get();
+    } catch (Exception e) {
+      throw new PerfEnforceException("Error ingesting dimension tables");
     }
-    cellPartition[0] = allCells;
-
-    GenericShuffleProducer producer =
-        new GenericShuffleProducer(
-            dbscan,
-            broadcastID,
-            cellPartition,
-            MyriaUtils.integerSetToIntArray(totalWorkers),
-            new FixValuePartitionFunction(0));
-
-    GenericShuffleConsumer consumer =
-        new GenericShuffleConsumer(
-            dimTableDesc.schema, broadcastID, MyriaUtils.integerSetToIntArray(totalWorkers));
-    DbInsert insert = new DbInsert(consumer, dimTableDesc.relationKey, true);
-    Map<Integer, RootOperator[]> workerPlans = new HashMap<>(totalWorkers.size());
-    for (Integer workerID : totalWorkers) {
-      workerPlans.put(workerID, new RootOperator[] {producer, insert});
-    }
-
-    server.submitQueryPlan(new SinkRoot(new EOSSource()), workerPlans).get();
   }
 
   /*
@@ -266,34 +273,39 @@ public class PerfEnforceDataPreparation {
         new HashSet<Integer>(Arrays.asList(1)));
   }
 
-  public void collectSelectivities(final TableDescriptionEncoding t) {
+  public void collectSelectivities(final TableDescriptionEncoding t) throws PerfEnforceException {
     List<StatsTableEncoding> statsList = new ArrayList<StatsTableEncoding>();
-    if (t.type.equals("fact")) {
-      for (Integer currentConfig : PerfEnforceDriver.configurations) {
-        RelationKey factRelationKey = factTableRelationMapper.get(currentConfig);
-        long factTableTupleCount = server.getDatasetStatus(factRelationKey).getNumTuples();
+    try {
+      if (t.type.equals("fact")) {
+        for (Integer currentConfig : PerfEnforceDriver.configurations) {
+          RelationKey factRelationKey = factTableRelationMapper.get(currentConfig);
+          long factTableTupleCount = server.getDatasetStatus(factRelationKey).getNumTuples();
+          statsList.add(
+              runTableRanking(
+                  factRelationKey, factTableTupleCount, currentConfig, t.type, t.keys, t.schema));
+        }
+      } else {
+        RelationKey dimensionTableKey = t.relationKey;
+        long dimensionTableTupleCount = server.getDatasetStatus(dimensionTableKey).getNumTuples();
         statsList.add(
             runTableRanking(
-                factRelationKey, factTableTupleCount, currentConfig, t.type, t.keys, t.schema));
+                dimensionTableKey,
+                dimensionTableTupleCount,
+                Collections.max(PerfEnforceDriver.configurations),
+                t.type,
+                t.keys,
+                t.schema));
       }
-    } else {
-      RelationKey dimensionTableKey = t.relationKey;
-      long dimensionTableTupleCount = server.getDatasetStatus(dimensionTableKey).getNumTuples();
-      statsList.add(
-          runTableRanking(
-              dimensionTableKey,
-              dimensionTableTupleCount,
-              Collections.max(PerfEnforceDriver.configurations),
-              t.type,
-              t.keys,
-              t.schema));
+
+      PrintWriter statsObjectWriter =
+          new PrintWriter(
+              PerfEnforceDriver.configurationPath.resolve("stats.json").toString(), "UTF-8");
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.writeValue(statsObjectWriter, statsList);
+      statsObjectWriter.close();
+    } catch (Exception e) {
+      throw new PerfEnforceException("Error collecting table statistics");
     }
-    PrintWriter statsObjectWriter =
-        new PrintWriter(
-            PerfEnforceDriver.configurationPath.resolve("stats.json").toString(), "UTF-8");
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.writeValue(statsObjectWriter, statsList);
-    statsObjectWriter.close();
   }
 
   /*
@@ -305,7 +317,8 @@ public class PerfEnforceDataPreparation {
       final int config,
       final String type,
       final Set<Integer> keys,
-      final Schema schema) {
+      final Schema schema)
+      throws PerfEnforceException {
 
     List<String> selectivityKeys = new ArrayList<String>();
     List<Double> selectivityList = Arrays.asList(new Double[] {.001, .01, .1});
@@ -314,100 +327,73 @@ public class PerfEnforceDataPreparation {
     Schema attributeKeySchema = PerfEnforceUtils.getAttributeKeySchema(keys, schema);
 
     String tableName = relationKey.toString(MyriaConstants.STORAGE_SYSTEM_POSTGRESQL);
+    try {
+      for (int i = 0; i < selectivityList.size(); i++) {
+        String rankingQuery =
+            String.format(
+                "select %s from (select %s, CAST(rank() over (order by %s asc) AS float)/%s as rank from %s) as r where r.rank >= %s LIMIT 1;",
+                attributeKeyString,
+                attributeKeyString,
+                attributeKeyString,
+                tableSize / config,
+                tableName,
+                selectivityList.get(i));
+        String sqlResult =
+            server.executeSQLCommandSingleRowSingleWorker(rankingQuery, attributeKeySchema, 1);
+        selectivityKeys.add(sqlResult);
+      }
 
-    for (int i = 0; i < selectivityList.size(); i++) {
-      String rankingQuery =
-          String.format(
-              "select %s from (select %s, CAST(rank() over (order by %s asc) AS float)/%s as rank from %s) as r where r.rank >= %s LIMIT 1;",
-              attributeKeyString,
-              attributeKeyString,
-              attributeKeyString,
-              tableSize / config,
-              tableName,
-              selectivityList.get(i));
-      String sqlResult =
-          server.executeSQLCommandSingleRowSingleWorker(rankingQuery, attributeKeySchema, 1);
-      selectivityKeys.add(sqlResult);
+      // HACK: We can't properly "count" tuples for tables that are broadcast
+      long modifiedSize = tableSize;
+      if (type.equalsIgnoreCase("dimension")) {
+        modifiedSize = tableSize / Collections.max(PerfEnforceDriver.configurations);
+      }
+
+      return new StatsTableEncoding(tableName, modifiedSize, selectivityKeys);
+    } catch (Exception e) {
+      throw new PerfEnforceException("error running table ranks");
     }
-
-    // HACK: We can't properly "count" tuples for tables that are broadcast
-    long modifiedSize = tableSize;
-    if (type.equalsIgnoreCase("dimension")) {
-      modifiedSize = tableSize / Collections.max(PerfEnforceDriver.configurations);
-    }
-
-    return new StatsTableEncoding(tableName, modifiedSize, selectivityKeys);
   }
 
-  public void collectFeatures() {
+  public void collectFeaturesFromQueries() throws PerfEnforceException {
 
     for (Integer config : PerfEnforceDriver.configurations) {
       Path workerPath =
           Paths.get(PerfEnforceDriver.configurationPath.toString(), config + "_Workers");
       String currentLine = "";
 
-      PrintWriter featureWriter =
-          new PrintWriter(workerPath.resolve("TESTING.arff").toString(), "UTF-8");
+      try {
+        PrintWriter featureWriter =
+            new PrintWriter(workerPath.resolve("TESTING.arff").toString(), "UTF-8");
 
-      featureWriter.write("@relation testing \n");
-      featureWriter.write("@attribute numberTables numeric \n");
-      featureWriter.write("@attribute postgesEstCostMin numeric \n");
-      featureWriter.write("@attribute postgesEstCostMax numeric \n");
-      featureWriter.write("@attribute postgesEstNumRows numeric \n");
-      featureWriter.write("@attribute postgesEstWidth numeric \n");
-      featureWriter.write("@attribute numberOfWorkers numeric \n");
-      featureWriter.write("@attribute realTime numeric \n");
-      featureWriter.write("\n");
-      featureWriter.write("@data \n");
+        featureWriter.write("@relation testing \n");
+        featureWriter.write("@attribute numberTables numeric \n");
+        featureWriter.write("@attribute postgesEstCostMin numeric \n");
+        featureWriter.write("@attribute postgesEstCostMax numeric \n");
+        featureWriter.write("@attribute postgesEstNumRows numeric \n");
+        featureWriter.write("@attribute postgesEstWidth numeric \n");
+        featureWriter.write("@attribute numberOfWorkers numeric \n");
+        featureWriter.write("@attribute realTime numeric \n");
+        featureWriter.write("\n");
+        featureWriter.write("@data \n");
 
-      BufferedReader br =
-          new BufferedReader(
-              new FileReader(workerPath.resolve("SQLQueries-Generated.txt").toString()));
-      while ((currentLine = br.readLine()) != null) {
-        currentLine =
-            currentLine.replace(
-                factTableDescription.relationKey.getRelationName(),
-                factTableRelationMapper.get(config).getRelationName());
-        String features = getPostgresFeatures(currentLine, 1);
-        features = features.substring(features.indexOf("cost"));
-        features = features.replace("\"", " ");
-        String[] cmd = {
-          "sh",
-          "-c",
-          "echo \""
-              + features
-              + "\" | sed -e 's/.*cost=//' -e 's/\\.\\./,/' -e 's/ rows=/,/' -e 's/ width=/,/' -e 's/)//'"
-        };
-        ProcessBuilder pb = new ProcessBuilder(cmd);
-        Process p = pb.start();
-
-        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        features = input.readLine();
-
-        // add the extra features -- hacky
-        if (currentLine.contains("WHERE")) {
-          String[] tables =
-              currentLine
-                  .substring(currentLine.indexOf("FROM"), currentLine.indexOf("WHERE"))
-                  .split(",");
-          features = tables.length + "," + features;
-        } else {
-          features = "1," + features;
+        BufferedReader br =
+            new BufferedReader(
+                new FileReader(workerPath.resolve("SQLQueries-Generated.txt").toString()));
+        while ((currentLine = br.readLine()) != null) {
+          currentLine =
+              currentLine.replace(
+                  factTableDescription.relationKey.getRelationName(),
+                  factTableRelationMapper.get(config).getRelationName());
+          String explainQuery = "EXPLAIN " + currentLine;
+          String features = PerfEnforceUtils.getMaxFeature(explainQuery, config);
+          featureWriter.write(features + "\n");
         }
-        features += "," + config + ",0";
-        featureWriter.write(features + "\n");
+        featureWriter.close();
+        br.close();
+      } catch (Exception e) {
+        throw new PerfEnforceException("Error creating table features");
       }
-      featureWriter.close();
-      br.close();
     }
-  }
-
-  public String getPostgresFeatures(final String query, final int worker) {
-    String explainQuery = "EXPLAIN " + query;
-    String result =
-        server.executeSQLCommandSingleRowSingleWorker(
-            explainQuery, Schema.ofFields("explain", Type.STRING_TYPE), worker);
-
-    return result;
   }
 }

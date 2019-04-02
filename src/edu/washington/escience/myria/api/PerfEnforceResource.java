@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import edu.washington.escience.myria.DbException;
 import edu.washington.escience.myria.perfenforce.PerfEnforceDriver;
+import edu.washington.escience.myria.perfenforce.PerfEnforceException;
 import edu.washington.escience.myria.perfenforce.QueryMetaData;
 
 /**
@@ -30,7 +31,7 @@ public final class PerfEnforceResource {
   @POST
   @Path("/preparePSLA")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response prepareData() {
+  public Response prepareData() throws PerfEnforceException {
     perfenforceDriver.preparePSLA();
     return Response.noContent().build();
   }
@@ -46,7 +47,8 @@ public final class PerfEnforceResource {
   @POST
   @Path("/findSLA")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response findSLA(@FormDataParam("querySQL") final String querySQL) throws DbException {
+  public Response findSLA(@FormDataParam("querySQL") final String querySQL)
+      throws PerfEnforceException {
     perfenforceDriver.findSLA(querySQL);
     return Response.noContent().build();
   }
@@ -55,7 +57,7 @@ public final class PerfEnforceResource {
   @Path("/recordRealRuntime")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response recordRealRuntime(@FormDataParam("dataPointRuntime") final Double queryRuntime)
-      throws DbException {
+      throws PerfEnforceException {
     perfenforceDriver.recordRealRuntime(queryRuntime);
     return Response.noContent().build();
   }
