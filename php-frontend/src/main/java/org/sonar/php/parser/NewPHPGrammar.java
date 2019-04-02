@@ -167,7 +167,7 @@ public class NewPHPGrammar {
                 PARENTHESIZED_EXPRESSION(),
                 b.token(PHPPunctuator.LCURLYBRACE),
                 b.optional(b.token(PHPPunctuator.SEMICOLON)),
-                b.oneOrMore(SWITCH_CASE_CLAUSE()),
+                b.zeroOrMore(SWITCH_CASE_CLAUSE()),
                 b.token(PHPPunctuator.RCURLYBRACE)
             ),
             f.alternativeSwitchStatement(
@@ -175,7 +175,7 @@ public class NewPHPGrammar {
                 PARENTHESIZED_EXPRESSION(),
                 b.token(PHPPunctuator.COLON),
                 b.optional(b.token(PHPPunctuator.SEMICOLON)),
-                b.oneOrMore(SWITCH_CASE_CLAUSE()),
+                b.zeroOrMore(SWITCH_CASE_CLAUSE()),
                 b.token(PHPKeyword.ENDSWITCH),
                 EOS()
             )

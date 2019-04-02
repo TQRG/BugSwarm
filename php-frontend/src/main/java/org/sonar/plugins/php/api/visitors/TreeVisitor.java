@@ -40,8 +40,10 @@ import org.sonar.plugins.php.api.tree.expression.VariableVariableTree;
 import org.sonar.plugins.php.api.tree.expression.YieldExpressionTree;
 import org.sonar.plugins.php.api.tree.statement.BlockTree;
 import org.sonar.plugins.php.api.tree.statement.BreakStatementTree;
+import org.sonar.plugins.php.api.tree.statement.CaseClauseTree;
 import org.sonar.plugins.php.api.tree.statement.CatchBlockTree;
 import org.sonar.plugins.php.api.tree.statement.ContinueStatementTree;
+import org.sonar.plugins.php.api.tree.statement.DefaultClauseTree;
 import org.sonar.plugins.php.api.tree.statement.DoWhileStatementTree;
 import org.sonar.plugins.php.api.tree.statement.ElseClauseTree;
 import org.sonar.plugins.php.api.tree.statement.ElseifClauseTree;
@@ -53,6 +55,7 @@ import org.sonar.plugins.php.api.tree.statement.GotoStatementTree;
 import org.sonar.plugins.php.api.tree.statement.IfStatementTree;
 import org.sonar.plugins.php.api.tree.statement.LabelTree;
 import org.sonar.plugins.php.api.tree.statement.ReturnStatementTree;
+import org.sonar.plugins.php.api.tree.statement.SwitchStatementTree;
 import org.sonar.plugins.php.api.tree.statement.ThrowStatementTree;
 import org.sonar.plugins.php.api.tree.statement.TryStatementTree;
 import org.sonar.plugins.php.api.tree.statement.WhileStatementTree;
@@ -74,6 +77,12 @@ public interface TreeVisitor {
   /**
    * [ START ] Statement
    */
+
+  void visitDefaultClause(DefaultClauseTree tree);
+
+  void visitCaseClause(CaseClauseTree tree);
+
+  void visitSwitchStatement(SwitchStatementTree tree);
 
   void visitWhileStatement(WhileStatementTree tree);
 

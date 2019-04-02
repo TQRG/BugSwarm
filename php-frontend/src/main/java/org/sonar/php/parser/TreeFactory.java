@@ -44,8 +44,10 @@ import org.sonar.php.tree.impl.expression.YieldExpressionTreeImpl;
 import org.sonar.php.tree.impl.lexical.InternalSyntaxToken;
 import org.sonar.php.tree.impl.statement.BlockTreeImpl;
 import org.sonar.php.tree.impl.statement.BreakStatementTreeImpl;
+import org.sonar.php.tree.impl.statement.CaseClauseTreeImpl;
 import org.sonar.php.tree.impl.statement.CatchBlockTreeImpl;
 import org.sonar.php.tree.impl.statement.ContinueStatementTreeImpl;
+import org.sonar.php.tree.impl.statement.DefaultClauseTreeImpl;
 import org.sonar.php.tree.impl.statement.DoWhileStatementTreeImpl;
 import org.sonar.php.tree.impl.statement.ElseClauseTreeImpl;
 import org.sonar.php.tree.impl.statement.ElseifClauseTreeImpl;
@@ -59,6 +61,7 @@ import org.sonar.php.tree.impl.statement.GotoStatementTreeImpl;
 import org.sonar.php.tree.impl.statement.IfStatementTreeImpl;
 import org.sonar.php.tree.impl.statement.LabelTreeImpl;
 import org.sonar.php.tree.impl.statement.ReturnStatementTreeImpl;
+import org.sonar.php.tree.impl.statement.SwitchStatementTreeImpl;
 import org.sonar.php.tree.impl.statement.ThrowStatementTreeImpl;
 import org.sonar.php.tree.impl.statement.TryStatementImpl;
 import org.sonar.php.tree.impl.statement.WhileStatementTreeImpl;
@@ -85,8 +88,10 @@ import org.sonar.plugins.php.api.tree.expression.VariableTree;
 import org.sonar.plugins.php.api.tree.expression.YieldExpressionTree;
 import org.sonar.plugins.php.api.tree.statement.BlockTree;
 import org.sonar.plugins.php.api.tree.statement.BreakStatementTree;
+import org.sonar.plugins.php.api.tree.statement.CaseClauseTree;
 import org.sonar.plugins.php.api.tree.statement.CatchBlockTree;
 import org.sonar.plugins.php.api.tree.statement.ContinueStatementTree;
+import org.sonar.plugins.php.api.tree.statement.DefaultClauseTree;
 import org.sonar.plugins.php.api.tree.statement.DoWhileStatementTree;
 import org.sonar.plugins.php.api.tree.statement.ElseClauseTree;
 import org.sonar.plugins.php.api.tree.statement.ElseifClauseTree;
@@ -406,6 +411,46 @@ public class TreeFactory {
     );
   }
 
+  public SwitchStatementTree switchStatement(InternalSyntaxToken switchToken, ParenthesisedExpressionTree expression, InternalSyntaxToken openCurlyBraceToken, Optional<InternalSyntaxToken> semicolonToken, Optional<List<SwitchCaseClauseTree>> switchCaseClauses, InternalSyntaxToken closeCurlyBraceToken) {
+    return new SwitchStatementTreeImpl(
+        switchToken,
+        expression,
+        openCurlyBraceToken,
+        semicolonToken.orNull(),
+        optionalList(switchCaseClauses),
+        closeCurlyBraceToken
+    );
+  }
+
+  public SwitchStatementTree alternativeSwitchStatement(InternalSyntaxToken switchToken, ParenthesisedExpressionTree expression, InternalSyntaxToken colonToken, Optional<InternalSyntaxToken> semicolonToken, Optional<List<SwitchCaseClauseTree>> switchCaseClauses, InternalSyntaxToken endswitchToken, InternalSyntaxToken eosToken) {
+    return new SwitchStatementTreeImpl(
+        switchToken,
+        expression,
+        colonToken,
+        semicolonToken.orNull(),
+        optionalList(switchCaseClauses),
+        endswitchToken,
+        eosToken
+    );
+  }
+
+  public CaseClauseTree caseClause(InternalSyntaxToken caseToken, ExpressionTree expression, InternalSyntaxToken caseSeparatorToken, Optional<List<StatementTree>> statements) {
+    return new CaseClauseTreeImpl(
+        caseToken,
+        expression,
+        caseSeparatorToken,
+        optionalList(statements)
+    );
+  }
+
+  public DefaultClauseTree defaultClause(InternalSyntaxToken defaultToken, InternalSyntaxToken caseSeparatorToken, Optional<List<StatementTree>> statements) {
+    return new DefaultClauseTreeImpl(
+        defaultToken,
+        caseSeparatorToken,
+        optionalList(statements)
+    );
+  }
+
   /**
    * [ END ] Statement
    */
@@ -638,17 +683,6 @@ public class TreeFactory {
     }
 
     return result;
-  }
-
-  public SwitchStatementTree switchStatement(InternalSyntaxToken switchToken, ParenthesisedExpressionTree expression, InternalSyntaxToken openCurlyBraceToken, Optional<InternalSyntaxToken> semicolonToken, List<SwitchCaseClauseTree> switchCaseClauses, InternalSyntaxToken closeCurlyBraceToken) {
-    return new SwitchStatementTreeImpl(
-        switchToken,
-        expression,
-        openCurlyBraceToken,
-        semicolonToken.orNull(),
-        switchCaseClauses,
-        closeCurlyBraceToken
-    );
   }
 
   /**
