@@ -1,0 +1,9 @@
+@* Copyright 2014 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@(classification: String, t: String)
+@import play.api.libs.json.Json
+@import play.api.libs.json.JsValue
+
+@main("NWBib - Register zur " + t) {
+    @tags.browse_list(classification, null, t)
+}

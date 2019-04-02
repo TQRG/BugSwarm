@@ -1,0 +1,62 @@
+@* Copyright 2014 Fabian Steeg, hbz. Licensed under the GPLv2 *@
+
+@()
+<div id="map" class="pull-right">
+<script src="@controllers.routes.Assets.at("javascripts/d3.v3.min.js")"></script>
+<script src="@controllers.routes.Assets.at("javascripts/topojson.v1.min.js")"></script>
+<script src="@controllers.routes.Assets.at("javascripts/datamaps.world.min.js")"></script>
+<script>
+const westfalen = [
+    "05554", "05562", "05512", "05513", "05916", "05911", "05954", "05962",
+    "05966", "05970", "05566", "05558", "05515", "05978", "05913", "05914",
+    "05958", "05974", "05570", "05774", "05915", "05754", "05711", "05758",
+    "05770", "05766", "05762"];
+var map = new Datamap({
+    element: document.getElementById('map'),
+    geographyConfig: {
+        dataUrl: '@controllers.routes.Assets.at("data/nrw.topo.json")',
+        borderWidth: 1,
+        borderColor: '#BBBBBB',
+        highlightFillColor: function(value) {
+            const inWestfalen = westfalen.indexOf(value.id) != -1;
+            return inWestfalen ? '#EE1921' : '#00A34C';
+        },
+        highlightBorderColor: '#2F994C', // '#BB2E30', //'7B7B7B',
+        highlightBorderWidth: 0
+    },
+    fills: {
+        defaultFill: '#F8F8F8' //'#EBEBEB'
+    },
+    scope: 'nrw',
+    setProjection: function(element) {
+        var projection = d3.geo.mercator()
+            .center([7.7, 51.4])
+            .scale(6000)
+            .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+        var path = d3.geo.path().projection(projection);
+        return {path: path, projection: projection};
+    },
+    done: function(datamap) {
+        datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+            window.location = "/nwbib/search?" + 
+              "location=" + encodeURIComponent(geography.properties.name) 
+              + "|" + transform(geography.geometry.coordinates[0]);
+        });
+    }
+});
+function transform(coordinates) {
+    var result = '';
+    var flat = [];
+    /* flatten multiple nested polygons into a single polygon if required: */
+    flat = typeof coordinates[0][0] == 'number' ? coordinates : flat.concat.apply(flat, coordinates);
+    for(var i = 0; i < flat.length; i++) {
+        var lon = flat[i][0];
+        var lat = flat[i][1];
+        /* use max two decimal digits precision to avoid too large URL: */
+        const digits = flat.length > 250 ? 1 : 2;
+        result += lat.toFixed(digits) + "," + lon.toFixed(digits) + " ";
+    }
+    return result.trim().replace(' ', '+');
+}
+</script>
+</div>
