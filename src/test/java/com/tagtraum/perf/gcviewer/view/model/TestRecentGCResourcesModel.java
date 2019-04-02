@@ -43,10 +43,10 @@ public class TestRecentGCResourcesModel {
         System.out.printf("path->url(file): %s%n", new URL("file:/" + new File(path).toString()));
         System.out.printf("filepath->file->url: %s%n", new File(filePath).toURI().toURL().toString());
 
-        model.add(rootPath + "temp/test.log");
+        model.add("temp/test.log");
         Assert.assertThat("add first entry", model.getResourceNameGroups().size(), is(1));
 
-        model.add(rootPath + "temp/test.log");
+        model.add("temp/test.log");
         Assert.assertThat("add identical entry", model.getResourceNameGroups().size(), is(1));
 
         model.add("file:/" + rootPath + "temp/test.log");

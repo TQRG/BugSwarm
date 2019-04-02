@@ -39,6 +39,8 @@ public class GCResource {
 		this.model = new GCModel();
 
 	    logger = Logger.getLogger("GCResource".concat(Integer.toString(COUNT.incrementAndGet())));
+
+        System.out.println("GCResource.<init>(" + resourceName + ") -> asUrl: " + getResourceNameAsUrlString());
     }
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
