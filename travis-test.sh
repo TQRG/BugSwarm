@@ -3,6 +3,7 @@
 set -x
 
 OPENFISCA_CORE_DIR=`python -c "import pkg_resources; print pkg_resources.get_distribution('OpenFisca-Core').location"`
-cd "$OPENFISCA_CORE_DIR"
+pushd "$OPENFISCA_CORE_DIR"
 git branch
-git checkout ""$TRAVIS_BRANCH"
+git checkout "$TRAVIS_BRANCH"
+popd
