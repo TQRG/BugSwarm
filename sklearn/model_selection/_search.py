@@ -16,6 +16,7 @@ from collections import Mapping, namedtuple, Sized
 from functools import partial, reduce
 from itertools import product, chain
 import operator
+import warnings
 
 import numpy as np
 
