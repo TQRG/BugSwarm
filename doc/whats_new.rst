@@ -25,6 +25,16 @@ New features
 Enhancements
 ............
 
+   - The cross-validation iterators are now modified as cross-validation splitters
+     which expose a ``split`` method that takes in the data and yields a generator
+     for the different splits. This change makes it possible to do nested cross-validation
+     with ease. (`#4294 https://github.com/scikit-learn/scikit-learn/pull/4294>`_) by `Raghav R V`_.
+
+   - The :mod:`cross_validation`, :mod:`grid_search` and :mod:`learning_curve`
+     have been deprecated and the classes and functions have been reorganized into
+     the :mod:`model_selection` module. (`#4294 https://github.com/scikit-learn/scikit-learn/pull/4294>`_) by `Raghav R V`_.
+
+
 Bug fixes
 .........
 
@@ -111,6 +121,10 @@ New features
      ``l1_ratio`` control L1 and L2 regularization, and ``shuffle`` adds a
      shuffling step in the ``cd`` solver.
      By `Tom Dupre la Tour`_ and `Mathieu Blondel`_.
+
+   - **IndexError** bug `#5495
+     <https://github.com/scikit-learn/scikit-learn/issues/5495>`_ when
+     doing OVR(SVC(decision_function_shape="ovr")). Fixed by `Elvis Dohmatob`_.
 
 Enhancements
 ............
@@ -3827,3 +3841,4 @@ David Huard, Dave Morrill, Ed Schofield, Travis Oliphant, Pearu Peterson.
 .. _Andrew Lamb: https://github.com/andylamb
 .. _Graham Clenaghan: https://github.com/gclenaghan
 .. _Giorgio Patrini: https://github.com/giorgiop
+.. _Elvis Dohmatob: https://github.com/dohmatob

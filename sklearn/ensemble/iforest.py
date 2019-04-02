@@ -223,8 +223,6 @@ class IsolationForest(BaseBagging):
         # Now, to obrain the depth if the tree was fully grown,
         # we have to add the average depth wrt to the number of samples
         # remaining in the leaf:
-        print 'depths', depths, depths.shape
-        print '_average_path_length(n_samples_leaf)', _average_path_length(n_samples_leaf), _average_path_length(n_samples_leaf).shape
         depths += _average_path_length(n_samples_leaf)
 
         if not isinstance(self.max_samples, (numbers.Integral, np.integer)):
