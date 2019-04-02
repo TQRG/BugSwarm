@@ -1,0 +1,36 @@
+language: python
+
+python:
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- pypy
+- pypy3
+
+install:
+- make python
+
+script:
+- source environment
+- dx env
+- dx help all > /dev/null
+- dx-app-wizard --help > /dev/null
+- dx-log-stream --help > /dev/null
+- cd src/python
+- test/test_dxpy_utils.py -v
+#- test/test_dxpy.py -v
+#- test/test_dxclient.py -v
+#- test/test_dx_completion.py -v
+#- test/test_dx_app_wizard_and_run_app_locally.py -v
+# build/run_python_integration_tests.py --tests test.test_dxpy_utils test.test_dxpy.TestDX{Project,File,Record} test.test_dxclient.TestDXClient
+
+notifications:
+  email: false
+
+env:
+  global:
+    - DNANEXUS_INSTALL_PYTHON_TEST_DEPS=1
+#secure: q8M16jIP5uoo9A+KFiKzPSzsHvO0SMey55upbd1v5YG3aNS3lN7Ix8qtPHbtev6uE7tW94Tn0tkIiMdVUhgfylC+nSwBAfNqEznZxq+FE3lBYnkHz5QPwEWe3DD3d8QrpknKZjc2jDWxDDELFotL5Ey7n9vSCdiE2HBQZFe7S60=
+
+sudo: false
