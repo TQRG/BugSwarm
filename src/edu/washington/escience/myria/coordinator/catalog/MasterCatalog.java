@@ -1790,6 +1790,9 @@ public final class MasterCatalog {
         }
       }).get();
     } catch (InterruptedException | ExecutionException e) {
+      if (e instanceof InterruptedException) {
+        Thread.currentThread().interrupt();
+      }
       throw new CatalogException(e);
     }
   }
@@ -1848,9 +1851,6 @@ public final class MasterCatalog {
         }
       }).get();
     } catch (InterruptedException | ExecutionException e) {
-      if (e instanceof InterruptedException) {
-        Thread.currentThread().interrupt();
-      }
       throw new CatalogException(e);
     }
   }
