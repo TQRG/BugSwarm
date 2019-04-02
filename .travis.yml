@@ -1,0 +1,12 @@
+addons:
+  apt:
+    packages: [python-numpy, python-yaml]
+dist: precise
+group: stable
+install: [pip install flake8==2.5.1, pip install -r requirements.txt]
+language: python
+os: linux
+python: '2.7'
+script: bash travis-test.sh
+sudo: false
+virtualenv: {system_site_packages: true}
