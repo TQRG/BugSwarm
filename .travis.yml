@@ -1,0 +1,7 @@
+language: java
+install: gradle build
+cache: bundler
+jdk:
+  - oraclejdk8
+notifications:
+  email: false
