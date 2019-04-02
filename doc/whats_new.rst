@@ -29,17 +29,16 @@ Bug fixes
 .........
 
     - :class:`RandomizedPCA` default number of `iterated_power` is 2 instead of 3.
-      This is a speed up with a minor precision decrease. By `Giorgio Patrini`_.
+      This is a speed up with a minor precision decrease. (`#5141 https://github.com/scikit-learn/scikit-learn/pull/5141>`_) by `Giorgio Patrini`_.
 
     - :func:`randomized_svd` performs 2 power iterations by default, instead or 0.
       In practice this is often enough for obtaining a good approximation of the
-      true eigenvalues/vectors in the presence of noise. By `Giorgio Patrini`_.
+      true eigenvalues/vectors in the presence of noise. (`#5141 https://github.com/scikit-learn/scikit-learn/pull/5141>`_) by `Giorgio Patrini`_.
 
     - :func:`randomized_range_finder` is more numerically stable when many
       power iterations are requested, since it applies LU normalization by default.
       If `n_iter<2` numerical issues are unlikely, thus no normalization is applied.
-      Other normalization options are available: 'none', 'LU' and 'QR'. By
-      `Giorgio Patrini`_.
+      Other normalization options are available: 'none', 'LU' and 'QR'. (`#5141 https://github.com/scikit-learn/scikit-learn/pull/5141>`_) by `Giorgio Patrini`_.
 
     - Fixed bug in :func:`manifold.spectral_embedding` where diagonal of unnormalized
       Laplacian matrix was incorrectly set to 1. By `Peter Fischer`_.
@@ -324,6 +323,10 @@ Bug fixes
       with a large number of features and fewer samples. (`#4478
       <https://github.com/scikit-learn/scikit-learn/pull/4478>`_)
       By `Andreas Müller`_, `Loic Esteve`_ and `Giorgio Patrini`_.
+
+    - Fixed bug in :class:`cross_decomposition.PLS` that yielded unstable and
+      platform dependent output, and failed on `fit_transform`.
+       By `Arthur Mensch`_.
 
 API changes summary
 -------------------

@@ -330,7 +330,6 @@ class RandomizedLasso(BaseRandomizedLinearModel):
         self.memory = memory
 
     def _make_estimator_and_params(self, X, y):
-        assert self.precompute in (True, False, None, 'auto')
         alpha = self.alpha
         if alpha in ('aic', 'bic'):
             model = LassoLarsIC(precompute=self.precompute,
@@ -345,6 +344,7 @@ class RandomizedLasso(BaseRandomizedLinearModel):
         # change X a each iteration
         if hasattr(precompute, '__array__'):
             precompute = 'auto'
+        assert precompute in (True, False, None, 'auto')
         return _randomized_lasso, dict(alpha=alpha, max_iter=self.max_iter,
                                        eps=self.eps,
                                        precompute=precompute)
