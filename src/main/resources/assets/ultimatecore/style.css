@@ -1,0 +1,18 @@
+.root {
+    background-color: #383838;
+}
+
+.button-1 {
+    background-color: #57964B;
+    font-weight: bold;
+}
+
+.button-2 {
+    background-color: #0EA181;
+    font-weight: bold;
+}
+
+.button-close {
+    background-color: #AB4642;
+    font-weight: bold;
+}
