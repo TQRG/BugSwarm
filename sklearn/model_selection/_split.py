@@ -668,12 +668,11 @@ class BinnedStratifiedKFold(_BaseKFold):
     >>> np.random.seed(0)
     >>> np.random.shuffle(y)
     >>> X = y + 0.1* np.random.randn(len(y))
-    >>> skf = BinnedStratifiedKFold(y, n_folds=3)
-    >>> len(skf)
-    3
-    >>> print(skf)  # doctest: +NORMALIZE_WHITESPACE
-    sklearn.cross_validation.BinnedStratifiedKFold(n=11, n_folds=3,
-    shuffle=False, random_state=None)
+    >>> cv = BinnedStratifiedKFold(n_folds=3)
+    >>> skf = cv.split(y)
+    >>> print(cv)  # doctest: +NORMALIZE_WHITESPACE
+    BinnedStratifiedKFold(n_folds=3, random_state=None,
+    shuffle=False)
     >>> indarr = np.zeros(len(y), dtype=bool)
     >>> for train_index, test_index in skf:
     ...    print("TRAIN:", train_index, "TEST:", test_index)
@@ -681,7 +680,7 @@ class BinnedStratifiedKFold(_BaseKFold):
     ...    y_train, y_test = y[train_index], y[test_index]
     TRAIN: [ 1  2  3  4  5  8 10] TEST: [0 6 7 9]
     TRAIN: [0 2 3 4 6 7 8 9] TEST: [ 1  5 10]
-    TRAIN: [ 0  1  5  6  7  9 10] TEST: [2 3 4 8] 
+    TRAIN: [ 0  1  5  6  7  9 10] TEST: [2 3 4 8]
 
     Notes
     -----
