@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Basic query parser infrastructure.
+ * Note: This class should not be considered as pgjdbc public API.
  *
  * @author Michael Paesold (mpaesold@gmx.at)
  * @author Christopher Deckers (chrriis@gmail.com)
@@ -961,7 +962,7 @@ public class Parser {
    * @param standardConformingStrings whether standard_conforming_strings is on
    * @return PostgreSQL-compatible SQL
    */
-  static String replaceProcessing(String p_sql, boolean replaceProcessingEnabled,
+  public static String replaceProcessing(String p_sql, boolean replaceProcessingEnabled,
       boolean standardConformingStrings) throws SQLException {
     if (replaceProcessingEnabled) {
       // Since escape codes can only appear in SQL CODE, we keep track
