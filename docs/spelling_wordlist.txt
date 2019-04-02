@@ -1,0 +1,11 @@
+Rackspace
+api
+docstring
+docstrings
+lifecycle
+linting
+offline
+plugin
+serializer
+tox
+menubar
