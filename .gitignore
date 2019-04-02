@@ -1,0 +1,15 @@
+.DS_Store
+.*.swp
+*.pyc
+.gradle
+build
+.classpath
+*nocommit*
+*NodeLocalParallel
+*catalog-journal
+englink-log4j.log
+/bin
+
+### Intellij ###
+*.iml
+.idea/
