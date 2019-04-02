@@ -1,0 +1,14 @@
+addons: {}
+after_success: if [[ $TRAVIS_PYTHON_VERSION != "3.2" ]]; then coveralls; fi
+dist: precise
+env: [ADAPTER=tiny]
+group: stable
+install: [pip install "pkginfo<1.3", pip install -r requirements.txt, pip install
+    coveralls==1.1, pip install twine==1.6.5]
+language: python
+os: linux
+python: '3.2'
+script: if [[ $TRAVIS_PYTHON_VERSION != "3.2" ]]; then coverage run --source=appier
+  setup.py test; else python setup.py test; fi
+services: mongodb
+sudo: false
