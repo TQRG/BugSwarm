@@ -202,7 +202,7 @@ def test_max_samples_consistency():
     assert_equal(clf.max_samples_, clf._max_samples)
 
 
-def test_iforest_subsampled_features:
+def test_iforest_subsampled_features():
     rng = check_random_state(0)
     X_train, X_test, y_train, y_test = train_test_split(boston.data[:50],
                                                         boston.target[:50],
