@@ -1,0 +1,13 @@
+addons: {}
+after_success: coveralls
+install: [echo "Build on $TRAVIS_OS_NAME for Python $TRAVIS_PYTHON_VERSION", bash
+    .ci/travis/install_python.sh, 'export PATH="$HOME/miniconda/bin:$PATH"', source
+    activate test-env, pip install coveralls==1.0, python setup.py install]
+language: python
+notifications:
+  slack: {secure: gRKbqjPgp0ZcFtecHOwjLAFbzzBr2zyFrxk7OAS/cea/9U8bLQNA0jZs3ZHtAgR53gdnFlx/GI10d/KD9XMKU55gQkO4FSvfYMK7Xzs2tfnEa5flTqQKRfjB1oJ2fmb81yshUe+xKsXBoedP7SPYv2mutMOY8srKwUcuE0yGmAw=}
+os: linux
+python: '3.3'
+script: [(cd docs && make html 2> /dev/null), bash .ci/travis/run_travis_test.sh]
+sudo: false
+virtualenv: {system_site_packages: false}
