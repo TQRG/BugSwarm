@@ -52,8 +52,8 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.svm.base import BaseLibSVM
 from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import NMF, ProjectedGradientNMF
-from sklearn.utils.validation import DataConversionWarning, check_array
-from sklearn.utils import ConvergenceWarning
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.exceptions import DataConversionWarning
 from sklearn.cross_validation import train_test_split
 
 from sklearn.utils import shuffle
@@ -1031,11 +1031,13 @@ def check_classifiers_train(name, Classifier, readonly=False):
         positive = True
     else:
         positive = False
-    X_m, y_m = _make_blobs_with_mode(random_state=0, shuffle=True,
+    X_m, y_m = _make_blobs_with_mode(n_samples=300,
+                                     random_state=0, shuffle=True,
                                      readonly=readonly, scale=True,
                                      positive=positive)
     # generate binary problem
-    X_b, y_b = _make_blobs_with_mode(random_state=0, shuffle=True,
+    X_b, y_b = _make_blobs_with_mode(n_samples=300,
+                                     random_state=0, shuffle=True,
                                      readonly=readonly, scale=True,
                                      positive=positive, centers=2)
     for (X, y) in [(X_m, y_m), (X_b, y_b)]:
