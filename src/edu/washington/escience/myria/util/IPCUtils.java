@@ -144,7 +144,8 @@ public final class IPCUtils {
     }
     return TransportMessage.newBuilder()
         .setType(TransportMessage.Type.CONTROL)
-        .setControlMessage(cmBuilder.build()))        .build();
+        .setControlMessage(cmBuilder.build())
+        .build();
   }
 
   /**
@@ -196,7 +197,8 @@ public final class IPCUtils {
             .setWorkerId(workerId);
     return TransportMessage.newBuilder()
         .setType(TransportMessage.Type.CONTROL)
-        .setControlMessage(cmBuilder.build()))        .build();
+        .setControlMessage(cmBuilder.build())
+        .build();
   }
 
   /**

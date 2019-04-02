@@ -62,7 +62,6 @@ public final class MasterApplication extends ResourceConfig {
           protected void configure() {
             /* Singletons binding. */
             bind(server).to(Server.class);
-            bind(daemon).to(MasterDaemon.class);
           }
         });
 

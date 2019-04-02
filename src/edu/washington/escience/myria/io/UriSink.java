@@ -18,7 +18,7 @@ public class UriSink implements DataSink {
   /** Required for Java serialization. */
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty private final URI uri;
+  @JsonProperty private URI uri;
 
   public UriSink(@JsonProperty(value = "uri", required = true) final String uri)
       throws CatalogException, URISyntaxException {

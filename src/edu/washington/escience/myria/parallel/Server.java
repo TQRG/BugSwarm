@@ -654,12 +654,6 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
             new RenamingThreadFactory("Master global timer"));
     scheduledTaskExecutor.scheduleAtFixedRate(
         new DebugHelper(), DebugHelper.INTERVAL, DebugHelper.INTERVAL, TimeUnit.MILLISECONDS);
-    scheduledTaskExecutor.scheduleAtFixedRate(
-        new WorkerLivenessChecker(),
-        MyriaConstants.WORKER_LIVENESS_CHECKER_INTERVAL,
-        MyriaConstants.WORKER_LIVENESS_CHECKER_INTERVAL,
-        TimeUnit.MILLISECONDS);
-
     messageProcessingExecutor =
         Executors.newCachedThreadPool(new RenamingThreadFactory("Master message processor"));
     serverQueryExecutor =
@@ -1018,7 +1012,7 @@ public final class Server implements TaskMessageSource, EventHandler<DriverMessa
    * @throws InterruptedException interrupted
    */
   public long persistDataset(final RelationKey relationKey)
-      throws DbException, InterruptedException {
+      throws DbException, InterruptedException, URISyntaxException {
     long queryID;
 
     /* Mark the relation as is_persistent */

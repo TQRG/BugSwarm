@@ -554,7 +554,6 @@ public final class Worker implements Task, TaskMessageSource {
     execEnvVars = new ConcurrentHashMap<String, Object>();
 
     final Map<Integer, SocketInfo> computingUnits =
-        MyriaConfiguration.loadWithDefaultValues(
         getComputingUnits(masterHost, masterPort, workerConfs);
 
     workerAddRemoveLock = Striped.lock(workerConfs.size());
