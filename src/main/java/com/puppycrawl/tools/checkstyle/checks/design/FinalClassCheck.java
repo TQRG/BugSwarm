@@ -24,11 +24,12 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -173,7 +174,7 @@ public class FinalClassCheck
      */
     private static String getFullClassName(String outerClassFullName,
                                            String packageName, String className) {
-        String fullClassName;
+        final String fullClassName;
 
         if (outerClassFullName == null) {
             if (packageName.isEmpty()) {
@@ -206,7 +207,7 @@ public class FinalClassCheck
             traversalAst = traversalAst.getPreviousSibling();
         }
 
-        String packageName;
+        final String packageName;
         if (traversalAst.getType() == TokenTypes.PACKAGE_DEF) {
             packageName = extractFullName(traversalAst);
         }
@@ -223,12 +224,12 @@ public class FinalClassCheck
      * @return super class name
      */
     private String extractFullName(DetailAST classExtend) {
-        String className;
+        final String className;
 
         if (classExtend.findFirstToken(TokenTypes.IDENT) == null) {
             // Name specified with packages, have to traverse DOT
             final DetailAST firstChild = classExtend.findFirstToken(TokenTypes.DOT);
-            List<String> fullNameParts = new LinkedList<>();
+            final List<String> fullNameParts = new LinkedList<>();
 
             fullNameParts.add(0, firstChild.findFirstToken(TokenTypes.IDENT).getText());
             DetailAST traverse = firstChild.findFirstToken(TokenTypes.DOT);
