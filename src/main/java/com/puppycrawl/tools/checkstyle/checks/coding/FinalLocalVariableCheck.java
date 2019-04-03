@@ -254,7 +254,7 @@ public class FinalLocalVariableCheck extends Check {
         final Map<String, DetailAST> scope = scopeStack.peek().scope;
         final DetailAST astNode = ast.findFirstToken(TokenTypes.IDENT);
         scope.put(astNode.getText(), astNode);
-        if (ast.getType() != TokenTypes.PARAMETER_DEF && !isInitialized(astNode)) {
+        if (!isInitialized(astNode)) {
             scopeStack.peek().uninitializedVariables.add(astNode);
         }
     }
