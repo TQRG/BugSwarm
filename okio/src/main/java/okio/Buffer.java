@@ -1456,8 +1456,8 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
   }
 
   @Override public boolean rangeEquals(long offset, ByteString bytes, int bytesOffset, int byteCount) {
+    if (offset < 0) throw new ArrayIndexOutOfBoundsException("offset=" + offset);
     int bytesSize = bytes.size();
-    Util.checkOffsetAndCount(size, offset, bytesSize);
     if ((bytesOffset | byteCount) < 0
         || bytesOffset > bytesSize
         || bytesSize - bytesOffset < byteCount) {
