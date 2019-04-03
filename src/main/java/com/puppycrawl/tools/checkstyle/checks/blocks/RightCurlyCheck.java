@@ -180,7 +180,7 @@ public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
         final boolean shouldCheckLastRcurly = details.shouldCheckLastRcurly;
 
         if (getAbstractOption() == RightCurlyOption.SAME
-                && !hasLineBreakBefore(rcurly) && !singleLineBlock(lcurly,rcurly)) {
+                && !hasLineBreakBefore(rcurly) && !singleLineBlock(lcurly, rcurly)) {
             log(rcurly, MSG_KEY_LINE_BREAK_BEFORE);
         }
 
@@ -207,11 +207,8 @@ public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
      * @return true if block in single line, false otherwise
      */
     private boolean singleLineBlock(DetailAST lcurly, DetailAST rcurly) {
-        if ((lcurly != null && rcurly != null) &&
-            (lcurly.getLineNo() == rcurly.getLineNo())) {
-            return true;
-        }
-        return false;
+        return lcurly != null && rcurly != null
+                && lcurly.getLineNo() == rcurly.getLineNo();
     }
 
     /**
