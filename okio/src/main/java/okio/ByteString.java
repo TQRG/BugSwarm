@@ -334,11 +334,16 @@ public class ByteString implements Serializable, Comparable<ByteString> {
   }
 
   @Override public int compareTo(ByteString byteString) {
-    for (int i = 0, size = Math.min(size(), byteString.size()); i < size; i++) {
-      int compare = Integer.compare(getByte(i) & 0xff, byteString.getByte(i) & 0xff);
-      if (compare != 0) return compare;
+    int sizeA = size();
+    int sizeB = byteString.size();
+    for (int i = 0, size = Math.min(sizeA, sizeB); i < size; i++) {
+      int byteA = getByte(i) & 0xff;
+      int byteB = byteString.getByte(i) & 0xff;
+      if (byteA == byteB) continue;
+      return byteA < byteB ? -1 : 1;
     }
-    return Integer.compare(size(), byteString.size());
+    if (sizeA == sizeB) return 0;
+    return sizeA < sizeB ? -1 : 1;
   }
 
   @Override public String toString() {
