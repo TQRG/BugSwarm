@@ -121,7 +121,6 @@ require([
             width: '100%',
             sorter: selectSorter
         });
-        console.log('running');
         $('#add-trackers-form .field-project select,' +
           'select#project-personnel-input').select2({
               width: '280px',
