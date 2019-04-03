@@ -1,0 +1,15 @@
+<div class="teachers-list-container">
+  {#teachers}
+    <div class="workspace-users" data-user-id="{id}">
+      <div class="workspace-users-name">{lastName}, {firstName}</div>
+      <!--
+      <div class="workspace-users-delete">{#localize key="plugin.workspace.users.student.deleteLink.label"/}</div>
+      -->
+    </div>
+  {:else}
+    <div class="workspace-users-empty">
+      {#localize key="plugin.workspaces.users.teachers.empty"/}
+    </div>
+  {/teachers}
+  
+</div>

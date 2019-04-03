@@ -1,0 +1,110 @@
+sudo: false
+language: java
+branches:
+  only:
+    - master
+    - devel
+jdk:
+- openjdk7
+cache:
+  directories:
+  - $HOME/.m2
+  - muikku-atests/.cargo
+addons:
+  hosts:
+  - dev.muikku.fi
+before_install:
+- unset GEM_PATH
+- if [ $use_sc == true ] && [ $TRAVIS_BRANCH != 'master' ]; then 
+    if [ $TRAVIS_PULL_REQUEST != false ]; then
+      curl -sS https://saucelabs.com/downloads/sc-4.3.12-linux.tar.gz|tar -xzC /tmp/;
+      /tmp/sc-4.3.12-linux/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY -i $TRAVIS_JOB_NUMBER -f /tmp/sc-ready -r 10 --pidfile /tmp/sc.pid --vm-version dev-varnish --daemonize;
+      t=0;
+      while [ ! -f /tmp/sc-ready ]; do 
+        sleep 0.5; 
+        t=$((t+1)); 
+        if [ $t -gt 180 ]; then 
+          killall sc;
+          echo "Unable to get Sauce connection within 3 minutes";
+          exit 1;
+        fi;
+      done;
+    fi;
+  fi;
+install:
+- bash travis-install.sh
+before_script:
+script:
+- bash travis-script.sh
+after_script:
+- if [ $use_sc = true ]; then killall sc; fi;
+#- if [ $use_sc = true ]; then c=0; while kill -0 `cat /tmp/sc.pid`; do sleep 0.5; c=$((c+1)); if [ $c -gt 60 ]; then kill -9 `cat /tmp/sc.pid`; fi; done; fi;
+env:
+  global:
+  - secure: CB9V3CmnZRuNapNI8QYEO+tawsvqgEqLOM1FoIjHiPf2bMdmjud0dwcQWNuiMJzWR0FJaARvqQWmndP7SePNUaeIkkRoGJ0InmIrXwWtvGq/YKdxEWC8JpMxeONjKNZ6w1LhtRHpHKDxa9P1EgvyDMtg9pPIgDtoab86lXCK+2A=
+  - secure: HCRUaOrwfMQQgtlFI5iKEa1CAKmf9R6GgifIpIjgLERgzxTzn3hJQkR9GvVpqB5Vo/50mCQM07LI6wB/Q9yI5b9d3M4Ey9RJebRRiHSvUyoOG8/tYHmZ8rphDVqInJSFDDcjHkGWI4KbPCe9cFvIuXhqWKensUEOl9WDFKDl4Uw=
+  - secure: adbMocvLB0LZo7WyS3BsMyYAhKIUHUEapkIbZ0PgfZmG1BLLKwNpMvhhlOT5e8g1HkC2CPSlFQyfR5wNv4nH5kR0BwbiScA/QZK/Z3dLUWvSp+GvaKhRfW3G6BDPmyfwlDbjyewlG0fchd3gDqrNgiw3nI5asWyyQADkFPaFWU8=
+  - secure: MHUFp5/FFXS8kW2iCl5G5Pr122QmN9FvbRGQX1GwDuNqOtTQHNMsYmcpEit0B5dhLnjl85nuF3IMhYyuw85MJaLlJrRCP1lcWWB5eNCyxsWgWdESmZ17erIifsK0i7QD8ai/yYGf8xtE5kys62T3URqzaK7P2Vyxhv6vgFSd7eI=
+  - secure: cc3anD5A6j9z7m0srEOma8PdZjIkkyGjqKBWB0YorT38yOq1D5A+Tt4dReTxurVdiO6DYiJpcwZQ2kxwzPOgjTnydf+e4fOjxn7KrhKSd491vFtu7lfc2RYyVEYHu9XEE7T10hIqXuTNFRslwBSWq6RQLCJAIKL1CUKrBYyaNb8=
+  - secure: M42u24iv0SCErRMdx8m59k3dp2bC1jRWtaeXXBWd+iK/SZWO3TrA0efUpGm3rP4/1vqTmulQ8WL0G1VkSX2dMXL7iD8SpN/4gORqkC/B7y4zG0/7cjVxsHLCG1ndcuvCIIiCupO9S8f+qWZVv4Kqcf+l2PvXR06mcxNrRB2O8GM=
+  - secure: LZViiGyq2B/NfKRByoaA5AumTd0tpS0AaH03sRebV6MF9kcyeWJC+Idv8EyYttyed9GLQM0Qk6aVvvop3dguJNNOMnrKAFoxN4u09QDG+o8IuQiCzFQmEtXBipP+08lqsgn7wfVBD4MyhWHrmJeatq1C/So4IkaMwaYvq6eo7A4=
+  - secure: QmDnYj3Lb3nMzyKDkGShAU2N3TOt1Bn0ku2KokVD+y3Q7lTdcfdvMCeBiFI7qPDrWU9bPaiTRh0+/sMWLM7J0aFg8e7OljqJrArKSB+i3leTl+/L/x9cplESMjV5u5cjtsUCmGX3ywSfhpwlGzkILVFl3ZE2eI2e2+OoOfZrezY=
+  matrix:
+  - it_profile=rest-it findbugs_skip=false use_sc=false
+
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="microsoftedge" browser_version="20.10240" browser_resolution="1280x1024" platform="Windows 10" package=course
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="microsoftedge" browser_version="20.10240" browser_resolution="1280x1024" platform="Windows 10" package=course/discussions
+  - it_profile=travis findbugs_skip=true use_sc=true browser="microsoftedge" browser_version="20.10240" browser_resolution="1280x1024" platform="Windows 10" package=course/materials
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="microsoftedge" browser_version="20.10240" browser_resolution="1280x1024" platform="Windows 10" package=course/picker
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="microsoftedge" browser_version="20.10240" browser_resolution="1280x1024" platform="Windows 10" package=indexpage
+
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="internet explorer" browser_version="11.0" browser_resolution="1280x1024" platform="Windows 10" package=course
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="internet explorer" browser_version="11.0" browser_resolution="1280x1024" platform="Windows 10" package=course/discussions
+  - it_profile=travis findbugs_skip=true use_sc=true browser="internet explorer" browser_version="11.0" browser_resolution="1280x1024" platform="Windows 10" package=course/materials
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="internet explorer" browser_version="11.0" browser_resolution="1280x1024" platform="Windows 10" package=course/picker
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="internet explorer" browser_version="11.0" browser_resolution="1280x1024" platform="Windows 10" package=indexpage
+
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="safari" browser_version="9.0" browser_resolution="" platform="OS X 10.11" package=course
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="safari" browser_version="9.0" browser_resolution="" platform="OS X 10.11" package=course/discussions
+  - it_profile=travis findbugs_skip=true use_sc=true browser="safari" browser_version="9.0" browser_resolution="" platform="OS X 10.11" package=course/materials
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="safari" browser_version="9.0" browser_resolution="" platform="OS X 10.11" package=course/picker
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="safari" browser_version="9.0" browser_resolution="" platform="OS X 10.11" package=indexpage
+
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="firefox" browser_version="43.0" browser_resolution="1280x1024" platform="Windows 8.1" package=course
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="firefox" browser_version="43.0" browser_resolution="1280x1024" platform="Windows 8.1" package=course/discussions
+  - it_profile=travis findbugs_skip=true use_sc=true browser="firefox" browser_version="43.0" browser_resolution="1280x1024" platform="Windows 8.1" package=course/materials
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="firefox" browser_version="43.0" browser_resolution="1280x1024" platform="Windows 8.1" package=course/picker
+  # - it_profile=travis findbugs_skip=true use_sc=true browser="firefox" browser_version="43.0" browser_resolution="1280x1024" platform="Windows 8.1" package=indexpage
+
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=communicator
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course/discussions
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course/materials
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course/picker
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course/journal
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=course/users
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=evaluation
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=indexpage
+  - it_profile=travis findbugs_skip=true use_sc=true browser="chrome" browser_version="47" browser_resolution="" platform="Linux" package=announcer
+after_success:
+- bash travis-after-success.sh
+after_failure:
+- if [ $use_sc = true ]; then killall sc; fi;
+#- if [ $use_sc = true ]; then c=0; while kill -0 `cat /tmp/sc.pid`; do sleep 0.5; c=$((c+1)); if [ $c -gt 60 ]; then kill -9 `cat /tmp/sc.pid`; fi; done; fi;
+- pushd .;
+- cat muikku-atests/target/cargo/configurations/wildfly8x/log/server.log;
+notifications:
+  irc:
+    channels:
+    - chat.freenode.net#otavanopisto-muikku
+    use_notice: true
+    skip_join: true
+    template:
+    - '%{repository} (%{commit}) : %{message} %{foo} '
+    - 'Build details: %{build_url}'
+  webhooks:
+    urls:
+    - http://build.staging.fi/travis.php
+    on_success: always
+    on_failure: never
+    on_start: false

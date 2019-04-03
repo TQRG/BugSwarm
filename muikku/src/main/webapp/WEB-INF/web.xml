@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+  version="3.0" 
+  xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <session-config>
+    <cookie-config>
+      <path>/</path>
+    </cookie-config>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+
+  <mime-mapping>
+    <extension>eot</extension>
+    <mime-type>application/vnd.ms-fontobject</mime-type>
+  </mime-mapping>
+  
+  <mime-mapping>
+    <extension>woff</extension>
+    <mime-type>application/x-font-woff</mime-type>
+  </mime-mapping>
+  
+  <mime-mapping>
+    <extension>ttf</extension>
+    <mime-type>application/font-sfnt</mime-type>
+  </mime-mapping>
+  
+  <mime-mapping>
+    <extension>svg</extension>
+    <mime-type>image/svg+xml</mime-type>
+  </mime-mapping>  
+  
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Production</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>oauth.provider.provider-class</param-name>
+    <param-value>fi.muikku.rest.OAuthProvider</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>org.ocpsoft.rewrite.annotation.SCAN_LIB_DIRECTORY</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>resteasy.scan</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  
+  <context-param>
+    <!-- http://stackoverflow.com/questions/2689245/fconvertdatetime-displays-wrong-date -->
+    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>fi.muikku.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.jsf</welcome-file>
+  </welcome-file-list>
+  
+</web-app>
