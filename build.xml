@@ -33,7 +33,7 @@
 	<pathelement location="lib/wyrt-v${version}.jar"/>
 	<pathelement location="lib/wyjc-v${version}.jar"/>
       </classpath>     
-      <batchtest skipNonTests="yes">
+      <batchtest>
 	<fileset dir="modules/wyc/src">
 	  <include name="**/*Tests.java"/>
 	</fileset>
