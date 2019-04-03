@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.3-SNAPSHOT">
+<file name="/home/valeria/IdeaProjects/checkstyle/src/test/resources/com/puppycrawl/tools/checkstyle/checks/misc/translation/messages_check_fire_errors.properties">
+</file>
+<file name="/home/valeria/IdeaProjects/checkstyle/src/test/resources/com/puppycrawl/tools/checkstyle/checks/misc/translation/messages_check_fire_errors_de.properties">
+</file>
+<file name="/home/valeria/IdeaProjects/checkstyle/src/test/resources/com/puppycrawl/tools/checkstyle/checks/misc/translation">
+<error line="0" severity="error" message="Properties file &apos;messages_check_fire_errors_ja.properties&apos; is missing." source="com.puppycrawl.tools.checkstyle.checks.TranslationCheck"/>
+</file>
+<file name="/home/valeria/IdeaProjects/checkstyle/src/test/resources/com/puppycrawl/tools/checkstyle/checks/misc/translation/messages_check_fire_errors_de.properties">
+<error line="0" severity="error" message="Key &apos;anotherKey&apos; missing." source="com.puppycrawl.tools.checkstyle.checks.TranslationCheck"/>
+</file>
+<file name="/home/valeria/IdeaProjects/checkstyle/src/test/resources/com/puppycrawl/tools/checkstyle/checks/misc/translation/messages_check_fire_errors.properties">
+</file>
+</checkstyle>
