@@ -216,7 +216,7 @@ class FileDrop {
     /**
      * Implement this inner interface to listen for when files are dropped. For example
      * your class declaration may begin like this:
-     * <code><pre>
+     * {@code <pre>
      *      public class MyClass implements FileDrop.Listener
      *      ...
      *      public void filesDropped( File[] files )
@@ -224,11 +224,11 @@ class FileDrop {
      *          ...
      *      }   // end filesDropped
      *      ...
-     * </pre></code>
+     * </pre>}
      *
      * @since 1.0
      */
-    public interface Listener {
+    interface Listener {
         /**
          * This method is called when files have been successfully dropped.
          *
