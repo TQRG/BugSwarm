@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
@@ -179,12 +180,10 @@ public class MainTest {
                         ResourceBundle.getBundle("checkstylecompilation");
                 String version = compilationProperties.getString("checkstyle.compile.version");
                 assertEquals(String.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>%n"
-                        + "<checkstyle version=\"" + version + "\">%n"
-                        + "<file name=\""
-                        + expectedPath
-                        + "\">%n"
+                        + "<checkstyle version=\"%s\">%n"
+                        + "<file name=\"%s\">%n"
                         + "</file>%n"
-                        + "</checkstyle>%n"), systemOut.getLog());
+                        + "</checkstyle>%n", version, expectedPath), systemOut.getLog());
                 assertEquals("", systemErr.getLog());
             }
         });
@@ -218,11 +217,11 @@ public class MainTest {
                     + "/src/test/resources/com/puppycrawl/tools/checkstyle/InputMain.java"
                     .replace("/", File.separator);
                 assertEquals(String.format("Starting audit...%n"
-                                + expectedPath + ":3:14: "
+                                + "%1$s:3:14: "
                                 + "warning: Name 'InputMain' must match pattern '^[a-z0-9]*$'.%n"
-                                + expectedPath + ":5:7: "
+                                + "%1$s:5:7: "
                                 + "warning: Name 'InputMainInner' must match pattern '^[a-z0-9]*$'.%n"
-                                + "Audit done.%n"),
+                                + "Audit done.%n", expectedPath),
                         systemOut.getLog());
                 assertEquals("", systemErr.getLog());
             }
@@ -242,12 +241,12 @@ public class MainTest {
                     + "/src/test/resources/com/puppycrawl/tools/checkstyle/InputMain.java"
                     .replace("/", File.separator);
                 assertEquals(String.format("Starting audit...%n"
-                        + expectedPath + ":3:14: "
+                        + "%1$s:3:14: "
                         + "Name 'InputMain' must match pattern '^[a-z0-9]*$'.%n"
-                        + expectedPath + ":5:7: "
+                        + "%1$s:5:7: "
                         + "Name 'InputMainInner' must match pattern '^[a-z0-9]*$'.%n"
                         + "Audit done.%n"
-                        + "Checkstyle ends with 2 errors.%n"), systemOut.getLog());
+                        + "Checkstyle ends with 2 errors.%n", expectedPath), systemOut.getLog());
                 assertEquals("", systemErr.getLog());
             }
         });
@@ -436,6 +435,27 @@ public class MainTest {
     }
 
     @Test
+    public void testCreateListenerWithLocation_IllegalStateException() throws Exception {
+        Class<?>[] param = new Class<?>[1];
+        param[0] = File.class;
+        Method method = Main.class.getDeclaredMethod("createListener", String.class, String.class);
+        method.setAccessible(true);
+        String outDir = "myfolder123";
+        try {
+            method.invoke(null, "myformat", outDir);
+            fail();
+        }
+        catch (InvocationTargetException e) {
+            assertTrue(e.getCause() instanceof IllegalStateException);
+            assertTrue(e.getCause().getMessage().startsWith("Invalid output format. Found"));
+        }
+        finally {
+            // method creates output folder
+            FileUtils.deleteQuietly(new File(outDir));
+        }
+    }
+
+    @Test
     public void testExistingDirectoryWithViolations() throws Exception {
 
         // we just reference there all violations
@@ -469,6 +489,7 @@ public class MainTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testListFiles_notFile() throws Exception {
         Class<?>[] param = new Class<?>[1];
         param[0] = File.class;
@@ -485,6 +506,7 @@ public class MainTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testListFiles_DirectoryWithNull() throws Exception {
         Class<?>[] param = new Class<?>[1];
         param[0] = File.class;

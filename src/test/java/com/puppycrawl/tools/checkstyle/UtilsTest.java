@@ -25,6 +25,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -156,6 +157,7 @@ public class UtilsTest {
         assertEquals("string", constructedString);
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testInvokeConstructorThatFails() throws NoSuchMethodException {
         Constructor<Dictionary> constructor = Dictionary.class.getConstructor();
@@ -268,5 +270,28 @@ public class UtilsTest {
         assertTrue(Utils.isCommentType(TokenTypes.BLOCK_COMMENT_BEGIN));
         assertTrue(Utils.isCommentType(TokenTypes.BLOCK_COMMENT_END));
         assertTrue(Utils.isCommentType(TokenTypes.COMMENT_CONTENT));
+    }
+
+    @Test
+    public void testClose() {
+        Utils.close(null);
+
+        Utils.close(new Closeable() {
+
+            @Override
+            public void close() throws IOException {
+            }
+        });
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testCloseWithException() {
+        Utils.close(new Closeable() {
+
+            @Override
+            public void close() throws IOException {
+                throw new IOException();
+            }
+        });
     }
 }

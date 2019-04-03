@@ -50,7 +50,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  * by using a JTree as a renderer (and editor) for the cells in a
  * particular column in the JTable.
  *
- * <a href="https://docs.oracle.com/cd/E48246_01/apirefs.1111/e13403/oracle/ide/controls/TreeTableModel.html">
+ * <a href=
+ * "https://docs.oracle.com/cd/E48246_01/apirefs.1111/e13403/oracle/ide/controls/TreeTableModel.html">
  * Original&nbsp;Source&nbsp;Location</a>
  *
  * @author Philip Milne
@@ -61,7 +62,7 @@ public class JTreeTable extends JTable {
     /** For Serialisation that will never happen. */
     private static final long serialVersionUID = -8493693409423365387L;
     /** A subclass of JTree. */
-    protected final TreeTableCellRenderer tree;
+    private final TreeTableCellRenderer tree;
     private JTextArea editor;
     private List<Integer> linePositionMap;
 
@@ -185,7 +186,7 @@ public class JTreeTable extends JTable {
          */
         private static final long serialVersionUID = 4324031590789321581L;
         /** Last table/tree row asked to renderer. */
-        protected int visibleRow;
+        private int visibleRow;
 
         /** creates a new instance */
         public TreeTableCellRenderer(TreeModel model) {
