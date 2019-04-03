@@ -50,7 +50,7 @@ import com.google.common.collect.Lists;
  */
 public class AutomaticBean
     implements Configurable, Contextualizable {
-    /** the configuration of this bean */
+    /** The configuration of this bean */
     private Configuration configuration;
 
     /**
@@ -115,14 +115,12 @@ public class AutomaticBean
      * is called for each {@link Configuration#getChildren child Configuration}
      * of {@code configuration}.
      *
-     * @param config {@inheritDoc}
-     * @throws CheckstyleException {@inheritDoc}
      * @see Configurable
      */
     @Override
     public final void configure(Configuration config)
         throws CheckstyleException {
-        this.configuration = config;
+        configuration = config;
 
         final String[] attributes = config.getAttributeNames();
 

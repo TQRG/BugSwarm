@@ -194,7 +194,7 @@ public class JTreeTable extends JTable {
         /** Last table/tree row asked to renderer. */
         private int visibleRow;
 
-        /** creates a new instance */
+        /** Creates a new instance */
         public TreeTableCellRenderer(TreeModel model) {
             super(model);
         }
@@ -279,7 +279,7 @@ public class JTreeTable extends JTable {
      * TreeTableCellEditor implementation. Component returned is the
      * JTree.
      */
-    public class TreeTableCellEditor extends AbstractCellEditor implements
+    private class TreeTableCellEditor extends AbstractCellEditor implements
             TableCellEditor {
         @Override
         public Component getTableCellEditorComponent(JTable table,
