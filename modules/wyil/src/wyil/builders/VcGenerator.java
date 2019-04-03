@@ -749,7 +749,7 @@ public class VcGenerator {
 		// Now, run through loop body. This will produce several kinds of
 		// branch. Those which have terminated or branched out of the loop body,
 		// and those which have reached the end of the loop body. ).
-		return transform(code.block(),0,loopPc, activeBranch, false, isInvariant, environment, labels, forest);
+		return transform(code.body(),0,loopPc, activeBranch, false, isInvariant, environment, labels, forest);
 	}
 
 	/**
@@ -787,14 +787,14 @@ public class VcGenerator {
 			// Determine how many invariant blocks there are, as there might be
 			// more than one. In the case that there is more than one, they are
 			// assumed to be arranged consecutively one after the other.
-			BytecodeForest.Block block = forest.get(code.block());
+			BytecodeForest.Block block = forest.get(code.body());
 			int numberOfInvariants = 0;
 			for (int i = invariantOffset; i < block.size()
 					&& block.get(i).first() instanceof Bytecode.Invariant; ++i) {
 				numberOfInvariants = numberOfInvariants+1;
 			}
 			//
-			BytecodeForest.Index firstInvariantPc = new BytecodeForest.Index(code.block(), invariantOffset);
+			BytecodeForest.Index firstInvariantPc = new BytecodeForest.Index(code.body(), invariantOffset);
 			String invariantMacroPrefix = method.name() + "_loopinvariant_";
 			
 			// FIXME: this is a hack to determine which variables should be
@@ -819,7 +819,7 @@ public class VcGenerator {
 			// invariant using the current branch state. At this point, we havoc
 			// modified variables and then assume the loop invariant, before
 			// running through the loop until the invariant is reached again.
-			Pair<VcBranch, List<VcBranch>> p = transform(code.block(), 0, loopPc, branch, true, false, environment, labels, forest);
+			Pair<VcBranch, List<VcBranch>> p = transform(code.body(), 0, loopPc, branch, true, false, environment, labels, forest);
 			// At this point, any branch which has terminated or branched out of
 			// the loop represents a true execution path. Any branch which has
 			// failed corresponds to ensuring the loop invariant on entry.
@@ -856,7 +856,7 @@ public class VcGenerator {
 			// Branches which prematurely exit the loop are passed into the list
 			// of exit branches. These are valid as they only have information
 			// from the loop invariant.
-			p = transform(code.block(), invariantOffset + numberOfInvariants, loopPc, activeBranch, true, false,
+			p = transform(code.body(), invariantOffset + numberOfInvariants, loopPc, activeBranch, true, false,
 					environment, labels, forest);
 			activeBranch = p.first();
 			exitBranches.addAll(p.second());
@@ -917,7 +917,7 @@ public class VcGenerator {
 		// and those which have reached the end of the loop body. All branches
 		// in the former case go straight onto the list of returned branches.
 		// Those in the latter case are discarded (as discussed above).
-		Pair<VcBranch, List<VcBranch>> p = transform(code.block(), 0, loopPc, activeBranch, false, false, environment, labels,
+		Pair<VcBranch, List<VcBranch>> p = transform(code.body(), 0, loopPc, activeBranch, false, false, environment, labels,
 				forest);
 		fallThru.goTo(loopPc.next());
 		return new Pair<VcBranch, List<VcBranch>>(fallThru, p.second());
@@ -955,7 +955,7 @@ public class VcGenerator {
 			}
 		}
 		String pc = invariantPC.block() + "_" + invariantPC.offset();
-		BytecodeForest.Index root = new BytecodeForest.Index(code.block(),0);
+		BytecodeForest.Index root = new BytecodeForest.Index(code.body(),0);
 		buildMacroBlock(method.name() + "_loopinvariant_" + pc, root, forest, types, true);
 	}
 
@@ -997,7 +997,7 @@ public class VcGenerator {
 	 * @return
 	 */
 	private int getInvariantOffset(Bytecode.Loop loop, BytecodeForest forest) {
-		BytecodeForest.Block block = forest.get(loop.block());
+		BytecodeForest.Block block = forest.get(loop.body());
 		for (int i = 0; i != block.size(); ++i) {
 			if (block.get(i).first() instanceof Bytecode.Invariant) {
 				return i;
@@ -1202,7 +1202,7 @@ public class VcGenerator {
 		// reached failed states and need to be turned into verification
 		// conditions (for asserts only).
 		BytecodeForest.Index pc = branch.pc();
-		Pair<VcBranch, List<VcBranch>> p = transform(code.block(), 0, pc, branch, false, true, environment, labels,
+		Pair<VcBranch, List<VcBranch>> p = transform(code.body(), 0, pc, branch, false, true, environment, labels,
 				forest);
 		List<VcBranch> exitBranches = p.second();
 		// Second, examine the list of exit branches and decide what to do with

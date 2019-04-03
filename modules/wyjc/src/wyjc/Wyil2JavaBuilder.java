@@ -647,7 +647,7 @@ public class Wyil2JavaBuilder implements Builder {
 
 	private void translate(BytecodeForest.Index index, AssertOrAssume c,
 			int freeSlot, BytecodeForest forest, ArrayList<Bytecode> bytecodes) {
-		BytecodeForest.Index pc = new BytecodeForest.Index(c.block(), 0);
+		BytecodeForest.Index pc = new BytecodeForest.Index(c.body(), 0);
 		if(c instanceof Invariant) {
 			// essentially a no-op for now			
 		} else {
@@ -1095,7 +1095,7 @@ public class Wyil2JavaBuilder implements Builder {
 		bytecodes.add(new Bytecode.Label(loopHeader));
 		// Translate body of loop. The cast is required to ensure correct method
 		// is called.
-		translate(new BytecodeForest.Index(c.block(), 0), freeSlot, forest, bytecodes);
+		translate(new BytecodeForest.Index(c.body(), 0), freeSlot, forest, bytecodes);
 		// Terminate loop by branching back to head of loop
 		bytecodes.add(new Bytecode.Goto(loopHeader));
 	}
@@ -1123,7 +1123,7 @@ public class Wyil2JavaBuilder implements Builder {
 		bytecodes.add(new Bytecode.Store(c.indexOperand(), convertUnderlyingType(Type.T_INT)));
 		// Translate body of loop. The cast is required to ensure correct method
 		// is called.
-		translate(new BytecodeForest.Index(c.block(), 0), freeSlot + 1, forest, bytecodes);
+		translate(new BytecodeForest.Index(c.body(), 0), freeSlot + 1, forest, bytecodes);
 		// Terminate loop by branching back to head of loop
 		bytecodes.add(new Bytecode.Goto(loopHeader));
 		bytecodes.add(new Bytecode.Label(loopExit));
