@@ -1,12 +1,13 @@
-# -*- coding: utf-8 -*-
 """
-    tests.urls
-    ~~~~~~~~~~
+    verktyg.testsuite.test_urls
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     URL helper tests.
 
-    :copyright: (c) 2014 by Armin Ronacher.
-    :license: BSD, see LICENSE for more details.
+    :copyright:
+        (c) 2016 Ben Mather, based on Werkzeug, see AUTHORS for more details.
+    :license:
+        BSD, see LICENSE for more details.
 """
 import unittest
 
@@ -104,20 +105,6 @@ class UrlsTestCase(unittest.TestCase):
         self.assertEqual(
             urls.iri_to_uri('http://föö.com:8080/bam/baz'),
             'http://xn--f-1gaa.com:8080/bam/baz'
-        )
-
-    def test_iri_safe_conversion(self):
-        self.assertEqual(
-            urls.iri_to_uri('magnet:?foo=bar'),
-            'magnet:?foo=bar'
-        )
-        self.assertEqual(
-            urls.iri_to_uri('itms-service://?foo=bar'),
-            'itms-service:?foo=bar'
-        )
-        self.assertEqual(
-            urls.iri_to_uri('itms-service://?foo=bar', safe_conversion=True),
-            'itms-service://?foo=bar'
         )
 
     def test_iri_safe_quoting(self):
