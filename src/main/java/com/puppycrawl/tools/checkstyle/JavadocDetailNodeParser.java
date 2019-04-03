@@ -298,7 +298,6 @@ public class JavadocDetailNodeParser {
     private JavadocNodeImpl createJavadocNode(ParseTree parseTree, DetailNode parent, int index) {
         final JavadocNodeImpl node = new JavadocNodeImpl();
         node.setText(parseTree.getText());
-        final int parseTreeLine = getLine(parseTree);
         node.setColumnNumber(getColumn(parseTree));
         node.setLineNumber(getLine(parseTree) + blockCommentLineNumber);
         node.setIndex(index);

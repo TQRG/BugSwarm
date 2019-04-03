@@ -41,6 +41,9 @@ public final class DetailNodeTreeStringPrinter {
     /** OS specific line separator. */
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+    /** Symbols with which javadoc starts. */
+    private static final String JAVADOC_START = "/**";
+
     /** Prevent instances. */
     private DetailNodeTreeStringPrinter() {
         // no code
@@ -182,7 +185,7 @@ public final class DetailNodeTreeStringPrinter {
         blockCommentBegin.setType(TokenTypes.BLOCK_COMMENT_BEGIN);
         blockCommentBegin.setText("/*");
         blockCommentBegin.setLineNo(0);
-        blockCommentBegin.setColumnNo(new String("/**").length);
+        blockCommentBegin.setColumnNo(JAVADOC_START.length());
 
         final DetailAST commentContent = new DetailAST();
         commentContent.setType(TokenTypes.COMMENT_CONTENT);
