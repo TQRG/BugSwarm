@@ -19,12 +19,6 @@
 
 package com.puppycrawl.tools.checkstyle.checks.annotation;
 
-
-import org.apache.commons.beanutils.ConversionException;
-import org.junit.Assert;
-
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-
 import static com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationUseStyleCheck.MSG_KEY_ANNOTATION_INCORRECT_STYLE;
 import static com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationUseStyleCheck.MSG_KEY_ANNOTATION_PARENS_MISSING;
 import static com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationUseStyleCheck.MSG_KEY_ANNOTATION_PARENS_PRESENT;
@@ -33,10 +27,14 @@ import static com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationUseSty
 
 import java.io.File;
 
+import org.apache.commons.beanutils.ConversionException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.puppycrawl.tools.checkstyle.BaseCheckTestSupport;
 import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+
 
 public class AnnotationUseStyleTest extends BaseCheckTestSupport {
     /**
