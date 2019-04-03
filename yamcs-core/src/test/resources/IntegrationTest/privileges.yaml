@@ -1,0 +1,19 @@
+# Test configuration for privileges
+enabled: true
+
+
+authModule: 
+    class: org.yamcs.security.BasicAuthModule          
+    config:
+       #one of: LdapRealm, YamlRealm
+       realm: org.yamcs.security.YamlRealm
+       
+artemisAuthModule:
+    class: org.yamcs.security.BasicArtemisAuthModule
+
+#maximum number of CIS sessions clients are allowed
+maxNoSessions: 10
+
+
+# yaml file, if using YamlRealm
+yamlRealmFilename:  credentials_test.yaml
