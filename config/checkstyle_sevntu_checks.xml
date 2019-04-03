@@ -5,6 +5,12 @@
         "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 
 <module name="Checker">
+
+    <!-- Filters -->
+    <module name="SuppressionFilter">
+        <property name="file" value="config/sevntu_suppressions.xml"/>
+    </module>
+
     <module name="TreeWalker">
         <module name="StaticMethodCandidate"/>
         <module name="UselessSingleCatchCheck"/>
@@ -59,6 +65,42 @@
             <property name="allowRethrow" value="true"/>
         </module>
         <module name="AvoidNotShortCircuitOperatorsForBoolean"/>
-        <module name="MultipleStringLiteralsExtended"/>
+        <module name="RedundantReturn"/>
+        <module name="WhitespaceBeforeArrayInitializer"/>
+        <module name="InnerClass"/>
+        <module name="EnumValueNameCheck">
+            <property name="objFormat" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+        </module>
+        <module name="OverridableMethodInConstructor">
+            <property name="checkCloneMethod" value="true"/>
+            <property name="checkReadObjectMethod" value="true"/>
+            <property name="matchMethodsByArgCount" value="true"/>
+        </module>
+        <!--commented till https://github.com/sevntu-checkstyle/sevntu.checkstyle/issues/410-->
+        <!--<module name="AvoidModifiersForTypes"/>-->
+        <module name="ForbidAnnotation">
+            <property name="annotationNames" value="Ignore"/>
+            <property name="annotationTargets" value="METHOD_DEF"/>
+        </module>
+        <module name="RequiredParameterForAnnotation">
+            <property name="annotationName" value="Generated"/>
+            <property name="requiredParameters" value="value"/>
+        </module>
+        <module name="ForbidCertainImports">
+            <property name="packageNameRegexp" value="^.*(api|utils).*$"/>
+            <property name="forbiddenImportsRegexp" value="^.*checks.*$"/>
+        </module>
+        <module name="LineLengthExtended">
+            <property name="max" value="100"/>
+            <property name="ignoreClass" value="true"/>
+            <property name="ignoreConstructor" value="true"/>
+            <property name="ignoreField" value="true"/>
+            <property name="ignoreMethod" value="true"/>
+            <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
+        </module>
+        <module name="AvoidHidingCauseException"/>
+        <module name="MultipleStringLiteralsExtended">
+            <property name="highlightAllDuplicates" value="true"/>
+        </module>    
     </module>
 </module>
