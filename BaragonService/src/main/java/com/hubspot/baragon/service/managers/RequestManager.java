@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.zookeeper.KeeperException.NodeExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -306,11 +305,8 @@ public class RequestManager {
         stateDatastore.updateStateNode();
       }
       stateDatastore.incrementStateVersion();
-    } catch (NodeExistsException e) {
-      LOG.error(String.format("Error updating state datastore %s, for path %s: %s", e, e.getPath(), e.getMessage()));
-
     } catch (Exception e) {
-      LOG.error(String.format("Error updating state datastore %s, for path %s", e));
+      LOG.error(String.format("Error updating state datastore %s", e));
     }
   }
 
