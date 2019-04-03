@@ -2113,7 +2113,7 @@ public class VcGenerator {
 			parameterPatterns[i] = new TypePattern.Leaf(convert(params.get(i),
 					Collections.EMPTY_LIST), v);
 		}
-		TypePattern.Leaf[] returnPatterns = new TypePattern.Leaf[params.size()];
+		TypePattern.Leaf[] returnPatterns = new TypePattern.Leaf[returns.size()];
 		// second, set initial environment
 		for (int i = 0; i != returns.size(); ++i) {
 			Expr.Variable v = new Expr.Variable("r" + i);
