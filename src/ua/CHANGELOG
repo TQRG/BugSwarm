@@ -1,0 +1,220 @@
+DNAnexus Upload Agent 1.5.11 <support@dnanexus.com>, 2015-Sep-16
+----------------------------------------------------------------
+  * PTFM-16030 Support proxy S3 API endpoints in UA
+
+DNAnexus Upload Agent 1.5.10 <support@dnanexus.com>, 2015-Jul-01
+----------------------------------------------------------------
+  * Use upload API v2
+
+DNAnexus Upload Agent 1.5.9 <support@dnanexus.com>, 2015-Jun-10
+---------------------------------------------------------------
+  * Adding several configuration options which should prevent uploads from getting stuck
+
+DNAnexus Upload Agent 1.5.8 <support@dnanexus.com>, 2015-May-13
+---------------------------------------------------------------
+  * Check that all chunks are marked as complete before closing an uploaded file.  Will retry non-complete chunks up to 3 times.
+
+DNAnexus Upload Agent 1.5.7 <support@dnanexus.com>, 2015-Feb-05
+---------------------------------------------------------------
+  * Minor documentation update
+
+DNAnexus Upload Agent 1.5.6 <support@dnanexus.com>, 2015-Jan-07
+---------------------------------------------------------------
+  * build using clang
+
+DNAnexus Upload Agent 1.5.5 <support@dnanexus.com>, 2014-Nov-12
+---------------------------------------------------------------
+  * Deadvertise options for running import apps.
+
+DNAnexus Upload Agent 1.5.4 <support@dnanexus.com>, 2014-Jun-10
+---------------------------------------------------------------
+  * Support for 503/Retry-After to improve resilience during apiserver maintenance.
+
+DNAnexus Upload Agent 1.5.3 <support@dnanexus.com>, 2014-Mar-18
+---------------------------------------------------------------
+  * Normalize version numbering.
+
+DNAnexus Upload Agent 1.5.2 <support@dnanexus.com>, 2014-Feb-04
+---------------------------------------------------------------
+  * Set CURLOPT_SSL_VERIFYHOST=0 when DX_CA_CERT=NOVERIFY
+
+DNAnexus Upload Agent 1.5.1 <support@dnanexus.com>, 2014-Jan-09
+---------------------------------------------------------------
+  * Fix error in 'ua --env' due to bad CA certificate initialization.
+
+DNAnexus Upload Agent 1.5.0 <support@dnanexus.com>, 2014-Jan-07
+---------------------------------------------------------------
+  * Make chunk size and throttle parameters understand unit suffixes.
+  * Warn or fail when throttle parameter is too low.
+
+DNAnexus Upload Agent 1.4.9 <support@dnanexus.com>, 2013-Dec-01
+---------------------------------------------------------------
+  * Fix Mac build issues with 1.4.7 and .8.
+
+DNAnexus Upload Agent 1.4.8 <support@dnanexus.com>, 2013-Dec-01
+---------------------------------------------------------------
+  * Fix broken 1.4.7 release.
+
+DNAnexus Upload Agent 1.4.7 <support@dnanexus.com>, 2013-Nov-19
+---------------------------------------------------------------
+  * Build improvements.
+
+DNAnexus Upload Agent 1.4.5 <support@dnanexus.com>, 2013-Jul-11
+---------------------------------------------------------------
+  * v1.4.4 didn't compile properly on windows. Fixed that issue.
+  * Released on wiki.
+
+DNAnexus Upload Agent 1.4.4 <support@dnanexus.com>, 2013-Jul-11
+---------------------------------------------------------------
+  * Bug fix for LC_ALL hack (for older kernel)
+  * Not released on wiki.
+
+DNAnexus Upload Agent 1.4.3 <support@dnanexus.com>, 2013-Jul-11
+---------------------------------------------------------------
+  * Retry /findUsers request (to test apiserver connectivity)
+  * Bumping up libcurl version in CentOS build script as well
+  * Released on wiki.
+
+DNAnexus Upload Agent 1.4.2 <support@dnanexus.com>, 2013-Jul-8
+--------------------------------------------------------------
+  * Bump up the minimum libcurl version required to be 7.31.0
+  * Not released on wiki.
+
+DNAnexus Upload Agent 1.4.1 <support@dnanexus.com>, 2013-Jul-8
+--------------------------------------------------------------
+  * A speculative fix for PTFM-8366 (reincarnation of PTFM-7251).
+    We now ignore SIGPIPE at dxcpp init time (and never reset it
+    until the process terminates).
+  * A fix for "LC_ALL" issue which resurfaced in v1.4.0 (due to changes
+    made for PTFM-8385)
+  * Extraction of hostname is better now (deals with port info in url),
+    also we identify ip addresses and do not resolve them explicitly (PTFM-8427)
+  * Not released on wiki.
+
+DNAnexus Upload Agent 1.4.0 <support@dnanexus.com>, 2013-Jul-1
+--------------------------------------------------------------
+  * UA should now use full file path for creating the file signature
+    (which in turn is used for resuming uploads)
+  * This version of UA is not released on wiki.
+
+DNAnexus Upload Agent 1.3.1 <support@dnanexus.com>, 2013-May-10
+---------------------------------------------------------------
+  * Bug fix: Libcurl silently added the header: "Content-Type: application/x-www-form-urlencoded"
+    to all POST requests, but the new File API disallow sending "Content-Type" header with /UPLOAD call.
+
+DNAnexus Upload Agent 1.3.0 <support@dnanexus.com>, 2013-May-10
+---------------------------------------------------------------
+  * [PTFM-7309] [PTFM-7314] Upload Agent now supports revised File API
+  * resolveProject() function now caches previously returned values 
+  * Some minor cosmetic improvements
+
+DNAnexus Upload Agent 1.2.12 <support@dnanexus.com>, 2013-May-6
+---------------------------------------------------------------
+  * We are now explicitly setting LC_ALL=C in "linux-older-kernel" build
+    (this allows the older-kernel build to function correctly on newer
+    systems too)
+
+DNAnexus Upload Agent 1.2.11 <support@dnanexus.com>, 2013-May-3
+---------------------------------------------------------------
+  * [PTFM-6706] Use c-ares's ares_gethostbyname() to resolve ip address explicitly on 
+    linux/mac, and gethostbyname() on windows. Also, added a new command line flag
+    "--no-round-robin-dns" to disable this behavior.
+  * Round robin DNS also works on windows
+  * Adding special "User-Agent" string for UA compilation on older kernels
+  * Some minor changes
+
+DNAnexus Upload Agent 1.2.10 <support@dnanexus.com>, 2013-May-1
+---------------------------------------------------------------
+  * [PTFM-6706] UA now uses gethostbyname to do explicit DNS round robin
+    (only for Linux & Mac versions).
+  * [PTFM-6669] Uploading files >2GB should work on windows now.
+  * UA should exit normally  when --help is used.
+  * Fix for "file" command on old system (since they lack --mime-type flag)
+  * Windows version will remain on libcurl 7.27 (UA with 7.30 fails to make libcurl
+    requests properly for some reason). For that relaxed the relevant condition in main.cpp
+  * Various other minor fixes
+
+DNAnexus Upload Agent 1.2.9 <support@dnanexus.com>, 2013-Apr-22
+---------------------------------------------------------------
+  * Minor bug fix
+
+DNAnexus Upload Agent 1.2.8 <support@dnanexus.com>, 2013-Apr-22
+---------------------------------------------------------------
+  * [PTFM-7251] SIGPIPE bug fix (UA crashed mysteriously sometime with exit code: 141)
+  * Using libcurl version 7.30 (forcing UA to use >= 7.30, so that we ensure that we make transition on all platforms)
+    Also --version flag now prints Boost and libcurl versions
+  * Capping maximum number of (default) compress threads to 8
+  * Support for DX_LIBCURL_VERBOSE is added
+  * More detailed error message is read from libcurl when /UPLOAD request fails
+  * chunk::log() now accepts level as a configurable param
+  * Setting CURLOPT_TIMEOUT to unlimited (0) in /UPLOAD route too
+
+DNAnexus Upload Agent 1.2.7 <support@dnanexus.com>, 2013-Mar-14
+---------------------------------------------------------------
+  * Relevant JIRA tickets: PTFM-4459, PTFM-6628, PTFM-6629
+  * Compiling UA with "-O3" flag now
+  * Fix a thread race condition while printing error message
+    for bad_alloc case
+  * Append null gzipped bytes for chunks compressing less than 5MB
+    (instead of previous behavior of compressing at level 0)
+  * Bug fix: Average transfer rate was incorrectly reported when
+    file compression was on
+
+DNAnexus Upload Agent 1.2.6 <support@dnanexus.com>, 2013-Mar-12
+---------------------------------------------------------------
+  * https://github.com/dnanexus/dx-toolkit/commit/bd7d2fa306aa90fd06580cfc86fabc94b64d9772
+    - User Agent string of Upload Agent is updated to include platform
+      (and also dxcpp/dxhttp version for /UPLOAD requests)
+    - Added some sleep() to compress/read/upload threads, to ensure
+      that we yield to other threads
+    - Using DXLOG for logging in Upload Agent now
+  * New default values for chunk-size, number of threads (upload/read/compress)
+  * Catch std::bad_alloc (and print a meaningful error message)
+  * Catch the "schannel" (curl code: 35) error, and show the URL to download relevant hotfix from Microsoft.
+  * Progress bar is now refreshed every 1sec (compared to previous 0.25sec)
+
+DNAnexus Upload Agent 1.2.5 <support@dnanexus.com>, 2013-Feb-25
+---------------------------------------------------------------
+  * Bug fix: UA crashed when uploading >1 files
+    without explicitly specifying a project.
+  
+  * https://github.com/dnanexus/dx-toolkit/commit/bc10fc7f576226de79333ac3de92a8b4046e507d
+
+  * Uploaded to wiki
+
+DNAnexus Upload Agent 1.2.4 <support@dnanexus.com>, 2013-Feb-22
+---------------------------------------------------------------
+  * [PTFM-5674] [PTFM-5184] fixed in this version
+    - We use "file" to find out mime type on POSIX compilant systems
+    - /system/greet is now called when UA starts to check for updates
+  
+  * https://github.com/dnanexus/dx-toolkit/commit/98fc8e2d5dc9e1261319da26cc4fe046996255f4
+  
+  * Uploaded to wiki
+
+=============================================================================================
+=============================================================================================
+
+DNAnexus Upload Agent all versions <1.2.4 <support@dnanexus.com>
+----------------------------------------------------------------
+ * We did not keep an explicit changelog for Upload Agent
+   before v1.2.4. Please see the dx-toolkit git repo for details.
+
+ * A super brief overview of UA's capabilities at v1.2.3
+   - Available for Linux, Mac & Windows.
+   - Supports uploading multiple files to multiple projects
+     (with possibly different names/folders)
+   - Can show progress bar
+     -- Individual file percentage complete
+     -- Average & Instantaneous transfer speed
+   - File upload integrity check is performed, i.e., a Content-MD5
+     header is added to all /UPLOAD requests
+   - Able to compress file (if not already compressed)
+   - Can resume uploads
+   - Can run import apps once the upload has finished (user can specify ref genome)
+     -- Import reads
+     -- Import paired reads
+     -- Import mappings
+     -- Import variants
+   - Number of compress/upload/reads threads can be tweaked
+   - "--env" flag available
