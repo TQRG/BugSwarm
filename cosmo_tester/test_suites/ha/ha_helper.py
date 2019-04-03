@@ -16,7 +16,6 @@
 
 import time
 import os
-from base64 import standard_b64encode
 
 
 class HighAvailabilityHelper(object):
@@ -24,8 +23,8 @@ class HighAvailabilityHelper(object):
     def set_active(manager, cfy, logger):
         try:
             logger.info('Setting active manager %s',
-                        manager.private_ip_address)
-            cfy.cluster('set-active', manager.index)
+                        manager.ip_address)
+            cfy.cluster('set-active', manager.ip_address)
         except Exception as e:
             logger.info('Setting active manager error message: %s', e.message)
         finally:
@@ -38,17 +37,22 @@ class HighAvailabilityHelper(object):
 
     @staticmethod
     def verify_nodes_status(manager, cfy, logger):
-        logger.info('Verifying that manager %s is a master '
-                    'and others are standby', manager.private_ip_address)
+        logger.info('Verifying that manager %s is a leader '
+                    'and others are replicas', manager.ip_address)
         cfy.cluster.nodes.list()
         nodes = manager.client.cluster.nodes.list()
 
         for node in nodes:
-            if node.name == str(manager.index):
+            if node.name == str(manager.ip_address):
                 assert node.master is True
+                logger.info('Manager %s is a leader ', node.name)
             else:
-                assert node.master is False
+                assert node.master is not True
+                logger.info('Manager %s is a replica ', node.name)
 
     @staticmethod
-    def create_encription_key():
-        return standard_b64encode(os.urandom(16))
+    def delete_active_profile():
+        active_profile_path = os.path.join(os.environ['CFY_WORKDIR'],
+                                           '.cloudify/active.profile')
+        if os.path.exists(active_profile_path):
+            os.remove(active_profile_path)
