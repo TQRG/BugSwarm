@@ -81,7 +81,7 @@ def stream_encode_multipart(values, use_tempfile=True, threshold=1024 * 500,
                                    getattr(value, 'name', None))
                 content_type = getattr(value, 'content_type', None)
                 if content_type is None and filename:
-                     content_type = mimetypes.guess_type(filename)[0]
+                    content_type = mimetypes.guess_type(filename)[0]
                 if content_type is None:
                     content_type = 'application/octet-stream'
                 if filename is not None:
@@ -773,8 +773,8 @@ class Client(object):
         while 1:
             status_code = int(response[1].split(None, 1)[0])
             if (
-                status_code not in (301, 302, 303, 305, 307)
-                or not follow_redirects
+                status_code not in (301, 302, 303, 305, 307) or
+                not follow_redirects
             ):
                 break
             new_location = response[2]['location']
