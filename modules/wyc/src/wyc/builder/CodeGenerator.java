@@ -1889,11 +1889,11 @@ public final class CodeGenerator {
 		int[] targets = new int[] { environment.allocate(expr.result().raw()) };
 		switch (expr.op) {
 		case NEG:
-			block.add(Codes.BinaryOperator(expr.result().raw(), targets, operands, Codes.OperatorKind.NEG),
+			block.add(Codes.Operator(expr.result().raw(), targets, operands, Codes.OperatorKind.NEG),
 					attributes(expr));
 			break;
 		case INVERT:
-			block.add(Codes.BinaryOperator(expr.result().raw(), targets, operands, Codes.OperatorKind.INVERT),
+			block.add(Codes.Operator(expr.result().raw(), targets, operands, Codes.OperatorKind.INVERT),
 					attributes(expr));
 			break;
 		case NOT:
@@ -1924,10 +1924,11 @@ public final class CodeGenerator {
 
 	private int generate(Expr.Dereference expr, Environment environment, CodeForest.Block block, CodeForest forest,
 			Context context) {
-		int operand = generate(expr.src, environment, block, forest, context);
-		int target = environment.allocate(expr.result().raw());
-		block.add(Codes.Dereference(expr.srcType.raw(), target, operand), attributes(expr));
-		return target;
+		int[] operands = new int[] { generate(expr.src, environment, block, forest, context) };
+		int[] targets = new int[] { environment.allocate(expr.result().raw()) };
+		block.add(Codes.Operator(expr.srcType.raw(), targets, operands, Codes.OperatorKind.DEREFERENCE),
+				attributes(expr));
+		return targets[0];
 	}
 
 	private int generate(Expr.IndexOf expr, Environment environment, CodeForest.Block block, CodeForest forest,
@@ -1974,7 +1975,7 @@ public final class CodeGenerator {
 					generate(v.rhs, environment, block, forest, context) 
 			};
 
-			block.add(Codes.BinaryOperator(result, targets, operands, OP2BOP(v.op, v, context)),
+			block.add(Codes.Operator(result, targets, operands, OP2BOP(v.op, v, context)),
 					attributes(v));
 
 			return targets[0];

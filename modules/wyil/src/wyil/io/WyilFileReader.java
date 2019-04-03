@@ -935,12 +935,12 @@ public final class WyilFileReader {
 		};
 		schemas[Code.OPCODE_dereference] = new Schema(Targets.ONE, Operands.ONE, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.Dereference((Type.Reference) types[0], targets[0], operands[0]);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.DEREFERENCE);
 			}
 		};
 		schemas[Code.OPCODE_invert] = new Schema(Targets.ONE, Operands.ONE, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.INVERT);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.INVERT);
 			}
 		};
 		schemas[Code.OPCODE_lengthof] = new Schema(Targets.ONE, Operands.ONE, Types.ONE){
@@ -950,7 +950,7 @@ public final class WyilFileReader {
 		};
 		schemas[Code.OPCODE_neg] = new Schema(Targets.ONE, Operands.ONE, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.NEG);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.NEG);
 			}
 		};
 		schemas[Code.OPCODE_fieldload] = new Schema(Targets.ONE, Operands.ONE, Types.ONE, Extras.STRING){
@@ -1008,52 +1008,52 @@ public final class WyilFileReader {
 		// =========================================================================
 		schemas[Code.OPCODE_add] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.ADD);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.ADD);
 			}
 		};
 		schemas[Code.OPCODE_sub] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.SUB);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.SUB);
 			}
 		};
 		schemas[Code.OPCODE_mul] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.MUL);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.MUL);
 			}
 		};
 		schemas[Code.OPCODE_div] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.DIV);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.DIV);
 			}
 		};
 		schemas[Code.OPCODE_rem] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.REM);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.REM);
 			}
 		};
 		schemas[Code.OPCODE_bitwiseor] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.BITWISEOR);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.BITWISEOR);
 			}
 		};
 		schemas[Code.OPCODE_bitwisexor] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.BITWISEXOR);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.BITWISEXOR);
 			}
 		};
 		schemas[Code.OPCODE_bitwiseand] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.BITWISEAND);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.BITWISEAND);
 			}
 		};
 		schemas[Code.OPCODE_lshr] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.LEFTSHIFT);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.LEFTSHIFT);
 			}
 		};
 		schemas[Code.OPCODE_rshr] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){
 			public Code construct(int opcode,int[] targets, int[] operands, Type[] types, Object[] extras) {
-				return Codes.BinaryOperator(types[0], targets, operands, Codes.OperatorKind.RIGHTSHIFT);
+				return Codes.Operator(types[0], targets, operands, Codes.OperatorKind.RIGHTSHIFT);
 			}
 		};
 		schemas[Code.OPCODE_indexof] = new Schema(Targets.ONE, Operands.TWO, Types.ONE){

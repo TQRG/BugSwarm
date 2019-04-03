@@ -45,7 +45,7 @@ public abstract class Codes {
 		return new Assume(block);
 	}
 
-	public static Operator BinaryOperator(Type type, int[] targets, int[] operands, OperatorKind op) {
+	public static Operator Operator(Type type, int[] targets, int[] operands, OperatorKind op) {
 		return new Operator(type, targets, operands, op);
 	}
 
@@ -308,11 +308,6 @@ public abstract class Codes {
 		return new NewObject(type, target, operand);
 	}
 
-	public static Dereference Dereference(Type.Reference type, int target,
-			int operand) {
-		return new Dereference(type, target, operand);
-	}
-
 	public static Quantify Quantify(int startOperand, int endOperand, int indexOperand, int[] modifiedOperands,
 			int block) {
 		return new Quantify(startOperand, endOperand, indexOperand, modifiedOperands, block);
@@ -354,53 +349,58 @@ public abstract class Codes {
 				return "invert";
 			}
 		},
+		DEREFERENCE(2) {
+			public String toString() {
+				return "deref";
+			}
+		},
 		// Binary
-		ADD(2) {
+		ADD(3) {
 			public String toString() {
 				return "add";
 			}
 		},
-		SUB(3) {
+		SUB(4) {
 			public String toString() {
 				return "sub";
 			}
 		},
-		MUL(4) {
+		MUL(5) {
 			public String toString() {
 				return "mul";
 			}
 		},
-		DIV(5) {
+		DIV(6) {
 			public String toString() {
 				return "div";
 			}
 		},
-		REM(6) {
+		REM(7) {
 			public String toString() {
 				return "rem";
 			}
 		},
-		BITWISEOR(7) {
+		BITWISEOR(8) {
 			public String toString() {
 				return "or";
 			}
 		},
-		BITWISEXOR(8) {
+		BITWISEXOR(9) {
 			public String toString() {
 				return "xor";
 			}
 		},
-		BITWISEAND(9) {
+		BITWISEAND(10) {
 			public String toString() {
 				return "and";
 			}
 		},
-		LEFTSHIFT(10) {
+		LEFTSHIFT(11) {
 			public String toString() {
 				return "shl";
 			}
 		},
-		RIGHTSHIFT(11) {
+		RIGHTSHIFT(12) {
 			public String toString() {
 				return "shr";
 			}
@@ -474,7 +474,7 @@ public abstract class Codes {
 
 		@Override
 		public Code clone(int[] nTargets, int[] nOperands) {
-			return BinaryOperator(type(0), nTargets, nOperands, kind);
+			return Operator(type(0), nTargets, nOperands, kind);
 		}
 
 		public int hashCode() {
@@ -490,8 +490,7 @@ public abstract class Codes {
 		}
 
 		public String toString() {
-			return kind + " %" + target(0) + " = %" + operand(0) + ", %"
-					+ operand(1) + " : " + type(0);
+			return kind + " %" + target(0) + " = " + arrayToString(operands()) + " : " + type(0);
 		}
 	}
 
@@ -2475,40 +2474,6 @@ public abstract class Codes {
 
 		public String toString() {
 			return "newobject %" + target(0) + " = %" + operand(0) + " : " + type(0);
-		}
-	}
-
-	/**
-	 * Reads a reference value from the operand register, dereferences it (i.e.
-	 * extracts the value it refers to) and writes this to the target register.
-	 *
-	 * @author David J. Pearce
-	 *
-	 */
-	public static final class Dereference extends AbstractBytecode<Type.Reference> {
-
-		private Dereference(Type.Reference type, int target, int operand) {
-			super(type, target, operand);
-		}
-
-		@Override
-		public int opcode() {
-			return OPCODE_dereference;
-		}
-
-		protected Code clone(int[] nTargets, int[] nOperands) {
-			return Dereference(type(0), nTargets[0], nOperands[0]);
-		}
-
-		public boolean equals(Object o) {
-			if (o instanceof Dereference) {
-				return super.equals(o);
-			}
-			return false;
-		}
-
-		public String toString() {
-			return "deref %" + target(0) + " = %" + operand(0) + " : " + type(0);
 		}
 	}
 

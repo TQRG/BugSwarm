@@ -169,8 +169,6 @@ public class Interpreter {
 			return execute((Codes.Convert) bytecode, frame, context);
 		} else if (bytecode instanceof Codes.Debug) {
 			return execute((Codes.Debug) bytecode, frame, context);
-		} else if (bytecode instanceof Codes.Dereference) {
-			return execute((Codes.Dereference) bytecode, frame, context);
 		} else if (bytecode instanceof Codes.Fail) {
 			return execute((Codes.Fail) bytecode, frame, context);
 		} else if (bytecode instanceof Codes.FieldLoad) {
@@ -287,6 +285,7 @@ public class Interpreter {
 		switch(bytecode.kind) {
 		case NEG:			
 		case INVERT:			
+		case DEREFERENCE:
 			result = executeUnary(bytecode.kind,frame[bytecode.operand(0)],context); 
 			break;
 		case ADD:
@@ -328,7 +327,12 @@ public class Interpreter {
 		}
 		case INVERT: {
 			Constant.Byte b = checkType(operand, context, Constant.Byte.class);			
-			return Constant.V_BYTE((byte) ~b.value);			
+			return Constant.V_BYTE((byte) ~b.value);
+		}
+		case DEREFERENCE: {
+			checkType(operand, context, ConstantObject.class);
+			ConstantObject ref = (ConstantObject) operand;
+			return ref.read();
 		}
 		}
 		return (Constant) deadCode(context);
@@ -581,15 +585,6 @@ public class Interpreter {
 			debug.print(c);
 		}
 		//
-		return context.pc.next();
-	}
-
-	private Object execute(Codes.Dereference bytecode, Constant[] frame,
-			Context context) {
-		Constant operand = frame[bytecode.operand(0)];
-		checkType(operand, context, ConstantObject.class);
-		ConstantObject ref = (ConstantObject) operand;
-		frame[bytecode.target(0)] = ref.read();
 		return context.pc.next();
 	}
 
