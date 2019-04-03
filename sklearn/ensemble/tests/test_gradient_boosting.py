@@ -20,6 +20,7 @@ from sklearn.utils.testing import assert_less
 from sklearn.utils.testing import assert_raises
 from sklearn.utils.testing import assert_true
 from sklearn.utils.testing import assert_warns
+from sklearn.utils.testing import clean_warning_registry
 from sklearn.utils.testing import ignore_warnings
 from sklearn.utils.validation import DataConversionWarning
 from sklearn.utils.validation import NotFittedError
