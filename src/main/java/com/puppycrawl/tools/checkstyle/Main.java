@@ -309,7 +309,8 @@ public final class Main {
                 parentLogger.setLevel(Level.FINEST);
                 handler.setLevel(Level.FINEST);
                 parentLogger.addHandler(handler);
-
+            }
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Checkstyle debug logging enabled");
                 LOG.debug("Running Checkstyle with version: "
                         + Main.class.getPackage().getImplementationVersion());
