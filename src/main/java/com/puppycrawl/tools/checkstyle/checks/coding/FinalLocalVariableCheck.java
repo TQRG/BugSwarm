@@ -152,12 +152,13 @@ public class FinalLocalVariableCheck extends Check {
                 break;
 
             case TokenTypes.PARAMETER_DEF:
-                if (ScopeUtils.inInterfaceBlock(ast)
-                    || inAbstractOrNativeMethod(ast)
-                    || inLambda(ast)) {
+            case TokenTypes.VARIABLE_DEF:
+                if (ast.getType() == TokenTypes.PARAMETER_DEF
+                        && (ScopeUtils.inInterfaceBlock(ast)
+                            || inAbstractOrNativeMethod(ast)
+                            || inLambda(ast))) {
                     break;
                 }
-            case TokenTypes.VARIABLE_DEF:
                 if (ast.getParent().getType() != TokenTypes.OBJBLOCK
                         && shouldCheckEnhancedForLoopVariable(ast)
                         && isVariableInForInit(ast)

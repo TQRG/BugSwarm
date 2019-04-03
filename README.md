@@ -1,4 +1,5 @@
 [![][travis img]][travis]
+[![][appveyor img]][appveyor]
 [![][coverage img]][coverage]
 [![][mavenbadge img]][mavenbadge]
 [![][versioneye img]][versioneye]
@@ -19,7 +20,8 @@ Documentation is available in HTML format, see http://checkstyle.sourceforge.net
 
 Continuous integration and Quality reports
 ======================
-Travis: [![][travis img]][travis]
+Travis (Linux build): [![][travis img]][travis]
+Appveyor (Windows build): [![][appveyor img]][appveyor]
 
 Quality reports: http://checkstyle.sourceforge.net/project-reports.html
 
@@ -59,6 +61,9 @@ directory.
 
 [travis]:http://travis-ci.org/checkstyle/checkstyle
 [travis img]:https://secure.travis-ci.org/checkstyle/checkstyle.png
+
+[appveyor]:https://ci.appveyor.com/project/romani/checkstyle
+[appveyor img]:https://ci.appveyor.com/api/projects/status/dvsups9tbw64378v?svg=true
 
 [sonar]:http://nemo.sonarqube.org/dashboard/index/com.puppycrawl.tools:checkstyle
 [sonar img]:https://dev.eclipse.org/sonar/images/logo.png?1400775536
