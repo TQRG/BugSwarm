@@ -17,6 +17,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -277,9 +278,9 @@ public class MantaClientJobIT {
     @Test(dependsOnMethods = { "createJob", "getJob" })
     public void canListJobsByName() throws IOException {
         final String name = String.format("by_name_%s", UUID.randomUUID());
-        final MantaJob job1 = buildJob(name);
+        final MantaJob job1 = buildJob(name, "cat");
         final UUID job1id = mantaClient.createJob(job1);
-        MantaJob job2 = buildJob(name);
+        MantaJob job2 = buildJob(name, "cat");
         final UUID job2id = mantaClient.createJob(job2);
 
         try (Stream<UUID> jobs = mantaClient.getJobIdsByName(name)) {
@@ -342,16 +343,182 @@ public class MantaClientJobIT {
                 "Output wasn't the same as input");
     }
 
-    private MantaJob buildJob() {
-        String name = String.format("integration_test_%d", count.incrementAndGet());
-        return buildJob(name);
+    @Test
+    public void canListOutputsForJobAsStreams() throws IOException, InterruptedException {
+        String path1 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path1, TEST_DATA);
+
+        String path2 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path2, TEST_DATA);
+
+        final MantaJob job = buildJob();
+        final UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        inputs.add(path1);
+        inputs.add(path2);
+
+        mantaClient.addJobInputs(jobId, inputs.iterator());
+        mantaClient.endJobInput(jobId);
+
+        while (!mantaClient.getJob(jobId).getState().equals("done")) {
+            Thread.sleep(1000);
+        }
+
+        final AtomicInteger count = new AtomicInteger(0);
+
+        mantaClient.getJobOutputsAsStreams(jobId)
+                .forEach(o -> {
+                    count.incrementAndGet();
+                    try {
+                        String content = MantaUtils.inputStreamToString(o);
+                        Assert.assertEquals(content, TEST_DATA);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+
+        Assert.assertEquals(count.get(), 2, "Missing both outputs");
     }
 
-    private MantaJob buildJob(final String name) {
+    @Test
+    public void canListOutputsForJobAsStrings() throws IOException, InterruptedException {
+        String path1 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path1, TEST_DATA);
+
+        String path2 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path2, TEST_DATA);
+
+        final MantaJob job = buildJob();
+        final UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        inputs.add(path1);
+        inputs.add(path2);
+
+        mantaClient.addJobInputs(jobId, inputs.iterator());
+        mantaClient.endJobInput(jobId);
+
+        while (!mantaClient.getJob(jobId).getState().equals("done")) {
+            Thread.sleep(1000);
+        }
+
+        final AtomicInteger count = new AtomicInteger(0);
+
+        mantaClient.getJobOutputsAsStrings(jobId)
+                .forEach(content -> {
+                    count.incrementAndGet();
+                    Assert.assertEquals(content, TEST_DATA);
+                });
+
+        Assert.assertEquals(count.get(), 2, "Missing both outputs");
+    }
+
+    @Test
+    public void canListFailedJobs() throws IOException, InterruptedException {
+        String path = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path, TEST_DATA);
+
+        final MantaJob job = buildJob("failed_job", "grep foo");
+        final UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        inputs.add(path);
+
+        mantaClient.addJobInputs(jobId, inputs.iterator());
+        mantaClient.endJobInput(jobId);
+
+        while (!mantaClient.getJob(jobId).getState().equals("done")) {
+            Thread.sleep(1000);
+        }
+
+        List<String> failures = mantaClient.getJobFailures(jobId)
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(failures.size(), 1, "There should only be a single failure");
+    }
+
+    @Test
+    public void canListFailuresForJobAsStreams() throws IOException, InterruptedException {
+        String path1 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path1, TEST_DATA);
+
+        String path2 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path2, TEST_DATA);
+
+        final MantaJob job = buildJob("failed_job", "grep foo");
+        final UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        inputs.add(path1);
+        inputs.add(path2);
+
+        mantaClient.addJobInputs(jobId, inputs.iterator());
+        mantaClient.endJobInput(jobId);
+
+        while (!mantaClient.getJob(jobId).getState().equals("done")) {
+            Thread.sleep(1000);
+        }
+
+        final AtomicInteger count = new AtomicInteger(0);
+
+        mantaClient.getJobFailuresAsStreams(jobId)
+                .forEach(o -> {
+                    count.incrementAndGet();
+                    try {
+                        String content = MantaUtils.inputStreamToString(o);
+                        Assert.assertEquals(content, TEST_DATA);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+
+        Assert.assertEquals(count.get(), 2, "Missing both outputs");
+    }
+
+    @Test
+    public void canListFailuresForJobAsStrings() throws IOException, InterruptedException {
+        String path1 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path1, TEST_DATA);
+
+        String path2 = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(path2, TEST_DATA);
+
+        final MantaJob job = buildJob("failed_job", "grep foo");
+        final UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        inputs.add(path1);
+        inputs.add(path2);
+
+        mantaClient.addJobInputs(jobId, inputs.iterator());
+        mantaClient.endJobInput(jobId);
+
+        while (!mantaClient.getJob(jobId).getState().equals("done")) {
+            Thread.sleep(1000);
+        }
+
+        final AtomicInteger count = new AtomicInteger(0);
+
+        mantaClient.getJobFailuresAsStrings(jobId)
+                .forEach(content -> {
+                    count.incrementAndGet();
+                    Assert.assertEquals(content, TEST_DATA);
+                });
+
+        Assert.assertEquals(count.get(), 2, "Missing both outputs");
+    }
+
+    private MantaJob buildJob() {
+        String name = String.format("integration_test_%d", count.incrementAndGet());
+        return buildJob(name, "cat");
+    }
+
+    private MantaJob buildJob(final String name, final String exec) {
         List<MantaJobPhase> phases = new ArrayList<>();
         MantaJobPhase map = new MantaJobPhase()
             .setType("map")
-            .setExec("cat");
+            .setExec(exec);
         phases.add(map);
 
         return new MantaJob(name, phases);
