@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.is24.junit</groupId>
+    <artifactId>project</artifactId>
+    <version>42</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.is24.mavenplugins</groupId>
+                <artifactId>deadcode4j-maven-plugin</artifactId>
+                <configuration>
+                    <annotationsMarkingLiveCode>
+                        <param>de.is24.deadcode4j.junit.Annotation</param>
+                    </annotationsMarkingLiveCode>
+                    <classesToIgnore>
+                        <param>DependingClass</param>
+                        <param>com.acme.Foo</param>
+                    </classesToIgnore>
+                    <customXmls>
+                        <customXml>
+                            <rootElement>nospring</rootElement>
+                            <endOfFileName>.xml</endOfFileName>
+                            <xPaths>
+                                <param>bean/@class</param>
+                            </xPaths>
+                        </customXml>
+                    </customXmls>
+                    <ignoreMainClasses>true</ignoreMainClasses>
+                    <interfacesMarkingLiveCode>
+                        <param>java.lang.Cloneable</param>
+                        <param>java.io.Externalizable</param>
+                    </interfacesMarkingLiveCode>
+                    <reactorProjects>
+                        <project implementation="de.is24.deadcode4j.plugin.stubs.ProjectStub">
+                            <outputDirectory>${testScenarios.directory}</outputDirectory>
+                        </project>
+                    </reactorProjects>
+                    <skipUpdateCheck>true</skipUpdateCheck>
+                    <skipSendingUsageStatistics>true</skipSendingUsageStatistics>
+                    <superClassesMarkingLiveCode>
+                        <param>java.lang.Thread</param>
+                    </superClassesMarkingLiveCode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
