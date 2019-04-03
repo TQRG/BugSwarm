@@ -152,7 +152,12 @@ public final class FileText extends AbstractList<String> {
         charset = fileText.charset;
         fullText = fileText.fullText;
         lines = fileText.lines.clone();
-        lineBreaks = fileText.lineBreaks == null ? null : fileText.lineBreaks.clone();
+        if (fileText.lineBreaks == null) {
+            lineBreaks = null;
+        }
+        else {
+            lineBreaks = fileText.lineBreaks.clone();
+        }
     }
 
     /**

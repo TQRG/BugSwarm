@@ -433,12 +433,11 @@ public final class CommonUtils {
      * @since 2.0
      */
     public static boolean isBlank(String str) {
-        if (str == null) {
-            return true;
-        }
-        for (char chr : Lists.charactersOf(str)) {
-            if (!Character.isWhitespace(chr)) {
-                return false;
+        if (str != null) {
+            for (char chr : Lists.charactersOf(str)) {
+                if (!Character.isWhitespace(chr)) {
+                    return false;
+                }
             }
         }
         return true;
