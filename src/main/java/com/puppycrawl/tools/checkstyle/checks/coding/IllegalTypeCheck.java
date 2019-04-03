@@ -130,13 +130,13 @@ public final class IllegalTypeCheck extends AbstractFormatCheck {
         "getEnvironment",
     };
 
-    /** illegal classes. */
+    /** Illegal classes. */
     private final Set<String> illegalClassNames = Sets.newHashSet();
-    /** legal abstract classes. */
+    /** Legal abstract classes. */
     private final Set<String> legalAbstractClassNames = Sets.newHashSet();
-    /** methods which should be ignored. */
+    /** Methods which should be ignored. */
     private final Set<String> ignoredMethodNames = Sets.newHashSet();
-    /** check methods and fields with only corresponding modifiers. */
+    /** Check methods and fields with only corresponding modifiers. */
     private List<Integer> memberModifiers;
 
     /** Creates new instance of the check. */
@@ -262,9 +262,9 @@ public final class IllegalTypeCheck extends AbstractFormatCheck {
     /**
      * Checks if current import is star import. E.g.:
      * <p>
-     * <code>
+     * {@code
      * import java.util.*;
-     * </code>
+     * }
      * </p>
      * @param importAst {@link TokenTypes#IMPORT Import}
      * @return true if it is star import

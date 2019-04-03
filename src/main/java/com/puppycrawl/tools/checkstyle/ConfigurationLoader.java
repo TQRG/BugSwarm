@@ -57,49 +57,49 @@ public final class ConfigurationLoader {
     /** Logger for ConfigurationLoader. */
     private static final Log LOG = LogFactory.getLog(ConfigurationLoader.class);
 
-    /** the public ID for version 1_0 of the configuration dtd */
+    /** The public ID for version 1_0 of the configuration dtd */
     private static final String DTD_PUBLIC_ID_1_0 =
         "-//Puppy Crawl//DTD Check Configuration 1.0//EN";
 
-    /** the resource for version 1_0 of the configuration dtd */
+    /** The resource for version 1_0 of the configuration dtd */
     private static final String DTD_RESOURCE_NAME_1_0 =
         "com/puppycrawl/tools/checkstyle/configuration_1_0.dtd";
 
-    /** the public ID for version 1_1 of the configuration dtd */
+    /** The public ID for version 1_1 of the configuration dtd */
     private static final String DTD_PUBLIC_ID_1_1 =
         "-//Puppy Crawl//DTD Check Configuration 1.1//EN";
 
-    /** the resource for version 1_1 of the configuration dtd */
+    /** The resource for version 1_1 of the configuration dtd */
     private static final String DTD_RESOURCE_NAME_1_1 =
         "com/puppycrawl/tools/checkstyle/configuration_1_1.dtd";
 
-    /** the public ID for version 1_2 of the configuration dtd */
+    /** The public ID for version 1_2 of the configuration dtd */
     private static final String DTD_PUBLIC_ID_1_2 =
         "-//Puppy Crawl//DTD Check Configuration 1.2//EN";
 
-    /** the resource for version 1_2 of the configuration dtd */
+    /** The resource for version 1_2 of the configuration dtd */
     private static final String DTD_RESOURCE_NAME_1_2 =
         "com/puppycrawl/tools/checkstyle/configuration_1_2.dtd";
 
-    /** the public ID for version 1_3 of the configuration dtd */
+    /** The public ID for version 1_3 of the configuration dtd */
     private static final String DTD_PUBLIC_ID_1_3 =
         "-//Puppy Crawl//DTD Check Configuration 1.3//EN";
 
-    /** the resource for version 1_3 of the configuration dtd */
+    /** The resource for version 1_3 of the configuration dtd */
     private static final String DTD_RESOURCE_NAME_1_3 =
         "com/puppycrawl/tools/checkstyle/configuration_1_3.dtd";
 
-    /** the SAX document handler */
+    /** The SAX document handler */
     private final InternalLoader saxHandler;
 
-    /** property resolver **/
+    /** Property resolver **/
     private final PropertyResolver overridePropsResolver;
-    /** the loaded configurations **/
+    /** The loaded configurations **/
     private final Deque<DefaultConfiguration> configStack = new ArrayDeque<>();
-    /** the Configuration that is being built */
+    /** The Configuration that is being built */
     private Configuration configuration;
 
-    /** flags if modules with the severity 'ignore' should be omitted. */
+    /** Flags if modules with the severity 'ignore' should be omitted. */
     private final boolean omitIgnoredModules;
 
     /**
@@ -367,12 +367,6 @@ public final class ConfigurationLoader {
                 prev = pos + 1;
             }
             else if (value.charAt(pos + 1) != '{') {
-                //peek ahead to see if the next char is a property or not
-                //not a property: insert the char as a literal
-                /*
-                fragments.addElement(value.substring(pos + 1, pos + 2));
-                prev = pos + 2;
-                */
                 if (value.charAt(pos + 1) == '$') {
                     //backwards compatibility two $ map to one mode
                     fragments.add("$");
@@ -414,23 +408,23 @@ public final class ConfigurationLoader {
      */
     private final class InternalLoader
         extends AbstractLoader {
-        /** module elements */
+        /** Module elements */
         private static final String MODULE = "module";
-        /** name attribute */
+        /** Name attribute */
         private static final String NAME = "name";
-        /** property element */
+        /** Property element */
         private static final String PROPERTY = "property";
-        /** value attribute */
+        /** Value attribute */
         private static final String VALUE = "value";
-        /** default attribute */
+        /** Default attribute */
         private static final String DEFAULT = "default";
-        /** name of the severity property */
+        /** Name of the severity property */
         private static final String SEVERITY = "severity";
-        /** name of the message element */
+        /** Name of the message element */
         private static final String MESSAGE = "message";
-        /** name of the message element */
+        /** Name of the message element */
         private static final String METADATA = "metadata";
-        /** name of the key attribute */
+        /** Name of the key attribute */
         private static final String KEY = "key";
 
         /**
@@ -440,7 +434,6 @@ public final class ConfigurationLoader {
          */
         public InternalLoader()
             throws SAXException, ParserConfigurationException {
-            // super(DTD_PUBLIC_ID_1_1, DTD_RESOURCE_NAME_1_1);
             super(createIdToResourceNameMap());
         }
 
