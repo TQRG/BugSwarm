@@ -126,6 +126,7 @@ public class JTreeTable extends JTable {
     /**
      * Set initial value of width for columns in table.
      */
+    @SuppressWarnings("NumericCastThatLosesPrecision")
     private void setColumnsInitialWidth() {
         final FontMetrics fontMetrics = getFontMetrics(getFont());
         // Six character string to contain "Column" column.
@@ -138,7 +139,7 @@ public class JTreeTable extends JTable {
         getColumn("Line").setMaxWidth(widthOfColumnContainingSixCharacterString);
         getColumn("Column").setMaxWidth(widthOfColumnContainingSixCharacterString);
         final int preferredTreeColumnWidth =
-                Double.valueOf(getPreferredSize().getWidth() * 0.6).intValue();
+                (int) (getPreferredSize().getWidth() * 0.6);
         getColumn("Tree").setPreferredWidth(preferredTreeColumnWidth);
         // Twenty eight character string to contain "Type" column
         final int widthOfTwentyEightCharacterString =
