@@ -43,12 +43,17 @@ public class HideUtilityClassConstructorCheck extends Check {
 
     @Override
     public int[] getDefaultTokens() {
-        return new int[] {TokenTypes.CLASS_DEF};
+        return getAcceptableTokens();
     }
 
     @Override
     public int[] getAcceptableTokens() {
         return new int[] {TokenTypes.CLASS_DEF};
+    }
+
+    @Override
+    public int[] getRequiredTokens() {
+        return getAcceptableTokens();
     }
 
     @Override
@@ -122,7 +127,7 @@ public class HideUtilityClassConstructorCheck extends Check {
         /** c-tor
          * @param ast class ast
          * */
-        public Details(DetailAST ast) {
+        Details(DetailAST ast) {
             this.ast = ast;
         }
 

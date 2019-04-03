@@ -408,11 +408,7 @@ public class CustomImportOrderCheck extends Check {
 
     @Override
     public int[] getDefaultTokens() {
-        return new int[] {
-            TokenTypes.IMPORT,
-            TokenTypes.STATIC_IMPORT,
-            TokenTypes.PACKAGE_DEF,
-        };
+        return getAcceptableTokens();
     }
 
     @Override
@@ -422,6 +418,11 @@ public class CustomImportOrderCheck extends Check {
             TokenTypes.STATIC_IMPORT,
             TokenTypes.PACKAGE_DEF,
         };
+    }
+
+    @Override
+    public int[] getRequiredTokens() {
+        return getAcceptableTokens();
     }
 
     @Override
@@ -716,8 +717,12 @@ public class CustomImportOrderCheck extends Check {
      * @return full path or null.
      */
     private static String getFullImportIdent(DetailAST token) {
-        return token != null ? FullIdent.createFullIdent(token
-                .findFirstToken(TokenTypes.DOT)).getText() : "";
+        if (token == null) {
+            return "";
+        }
+        else {
+            return FullIdent.createFullIdent(token.findFirstToken(TokenTypes.DOT)).getText();
+        }
     }
 
     /**
@@ -814,7 +819,7 @@ public class CustomImportOrderCheck extends Check {
          * @param staticImport
          *        if import is static.
          */
-        public ImportDetails(String importFullPath,
+        ImportDetails(String importFullPath,
                 int lineNumber, String importGroup, boolean staticImport) {
             this.importFullPath = importFullPath;
             this.lineNumber = lineNumber;

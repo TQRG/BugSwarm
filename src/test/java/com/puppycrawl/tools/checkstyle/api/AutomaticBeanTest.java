@@ -71,7 +71,7 @@ public class AutomaticBeanTest {
     public void testContextualize_InvocationTargetException() {
         final TestBean testBean = new TestBean();
         DefaultContext context = new DefaultContext();
-        context.add("exceptionalMethod", 123f);
+        context.add("exceptionalMethod", 123.0f);
         try {
             testBean.contextualize(context);
             fail();
@@ -98,7 +98,7 @@ public class AutomaticBeanTest {
     }
 
     @SuppressWarnings("unused")
-    public class TestBean extends AutomaticBean {
+    public static class TestBean extends AutomaticBean {
 
         private String privateField;
 

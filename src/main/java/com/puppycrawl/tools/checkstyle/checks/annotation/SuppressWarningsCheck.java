@@ -21,6 +21,8 @@ package com.puppycrawl.tools.checkstyle.checks.annotation;
 
 import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.puppycrawl.tools.checkstyle.AnnotationUtility;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -137,6 +139,11 @@ public class SuppressWarningsCheck extends AbstractFormatCheck {
     }
 
     @Override
+    public int[] getRequiredTokens() {
+        return ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    @Override
     public void visitToken(final DetailAST ast) {
         final DetailAST annotation = getSuppressWarnings(ast);
 
@@ -209,9 +216,12 @@ public class SuppressWarningsCheck extends AbstractFormatCheck {
         final DetailAST annotation = AnnotationUtility.getAnnotation(
             ast, SUPPRESS_WARNINGS);
 
-        return annotation != null ? annotation
-            : AnnotationUtility.getAnnotation(
-                ast, FQ_SUPPRESS_WARNINGS);
+        if (annotation == null) {
+            return AnnotationUtility.getAnnotation(ast, FQ_SUPPRESS_WARNINGS);
+        }
+        else {
+            return annotation;
+        }
     }
 
     /**

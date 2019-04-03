@@ -19,6 +19,8 @@
 
 package com.puppycrawl.tools.checkstyle.checks.blocks;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.puppycrawl.tools.checkstyle.ScopeUtils;
 import com.puppycrawl.tools.checkstyle.Utils;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -76,6 +78,7 @@ import com.puppycrawl.tools.checkstyle.checks.CheckUtils;
  * @author o_sukhodolsky
  * @author maxvetrenko
  * @author Andrei Selkin
+ * @author <a href="mailto:piotr.listkiewicz@gmail.com">liscju</a>
  */
 public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
     /**
@@ -151,6 +154,11 @@ public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
     }
 
     @Override
+    public int[] getRequiredTokens() {
+        return ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    @Override
     public void visitToken(DetailAST ast) {
         final Details details = getDetails(ast);
         final DetailAST rcurly = details.rcurly;
@@ -192,7 +200,8 @@ public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
         String violation = "";
 
         if (bracePolicy == RightCurlyOption.SAME
-                && !hasLineBreakBefore(rcurly)) {
+                && !hasLineBreakBefore(rcurly)
+                && lcurly.getLineNo() != rcurly.getLineNo()) {
             violation = MSG_KEY_LINE_BREAK_BEFORE;
         }
         else if (shouldCheckLastRcurly) {
@@ -331,7 +340,7 @@ public class RightCurlyCheck extends AbstractOptionCheck<RightCurlyOption> {
 
                 lcurly = ast.findFirstToken(TokenTypes.SLIST);
                 if (lcurly != null) {
-                    // SLIST could be absent if method is abstract, 
+                    // SLIST could be absent if method is abstract,
                     // or in cases of loops without body for example
                     rcurly = lcurly.getLastChild();
                 }
