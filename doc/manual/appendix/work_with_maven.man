@@ -1,0 +1,16 @@
+#title: 在Maven中使用Nutz
+#author:wendal(wendal1985@gmail.com)
+#index:0,1
+--------------------------------------------------------------------------------------
+如何使用
+	将Nutz加入你的POM
+	{{{
+	<dependency>
+		<groupId>org.nutz</groupId>
+		<artifactId>nutz</artifactId>
+		<version>1.r.55</version>
+	</dependency>
+	}}}
+	
+Nutz使用Maven来构建的吗?
+	答案是肯定的,基本上没用ant来构建nutz核心库了
