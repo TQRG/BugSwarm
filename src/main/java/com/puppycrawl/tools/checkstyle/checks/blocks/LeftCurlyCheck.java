@@ -19,6 +19,8 @@
 
 package com.puppycrawl.tools.checkstyle.checks.blocks;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.puppycrawl.tools.checkstyle.Utils;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -139,26 +141,7 @@ public class LeftCurlyCheck
 
     @Override
     public int[] getDefaultTokens() {
-        return new int[] {
-            TokenTypes.INTERFACE_DEF,
-            TokenTypes.CLASS_DEF,
-            TokenTypes.ANNOTATION_DEF,
-            TokenTypes.ENUM_DEF,
-            TokenTypes.CTOR_DEF,
-            TokenTypes.METHOD_DEF,
-            TokenTypes.ENUM_CONSTANT_DEF,
-            TokenTypes.LITERAL_WHILE,
-            TokenTypes.LITERAL_TRY,
-            TokenTypes.LITERAL_CATCH,
-            TokenTypes.LITERAL_FINALLY,
-            TokenTypes.LITERAL_SYNCHRONIZED,
-            TokenTypes.LITERAL_SWITCH,
-            TokenTypes.LITERAL_DO,
-            TokenTypes.LITERAL_IF,
-            TokenTypes.LITERAL_ELSE,
-            TokenTypes.LITERAL_FOR,
-            TokenTypes.STATIC_INIT,
-        };
+        return getAcceptableTokens();
     }
 
     @Override
@@ -186,6 +169,11 @@ public class LeftCurlyCheck
     }
 
     @Override
+    public int[] getRequiredTokens() {
+        return ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    @Override
     public void visitToken(DetailAST ast) {
         DetailAST startToken;
         DetailAST brace;
@@ -203,9 +191,11 @@ public class LeftCurlyCheck
             case TokenTypes.ENUM_CONSTANT_DEF:
                 startToken = skipAnnotationOnlyLines(ast);
                 final DetailAST objBlock = ast.findFirstToken(TokenTypes.OBJBLOCK);
-                brace = objBlock == null
-                        ? null
-                        : objBlock.getFirstChild();
+                brace = objBlock;
+
+                if (objBlock != null) {
+                    brace = objBlock.getFirstChild();
+                }
                 break;
             case TokenTypes.LITERAL_WHILE:
             case TokenTypes.LITERAL_CATCH:
@@ -222,9 +212,11 @@ public class LeftCurlyCheck
             case TokenTypes.LITERAL_ELSE:
                 startToken = ast;
                 final DetailAST candidate = ast.getFirstChild();
-                brace = candidate.getType() == TokenTypes.SLIST
-                        ? candidate
-                        : null; // silently ignore
+                brace = null;
+
+                if (candidate.getType() == TokenTypes.SLIST) {
+                    brace = candidate;
+                }
                 break;
             default:
                 // ATTENTION! We have default here, but we expect case TokenTypes.METHOD_DEF,
@@ -262,9 +254,15 @@ public class LeftCurlyCheck
             // There are no annotations.
             return ast;
         }
-        final DetailAST tokenAfterLast = lastAnnot.getNextSibling() != null
-                                       ? lastAnnot.getNextSibling()
-                                       : modifiers.getNextSibling();
+        final DetailAST tokenAfterLast;
+
+        if (lastAnnot.getNextSibling() == null) {
+            tokenAfterLast = modifiers.getNextSibling();
+        }
+        else {
+            tokenAfterLast = lastAnnot.getNextSibling();
+        }
+
         if (tokenAfterLast.getLineNo() > lastAnnot.getLineNo()) {
             return tokenAfterLast;
         }

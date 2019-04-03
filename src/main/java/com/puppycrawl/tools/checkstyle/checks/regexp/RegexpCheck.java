@@ -22,6 +22,8 @@ package com.puppycrawl.tools.checkstyle.checks.regexp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.FileText;
@@ -122,7 +124,12 @@ public class RegexpCheck extends AbstractFormatCheck {
      * @param message custom message which should be used in report.
      */
     public void setMessage(String message) {
-        this.message = message == null ? "" : message;
+        if (message == null) {
+            this.message = "";
+        }
+        else {
+            this.message = message;
+        }
     }
 
     /**
@@ -172,7 +179,17 @@ public class RegexpCheck extends AbstractFormatCheck {
 
     @Override
     public int[] getDefaultTokens() {
-        return new int[0];
+        return getAcceptableTokens();
+    }
+
+    @Override
+    public int[] getAcceptableTokens() {
+        return ArrayUtils.EMPTY_INT_ARRAY;
+    }
+
+    @Override
+    public int[] getRequiredTokens() {
+        return getAcceptableTokens();
     }
 
     @Override
@@ -255,10 +272,19 @@ public class RegexpCheck extends AbstractFormatCheck {
      * @param lineNumber the line number the message relates to.
      */
     private void logMessage(int lineNumber) {
-        String msg = getMessage().isEmpty() ? getFormat() : message;
+        String msg;
+
+        if (getMessage().isEmpty()) {
+            msg = getFormat();
+        }
+        else {
+            msg = message;
+        }
+
         if (errorCount >= errorLimit) {
             msg = ERROR_LIMIT_EXCEEDED_MESSAGE + msg;
         }
+
         if (illegalPattern) {
             log(lineNumber, MSG_ILLEGAL_REGEXP, msg);
         }

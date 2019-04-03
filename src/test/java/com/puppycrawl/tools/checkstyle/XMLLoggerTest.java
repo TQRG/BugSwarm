@@ -62,9 +62,9 @@ public class XMLLoggerTest {
             {"&#0", "&amp;#0"}, //not reference
             {"&#X0;", "&amp;#X0;"}, //not reference
         };
-        for (int i = 0; i < encodings.length; i++) {
-            final String encoded = XMLLogger.encode(encodings[i][0]);
-            assertEquals("\"" + encodings[i][0] + "\"", encodings[i][1], encoded);
+        for (String[] encoding : encodings) {
+            final String encoded = XMLLogger.encode(encoding[0]);
+            assertEquals("\"" + encoding[0] + "\"", encoding[1], encoded);
         }
         outStream.close();
     }
@@ -73,15 +73,15 @@ public class XMLLoggerTest {
     public void testIsReference()
         throws IOException {
         new XMLLogger(outStream, false);
-        final String[] reference = {
+        final String[] references = {
             "&#0;",
             "&#x0;",
         };
-        for (int i = 0; i < reference.length; i++) {
-            assertTrue("reference: " + reference[i],
-                       XMLLogger.isReference(reference[i]));
+        for (String reference : references) {
+            assertTrue("reference: " + reference,
+                    XMLLogger.isReference(reference));
         }
-        final String[] noReference = {
+        final String[] noReferences = {
             "&",
             "&;",
             "&#;",
@@ -91,9 +91,9 @@ public class XMLLoggerTest {
             "&#xg;",
             "ref",
         };
-        for (int i = 0; i < noReference.length; i++) {
-            assertFalse("no reference: " + noReference[i],
-                       XMLLogger.isReference(noReference[i]));
+        for (String noReference : noReferences) {
+            assertFalse("no reference: " + noReference,
+                    XMLLogger.isReference(noReference));
         }
 
         outStream.close();
@@ -202,7 +202,7 @@ public class XMLLoggerTest {
             new LocalizedMessage(1, 1,
                 "messages.properties", null, null, null, this.getClass(), null);
         final AuditEvent ev = new AuditEvent(this, "Test.java", message);
-        logger.addException(ev, new TestThrowable());
+        logger.addException(ev, new TestException());
         logger.auditFinished(null);
         final String[] expectedLines = {
             "&lt;exception&gt;",
@@ -238,7 +238,7 @@ public class XMLLoggerTest {
      * Take into consideration checkstyle element (first and last lines).
      * @param expectedLines expected error report lines
      */
-    private void verifyLines(String[] expectedLines)
+    private void verifyLines(String... expectedLines)
         throws IOException {
         final String[] lines = getOutStreamLines();
         assertEquals("length.", expectedLines.length + 3, lines.length);
@@ -253,7 +253,7 @@ public class XMLLoggerTest {
         assertEquals("last line.", "</checkstyle>", lines[lines.length - 1]);
     }
 
-    private static class TestThrowable extends Exception {
+    private static class TestException extends Exception {
 
         private static final long serialVersionUID = 1L;
 

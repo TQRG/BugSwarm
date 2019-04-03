@@ -54,7 +54,7 @@ class TagParser {
      * @param text the line of text to parse.
      * @param lineNo the source line number.
      */
-    public TagParser(String[] text, int lineNo) {
+    TagParser(String[] text, int lineNo) {
         parseTags(text, lineNo);
     }
 
@@ -109,8 +109,14 @@ class TagParser {
                 final Point endTag = findChar(text, '>', position);
                 final boolean incompleteTag = endTag.getLineNo() >= nLines;
                 // get tag id (one word)
-                final String tagId =
-                        incompleteTag ? "" : getTagId(text, position);
+                final String tagId;
+
+                if (incompleteTag) {
+                    tagId = "";
+                }
+                else {
+                    tagId = getTagId(text, position);
+                }
                 // is this closed tag
                 final boolean closedTag =
                         endTag.getLineNo() < nLines
@@ -271,7 +277,7 @@ class TagParser {
          * @param lineNo line number
          * @param columnNo column number
          */
-        public Point(int lineNo, int columnNo) {
+        Point(int lineNo, int columnNo) {
             line = lineNo;
             column = columnNo;
         }

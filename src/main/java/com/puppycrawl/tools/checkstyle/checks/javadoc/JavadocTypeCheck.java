@@ -156,12 +156,7 @@ public class JavadocTypeCheck
 
     @Override
     public int[] getDefaultTokens() {
-        return new int[] {
-            TokenTypes.INTERFACE_DEF,
-            TokenTypes.CLASS_DEF,
-            TokenTypes.ENUM_DEF,
-            TokenTypes.ANNOTATION_DEF,
-        };
+        return getAcceptableTokens();
     }
 
     @Override
@@ -172,6 +167,11 @@ public class JavadocTypeCheck
             TokenTypes.ENUM_DEF,
             TokenTypes.ANNOTATION_DEF,
         };
+    }
+
+    @Override
+    public int[] getRequiredTokens() {
+        return getAcceptableTokens();
     }
 
     @Override
@@ -217,9 +217,14 @@ public class JavadocTypeCheck
     private boolean shouldCheck(final DetailAST ast) {
         final DetailAST mods = ast.findFirstToken(TokenTypes.MODIFIERS);
         final Scope declaredScope = ScopeUtils.getScopeFromMods(mods);
-        final Scope customScope =
-            ScopeUtils.inInterfaceOrAnnotationBlock(ast)
-                ? Scope.PUBLIC : declaredScope;
+        final Scope customScope;
+
+        if (ScopeUtils.inInterfaceOrAnnotationBlock(ast)) {
+            customScope = Scope.PUBLIC;
+        }
+        else {
+            customScope = declaredScope;
+        }
         final Scope surroundingScope = ScopeUtils.getSurroundingScope(ast);
 
         return customScope.isIn(scope)
