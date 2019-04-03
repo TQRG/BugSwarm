@@ -234,12 +234,48 @@ final class RealBufferedSource implements BufferedSource {
   }
 
   @Override public long readDecimalLong() throws IOException {
-    request(20);
+    int pos = 0;
+    while (true) {
+      if (!request(pos + 1)) {
+        break; // No more data.
+      }
+      byte b = buffer.getByte(pos);
+      if ((b < '0' || b > '9') && (pos != 0 || b != '-')) {
+        break; // Non-digit, or non-leading negative sign.
+      }
+      pos += 1;
+      if (pos > 20) {
+        throw new NumberFormatException("Number too large: " + buffer.readUtf8());
+      }
+    }
+    if (pos == 0) {
+      throw new NumberFormatException("Expected leading [0-9] or '-' character but was 0x"
+          + Integer.toHexString(buffer.getByte(0)));
+    }
+
     return buffer.readDecimalLong();
   }
 
   @Override public long readHexadecimalUnsignedLong() throws IOException {
-    request(16);
+    int pos = 0;
+    while (true) {
+      if (!request(pos + 1)) {
+        break; // No more data.
+      }
+      byte b = buffer.getByte(pos);
+      if ((b < '0' || b > '9') && (b < 'a' || b > 'f') && (b < 'A' || b > 'F')) {
+        break; // Non-digit, or non-leading negative sign.
+      }
+      pos += 1;
+      if (pos > 16) {
+        throw new NumberFormatException("Number too large: " + buffer.readUtf8());
+      }
+    }
+    if (pos == 0) {
+      throw new NumberFormatException("Expected leading [0-9a-fA-F] character but was 0x"
+          + Integer.toHexString(buffer.getByte(0)));
+    }
+
     return buffer.readHexadecimalUnsignedLong();
   }
 

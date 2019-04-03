@@ -413,7 +413,56 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
   @Override public long readDecimalLong() {
     if (size == 0) throw new IllegalStateException("size == 0");
 
-    throw new UnsupportedOperationException("Not implemented.");
+    // This value is always built negatively in order to accommodate Long.MIN_VALUE.
+    long value = 0;
+    int seen = 0;
+    boolean negative = false;
+
+    long overflowZone = Long.MIN_VALUE / 10;
+    long overflowDigit = (Long.MIN_VALUE % 10) + 1;
+
+    outer: do {
+      Segment segment = head;
+
+      byte[] data = segment.data;
+      int pos = segment.pos;
+      int limit = segment.limit;
+
+      for (; pos < limit; pos++, seen++) {
+        byte b = data[pos];
+        if (b >= '0' && b <= '9') {
+          int digit = '0' - b;
+
+          // Detect when the digit would cause an overflow.
+          if (value < overflowZone || value == overflowZone && digit < overflowDigit) {
+            Buffer buffer = new Buffer().writeDecimalLong(value).writeByte(b);
+            if (!negative) buffer.readByte(); // Skip negative sign.
+            throw new NumberFormatException("Number too large: " + buffer.readUtf8());
+          }
+          value *= 10;
+          value += digit;
+        } else if (b == '-' && seen == 0) {
+          negative = true;
+          overflowDigit -= 1;
+        } else {
+          if (seen == 0) {
+            throw new NumberFormatException(
+                "Expected leading [0-9] or '-' character but was 0x" + Integer.toHexString(b));
+          }
+          break outer;
+        }
+      }
+
+      if (pos == limit) {
+        head = segment.pop();
+        SegmentPool.INSTANCE.recycle(segment);
+      } else {
+        segment.pos = pos;
+      }
+    } while (head != null);
+
+    size -= seen;
+    return negative ? value : -value;
   }
 
   @Override public long readHexadecimalUnsignedLong() {
@@ -421,9 +470,8 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
 
     long value = 0;
     int seen = 0;
-    boolean done = false;
 
-    do {
+    outer: do {
       Segment segment = head;
 
       byte[] data = segment.data;
@@ -441,8 +489,11 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
         } else if (b >= 'A' && b <= 'F') {
           digit = b - 'A' + 10; // We never write uppercase, but we support reading it.
         } else {
-          done = true;
-          break;
+          if (seen == 0) {
+            throw new NumberFormatException(
+                "Expected leading [0-9a-fA-F] character but was 0x" + Integer.toHexString(b));
+          }
+          break outer;
         }
 
         if (++seen > 16) {
@@ -460,14 +511,7 @@ public final class Buffer implements BufferedSource, BufferedSink, Cloneable {
       } else {
         segment.pos = pos;
       }
-    } while (!done && head != null);
-
-    if (seen == 0) {
-      assert head != null; // Head is only null after seen is greater than zero.
-      throw new NumberFormatException(
-          "Expected leading [0-9a-fA-F] character but was 0x" + Integer.toHexString(
-              head.data[head.pos]));
-    }
+    } while (head != null);
 
     size -= seen;
     return value;
