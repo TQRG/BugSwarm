@@ -1,0 +1,51 @@
+language: java
+sudo: false
+
+install:
+  - 
+
+matrix:
+  fast_finish: true
+  include:
+    # unit tests (openjdk7, oraclejdk7 and oraclejdk8)
+    - jdk: openjdk7
+      env: DESC="tests" CMD="mvn clean integration-test" COVERALLS_ARGS=""
+    - jdk: oraclejdk7
+      env: DESC="tests" CMD="mvn clean integration-test" COVERALLS_ARGS=""
+    - jdk: oraclejdk8
+      env: DESC="tests" CMD="mvn clean integration-test" COVERALLS_ARGS=""
+    # checkstyle (openjdk7, oraclejdk7 and oraclejdk8)
+    - jdk: openjdk7
+      env: DESC="checkstyle" CMD="mvn clean verify -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true" COVERALLS_ARGS=""
+    - jdk: oraclejdk7
+      env: DESC="checkstyle" CMD="mvn clean verify -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true" COVERALLS_ARGS=""
+    - jdk: oraclejdk8
+      env: DESC="checkstyle" CMD="mvn clean verify -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true" COVERALLS_ARGS=""
+    # cobertura and coveralls (oraclejdk8)
+    - jdk: oraclejdk8
+      env: DESC="cobertura and coveralls" CMD="mvn clean cobertura:check" COVERALLS_ARGS="mvn clean cobertura:cobertura coveralls:report"
+    # findbugs and pmd (oraclejdk8)
+    - jdk: oraclejdk8
+      env: DESC="findbugs and pmd" CMD="mvn clean compile pmd:check findbugs:check" COVERALLS_ARGS=""
+    # site (oraclejdk8 as 'site' success is required to be sure that on release time all will be ok, admins will use oracle8 version)
+    - jdk: oraclejdk8
+      env: DESC="site" CMD="mvn clean site -Dlinkcheck.skip=true -Dmaven.javadoc.skip=true -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true -Dcheckstyle.ant.skip=true" COVERALLS_ARGS=""
+    # assembly (oraclejdk8)
+    - jdk: oraclejdk8
+      env: DESC="assembly" CMD="mvn clean install -Passembly -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true -Dcheckstyle.ant.skip=true" COVERALLS_ARGS=""
+    # realtest - Orekit (oraclejdk8)
+    - jdk: oraclejdk8
+      env: DESC="RealTest - Orekit" CMD="git clone https://github.com/CS-SI/Orekit.git && cd Orekit && git checkout bc527a1 && sed -i 's/<orekit\.checkstyle\.version>6\.6</<orekit.checkstyle.version>6.8-SNAPSHOT</' pom.xml && cd .. && mvn clean install -Passembly -DskipTests -DskipITs -Dpmd.skip=true -Dfindbugs.skip=true -Dcobertura.skip=true -Dcheckstyle.ant.skip=true && cd Orekit && mvn compile checkstyle:check" COVERALLS_ARGS=""
+
+script: eval $CMD
+
+after_success:
+  - eval $COVERALLS_ARGS
+
+cache:
+  directories:
+  - ~/.m2
+
+branches:
+  only:
+    - master
