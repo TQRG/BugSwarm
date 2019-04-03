@@ -30,7 +30,7 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
 
 public abstract class BaseCheckTestSupport
 {
-    /** a brief logger that only display info about errors */
+    /** A brief logger that only display info about errors */
     protected static class BriefLogger
         extends DefaultLogger
     {
@@ -46,8 +46,8 @@ public abstract class BaseCheckTestSupport
         public void fileStarted(AuditEvent evt) {}
     }
 
-    protected final ByteArrayOutputStream BAOS = new ByteArrayOutputStream();
-    protected final PrintStream stream = new PrintStream(BAOS);
+    protected final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    protected final PrintStream stream = new PrintStream(baos);
     protected final Properties props = new Properties();
 
     public static DefaultConfiguration createCheckConfig(Class<?> aClazz)
@@ -134,7 +134,7 @@ public abstract class BaseCheckTestSupport
 
         // process each of the lines
         final ByteArrayInputStream bais =
-            new ByteArrayInputStream(BAOS.toByteArray());
+            new ByteArrayInputStream(baos.toByteArray());
         final LineNumberReader lnr =
             new LineNumberReader(new InputStreamReader(bais));
 
@@ -147,7 +147,7 @@ public abstract class BaseCheckTestSupport
             parseInt = parseInt.substring(0, parseInt.indexOf(":"));
             int lineNumber = Integer.parseInt(parseInt);
 			Integer integer = Arrays.asList(aWarnsExpected).contains(lineNumber) ? lineNumber : 0;
-            assertEquals("error message " + i, (long) integer, (long) lineNumber);
+            assertEquals("error message " + i, (long) integer, lineNumber);
         }
 
         assertEquals("unexpected output: " + lnr.readLine(),
@@ -200,11 +200,11 @@ public abstract class BaseCheckTestSupport
        return null;
    }
 
-   private static String removeDeviceFromPathOnWindows(String string) {
+   private static String removeDeviceFromPathOnWindows(String path) {
        String os = System.getProperty("os.name", "Unix");
        if (os.startsWith("Windows")) {
-           return string.substring(string.indexOf(":") + 1);
+           return path.substring(path.indexOf(":") + 1);
        }
-       return string;
+       return path;
    }
 }
