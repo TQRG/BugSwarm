@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" >
+
+	<property name="repo.name" value="Goclipse Site" />
+	<property name="repo.dir" value="ProjectSite-skeleton/releases" />
+
+<!-- 
+======================================================================
+Ant task to (re)create a composite site.
+This task must be run from within eclipse, example:
+eclipse -application org.eclipse.ant.core.antRunner -consolelog createCompositeRepo -file compositeSite-helper.xml
+====================================================================== 
+-->
+	<target name="createCompositeRepo">
+		<p2.composite.repository failOnExists="true">
+			<repository location="${repo.dir}" name="${repo.name}" compressed="false" />
+			<add>
+				<repository location="http://download.eclipse.org/releases/mars" />
+				<repository location="local-repo" />
+			</add>
+		</p2.composite.repository>
+	</target>
+	
+</project>
