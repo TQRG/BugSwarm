@@ -469,7 +469,7 @@ public class VerificationCheck implements Transform<WycsFile> {
 		// form before verification begins. This firstly reduces the amount of
 		// work during verification, and also allows the functions in
 		// SolverUtils to work properly.
-		Reductions.reduce(type_automaton, Types.reductions);
+		Reductions.minimiseAndReduce(type_automaton, 5000, Types.reductions);
 		return automaton.addAll(type_automaton.getRoot(0), type_automaton);
 	}
 
@@ -820,11 +820,12 @@ public class VerificationCheck implements Transform<WycsFile> {
 		// not visited again.		
 		Rewrite rewrite = new Inference(Solver.SCHEMA, AbstractActivation.RANK_COMPARATOR, Solver.inferences, Solver.reductions);
 		// Initialise the rewrite with our starting state		
-		rewrite.initialise(automaton);
+		int HEAD = rewrite.initialise(automaton);
 		// Stacked rewriter ensures that reduction rules are applied atomically
 		// Breadth-first rewriter ensures that the search spans outwards in a
 		// fair style. This protects against rule starvation.
 		Rewriter rewriter = createRewriter(rewrite,rwMode);
+		rewriter.reset(HEAD);
 		// Finally, perform the rewrite!		
 		rewriter.apply(maxSteps);		
 		List<Rewrite.State> states = rewrite.states();
@@ -860,8 +861,8 @@ public class VerificationCheck implements Transform<WycsFile> {
 		switch(rwMode) {
 		case UNFAIR:
 			return new LinearRewriter(rewrite,LinearRewriter.UNFAIR_HEURISTIC); 
-//		case EXHAUSTIVE:
-//			return new BreadthFirstRewriter(rewrite, normaliser);
+		case EXHAUSTIVE:
+			return new BreadthFirstRewriter(rewrite);
 		}
 		throw new RuntimeException("Unknown rewrite mode encountered: " + rwMode);
 	}
