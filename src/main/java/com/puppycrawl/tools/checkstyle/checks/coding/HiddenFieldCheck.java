@@ -135,15 +135,15 @@ public class HiddenFieldCheck
      */
     public static final String MSG_KEY = "hidden.field";
 
-    /** stack of sets of field names,
+    /** Stack of sets of field names,
      * one for each class of a set of nested classes.
      */
-    private FieldFrame currentFrame;
+    private FieldFrame frame;
 
-    /** pattern for names of variables and parameters to ignore. */
+    /** Pattern for names of variables and parameters to ignore. */
     private Pattern regexp;
 
-    /** controls whether to check the parameter of a property setter method */
+    /** Controls whether to check the parameter of a property setter method */
     private boolean ignoreSetter;
 
     /**
@@ -154,10 +154,10 @@ public class HiddenFieldCheck
      */
     private boolean setterCanReturnItsClass;
 
-    /** controls whether to check the parameter of a constructor */
+    /** Controls whether to check the parameter of a constructor */
     private boolean ignoreConstructorParameter;
 
-    /** controls whether to check the parameter of abstract methods. */
+    /** Controls whether to check the parameter of abstract methods. */
     private boolean ignoreAbstractMethods;
 
     @Override
@@ -190,7 +190,7 @@ public class HiddenFieldCheck
 
     @Override
     public void beginTree(DetailAST rootAST) {
-        currentFrame = new FieldFrame(null, true, null);
+        frame = new FieldFrame(null, true, null);
     }
 
     @Override
@@ -232,7 +232,7 @@ public class HiddenFieldCheck
         else {
             frameName = null;
         }
-        final FieldFrame frame = new FieldFrame(currentFrame, isStaticInnerType, frameName);
+        final FieldFrame newFrame = new FieldFrame(frame, isStaticInnerType, frameName);
 
         //add fields to container
         final DetailAST objBlock = ast.findFirstToken(TokenTypes.OBJBLOCK);
@@ -246,17 +246,17 @@ public class HiddenFieldCheck
                     final DetailAST mods =
                         child.findFirstToken(TokenTypes.MODIFIERS);
                     if (mods.branchContains(TokenTypes.LITERAL_STATIC)) {
-                        frame.addStaticField(name);
+                        newFrame.addStaticField(name);
                     }
                     else {
-                        frame.addInstanceField(name);
+                        newFrame.addInstanceField(name);
                     }
                 }
                 child = child.getNextSibling();
             }
         }
         // push container
-        currentFrame = frame;
+        frame = newFrame;
     }
 
     @Override
@@ -265,7 +265,7 @@ public class HiddenFieldCheck
             || ast.getType() == TokenTypes.ENUM_DEF
             || ast.getType() == TokenTypes.ENUM_CONSTANT_DEF) {
             //pop
-            currentFrame = currentFrame.getParent();
+            frame = frame.getParent();
         }
     }
 
@@ -300,8 +300,8 @@ public class HiddenFieldCheck
      * @return true if static or instance field
      */
     private boolean isStaticOrOnstanceField(DetailAST ast, String name) {
-        return currentFrame.containsStaticField(name)
-            || !inStatic(ast) && currentFrame.containsInstanceField(name);
+        return frame.containsStaticField(name)
+                || !inStatic(ast) && frame.containsInstanceField(name);
     }
 
     /**
@@ -384,7 +384,7 @@ public class HiddenFieldCheck
             final DetailAST typeAST = aMethodAST.findFirstToken(TokenTypes.TYPE);
             final String returnType = typeAST.getFirstChild().getText();
             if (typeAST.branchContains(TokenTypes.LITERAL_VOID)
-                || setterCanReturnItsClass && currentFrame.embeddedIn(returnType)) {
+                    || setterCanReturnItsClass && frame.embeddedIn(returnType)) {
                 // this method has signature
                 //
                 //     void set${Name}(${anyType} ${name})
@@ -461,7 +461,7 @@ public class HiddenFieldCheck
 
     /**
      * Set the ignore format to the specified regular expression.
-     * @param format a <code>String</code> value
+     * @param format a {@code String} value
      */
     public void setIgnoreFormat(String format) {
         regexp = Utils.createPattern(format);
@@ -518,19 +518,19 @@ public class HiddenFieldCheck
      * @author Rick Giles
      */
     private static class FieldFrame {
-        /** name of the frame, such name of the class or enum declaration */
+        /** Name of the frame, such name of the class or enum declaration */
         private final String frameName;
 
-        /** is this a static inner type */
+        /** Is this a static inner type */
         private final boolean staticType;
 
-        /** parent frame. */
+        /** Parent frame. */
         private final FieldFrame parent;
 
-        /** set of instance field names */
+        /** Set of instance field names */
         private final Set<String> instanceFields = Sets.newHashSet();
 
-        /** set of static field names */
+        /** Set of static field names */
         private final Set<String> staticFields = Sets.newHashSet();
 
         /**
