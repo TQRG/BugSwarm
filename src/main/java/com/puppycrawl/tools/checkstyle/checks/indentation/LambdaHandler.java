@@ -42,11 +42,7 @@ public class LambdaHandler extends AbstractExpressionHandler {
 
     @Override
     public IndentLevel suggestedChildLevel(AbstractExpressionHandler child) {
-        if (child instanceof SlistHandler) {
-            return getLevel();
-        }
-
-        return super.suggestedChildLevel(child);
+        return getLevel();
     }
 
     @Override
