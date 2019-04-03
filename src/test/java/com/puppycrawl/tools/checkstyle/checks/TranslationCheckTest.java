@@ -34,7 +34,6 @@ import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,11 +41,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -58,13 +53,10 @@ import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Closeables;
 import com.puppycrawl.tools.checkstyle.AbstractModuleTestSupport;
 import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
-import com.puppycrawl.tools.checkstyle.XMLLogger;
-import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
@@ -219,38 +211,6 @@ public class TranslationCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
-    public void testDefaultTranslationFileIsMissing1() throws Exception {
-        final DefaultConfiguration checkConfig = createModuleConfig(TranslationCheck.class);
-        checkConfig.addAttribute("requiredTranslations", "ja,de");
-        final Checker checker = createChecker(checkConfig);
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final XMLLogger logger = new XMLLogger(out, AutomaticBean.OutputStreamOptions.NONE);
-        checker.addListener(logger);
-        final Path logPath = new File(getPath("xml-log.xml")).toPath();
-
-        final String defaultProps = getPath("messages_check_fire_errors.properties");
-        final String translationProps = getPath("messages_check_fire_errors_de.properties");
-
-        final File[] propertyFiles = {
-            new File(defaultProps),
-            new File(translationProps),
-        };
-
-        final List<String> expectedRoot = Collections.singletonList(
-            "0: " + getCheckMessage(MSG_KEY_MISSING_TRANSLATION_FILE,
-                        "messages_check_fire_errors_ja.properties")
-        );
-        final List<String> expectedTranslation = Collections.singletonList(
-            "0: " + getCheckMessage(MSG_KEY, "anotherKey")
-        );
-        verify(checker, propertyFiles, ImmutableMap.of(getPath(""), expectedRoot,
-                        translationProps, expectedTranslation));
-        assertEquals("Unexpected log output",
-                new String(Files.readAllBytes(logPath), StandardCharsets.UTF_8),
-                out.toString(StandardCharsets.UTF_8.name()));
-    }
-
-    @Test
     public void testTranslationFilesAreMissing() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(TranslationCheck.class);
         checkConfig.addAttribute("requiredTranslations", "ja, de");
@@ -345,6 +305,25 @@ public class TranslationCheckTest extends AbstractModuleTestSupport {
             "0: " + getCheckMessage(MSG_KEY_MISSING_TRANSLATION_FILE,
                     "messages_home_de.properties"),
         };
+        verify(
+            createChecker(checkConfig),
+            propertyFiles,
+            getPath(""),
+            expected);
+    }
+
+    @Test
+    public void testTranslationFileWithLanguageCountryVariantArePresent() throws Exception {
+        final DefaultConfiguration checkConfig = createModuleConfig(TranslationCheck.class);
+        checkConfig.addAttribute("requiredTranslations", "es, fr");
+
+        final File[] propertyFiles = {
+            new File(getPath("messages_home.properties")),
+            new File(getPath("messages_home_es_US.properties")),
+            new File(getPath("messages_home_fr_CA_UNIX.properties")),
+            };
+
+        final String[] expected = CommonUtils.EMPTY_STRING_ARRAY;
         verify(
             createChecker(checkConfig),
             propertyFiles,
