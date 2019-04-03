@@ -1,0 +1,136 @@
+@CHARSET "UTF-8";
+
+.wui-search-basic {
+	
+}
+
+.wui-search-basic .layout {
+	margin: 40px;
+}
+
+.wui-search-basic .searchLabel {
+	margin-bottom: 5px;
+}
+
+.wui-search-basic .searchInput {
+	display: flex;
+}
+
+.wui-search-basic .searchInputBoxWrapper {
+	width: 100%;
+	margin-right: 20px;
+	margin-top: 10px;
+}
+
+.wui-search-basic .searchInputBox {
+	width: 100%;
+}
+
+.wui-search-basic .searchBox {
+	width: 99%;
+	height: 1em;
+	font-size: 14pt;
+	color: #58595b;
+	padding: 0.5%;
+	border: 3px solid #ccc;
+	border-radius: 2px;
+}
+
+.searchButton {
+	width: auto;
+	display: inline-block;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.searchButton-html {
+	font-size: 20px;
+}
+
+.searchButton .fa-stack-2x {
+	color: #089de3;
+}
+
+.searchButton .fa-stack-1x {
+	color: white;
+}
+
+.wui-search-basic .searchResults {
+	margin-top: 20px;
+}
+
+.wui-search-basic  .searchFacetsTitle {
+	margin-top: 20px;
+}
+
+.wui-search-basic  .searchFacetTitle {
+	color: #666;
+	font-size: 11pt;
+	font-weight: 200;
+	margin-top: 10px;
+}
+
+.wui-search-basic  .searchFacetLabel {
+	display: block;
+}
+
+.wui-search-basic  .searchFacetLabel label {
+	position: relative;
+	vertical-align: middle;
+	bottom: 3px;
+}
+
+.wui-search-basic  .searchApplyFilters {
+	margin: 10px 0;
+	width: 100%;
+}
+
+.wui-search-basic  .searchAdvancedSearch {
+	margin: 10px 0;
+	width: 100%;
+}
+
+.searchAdvancedDisclosure {
+	width: 100%;
+}
+
+.searchAdvancedDisclosure a {
+	text-decoration: underline;
+}
+
+.searchAdvancedPanel {
+	padding: 20px;
+	background-color: #e6e7e8;
+}
+
+.searchAdvancedField {
+	margin-bottom: 15px;
+}
+
+.searchAdvancedFieldLabel {
+	font-weight: 500;
+	margin-bottom: 5px;
+}
+
+.searchAdvancedFieldInput {
+	width: 100%;
+}
+
+.searchAdvancedFieldInputDateLabel {
+	display: inline-block;
+}
+
+.searchAdvancedFieldInputDateInput {
+	width: 8em;
+	text-align: center;
+	margin: 0 5px;
+}
+
+.fieldTextBox {
+	width: 99%;
+	height: 1em;
+	color: #58595b;
+	padding: 0.5%;
+	border: 2px solid #ccc;
+	border-radius: 1px;
+}
