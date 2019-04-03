@@ -19,6 +19,7 @@
 
 package com.puppycrawl.tools.checkstyle;
 
+import java.lang.reflect.Constructor;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -36,10 +37,10 @@ class PackageObjectFactory implements ModuleFactory {
     /** Logger for PackageObjectFactory. */
     private static final Log LOG = LogFactory.getLog(PackageObjectFactory.class);
 
-    /** a list of package names to prepend to class names */
+    /** A list of package names to prepend to class names */
     private final Set<String> packages;
 
-    /** the class loader used to load Checkstyle core and custom modules. */
+    /** The class loader used to load Checkstyle core and custom modules. */
     private final ClassLoader moduleClassLoader;
 
     /**
@@ -112,7 +113,9 @@ class PackageObjectFactory implements ModuleFactory {
         throws CheckstyleException {
         try {
             final Class<?> clazz = Class.forName(className, true, moduleClassLoader);
-            return clazz.getDeclaredConstructor().newInstance();
+            final Constructor<?> declaredConstructor = clazz.getDeclaredConstructor();
+            declaredConstructor.setAccessible(true);
+            return declaredConstructor.newInstance();
         }
         catch (final ReflectiveOperationException exception) {
             throw new CheckstyleException("Unable to find class for " + className, exception);
