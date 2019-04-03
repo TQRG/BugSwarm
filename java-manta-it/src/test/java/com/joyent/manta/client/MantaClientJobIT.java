@@ -124,7 +124,7 @@ public class MantaClientJobIT {
 
 
     @Test(dependsOnMethods = { "createJob" })
-    public void canAddAndGetInputs() throws IOException {
+    public void canAddAndGetInputsFromIterator() throws IOException {
         MantaJob job = buildJob();
         UUID jobId = mantaClient.createJob(job);
 
@@ -144,11 +144,32 @@ public class MantaClientJobIT {
         }
     }
 
+    @Test(dependsOnMethods = { "createJob" })
+    public void canAddAndGetInputsFromStream() throws IOException {
+        MantaJob job = buildJob();
+        UUID jobId = mantaClient.createJob(job);
+
+        List<String> inputs = new ArrayList<>();
+        String objPath = String.format("%s/%s", testPathPrefix, UUID.randomUUID());
+        mantaClient.put(objPath, TEST_DATA);
+        inputs.add(objPath);
+
+        try {
+            mantaClient.addJobInputs(jobId, inputs.stream());
+            boolean ended = mantaClient.endJobInput(jobId);
+            Assert.assertTrue(ended, "Ending input wasn't accepted");
+            List<String> inputsResponse = mantaClient.getJobInputs(jobId);
+            Assert.assertEquals(inputsResponse, inputs);
+        } finally {
+            mantaClient.cancelJob(jobId);
+        }
+    }
+
     private MantaJob buildJob() {
         List<MantaJobPhase> phases = new ArrayList<>();
-        MantaJobPhase map = new MantaJobPhase();
-        map.setType("map");
-        map.setExec("echo 'Hello World'");
+        MantaJobPhase map = new MantaJobPhase()
+            .setType("map")
+            .setExec("echo 'Hello World'");
         phases.add(map);
 
         String name = String.format("integration_test_%d", count.incrementAndGet());
