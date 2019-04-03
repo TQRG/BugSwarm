@@ -1,0 +1,43 @@
+version: 1.0.{build}
+
+branches:
+  only:
+  - master
+
+cache:
+  # Note that we don't use cache for local Maven repository - see https://github.com/SonarSource/sonar-java/pull/525
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\bin\apache-maven-3.2.5 -> appveyor.yml
+
+install:
+  - git submodule update --init --recursive
+  - set MAVEN_VERSION=3.2.5
+  - choco install maven -version %MAVEN_VERSION%
+  - set PATH=%PATH%;C:\bin\apache-maven-%MAVEN_VERSION%\bin
+  - echo %JAVA_HOME%
+
+environment:
+  matrix:
+  - RUN: ruling
+    JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+    SQ_VERSION: LATEST_RELEASE
+  - RUN: ci
+    JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+  - RUN: plugin
+    JAVA_HOME: C:\Program Files\Java\jdk1.7.0
+    SQ_VERSION: LTS
+
+build_script:
+  - ps: ./appveyor.ps1
+
+test: off
+
+notifications:
+- provider: HipChat
+  room: 361097
+  auth_token:
+    secure: RW8+2GpOWo3PcoM3ehoI+mbfUr7h508RtTDyszpR6/E=
+  on_build_success: false
+  on_build_failure: true
+  on_build_status_changed: true
