@@ -741,7 +741,7 @@
               <dir>src/site/resources/files</dir>
               <systemId>src/main/resources/com/puppycrawl/tools/checkstyle/suppressions_1_0.dtd</systemId>
             </validationSet> 
-<!--        Has unresolved violation.
+<!--        Commented till #1341 https://github.com/checkstyle/checkstyle/issues/1341
             <validationSet>
               <dir>src/site</dir>
               <includes>
@@ -1157,7 +1157,6 @@
             <regex><pattern>.*.checks.coding.IllegalTokenTextCheck</pattern><branchRate>60</branchRate><lineRate>92</lineRate></regex>
             <regex><pattern>.*.checks.coding.IllegalTypeCheck</pattern><branchRate>93</branchRate><lineRate>94</lineRate></regex>
             <regex><pattern>.*.checks.coding.InnerAssignmentCheck</pattern><branchRate>88</branchRate><lineRate>100</lineRate></regex>
-            <regex><pattern>.*.checks.coding.MissingCtorCheck</pattern><branchRate>75</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.coding.ModifiedControlVariableCheck</pattern><branchRate>91</branchRate><lineRate>97</lineRate></regex>
             <regex><pattern>.*.checks.coding.MultipleStringLiteralsCheck</pattern><branchRate>90</branchRate><lineRate>96</lineRate></regex>
             <regex><pattern>.*.checks.coding.MultipleVariableDeclarationsCheck</pattern><branchRate>96</branchRate><lineRate>100</lineRate></regex>
@@ -1202,15 +1201,14 @@
             <regex><pattern>.*.checks.javadoc.AbstractJavadocCheck</pattern><branchRate>90</branchRate><lineRate>93</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.AbstractJavadocCheck\$.*</pattern><branchRate>50</branchRate><lineRate>68</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.AtclauseOrderCheck</pattern><branchRate>88</branchRate><lineRate>88</lineRate></regex>
-            <regex><pattern>.*.checks.javadoc.HtmlTag</pattern><branchRate>75</branchRate><lineRate>90</lineRate></regex>
-            <regex><pattern>.*.checks.javadoc.JavadocMethodCheck</pattern><branchRate>90</branchRate><lineRate>96</lineRate></regex>
+            <regex><pattern>.*.checks.javadoc.JavadocMethodCheck</pattern><branchRate>91</branchRate><lineRate>98</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.JavadocPackageCheck</pattern><branchRate>80</branchRate><lineRate>95</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.JavadocParagraphCheck</pattern><branchRate>92</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.JavadocStyleCheck</pattern><branchRate>89</branchRate><lineRate>97</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.JavadocTagContinuationIndentationCheck</pattern><branchRate>81</branchRate><lineRate>86</lineRate></regex>
-            <regex><pattern>.*.checks.javadoc.JavadocTypeCheck</pattern><branchRate>95</branchRate><lineRate>91</lineRate></regex>
-            <regex><pattern>.*.checks.javadoc.JavadocUtils</pattern><branchRate>83</branchRate><lineRate>91</lineRate></regex>
-            <regex><pattern>.*.checks.javadoc.JavadocVariableCheck</pattern><branchRate>93</branchRate><lineRate>90</lineRate></regex>
+            <regex><pattern>.*.checks.javadoc.JavadocTypeCheck</pattern><branchRate>95</branchRate><lineRate>93</lineRate></regex>
+            <regex><pattern>.*.checks.javadoc.JavadocUtils</pattern><branchRate>94</branchRate><lineRate>98</lineRate></regex>
+            <regex><pattern>.*.checks.javadoc.JavadocVariableCheck</pattern><branchRate>93</branchRate><lineRate>92</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.SummaryJavadocCheck</pattern><branchRate>93</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.TagParser</pattern><branchRate>92</branchRate><lineRate>98</lineRate></regex>
             <regex><pattern>.*.checks.javadoc.WriteTagCheck</pattern><branchRate>100</branchRate><lineRate>91</lineRate></regex>
