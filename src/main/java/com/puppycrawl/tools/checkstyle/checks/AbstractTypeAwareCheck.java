@@ -463,11 +463,10 @@ public abstract class AbstractTypeAwareCheck extends Check {
 
         @Override
         public String toString() {
-            final String inCLass = ", class=";
             return "RegularClass[name=" + getName()
-                + inCLass + surroundingClass
+                + ", in class=" + surroundingClass
                 + ", loadable=" + loadable
-                + inCLass + classObj + "]";
+                + ", class=" + classObj + "]";
         }
     }
 
