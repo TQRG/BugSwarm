@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress checks="FileLength"
+              files="TokenTypes.java"
+              lines="1"/>
+
+    <!-- we can not change it as, Check name is part of API (used in configurations) -->
+    <suppress checks="AbbreviationAsWordInName"
+              files="JavaNCSSCheck.java"
+              lines="41"/>
+
+    <!-- illegal words are part of Javadoc -->
+    <suppress checks="TodoComment" files=".*TodoCommentCheck\.java"/>
+
+    <!-- All disallowed characters are stored there -->
+    <suppress checks="AvoidEscapedUnicodeCharactersCheck"
+              files="AvoidEscapedUnicodeCharactersCheck.java"/>
+
+    <!-- Can not change API -->
+    <suppress checks="AbstractClassNameCheck"
+              files="Check.java"/>
+
+    <!-- 'Abstract' pattern is used to show it is checking for abstract class name -->
+    <suppress checks="AbstractClassNameCheck"
+              files="AbstractClassNameCheck.java"/>
+
+    <!-- Tone down the checking for test code -->
+    <suppress checks="EmptyBlock" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="ImportControl" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="Javadoc" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="MagicNumber" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="AvoidStaticImport" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="MethodCount" files="[\\/]IndentationCheckTest.java$"/>
+    <suppress checks="MethodCount" files="[\\/]MainTest.java$"/>
+    <suppress checks="EqualsAvoidNull" files="[\\/]Int.*FilterTest.java$"/>
+
+    <!-- suppressions to remove over time -->
+    <suppress checks="FinalLocalVariable" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="LineLength" files=".*[\\/]src[\\/]test[\\/]"/>
+    <suppress checks="Name" files=".*[\\/]src[\\/]test[\\/]"/>    
+
+    <!--
+      Turn off all checks for Generated and Test code. Fixes issues with using
+      Eclipse plug-in.
+      -->
+    <suppress checks="." files=".*[\\/]grammars[\\/]Generated[a-zA-Z]*\.java"/>
+    <suppress checks="." files=".*[\\/]grammars[\\/]Generated[a-zA-Z]*\.java"/>
+
+    <!--Classes FileDrop, Main, ParseTreeInfoPanel from gui-package contain Magic Numbers.
+    The Check generates too many violations, fixing them will make code unmanageable.-->
+    <suppress checks="MagicNumber" files=".*[\\/]checkstyle[\\/]gui[\\/]"/>
+
+    <!-- Methods that build fake AST are very long-->
+    <suppress checks="MethodLength" files="src[\\/]test[\\/]java[\\/]com[\\/]puppycrawl[\\/]tools[\\/]checkstyle[\\/]comments[\\/]CommentsTest\.java"/>
+    <suppress checks="ExecutableStatementCount" files="src[\\/]test[\\/]java[\\/]com[\\/]puppycrawl[\\/]tools[\\/]checkstyle[\\/]comments[\\/]CommentsTest\.java"/>
+    <suppress checks="JavaNCSS" files="src[\\/]test[\\/]java[\\/]com[\\/]puppycrawl[\\/]tools[\\/]checkstyle[\\/]comments[\\/]CommentsTest\.java"/>
+
+    <suppress checks="." files=".*JavadocTokenTypes\.java"/>
+    <suppress checks="." files=".*ParseTreeBuilder\.java"/>
+
+    <!-- Till https://github.com/checkstyle/checkstyle/issues/1854 -->
+    <suppress checks="TrailingComment" files="(InnerAssignmentCheck\.java|OperatorWrapCheck\.java|XMLLoggerTest\.java|AbbreviationAsWordInNameCheckTest\.java)"/>
+
+    <!-- Fixing these cases will decrease code readability -->
+    <suppress checks="MultipleStringLiterals" files="JavadocStyleCheck\.java|AbstractTypeAwareCheck\.java|XMLLogger\.java"/>
+    <suppress checks="MultipleStringLiterals" files=".*[\\/]src[\\/]test[\\/]"/>
+
+    <!-- There are a lot of setters/getters in the Check. A small number of methods is left for Check's logics -->
+    <suppress checks="MethodCount" files="[\\/]JavadocMethodCheck.java$"/>
+
+    <!-- getDetails() method - huge Switch, it has to be monolithic -->
+    <suppress checks="ExecutableStatementCount" files="RightCurlyCheck\.java" lines="280"/>
+    <suppress checks="JavaNCSS" files="RightCurlyCheck\.java" lines="280"/>
+    <suppress checks="CyclomaticComplexity" files="RightCurlyCheck\.java" lines="280"/>
+
+</suppressions>
