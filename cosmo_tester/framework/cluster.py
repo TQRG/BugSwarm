@@ -62,7 +62,6 @@ class _CloudifyManager(object):
                                               'root', 'root', 'cloudify')
         self.config = config
 
-
     @property
     def remote_private_key_path(self):
         """Returns the private key path on the manager."""
