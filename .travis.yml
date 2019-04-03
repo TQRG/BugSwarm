@@ -1,0 +1,9 @@
+dist: precise
+group: stable
+install: [pip install flake8==3.3.0, pip install -r test-requirements.txt, pip install
+    .]
+language: python
+os: linux
+python: '2.7'
+script: [flake8 .]
+sudo: false
