@@ -1,0 +1,3 @@
+tests/invalid/ConstrainedInt_Invalid_9.whiley:9: type invariant not satisfied
+    return f(z)
+             ^
