@@ -232,7 +232,7 @@ public class ParenPadCheck extends AbstractParenPadCheck {
             TokenTypes.QUESTION,
             TokenTypes.RESOURCE_SPECIFICATION,
             TokenTypes.SUPER_CTOR_CALL,
-            TokenTypes.LAMBDA
+            TokenTypes.LAMBDA,
         };
     }
 
