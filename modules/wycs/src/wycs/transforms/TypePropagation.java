@@ -14,6 +14,7 @@ import wycs.builders.Wyal2WycsBuilder;
 import wycs.core.SemanticType;
 import wycs.core.Value;
 import wycs.syntax.*;
+import wyfs.lang.Path;
 
 public class TypePropagation implements Transform<WyalFile> {
 
@@ -526,10 +527,14 @@ public class TypePropagation implements Transform<WyalFile> {
 				fnType = p.second();
 				binding = p.third();
 			} else {
-				// In this case, a package qualification has been given. Hence,
-				// we know the fully name identifier for this function and we
-				// need only to check it exists and access the relevant
-				// information.
+				if(e.qualification.size() == 1) {
+					e.qualification = builder.resolveAsModule(e.qualification.last(), context);
+				} else {
+					// In this case, a complete package qualification has been given. Hence,
+					// we know the fully name identifier for this function and we
+					// need only to check it exists and access the relevant
+					// information.
+				}				
 				NameID nid = new NameID(e.qualification, e.name);
 				Pair<SemanticType.Function, Map<String, SemanticType>> p = builder
 						.resolveAsFunctionType(nid, argument, ivkGenerics,

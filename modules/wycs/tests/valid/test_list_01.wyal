@@ -5,4 +5,4 @@ assert:
     if:
         Array.update(xs,ys,0,0)
     then:
-        xs[0] == 0
+        ys[0] == 0
