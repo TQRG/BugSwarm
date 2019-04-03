@@ -53,15 +53,15 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 	}
 
 	public Configuration getCheckConfig(String aCheckName) {
-		for (Configuration config : config.getChildren()) {
-			if ("TreeWalker".equals(config.getName())) {
-				for (Configuration checkConfig : config.getChildren()) {
+		for (Configuration currentConfig : config.getChildren()) {
+			if ("TreeWalker".equals(currentConfig.getName())) {
+				for (Configuration checkConfig : currentConfig.getChildren()) {
 					if (aCheckName.equals(checkConfig.getName())) {
 						return checkConfig;
 					}
 				}
-			} else if (aCheckName.equals(config.getName())) {
-				return config;
+			} else if (aCheckName.equals(currentConfig.getName())) {
+				return currentConfig;
 			}
 		}
 		return null;
@@ -96,9 +96,9 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 		return ROOT;
 	}
 
-        public List<File> getFiles() {
-                return files;
-        }
+	public List<File> getFiles() {
+            return files;
+	}
 
 	public Integer[] getLinesWithWarn(String aFileName) throws IOException {
 		int lineNumber = 1;
