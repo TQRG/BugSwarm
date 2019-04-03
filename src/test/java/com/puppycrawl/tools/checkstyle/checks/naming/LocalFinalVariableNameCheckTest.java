@@ -110,8 +110,8 @@ public class LocalFinalVariableNameCheckTest
         final String pattern = "[A-Z]+";
 
         final String[] expected = {
-                "18:30: " + getCheckMessage(MSG_INVALID_PATTERN, "br", pattern),
-                "29:29: " + getCheckMessage(MSG_INVALID_PATTERN, "br", pattern),
+            "18:30: " + getCheckMessage(MSG_INVALID_PATTERN, "br", pattern),
+            "29:29: " + getCheckMessage(MSG_INVALID_PATTERN, "br", pattern),
         };
         verify(checkConfig, getPath("InputLocalFinalVariableNameTryResources.java"), expected);
     }
