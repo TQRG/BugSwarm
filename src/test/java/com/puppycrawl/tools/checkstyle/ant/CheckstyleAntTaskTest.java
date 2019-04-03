@@ -57,7 +57,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.google.common.io.Closeables;
 import com.puppycrawl.tools.checkstyle.BaseCheckTestSupport;
-import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
 import com.puppycrawl.tools.checkstyle.DefaultLogger;
 import com.puppycrawl.tools.checkstyle.Definitions;
 import com.puppycrawl.tools.checkstyle.PackageNamesLoader;
@@ -661,45 +660,6 @@ public class CheckstyleAntTaskTest extends BaseCheckTestSupport {
         PackageNamesLoader.getPackageNames(Thread.currentThread().getContextClassLoader());
         verifyStatic();
         Closeables.closeQuietly(any(InputStream.class));
-    }
-
-    @Test
-    public void testDefaultThreadsConfiguration() throws Exception {
-        final CheckstyleAntTask antTask = getCheckstyleAntTask(CUSTOM_ROOT_CONFIG_FILE);
-        antTask.setFile(new File(getPath(FLAWLESS_INPUT)));
-        antTask.setCheckerThreadsNumber(1);
-        antTask.execute();
-
-        final DefaultConfiguration testConfig =
-                (DefaultConfiguration) TestRootModuleChecker.getConfig();
-        assertThat(testConfig.getThreadModeSettings().getCheckerThreadsNumber(), is(1));
-        assertThat(testConfig.getThreadModeSettings().getTreeWalkerThreadsNumber(), is(1));
-    }
-
-    @Test
-    public void testSetCheckerThreadsNumber() throws Exception {
-        final CheckstyleAntTask antTask = getCheckstyleAntTask(CUSTOM_ROOT_CONFIG_FILE);
-        antTask.setFile(new File(getPath(FLAWLESS_INPUT)));
-        antTask.setCheckerThreadsNumber(4);
-        antTask.execute();
-
-        final DefaultConfiguration testConfig =
-                (DefaultConfiguration) TestRootModuleChecker.getConfig();
-        assertThat(testConfig.getThreadModeSettings().getCheckerThreadsNumber(), is(4));
-        assertThat(testConfig.getThreadModeSettings().getTreeWalkerThreadsNumber(), is(1));
-    }
-
-    @Test
-    public void testSetTreeWalkerCheckerNumber() throws Exception {
-        final CheckstyleAntTask antTask = getCheckstyleAntTask(CUSTOM_ROOT_CONFIG_FILE);
-        antTask.setFile(new File(getPath(FLAWLESS_INPUT)));
-        antTask.setTreeWalkerThreadsNumber(4);
-        antTask.execute();
-
-        final DefaultConfiguration testConfig =
-                (DefaultConfiguration) TestRootModuleChecker.getConfig();
-        assertThat(testConfig.getThreadModeSettings().getCheckerThreadsNumber(), is(1));
-        assertThat(testConfig.getThreadModeSettings().getTreeWalkerThreadsNumber(), is(4));
     }
 
     private static class CheckstyleAntTaskStub extends CheckstyleAntTask {

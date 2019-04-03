@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
@@ -413,12 +414,9 @@ public class ConfigurationLoaderTest {
     public void testIncorrectTag() throws Exception {
         try {
             final Class<?> aClassParent = ConfigurationLoader.class;
-            Constructor<?> ctorParent = null;
-            final Constructor<?>[] parentConstructors = aClassParent.getDeclaredConstructors();
-            for (Constructor<?> parentConstructor: parentConstructors) {
-                parentConstructor.setAccessible(true);
-                ctorParent = parentConstructor;
-            }
+            final Constructor<?> ctorParent = aClassParent.getDeclaredConstructor(
+                    PropertyResolver.class, boolean.class, ThreadModeSettings.class);
+            ctorParent.setAccessible(true);
             final Class<?> aClass = Class.forName("com.puppycrawl.tools.checkstyle."
                     + "ConfigurationLoader$InternalLoader");
             Constructor<?> constructor = null;
@@ -444,6 +442,31 @@ public class ConfigurationLoaderTest {
             assertTrue(ex.getCause() instanceof IllegalStateException);
             assertEquals("Unknown name:" + "hello" + ".", ex.getCause().getMessage());
         }
+    }
+
+    @Test
+    public void testPrivateConstructorWithPropertyResolverAndOmitIgnoreModules() throws Exception {
+        final Class<?> configurationLoaderClass = ConfigurationLoader.class;
+        final Constructor<?> configurationLoaderCtor =
+                configurationLoaderClass.getDeclaredConstructor(
+                        PropertyResolver.class, boolean.class);
+        configurationLoaderCtor.setAccessible(true);
+
+        final Properties properties = new Properties();
+        final PropertyResolver propertyResolver = new PropertiesExpander(properties);
+        final ConfigurationLoader configurationLoader =
+                (ConfigurationLoader) configurationLoaderCtor.newInstance(
+                        propertyResolver, true);
+
+        final Field overridePropsResolverField =
+                configurationLoaderClass.getDeclaredField("overridePropsResolver");
+        overridePropsResolverField.setAccessible(true);
+        assertEquals(propertyResolver, overridePropsResolverField.get(configurationLoader));
+
+        final Field omitIgnoredModulesField =
+                configurationLoaderClass.getDeclaredField("omitIgnoredModules");
+        omitIgnoredModulesField.setAccessible(true);
+        assertEquals(true, omitIgnoredModulesField.get(configurationLoader));
     }
 
     @Test

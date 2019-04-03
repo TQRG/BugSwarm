@@ -110,11 +110,6 @@ public class CheckstyleAntTask extends Task {
     /** The maximum number of warnings that are tolerated. */
     private int maxWarnings = Integer.MAX_VALUE;
 
-    /** The checker threads number. */
-    private int checkerThreadsNumber = 1;
-    /** The tree walker threads number. */
-    private int treeWalkerThreadsNumber = 1;
-
     /**
      * Whether to execute ignored modules - some modules may log above
      * their severity depending on their configuration (e.g. WriteTag) so
@@ -250,22 +245,6 @@ public class CheckstyleAntTask extends Task {
      */
     public void setExecuteIgnoredModules(boolean omit) {
         executeIgnoredModules = omit;
-    }
-
-    /**
-     * Sets checker threads number.
-     * @param checkerThreadsNumber The checker threads number.
-     */
-    public void setCheckerThreadsNumber(int checkerThreadsNumber) {
-        this.checkerThreadsNumber = checkerThreadsNumber;
-    }
-
-    /**
-     * Sets tree walker threads number.
-     * @param treeWalkerThreadsNumber The tree walker threads number.
-     */
-    public void setTreeWalkerThreadsNumber(int treeWalkerThreadsNumber) {
-        this.treeWalkerThreadsNumber = treeWalkerThreadsNumber;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -414,7 +393,7 @@ public class CheckstyleAntTask extends Task {
         try {
             final Properties props = createOverridingProperties();
             final ThreadModeSettings threadModeSettings =
-                    new ThreadModeSettings(checkerThreadsNumber, treeWalkerThreadsNumber);
+                    ThreadModeSettings.SINGLE_THREAD_MODE_INSTANCE;
             final Configuration configuration = ConfigurationLoader.loadConfiguration(
                     config, new PropertiesExpander(props),
                     !executeIgnoredModules, threadModeSettings);
