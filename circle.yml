@@ -1,0 +1,17 @@
+machine:
+  python:
+    version: 2.7.7
+checkout:
+  post:
+    - git submodule init
+    - git submodule update
+dependencies:
+  post:
+    - pip install beautifulsoup4 requests websocket-client coverage pytest phonenumbers
+test:
+  override:
+    - python srccheck/checkall.py
+    - python -W default::Warning -m pytest test
+notify:
+  webhooks:
+    - url: http://erwaysoftware.com:49494
