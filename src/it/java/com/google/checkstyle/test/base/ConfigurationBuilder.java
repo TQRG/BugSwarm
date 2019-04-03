@@ -18,7 +18,7 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
 
 public class ConfigurationBuilder extends BaseCheckTestSupport {
 
-	private File ROOT;
+	private File root;
 
 	private List<File> files = new ArrayList<>();
 
@@ -32,9 +32,9 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 
 	public ConfigurationBuilder(File aROOT)
 			throws CheckstyleException, IOException {
-		this.ROOT = aROOT;
+		root = aROOT;
 		config = getConfigurationFromXML(xmlName, System.getProperties());
-		listFiles(files, ROOT, "java");
+		listFiles(files, root, "java");
 	}
 
 	private static Configuration getConfigurationFromXML(String aConfigName,
@@ -66,7 +66,7 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 	}
 
 	public String getFilePath(String aFileName) {
-		String absoluteRootPath = ROOT.getAbsolutePath();
+		String absoluteRootPath = root.getAbsolutePath();
 		String rootPath = absoluteRootPath.substring(0,
 				absoluteRootPath.lastIndexOf("src"));
 		for (File file : files) {
@@ -90,8 +90,8 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 		}
 	}
 
-	public File getROOT() {
-		return ROOT;
+	public File getRoot() {
+		return root;
 	}
 
 	public List<File> getFiles() {
@@ -102,7 +102,11 @@ public class ConfigurationBuilder extends BaseCheckTestSupport {
 		int lineNumber = 1;
 	    List<Integer> result = new ArrayList<>();
 	    try(BufferedReader br = new BufferedReader(new FileReader(aFileName))) {
-	        for(String line; (line = br.readLine()) != null; ) {
+	        while (true) {
+	            String line = br.readLine();
+	            if (line == null) {
+	                break;
+	            }
 	            if (warnPattern.matcher(line).find()) {
 	            	result.add(lineNumber);
 	            }

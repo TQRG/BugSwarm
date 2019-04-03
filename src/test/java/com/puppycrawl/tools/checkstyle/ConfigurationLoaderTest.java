@@ -36,6 +36,7 @@ import java.util.Properties;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.xml.sax.Attributes;
@@ -416,7 +417,7 @@ public class ConfigurationLoaderTest {
                         new PropertiesExpander(new Properties()), true);
 
         final Configuration[] children = config.getChildren();
-        assertTrue(children[0].getChildren().length == 0);
+        assertEquals(0, children[0].getChildren().length);
     }
 
     @Test
@@ -429,7 +430,7 @@ public class ConfigurationLoaderTest {
                         new PropertiesExpander(new Properties()), true);
 
         final Configuration[] children = config.getChildren();
-        assertTrue(children.length == 0);
+        assertEquals(0, children.length);
     }
 
     @Test
@@ -441,7 +442,7 @@ public class ConfigurationLoaderTest {
                             new PropertiesExpander(new Properties()), true);
 
             final Configuration[] children = config.getChildren();
-            assertTrue(children[0].getChildren().length == 0);
+            assertEquals(0, children[0].getChildren().length);
             fail("Exception is expected");
         }
         catch (CheckstyleException ex) {
@@ -452,16 +453,12 @@ public class ConfigurationLoaderTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testLoadConfiguration_URISyntaxException() throws CheckstyleException {
-        mockStatic(ConfigurationLoader.class);
+        mockStatic(ConfigurationLoader.class, Mockito.CALLS_REAL_METHODS);
 
         PropertiesExpander expander = new PropertiesExpander(new Properties());
 
         when(ConfigurationLoader.class.getResource("config_with_ignore.xml"))
                 .thenThrow(URISyntaxException.class);
-        when(ConfigurationLoader.loadConfiguration("config_with_ignore.xml",
-                expander,
-                true))
-                .thenCallRealMethod();
 
         try {
             ConfigurationLoader.loadConfiguration(
@@ -487,7 +484,7 @@ public class ConfigurationLoaderTest {
                             new PropertiesExpander(new Properties()), true);
 
             final Configuration[] children = config.getChildren();
-            assertTrue(children[0].getChildren().length == 0);
+            assertEquals(0, children[0].getChildren().length);
         }
         catch (CheckstyleException ex) {
             fail("unexpected exception");
@@ -518,7 +515,7 @@ public class ConfigurationLoaderTest {
                             new PropertiesExpander(new Properties()), true);
 
             final Configuration[] children = config.getChildren();
-            assertTrue(children[0].getChildren().length == 0);
+            assertEquals(0, children[0].getChildren().length);
         }
         catch (CheckstyleException ex) {
             fail("unexpected exception");

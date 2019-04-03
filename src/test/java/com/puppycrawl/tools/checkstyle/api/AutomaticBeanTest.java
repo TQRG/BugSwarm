@@ -98,7 +98,7 @@ public class AutomaticBeanTest {
     }
 
     @SuppressWarnings("unused")
-    public static class TestBean extends AutomaticBean {
+    private static class TestBean extends AutomaticBean {
 
         private String privateField;
 
@@ -115,7 +115,7 @@ public class AutomaticBeanTest {
         }
 
         public void setExceptionalMethod(String value) {
-            throw new IllegalStateException("for UT");
+            throw new IllegalStateException(wrong);
         }
 
         public void setName(String name) {
