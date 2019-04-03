@@ -1,0 +1,147 @@
+########
+# Copyright (c) 2017 GigaSpaces Technologies Ltd. All rights reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#    * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    * See the License for the specific language governing permissions and
+#    * limitations under the License.
+
+import pytest
+from cosmo_tester.framework.examples.hello_world import HelloWorldExample
+from cosmo_tester.framework.cluster import CloudifyCluster
+from .ha_helper import HighAvailabilityHelper as ha_helper
+
+
+@pytest.fixture(scope='function')
+def cluster(
+        request, cfy, ssh_key, module_tmpdir, attributes, logger):
+    """Creates a HA cluster from an image in rackspace OpenStack."""
+    logger.info('Creating HA cluster of 2 managers')
+    cluster = CloudifyCluster.create_image_based(
+        cfy,
+        ssh_key,
+        module_tmpdir,
+        attributes,
+        logger,
+        number_of_managers=2,
+        create=False)
+
+    # manager2 - Cloudify latest - don't install plugins
+    cluster.managers_config[1].upload_plugins = False
+
+    cluster.create()
+
+    try:
+        encryption_key = ha_helper.create_encription_key()
+        manager1 = cluster.managers[0]
+        manager2 = cluster.managers[1]
+
+        manager1.use()
+        cfy.cluster.start(timeout=600,
+                          cluster_host_ip=manager1.private_ip_address,
+                          cluster_node_name=manager1.index,
+                          cluster_encryption_key=encryption_key)
+
+        manager2.use()
+        cfy.cluster.join(manager1.ip_address,
+                         timeout=600,
+                         cluster_host_ip=manager2.private_ip_address,
+                         cluster_node_name=manager2.index)
+        cfy.cluster.nodes.list()
+
+        yield cluster
+
+    finally:
+        cluster.destroy()
+
+
+@pytest.fixture(scope='function')
+def hello_world(cfy, cluster, attributes, ssh_key, tmpdir, logger):
+    hw = HelloWorldExample(
+        cfy, cluster.managers[0], attributes, ssh_key, logger, tmpdir)
+    hw.blueprint_file = 'openstack-blueprint.yaml'
+    hw.inputs.update({
+        'agent_user': attributes.centos7_username,
+        'image': attributes.centos7_image_name,
+    })
+
+    yield hw
+    if hw.cleanup_required:
+        logger.info('Hello world cleanup required..')
+        cluster.managers[0].use()
+        hw.cleanup()
+
+
+def test_delete_master_node(cfy, cluster,
+                            logger):
+    manager1 = cluster.managers[0]
+    manager2 = cluster.managers[1]
+
+    manager1.use()
+    ha_helper.verify_nodes_status(manager1, cfy, logger)
+    logger.info('Deleting the master node %s',
+                manager1.private_ip_address)
+    manager1.delete()
+    ha_helper.wait_leader_election(logger)
+
+    manager2.use()
+    ha_helper.verify_nodes_status(manager2, cfy, logger)
+
+
+def test_delete_standby_node(cfy, cluster, hello_world,
+                             logger):
+    manager1 = cluster.managers[0]
+    manager2 = cluster.managers[1]
+
+    manager1.use()
+    ha_helper.verify_nodes_status(manager1, cfy, logger)
+
+    logger.info('Deleting the standby node %s',
+                manager2.private_ip_address)
+    manager2.delete()
+    ha_helper.wait_leader_election(logger)
+
+    manager1.use()
+    ha_helper.verify_nodes_status(manager1, cfy, logger)
+    hello_world.upload_blueprint()
+
+
+def test_remove_master_from_cluster(cfy, hello_world,
+                                    cluster, logger, ):
+    manager1 = cluster.managers[0]
+    manager2 = cluster.managers[1]
+
+    manager1.use()
+    ha_helper.set_active(manager2, cfy, logger)
+    ha_helper.wait_leader_election(logger)
+
+    logger.info('Removing the master manager %s from HA cluster',
+                manager2.private_ip_address)
+    cfy.cluster.nodes.remove(manager2.index)
+    ha_helper.wait_leader_election(logger)
+
+    manager1.use()
+    ha_helper.verify_nodes_status(manager1, cfy, logger)
+    hello_world.upload_blueprint()
+
+
+def test_remove_standby_from_cluster(cfy, hello_world,
+                                     cluster, logger):
+    manager1 = cluster.managers[0]
+    manager2 = cluster.managers[1]
+
+    manager1.use()
+    logger.info('Removing the standby manager %s from HA cluster',
+                manager2.private_ip_address)
+    cfy.cluster.nodes.remove(manager2.index)
+    ha_helper.wait_leader_election(logger)
+
+    ha_helper.verify_nodes_status(manager1, cfy, logger)
+    hello_world.upload_blueprint()
