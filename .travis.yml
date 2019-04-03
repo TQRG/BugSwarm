@@ -1,0 +1,23 @@
+language: java
+
+sudo: false
+
+# Triggers an update of the OracleJDK distribution. Travis is currently running v8u31 which
+# exposes problems with the instrumentation of invokedynamic call sites.
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+branches:
+  only:
+    - master
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+  - openjdk6
+
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report -Pintegration
