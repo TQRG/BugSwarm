@@ -942,14 +942,11 @@ public final class BufferedSourceTest {
   }
 
   @Test public void rangeEqualsArgumentValidation() throws IOException {
-    sink.writeUtf8("ABC");
-
     try {
       source.rangeEquals(-1, ByteString.encodeUtf8("A"));
       fail();
     } catch (ArrayIndexOutOfBoundsException expected) {
-      // This message is formatted differently based on Buffer or RealBufferedSource.
-      assertTrue(expected.getMessage().contains("offset=-1"));
+      assertEquals("offset=-1", expected.getMessage());
     }
     try {
       source.rangeEquals(0, ByteString.encodeUtf8("A"), -1, 1);
