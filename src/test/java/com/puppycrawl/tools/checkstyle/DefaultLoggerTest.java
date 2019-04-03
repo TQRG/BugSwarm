@@ -19,12 +19,17 @@
 
 package com.puppycrawl.tools.checkstyle;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
 import org.junit.Test;
 
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
+import com.puppycrawl.tools.checkstyle.api.LocalizedMessage;
+import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
+import com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck;
 
 public class DefaultLoggerTest {
 
@@ -43,5 +48,33 @@ public class DefaultLoggerTest {
         final DefaultLogger dl = new DefaultLogger(infoStream, true);
         dl.addException(new AuditEvent(5000, "myfile"), new IllegalStateException("upsss"));
         dl.auditFinished(new AuditEvent(6000, "myfile"));
+    }
+
+    @Test
+    public void testFormErrorMessagePrintSeveritySetToFalse() {
+        final OutputStream infoStream = new ByteArrayOutputStream();
+        final boolean printSeverity = false;
+        final DefaultLogger dl =
+            new DefaultLogger(infoStream, true, infoStream, false, printSeverity);
+        final LocalizedMessage violationMessage = new LocalizedMessage(0, 0, "", "", null,
+            SeverityLevel.WARNING, null, RightCurlyCheck.class, null);
+        final AuditEvent event = new AuditEvent(RightCurlyCheck.class, "myfile", violationMessage);
+        final String expected = "myfile:0:  [RightCurly]";
+        final String actual = dl.formErrorMessage(event, event.getSeverityLevel());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testFormErrorMessagePrintSeveritySetToTrue() {
+        final OutputStream infoStream = new ByteArrayOutputStream();
+        final boolean printSeverity = true;
+        final DefaultLogger dl =
+            new DefaultLogger(infoStream, true, infoStream, false, printSeverity);
+        final LocalizedMessage violationMessage = new LocalizedMessage(0, 0, "", "", null,
+            SeverityLevel.WARNING, null, RightCurlyCheck.class, null);
+        final AuditEvent event = new AuditEvent(RightCurlyCheck.class, "myfile", violationMessage);
+        final String expected = "[WARNING] myfile:0:  [RightCurly]";
+        final String actual = dl.formErrorMessage(event, event.getSeverityLevel());
+        assertEquals(expected, actual);
     }
 }

@@ -148,16 +148,14 @@ public class DefaultLogger
         final char space = ' ';
         if (printSeverity) {
             final String severityLevelName = severityLevel.getName().toUpperCase(Locale.US);
-            sb.append(leftBrace).append(severityLevelName).append(rightBrace);
-            sb.append(space);
+            sb.append(leftBrace).append(severityLevelName).append(rightBrace).append(space);
         }
         final char separator = ':';
         sb.append(fileName).append(separator).append(event.getLine());
         if (event.getColumn() > 0) {
             sb.append(separator).append(event.getColumn());
         }
-        sb.append(separator).append(space).append(message);
-        sb.append(space);
+        sb.append(separator).append(space).append(message).append(space);
         final String checkShortName = getCheckShortName(event);
         sb.append(leftBrace).append(checkShortName).append(rightBrace);
 

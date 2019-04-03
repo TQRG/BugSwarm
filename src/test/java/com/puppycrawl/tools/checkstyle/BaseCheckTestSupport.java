@@ -293,7 +293,7 @@ public class BaseCheckTestSupport {
         }
 
         public BriefLogger(OutputStream out, boolean printSeverity) {
-            super(out, true, out, false, printSeverity);
+            super(out, true, out, false);
             this.printSeverity = printSeverity;
         }
 
@@ -311,8 +311,7 @@ public class BaseCheckTestSupport {
             sb.append(fileName).append(separator).append(event.getLine());
             final char space = ' ';
             if (printSeverity) {
-                sb.append(separator).append(space);
-                sb.append(severityLevel.getName());
+                sb.append(separator).append(space).append(severityLevel.getName());
             }
             if (event.getColumn() > 0) {
                 sb.append(separator).append(event.getColumn());
