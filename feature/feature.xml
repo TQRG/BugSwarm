@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="goclipse_feature"
+      label="%featureName"
+      version="0.15.0.qualifier"
+      provider-name="%providerName"
+      plugin="com.googlecode.goclipse.jvmcheck">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.eclipse.platform" version="4.5.0" match="compatible"/>
+      <import feature="org.eclipse.cdt.gnu.dsf" version="8.7.0" match="compatible"/>
+      <import feature="org.eclipse.cdt.platform" version="8.8.0" match="compatible"/>
+   </requires>
+
+   <plugin
+         id="com.googlecode.goclipse.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.googlecode.goclipse.debug"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.googlecode.goclipse.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.googlecode.goclipse.tooling"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.json"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.googlecode.goclipse.jvmcheck"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
