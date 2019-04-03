@@ -383,9 +383,6 @@ public class VisibilityModifierCheck
      */
     public void setAllowPublicImmutableFields(boolean allow) {
         allowPublicImmutableFields = allow;
-        if (!allow) {
-            allowPublicFinalFields = false;
-        }
     }
 
     /**
@@ -394,9 +391,6 @@ public class VisibilityModifierCheck
      */
     public void setAllowPublicFinalFields(boolean allow) {
         allowPublicFinalFields = allow;
-        if (allow) {
-            allowPublicImmutableFields = true;
-        }
     }
 
     /**
@@ -595,9 +589,8 @@ public class VisibilityModifierCheck
      * @return true if allowed
      */
     private boolean isAllowedPublicField(DetailAST variableDef) {
-        return (allowPublicImmutableFields || allowPublicFinalFields)
-              && isImmutableField(variableDef)
-              && (allowPublicFinalFields || isDefinedInFinalClass(variableDef));
+        return allowPublicFinalFields && isImmutableField(variableDef)
+            || allowPublicImmutableFields && isImmutableFieldDefinedInFinalClass(variableDef);
     }
 
     /**
@@ -605,10 +598,11 @@ public class VisibilityModifierCheck
      * @param variableDef Variable definition node.
      * @return true if immutable field is defined in final class.
      */
-    private boolean isDefinedInFinalClass(DetailAST variableDef) {
+    private boolean isImmutableFieldDefinedInFinalClass(DetailAST variableDef) {
         final DetailAST classDef = variableDef.getParent().getParent();
         final Set<String> classModifiers = getModifiers(classDef);
-        return classModifiers.contains(FINAL_KEYWORD) || classDef.getType() == TokenTypes.ENUM_DEF;
+        return (classModifiers.contains(FINAL_KEYWORD) || classDef.getType() == TokenTypes.ENUM_DEF)
+                && isImmutableField(variableDef);
     }
 
     /**
@@ -627,7 +621,6 @@ public class VisibilityModifierCheck
             }
         }
         return modifiersSet;
-
     }
 
     /**

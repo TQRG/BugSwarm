@@ -912,34 +912,15 @@ public class Foo{
         </source>
         <p>
           To configure the Check so that it allows public immutable fields
-          (as it does by default):
+          (mostly for immutable classes):
         </p>
         <source>
 &lt;module name=&quot;VisibilityModifier&quot;/&gt;
         </source>
         <p>
-          To configure the Check so that it allows public immutable fields
-          only for final classes (which are presumptively immutable):
-        </p>
-        <source>
-&lt;module name=&quot;VisibilityModifier&quot;&gt;
-    &lt;property name=&quot;allowPublicFinalFields&quot; value=&quot;false&quot;/&gt;
-&lt;/module&gt;
-        </source>
-        <p>
-          To configure the Check so that it disallows public fields
-          even if they are immutable:
-        </p>
-        <source>
-&lt;module name=&quot;VisibilityModifier&quot;&gt;
-    &lt;property name=&quot;allowPublicImmutableFields&quot; value=&quot;false&quot;/&gt;
-&lt;/module&gt;
-        </source>
-        <p>
           Example of allowed public immutable fields:
         </p>
         <source>
-// Must be final class if allowPublicFinalFields is false
 public class ImmutableClass
 {
     public final ImmutableSet&lt;String&gt; includes; // No warning

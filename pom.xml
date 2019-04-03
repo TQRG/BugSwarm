@@ -22,7 +22,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle</artifactId>
-  <version>6.18-SNAPSHOT</version>
+  <version>6.19-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>checkstyle</name>
@@ -191,7 +191,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.5.3</antlr4.version>
-    <maven.site.plugin.version>3.4</maven.site.plugin.version>
+    <maven.site.plugin.version>3.5.1</maven.site.plugin.version>
     <maven.findbugs.plugin.version>3.0.3</maven.findbugs.plugin.version>
     <maven.pmd.plugin.version>3.6</maven.pmd.plugin.version>
     <maven.jacoco.plugin.version>0.7.6.201602180812</maven.jacoco.plugin.version>
@@ -200,7 +200,7 @@
     <tools.jar.version>1.7.0</tools.jar.version>
     <tools.jar.path>${java.home}/../lib/tools.jar</tools.jar.path>
     <java.version>1.7</java.version>
-    <checkstyle.version>6.17</checkstyle.version>
+    <checkstyle.version>6.18</checkstyle.version>
   </properties>
 
   <!-- that repositories are required for testing plugin's snapshot version -->
@@ -272,19 +272,19 @@
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito</artifactId>
-      <version>1.6.4</version>
+      <version>1.6.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
-      <version>1.6.4</version>
+      <version>1.6.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <version>2.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -604,11 +604,12 @@
         <version>${maven.site.plugin.version}</version>
         <configuration>
           <xdocDirectory>${basedir}/src/xdocs</xdocDirectory>
-          <validate>true</validate>
+          <!-- false till https://issues.apache.org/jira/browse/MSITE-774 -->
+          <validate>false</validate>
         </configuration>
         <dependencies>
-          <!-- add support for ssh/scp -->
           <dependency>
+            <!-- add support for ssh/scp -->
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-ssh</artifactId>
             <version>2.10</version>
@@ -1161,9 +1162,6 @@
             <excludedLink>http://sonar-plugins.codehaus.org/maven-report</excludedLink>
             <!-- SSLHandshakeException but page is opening -->
             <excludedLink>http://www.sickboy.cz/checkstyle/</excludedLink>
-            <!-- Excluded due to Checkstyle's issue #549 until https://issues.apache.org/jira/browse/MJAVADOC-428
-            and http://jira.codehaus.org/browse/DOXIA-525 and http://jira.codehaus.org/browse/MLINKCHECK-21 will be fixed -->
-            <excludedLink>**/com/puppycrawl/**</excludedLink>
             <!-- Excluded due to Checkstyle's issue #549 until https://issues.apache.org/jira/browse/MJAVADOC-428 will be fixed -->
             <excludedLink>http://docs.oracle.com/javase/7/docs/api/org/xml/sax/helpers.DefaultHandler.html?*</excludedLink>
             <!-- Excluded due to Maven Enforcer Plugin's issue #234: https://issues.apache.org/jira/browse/MENFORCER-234-->
