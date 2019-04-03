@@ -27,12 +27,12 @@
           Checks that array initialization contains a trailing comma.
         </p>
         <source>
-          int[] a = new int[]
-          {
-            1,
-            2,
-            3,
-          };
+int[] a = new int[]
+{
+    1,
+    2,
+    3,
+};
         </source>
 
         <p>
@@ -63,8 +63,8 @@ return new int[] { 0 };
                 If set to true, then you can ignore the lack of a trailing comma,
                 otherwise an error should be raised.
             </td>
-            <td>Boolean</td>
-            <td>true</td>
+              <td><a href="property_types.html#boolean">Boolean</a></td>
+              <td><code>true</code></td>
           </tr>
         </table>
       </subsection>
@@ -97,7 +97,7 @@ return new int[] { 0 };
           </source>
 
           <p>
-              With <b>ignoreInlineArrays</b> property set to <b>false</b>
+              With <code>ignoreInlineArrays</code> property set to <code>false</code>
           </p>
           <p>
               Which results in the following violations:
