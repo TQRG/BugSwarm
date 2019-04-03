@@ -1,0 +1,90 @@
+#!/bin/sh
+# This script is used for testing the build, primarily for use
+# with travis, but may be used by hand as well.
+
+set -e
+set -x
+
+# Clean up
+clean()
+{
+    mvn clean
+}
+
+# Test maven build
+maven()
+{
+    mvn
+}
+
+cpp()
+{
+    (
+        cd cpp
+        mkdir build
+        cd build
+        (
+            mkdir gtest
+            cd gtest
+            cmake /usr/src/gtest
+            make
+        )
+        CXX="g++ -std=gnu++98" GTEST_ROOT="$(pwd)/gtest" cmake -Dcxxstd-autodetect=OFF -Dextended-tests=OFF ../.. || cat CMakeFiles/CMakeError.log
+        make
+        make test
+        make DESTDIR=../install install
+        make doc
+    )
+}
+
+# Check python sources with flake8
+flake()
+{
+    flake8 -v components cpp docs
+}
+
+# Test Ant build targets
+antbuild()
+{
+    (
+      ant clean compile
+      ant clean compile-autogen
+      ant clean compile-formats-api
+      ant clean compile-jai
+      ant clean compile-bio-formats-plugins
+      ant clean compile-lwf-stubs
+      ant clean compile-mipav-stubs
+      ant clean compile-metakit
+      ant clean compile-formats-bsd
+      ant clean compile-formats-gpl
+      ant clean compile-bio-formats-tools
+      ant clean compile-tests
+      ant clean compile-turbojpeg
+      ant clean utils
+      ant -Dsphinx.warnopts=$SPHINXOPTS clean-docs-sphinx docs-sphinx
+    )
+}
+
+for arg in "$@"
+do
+    case $arg in
+        clean)
+            clean ;;
+        maven)
+            maven ;;
+        cpp)
+            cpp ;;
+        flake8)
+            flake ;;
+        ant)
+            antbuild ;;
+        all)
+            clean && maven_findbugs && sphinx && antbuild;;
+        *)
+            echo "Invalid argument: \"$arg\"" >&2
+            exit 1
+            ;;
+    esac
+done
+
+exit 0
