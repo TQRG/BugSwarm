@@ -1,0 +1,129 @@
+package org.traccar.api.resource;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.traccar.api.BaseResource;
+import org.traccar.reports.Events;
+import org.traccar.reports.Summary;
+import org.traccar.reports.Trips;
+import org.traccar.reports.Route;
+import org.traccar.web.JsonConverter;
+
+@Path("reports")
+@Consumes(MediaType.APPLICATION_JSON)
+public class ReportResource extends BaseResource {
+
+    private static final String XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    private static final String CONTENT_DISPOSITION_VALUE_XLSX = "attachment; filename=report.xlsx";
+
+    @Path("route")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRouteJson(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException {
+        return Response.ok(Route.getJson(getUserId(), deviceIds, groupIds,
+                JsonConverter.parseDate(from), JsonConverter.parseDate(to))).build();
+    }
+
+    @Path("route")
+    @GET
+    @Produces(XLSX)
+    public Response getRouteExcel(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException, IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Route.getExcel(stream, getUserId(), deviceIds, groupIds,
+                    JsonConverter.parseDate(from), JsonConverter.parseDate(to));
+
+        return Response.ok(stream.toByteArray())
+                .header(HttpHeaders.CONTENT_DISPOSITION, CONTENT_DISPOSITION_VALUE_XLSX).build();
+    }
+
+    @Path("events")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEventsJson(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("type") final List<String> types,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException {
+        return Response.ok(Events.getJson(getUserId(), deviceIds, groupIds, types,
+                JsonConverter.parseDate(from), JsonConverter.parseDate(to))).build();
+    }
+
+    @Path("events")
+    @GET
+    @Produces(XLSX)
+    public Response getEventsExcel(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("type") final List<String> types,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException, IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Events.getExcel(stream, getUserId(), deviceIds, groupIds, types,
+                    JsonConverter.parseDate(from), JsonConverter.parseDate(to));
+
+        return Response.ok(stream.toByteArray())
+                .header(HttpHeaders.CONTENT_DISPOSITION, CONTENT_DISPOSITION_VALUE_XLSX).build();
+    }
+
+    @Path("summary")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSummaryJson(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException {
+        return Response.ok(Summary.getJson(getUserId(), deviceIds, groupIds,
+                JsonConverter.parseDate(from), JsonConverter.parseDate(to))).build();
+    }
+
+    @Path("summary")
+    @GET
+    @Produces(XLSX)
+    public Response getSummaryExcel(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException, IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Summary.getExcel(stream, getUserId(), deviceIds, groupIds,
+                    JsonConverter.parseDate(from), JsonConverter.parseDate(to));
+
+        return Response.ok(stream.toByteArray())
+                .header(HttpHeaders.CONTENT_DISPOSITION, CONTENT_DISPOSITION_VALUE_XLSX).build();
+    }
+
+    @Path("trips")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTripsJson(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException {
+        return Response.ok(Trips.getJson(getUserId(), deviceIds, groupIds,
+                JsonConverter.parseDate(from), JsonConverter.parseDate(to))).build();
+    }
+
+    @Path("trips")
+    @GET
+    @Produces(XLSX)
+    public Response getTripsExcel(
+            @QueryParam("deviceId") final List<Long> deviceIds, @QueryParam("groupId") final List<Long> groupIds,
+            @QueryParam("from") String from, @QueryParam("to") String to) throws SQLException, IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Trips.getExcel(stream, getUserId(), deviceIds, groupIds,
+                    JsonConverter.parseDate(from), JsonConverter.parseDate(to));
+
+        return Response.ok(stream.toByteArray())
+                .header(HttpHeaders.CONTENT_DISPOSITION, CONTENT_DISPOSITION_VALUE_XLSX).build();
+    }
+
+}
