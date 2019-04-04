@@ -1,0 +1,13 @@
+active: true
+derived: false
+level: 1.1
+links: []
+normative: false
+ref: ''
+reviewed: f639ec5286fcfa4d694925a2ba29fc93
+text: |
+  Doorstop is a requirements management tool that leverages version control to
+  store and manage a project's documentation traced from specification through
+  implementation.
+
+  ![Doorstop Logo](assets/logo-black-white.png "Doorstop Logo")

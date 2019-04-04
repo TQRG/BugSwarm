@@ -1,0 +1,25 @@
+active: true
+derived: false
+level: 1.3
+links:
+- REQ003: 1f33605bbc5d1a39c9a6441b91389e88
+- REQ011: e58a22974b6610a0698866fce6c1ad14
+- REQ012: 456cf6a9040c790588ca8c78e1ed350f
+- REQ013: 3dce36a426be6e9901feac6de75c1d71
+normative: true
+ref: ''
+reviewed: 9e61ea88ad1b63819610dcdce6efe4e5
+text: |
+  **Removing Items and Links**
+
+  Enter a VCS working copy:
+
+      $ cd /tmp/doorstop
+
+  Remove a link between two document items:
+
+      $ doorstop unlink TST1 REQ3
+
+  Remove a document's item:
+
+      $ doorstop remove REQ3
