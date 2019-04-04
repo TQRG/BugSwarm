@@ -1753,6 +1753,17 @@
 			]
 		},
 		{
+			"name": "Mp3Player",
+			"details": "https://github.com/RachitKansal/sublime-Mp3Player",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"platforms": ["linux", "windows"],
+					"tags": true
+				}
+			]
+		},
+		{
 			"details": "https://github.com/bkeller2/Mplus",
 			"releases": [
 				{
@@ -1834,6 +1845,17 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Multibyte Word Separators",
+			"details": "https://github.com/naoyukik/SublimeMultibyteWordSeparators",
+			"labels": ["japanese"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]

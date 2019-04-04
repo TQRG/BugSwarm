@@ -326,6 +326,19 @@
 			]
 		},
 		{
+			"name": "CComplete",
+			"details": "https://github.com/ibensw/CComplete",
+			"labels": ["auto-complete"],
+			"previous_names": ["C Complete"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"platforms": ["linux"],
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "cdnjs",
 			"details": "https://github.com/dafrancis/Sublime-Text--cdnjs",
 			"releases": [
@@ -733,6 +746,17 @@
 			]
 		},
 		{
+			"name": "ChineseTranslator",
+			"details": "https://github.com/toaol/sublime-translate",
+			"labels": ["中文", "翻译", "translate"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Chmod",
 			"details": "https://github.com/kristoformaynard/SublimeChmod",
 			"releases": [
@@ -746,17 +770,6 @@
 		{
 			"name": "Choice Script",
 			"details": "https://github.com/mrsonord/choicescript",
-			"releases": [
-				{
-					"sublime_text": "*",
-					"branch": "master"
-				}
-			]
-		},
-		{
-			"name": "Chopstick Autocompletion",
-			"details": "https://github.com/getchopstick/chopstick-completion",
-			"labels": ["scss", "chopstick", "framework", "auto-complete"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -1339,6 +1352,17 @@
 			]
 		},
 		{
+			"name": "Code Champion",
+			"details": "https://github.com/Atbox/CodeChampion",
+			"labels": ["utilities", "utils", "utility"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Code Foo",
 			"details": "https://github.com/markandey/codefoo",
 			"releases": [
@@ -1533,6 +1557,17 @@
 				{
 					"sublime_text": ">=3000",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "CodePresenter",
+			"details": "https://github.com/fwph/codepresenter",
+			"labels":["presentation"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
 				}
 			]
 		},
@@ -2756,7 +2791,7 @@
 		},
 		{
 			"name": "Crystal",
-			"details": "https://github.com/manastech/sublime-crystal",
+			"details": "https://github.com/crystal-lang/sublime-crystal",
 			"labels": ["crystal"],
 			"releases": [
 				{
@@ -3018,17 +3053,6 @@
 			]
 		},
 		{
-			"name": "CSSfmt",
-			"details": "https://github.com/dmnsgn/sublime-cssfmt",
-			"labels": ["css", "formatting"],
-			"releases": [
-				{
-					"sublime_text": "*",
-					"tags": true
-				}
-			]
-		},
-		{
 			"details": "https://github.com/lcdsantos/CSSFontFamily",
 			"releases": [
 				{
@@ -3224,6 +3248,17 @@
 		{
 			"name": "CUDA C++",
 			"details": "https://github.com/harrism/sublimetext-cuda-cpp",
+			"labels": ["language syntax"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "CUDA Snippets",
+			"details": "https://github.com/LitLeo/CUDA-Sublime-Text-Snippets",
 			"labels": ["language syntax"],
 			"releases": [
 				{

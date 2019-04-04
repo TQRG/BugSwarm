@@ -91,6 +91,16 @@
 			]
 		},
 		{
+			"name": "TabSnippets",
+			"details": "https://github.com/oleksiyk/SublimeTabSnippets",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "TabsShortcuts",
 			"details": "https://github.com/ejoubaud/SublimeTabsShortcuts",
 			"releases": [
@@ -189,22 +199,23 @@
 			]
 		},
 		{
-			"name": "Task Mill",
-			"details": "https://github.com/a7medkamel/sublime-taskmill",
-			"releases": [
-				{
-					"sublime_text": "*",
-					"tags": true
-				}
-			]
-		},
-		{
 			"name": "Task Timer",
 			"details": "https://github.com/jcowgar/sublime-task-timer",
 			"releases": [
 				{
 					"sublime_text": "<3000",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "TaskMill",
+			"details": "https://github.com/a7medkamel/taskmill-editor-sublime",
+			"previous_names": ["Task Mill"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
 				}
 			]
 		},
@@ -440,6 +451,18 @@
 		{
 			"name": "testNameGenerator",
 			"details": "https://github.com/testNameGenerator/SublimeText-plugin",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "TestRSpec",
+			"details": "https://github.com/astrauka/TestRSpec",
+			"previous_names": ["Test RSpec"],
+			"labels": ["ruby", "testing", "rspec", "spec"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -1484,7 +1507,7 @@
 		},
 		{
 			"name": "Themes Menu Switcher",
-			"details": "https://github.com/geekpradd/Theme-Switcher",
+			"details": "https://github.com/chmln/sublime-text-theme-switcher-menu",
 			"labels": ["theme"],
 			"releases": [
 				{
@@ -1603,6 +1626,17 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "Tinacious Design colour scheme",
+			"details": "https://github.com/tinacious/sublime-tinacious-design-syntax",
+			"labels": ["color scheme"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},
@@ -1926,15 +1960,6 @@
 			]
 		},
 		{
-            "name": "ToolRunner",
-            "details": "https://github.com/KuttKatrea/sublime-toolrunner",
-            "author": "Kutt Katrea",
-            "releases": {
-                "sublime_text": "*",
-                "tags": true
-            }
-        },
-		{
 			"name": "TomcatMavenHotReload",
 			"details": "https://github.com/francescou/sublime-tomcat-maven",
 			"author": "Francesco Uliana",
@@ -1986,6 +2011,15 @@
 					"branch": "master"
 				}
 			]
+		},
+		{
+			"name": "ToolRunner",
+			"details": "https://github.com/KuttKatrea/sublime-toolrunner",
+			"author": "Kutt Katrea",
+			"releases": [{
+				"sublime_text": ">=3000",
+				"tags": true
+			}]
 		},
 		{
 			"name": "TopCoder Helper",
@@ -2293,6 +2327,19 @@
 					"sublime_text": "*",
 					"platforms": "*",
 					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Troubleshooting",
+			"details": "https://github.com/guillermooo/sublime-troubleshooting",
+			"labels": ["troubleshooting", "debugging"],
+			"author": ["FichteFoll", "guillermooo"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true,
+					"platforms": "*"
 				}
 			]
 		},

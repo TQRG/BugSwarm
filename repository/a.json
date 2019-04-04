@@ -424,6 +424,18 @@
 			]
 		},
 		{
+			"name": "AmbientTalk 2",
+			"author": "iTitou",
+			"labels": ["auto-complete", "language syntax"],
+			"details": "https://github.com/titouanc/sublime-ambienttalk",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "AMD Butler",
 			"details": "https://github.com/agrc/AmdButler",
 			"releases": [
@@ -509,6 +521,16 @@
 		{
 			"details": "https://github.com/DamnWidget/anaconda_php",
 			"labels": ["linting", "language syntax", "php"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
+			"details": "https://github.com/DamnWidget/anaconda_rust",
+			"labels": ["linting", "language syntax", "auto-complete", "rust"],
 			"releases": [
 				{
 					"sublime_text": ">=3000",
@@ -645,6 +667,16 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "AngularJS Jasmine Boilerplate",
+			"details": "https://github.com/namoscato/angular-jasmine-boilerplate-sublime",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},
@@ -1707,6 +1739,16 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "AutoSetSyntax",
+			"details": "https://github.com/jfcherng/Sublime-AutoSetSyntax",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
 				}
 			]
 		},

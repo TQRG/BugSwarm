@@ -208,7 +208,7 @@
 					"tags": true
 				}
 			]
-		},		
+		},
 		{
 			"name": "EdifactHighlighter",
 			"details": "https://github.com/Frogli/sublime-edifact",
@@ -295,6 +295,17 @@
 			]
 		},
 		{
+			"name": "EJS 2",
+			"details": "https://github.com/nwoltman/sublime-ejs",
+			"labels": ["language syntax", "snippets", "color scheme"],
+			"releases": [
+				{
+					"sublime_text": ">=3098",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "ElasticsearchClient",
 			"details": "https://github.com/KunihikoKido/sublime-elasticsearch-client",
 			"releases": [
@@ -370,6 +381,17 @@
 			]
 		},
 		{
+			"name": "Eloquent Snippets",
+			"details": "https://github.com/m2quared/Sublime-Eloquent-Snippets",
+			"labels": ["snippets", "laravel", "eloquent"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Emacs Tabstops",
 			"details": "https://github.com/KristoforMaynard/EmacsTabstops",
 			"labels": ["emacs", "formatting", "text manipulation"],
@@ -394,6 +416,17 @@
 			"name": "Ember CLI Snippets",
 			"details": "https://github.com/terminalvelocity/ember-cli-sublime-snippets",
 			"labels": ["snippets", "ember", "cli", "seeds"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Ember Template Component Split View",
+			"details": "https://github.com/mmitchellgarcia/ember-component-template-split-view",
+			"labels": ["ember", "cli"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -483,6 +516,17 @@
 			"releases": [
 				{
 					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Emoji Code",
+			"details": "https://github.com/idleberg/sublime-emoji-code",
+			"labels": ["emoji", "auto-complete", "unicode", "css", "html"],
+			"releases": [
+				{
+					"sublime_text": "*",
 					"tags": true
 				}
 			]
@@ -627,6 +671,17 @@
 			]
 		},
 		{
+			"name": "EON JS snippets",
+			"details": "https://github.com/jaymie-timperley/EON-JS-Snippets",
+			"labels": ["EON", "snippets"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "EPL",
 			"details": "https://github.com/StefanE/sublime-epl",
 			"releases": [
@@ -701,6 +756,27 @@
 		{
 			"name": "EsFormatter",
 			"details": "https://github.com/piuccio/sublime-esformatter",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "ESLint",
+			"details": "https://github.com/polygonplanet/sublime-text-eslint",
+			"labels": ["javascript", "linting"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "ESLint-Formatter",
+			"details": "https://github.com/TheSavior/ESLint-Formatter",
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -978,6 +1054,18 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "ExpandCMacro",
+			"details": "https://github.com/pl-ca/ExpandCMacro",
+			"labels": ["Expand", "Macro", "Expansion", "C", "C++"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"platforms": ["osx", "linux"],
 					"tags": true
 				}
 			]
