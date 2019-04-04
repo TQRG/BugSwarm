@@ -1,0 +1,9 @@
+flake8==3.3.0
+flake8-bugbear==17.4.0; python_version >= '3.5'
+flake8-pyi==17.3.0; python_version >= '3.6'
+lxml==3.8.0; sys_platform != 'win32' or python_version == '3.5' or python_version == '3.6'
+typed-ast==1.0.4; sys_platform != 'win32' or python_version >= '3.5'
+pytest==2.8
+pytest-xdist==1.13
+pytest-cov==2.4.0
+typing==3.5.2.2; python_version < '3.5'
