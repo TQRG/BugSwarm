@@ -1,0 +1,79 @@
+runtime: python27
+api_version: 1
+threadsafe: false
+
+instance_class: F1
+automatic_scaling:
+  max_idle_instances: 1
+
+builtins:
+- appstats: on
+- remote_api: on
+- deferred: on
+
+libraries:
+- name: django
+  version: "1.5"
+- name: numpy
+  version: "1.6.1"
+- name: endpoints
+  version: "1.0"
+- name: pycrypto  # for mobile API
+  version: "2.6"
+- name: jinja2
+  version: "2.6"
+- name: pytz
+  version: "2016.4"
+
+handlers:
+- url: /css
+  static_dir: static/compiled/css
+- url: /images
+  static_dir: static/images
+  expiration: "1h"
+- url: /javascript
+  static_dir: static/compiled/javascript
+- url: /jwplayer
+  static_dir: static/jwplayer
+- url: /flowplayer
+  static_dir: static/flowplayer
+- url: /ovp
+  static_dir: static/ovp
+- url: /icons
+  static_dir: static/icons
+  expiration: "1d"
+- url: /swagger
+  static_dir: static/swagger
+  expiration: "1h"
+- url: /robots.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+- url: /firebase-messaging-sw.js
+  static_files: static/compiled/javascript/firebase-messaging-sw.js
+  upload: static/compiled/javascript/firebase-messaging-sw.js
+  expiration: "1d"
+- url: /manifest.json
+  static_files: static/manifest.json
+  upload: static/manifest.json
+  expiration: "1d"
+
+- url: /tasks/.*
+  script: cron_main.app
+  login: admin
+- url: /admin/console/.*
+  script: google.appengine.ext.admin.application
+  login: admin
+- url: /admin/.*
+  script: admin_main.app
+  login: admin
+- url: /api/v3/.*
+  script: apiv3_main.app
+- url: /api/.*
+  script: api_main.app
+- url: /_ah/spi/.* # Endpoints for internal mobile API
+  script: mobile_main.app
+- url: .*
+  script: main.app
+
+includes:
+- app_shared.yaml

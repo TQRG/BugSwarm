@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+
+<h1>Task Launcher</h1>
+
+<p>The Blue Alliance has many tasks that are usually executed by cron jobs, but you can manually launch them from here.</p>
+
+<hr>
+<h4>EventTeams</h4>
+<p>Rebuild EventTeam join models to build (Team, Event) pairs</p>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Enqueue All</span>
+        <a class="btn btn-warning" href="/tasks/math/enqueue/eventteam_update/all">Enqueue all Events</a>
+    </div>
+    <div class="col-xs-4">
+        <span class="help-block">Enqueue Year</span>
+        <form class="form-inline">
+            <div class="input-group">
+                <input class="form-control" id="enqueue_eventteam_update_year" type="text" placeholder="2012">
+                <span class="input-group-btn" id="enqueue_eventteam_update_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#enqueue_eventteam_update_submit").click(function() {
+            window.location = "/tasks/math/enqueue/eventteam_update/" + $("#enqueue_eventteam_update_year").val();
+        });
+        </script>
+    </div>
+    <div class="col-xs-4">
+        <form class="form-inline">
+            <span class="help-block">Do</span>
+            <div class="input-group">
+                <input class="form-control" id="do_eventteam_update_event_key" type="text" placeholder="2010cmp">
+                <span class="input-group-btn" id="do_eventteam_update_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#do_eventteam_update_submit").click(function() {
+            window.location = "/tasks/math/do/eventteam_update/" + $("#do_eventteam_update_event_key").val();
+        });
+        </script>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Repair corrupt EventTeams</span>
+        <a class="btn btn-warning" href="/tasks/math/do/eventteam_repair">Repair EventTeams</a>
+    </div>
+</div>
+
+<hr>
+<h4>Special Registration Days</h4>
+<div class="row">
+    <div class="col-xs-4">
+        <form class="form-inline" action="/tasks/admin/enqueue/registration_day" method="post">
+            <div class="input-group">
+                <span class="help-block">Registration Date</span>
+                <input class="form-control" id="enqueue_registration_date" name="date_string" type="text" placeholder="2016-10-17">
+                <span class="help-block">Event Year to Enqueue</span>
+                <input class="form-control" id="enqueue_registration_year" name="event_year" type="text" placeholder="2017">
+                <span class="help-block">Scrape Interval (minutes)</span>
+                <input class="form-control" id="enqueue_registration_interval" name="interval" type="text" placeholder="30">
+            </div>
+            <span class="input-group-btn" id="enqueue_registration_submit">
+                  <button class="btn btn-warning" type="submit">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+            </span>
+        </form>
+    </div>
+</div>
+
+<hr>
+<div class="row">
+    <div class="col-xs-4">
+        <h4>Run Post Update Hooks</h4>
+        <p>Manually runs post update hooks.</p>
+        <a class="btn btn-warning" href="/tasks/admin/enqueue/run_post_update_hooks/events">Events</a>
+        <a class="btn btn-warning" href="/tasks/admin/enqueue/run_post_update_hooks/teams">Teams</a>
+    </div>
+</div>
+
+<hr>
+<h4>TbaVideos</h4>
+<p>Scrape videos.thebluealliance.com to update hosted video file index</p>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Enqueue</span>
+        <a class="btn btn-warning" href="/tasks/enqueue/tba_videos">Enqueue all Events</a>
+    </div>
+    <div class="col-xs-4">
+        <form class="form-inline">
+            <span class="help-block">Get</span>
+            <div class="input-group">
+                <input class="form-control" id="get_tba_videos_event_key" type="text" placeholder="2010cmp">
+                <span class="input-group-btn" id="get_tba_videos_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#get_tba_videos_submit").click(function() {
+            window.location = "/tasks/get/tba_videos/" + $("#get_tba_videos_event_key").val();
+        });
+        </script>
+    </div>
+</div>
+
+<hr>
+<h4>UsfirstAwards</h4>
+<p>Scrape Usfirst to get Awards from Events</p>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Enqueue</span>
+        <form class="form-inline">
+            <div class="input-group">
+                <input class="form-control" id="enqueue_usfirst_awards_year" type="text" placeholder="2013">
+                <span class="input-group-btn" id="enqueue_usfirst_awards_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#enqueue_usfirst_awards_submit").click(function() {
+            window.location = "/tasks/enqueue/usfirst_awards/" + $("#enqueue_usfirst_awards_year").val();
+        });
+        </script>
+    </div>
+    <div class="col-xs-4">
+        <span class="help-block">Get</span>
+        <form class="form-inline">
+            <div class="input-group">
+                <input class="form-control" id="get_usfirst_awards_event_key" type="text" placeholder="2012cmp">
+                <span class="input-group-btn" id="get_usfirst_awards_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#get_usfirst_awards_submit").click(function() {
+            window.location = "/tasks/get/usfirst_awards/" + $("#get_usfirst_awards_event_key").val();
+        });
+        </script>
+    </div>
+</div>
+<hr>
+
+<h4>UsfirstEventDetails</h4>
+<p>Scrape Usfirst to update Event details</p>
+<div class="row">
+    <div class="col-xs-4">
+        <form class="form-inline">
+            <span class="help-block">Enqueue</span>
+            <div class="input-group">
+                <input class="form-control" size="16" id="enqueue_usfirst_event_details_year" type="text" placeholder="year">
+                <span class="input-group-btn" id="enqueue_usfirst_event_details_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#enqueue_usfirst_event_details_submit").click(function() {
+            window.location = "/tasks/enqueue/usfirst_event_details/" + $("#enqueue_usfirst_event_details_year").val();
+        });
+        </script>
+    </div>
+    <div class="col-xs-4">
+        <form class="form-inline">
+            <span class="help-block">Get</span>
+            <input class="form-control" id="enqueue_usfirst_event_details_year2" type="text" placeholder="year">
+            <input class="form-control" id="enqueue_usfirst_event_details_first_eid" type="text" placeholder="first_eid">
+            <span class="input-group-btn" id="get_usfirst_event_details_submit">
+              <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+            </span>
+        </form>
+        <script>
+        $("#get_usfirst_event_details_submit").click(function() {
+            window.location = "/tasks/get/usfirst_event_details/" + $("#enqueue_usfirst_event_details_year2").val()
+                + "/" + $("#enqueue_usfirst_event_details_first_eid").val();
+        });
+        </script>
+    </div>
+</div>
+
+<hr>
+<h4>UsfirstEventOffseasonList</h4>
+<p>Scrape Usfirst to get offseasons</p>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Manual Tool</span>
+        <p><a class="btn btn-default" href="/admin/offseasons">@0</a></p>
+    </div>
+</div>
+
+<hr>
+<h4>UsfirstTeamDetails</h4>
+<p>Scrape Usfirst to update Team details</p>
+<div class="row">
+    <div class="col-xs-4">
+        <span class="help-block">Enqueue</span>
+        <div class="input-group btn-group">
+            <a class="btn btn-warning" href="/tasks/enqueue/usfirst_team_details?offset=0">@0</a>
+            <a class="btn btn-warning" href="/tasks/enqueue/usfirst_team_details?offset=1000">@1000</a>
+            <a class="btn btn-warning" href="/tasks/enqueue/usfirst_team_details?offset=2000">@2000</a>
+            <a class="btn btn-warning" href="/tasks/enqueue/usfirst_team_details?offset=3000">@3000</a>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <form class="form-inline">
+            <span class="help-block">Get</span>
+            <div class="input-group">
+                <span class="input-group-addon">frc</span>
+                <input class="form-control" size="6" id="get_usfirst_team_details_team_number" type="text" placeholder="177">
+                <span class="input-group-btn" id="get_usfirst_team_details_submit">
+                  <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#get_usfirst_team_details_submit").click(function() {
+            window.location = "/tasks/get/usfirst_team_details/frc" + $("#get_usfirst_team_details_team_number").val();
+        });
+        </script>
+    </div>
+</div>
+
+<hr>
+<h4>Twitter @FRCFMS Matches</h4>
+<p>Scrape @FRCFMS to get matches in CSV format.</p>
+<p>Matches must be manually added using offseason_matches_get</p>
+<div class="row">
+    <div class="col-xs-4">
+        <a class="btn btn-warning" href="/tasks/get/twitter_frcfms_matches">Get last 3200 Matches</a>
+    </div>
+</div>
+
+<hr>
+<h4>Calculate Insights</h4>
+<p>Generate Insights by year or overall</p>
+<div class="row">
+    <div class="col-xs-3">
+        <span class="help-block">Enqueue Award Insights</span>
+        <form class="form-inline">
+            <div class="input-group">
+                <input class="form-control" id="enqueue_award_insights_year" type="text" placeholder="2012">
+                <span class="input-group-btn" id="enqueue_award_insights_year_submit">
+                    <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#enqueue_award_insights_year_submit").click(function() {
+            window.location = "/tasks/math/enqueue/insights/awards/" + $("#enqueue_award_insights_year").val();
+        });
+        </script>
+    </div>
+    <div class="col-xs-3">
+        <span class="help-block">Enqueue Match Insights</span>
+        <form class="form-inline">
+            <div class="input-group">
+                <input class="form-control" id="enqueue_match_insights_year" type="text" placeholder="2012">
+                <span class="input-group-btn" id="enqueue_match_insights_year_submit">
+                    <button class="btn btn-warning" type="button">Go <span class="glyphicon glyphicon-fast-forward"></span></button>
+                </span>
+            </div>
+        </form>
+        <script>
+        $("#enqueue_match_insights_year_submit").click(function() {
+            window.location = "/tasks/math/enqueue/insights/matches/" + $("#enqueue_match_insights_year").val();
+        });
+        </script>
+    </div>
+    <div class="col-xs-3">
+        <a class="btn btn-warning" href="/tasks/math/enqueue/overallinsights/awards">Enqueue Overall Award Insights</a>
+    </div>
+    <div class="col-xs-3">
+        <a class="btn btn-warning" href="/tasks/math/enqueue/overallinsights/matches">Enqueue Overall Match Insights</a>
+    </div>
+</div>
+
+
+<hr>
+<h4>Calculate Typeahead</h4>
+<p>Generate TypeaheadEntries</p>
+<div class="row">
+    <div class="col-xs-3">
+        <a class="btn btn-warning" href="/tasks/math/enqueue/typeaheadcalc">Calc Typeahead!</a>
+    </div>
+</div>
+
+<hr>
+<h2>Not added yet:</h2>
+<pre>
+('/tasks/enqueue/usfirst_event_rankings/(.*)', UsfirstEventRankingsEnqueue),
+('/tasks/enqueue/usfirst_matches/(.*)', UsfirstMatchesEnqueue),
+('/tasks/get/fms_event_list', FmsEventListGet),
+('/tasks/get/fms_team_list', FmsTeamListGet),
+('/tasks/get/usfirst_event_list/([0-9]*)', UsfirstEventListGet),
+('/tasks/get/usfirst_event_rankings/(.*)', UsfirstEventRankingsGet),
+('/tasks/get/usfirst_matches/(.*)', UsfirstMatchesGet),
+('/tasks/get/usfirst_teams_tpids/([0-9]*)', UsfirstTeamsTpidsGet),
+('/tasks/math/enqueue/event_opr/(.*)', EventOprEnqueue),
+('/tasks/math/do/event_opr/(.*)', EventOprDo),
+</pre>
+
+{% endblock %}
