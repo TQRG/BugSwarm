@@ -1,0 +1,21 @@
+{% extends 'layout/management_page.html' %}
+
+{% set show_nav = request.endpoint != 'users.user_dashboard' %}
+
+{% block banner_title %}
+    {% if user == session.user %}
+        {% trans %}My Profile{% endtrans %}
+    {% else %}
+        {% trans name=user.full_name %}Profile of {{ name }}{% endtrans %}
+    {% endif %}
+{% endblock %}
+
+{% block side_menu -%}
+    {% if show_nav %}
+        {{ render_sidemenu('user-profile-sidemenu', active_item=active_menu_item) }}
+    {% endif %}
+{%- endblock %}
+
+{% block content %}
+    {% block user_content %}{% endblock %}
+{% endblock %}

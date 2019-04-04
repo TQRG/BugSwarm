@@ -1,0 +1,14 @@
+{% extends 'layout/conference_page_base.html' %}
+{% from 'events/papers/_paper_list.html' import render_paper_assignment_content %}
+
+{% block title %}
+    {%- trans %}Judging Area{% endtrans -%}
+{% endblock %}
+
+{% block description %}
+    {%- trans %}The judging area shows the papers for which you are a judge. It allows you to assign reviewers and judge papers.{% endtrans -%}
+{% endblock %}
+
+{% block content %}
+    {{ render_paper_assignment_content(event, total_entries, contribs, static_columns, selected_entry) }}
+{% endblock %}
