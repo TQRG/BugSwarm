@@ -1,0 +1,17 @@
+include AUTHORS
+include COPYING
+include INSTALL
+include README.rst
+include THANKS.md
+
+include indico/*.sample indico/web/indico.wsgi
+recursive-include indico *.html *.tpl *.txt *.js *.yaml
+
+graft indico/core/plugins/alembic/
+graft indico/htdocs/
+graft indico/migrations/
+graft indico/translations/
+graft indico/legacy/webinterface/stylesheets/
+prune indico/htdocs/static/assets
+
+global-exclude *.pyc __pycache__ .keep

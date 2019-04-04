@@ -1,0 +1,119 @@
+/* This file is part of Indico.
+ * Copyright (C) 2002 - 2017 European Organization for Nuclear Research (CERN).
+ *
+ * Indico is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Indico is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Indico; if not, see <http://www.gnu.org/licenses/>.
+ */
+
+#flashed-messages {
+    &:empty {
+        display: none;
+    }
+}
+
+.speaker-list {
+    @extend %font-family-modern-body;
+
+    color: $black;
+
+    .speaker-item {
+        display: block;
+
+        &::before {
+            color: $dark-blue;
+            margin-right: 0.2em;
+        }
+
+        .affiliation {
+            color: $dark-gray;
+            font-size: 0.8em;
+
+            .text {
+                @include ellipsis();
+
+                display: inline-block;
+                max-width: 10em;
+                vertical-align: text-bottom;
+            }
+        }
+    }
+
+    .speaker-item-inline {
+        @extend .speaker-item;
+
+        display: inline-block;
+    }
+}
+
+.event-message {
+    margin: 20px auto 5px auto;
+    width: 985px !important;
+}
+
+
+.event-page-header {
+    .button-bar {
+        margin-left: 0.5em;
+        min-height: 24px;
+        min-width: 200px;
+
+        .i-button {
+            @include _i-button-states(#222, $black, $black, $dark-gray, $light-gray, false);
+
+            padding: 0.5em;
+        }
+
+        .separator {
+            margin: 3px 6px 3px 10px;
+            width: 1px;
+            border-right: 1px dotted $light-black;
+        }
+
+        .dropdown {
+            @include border-all($color: $black);
+            @include single-box-shadow($color: $black);
+
+            background: $dark-black;
+
+            li {
+                a {
+                    color: $dark-gray;
+                }
+
+                &:hover a:not(.disabled) {
+                    color: $light-gray;
+                }
+            }
+        }
+
+        .filter-link {
+            &.active, &.active:hover {
+                color: $bright-orange;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .event-filters {
+        margin-top: 5px;
+        padding: 10px 10px 10px 75px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        background-color: #777;
+        display: none;
+
+        strong {
+            color: white;
+        }
+    }
+}
