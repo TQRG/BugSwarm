@@ -27,11 +27,12 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * <p>
  * Checks if array initialization contains optional trailing comma.
  * </p>
+ *
  * <p>
  * Rationale: Putting this comma in make is easier to change the
  * order of the elements or add new elements on the end.
  * </p>
- * <p>
+ *
  * <pre>
  * Properties:
  * </pre>
@@ -43,8 +44,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * </td><td>Boolean</td><td>true</td>
  * </tr>
  * </table>
- * <p>
- * <p>
+ *
  * <p>
  * An example of how to configure the check is:
  * </p>
@@ -92,9 +92,9 @@ public class ArrayTrailingCommaCheck extends AbstractCheck {
 
         // if curlies are on the same line
         // or array is empty then check nothing
-        if ((!ignoreInlineArrays ||
-            arrayInit.getLineNo() != rcurly.getLineNo()) &&
-            arrayInit.getChildCount() != 1) {
+        if ((!ignoreInlineArrays
+            || arrayInit.getLineNo() != rcurly.getLineNo())
+            && arrayInit.getChildCount() != 1) {
             final DetailAST prev = rcurly.getPreviousSibling();
             if (prev.getType() != TokenTypes.COMMA) {
                 log(rcurly.getLineNo(), MSG_KEY);
@@ -108,7 +108,7 @@ public class ArrayTrailingCommaCheck extends AbstractCheck {
      * @param ignoreInlineArraysStringValue string to decode ignoreInlineArrays from
      * @throws IllegalArgumentException if unable to decode
      */
-    public void setIgnoreInlineArrays(Boolean ignoreInlineArraysStringValue) {
+    public void setIgnoreInlineArrays(boolean ignoreInlineArraysStringValue) {
         ignoreInlineArrays = ignoreInlineArraysStringValue;
     }
 }
