@@ -1,0 +1,13 @@
+[run]
+branch = True
+omit =
+    # development
+    h/debug.py
+
+    # migrations
+    h/migrations/*
+
+[paths]
+source =
+   src/memex
+   .tox/*/lib/python*/site-packages/memex
