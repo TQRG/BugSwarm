@@ -18,6 +18,7 @@ package com.squareup.wire;
 import com.squareup.javawriter.JavaWriter;
 import com.squareup.protoparser.ProtoFile;
 import com.squareup.protoparser.ProtoSchemaParser;
+import com.squareup.wire.logger.MockWireLogger;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -59,7 +60,7 @@ public class WireCompilerErrorTest {
     public JavaWriter getJavaWriter(OutputArtifact outputArtifact)
         throws IOException {
       StringWriter writer = new StringWriter();
-      writers.put(outputArtifact.getFullClassName(), writer);
+      writers.put(outputArtifact.fullClassName(), writer);
       return new JavaWriter(writer);
     }
 
@@ -79,13 +80,14 @@ public class WireCompilerErrorTest {
   private Map<String, String> compile(String source) {
     StringIO io = new StringIO("test.proto", source);
 
-    @SuppressWarnings("unchecked")
-    WireCompiler compiler = new WireCompiler(".", Arrays.asList("test.proto"),
-        new ArrayList<String>(), ".", null, true, Collections.EMPTY_LIST, null,
-        Collections.EMPTY_LIST, io);
+    CommandLineOptions options = new CommandLineOptions(".",  ".", Arrays.asList("test.proto"),
+        new ArrayList<String>(), null, true, Collections.<String>emptySet(), null,
+        Collections.<String>emptyList(), false, false);
+
+
     try {
-      compiler.compile();
-    } catch (IOException e) {
+      new WireCompiler(options, io, new MockWireLogger()).compile();
+    } catch (WireException e) {
       fail();
     }
     return io.getOutput();

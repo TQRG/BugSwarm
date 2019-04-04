@@ -18,8 +18,6 @@ package com.squareup.wire;
 import com.squareup.javawriter.JavaWriter;
 import com.squareup.protoparser.Service;
 import com.squareup.wire.logger.StringWireLogger;
-import com.squareup.wire.logger.WireLogger;
-import com.squareup.wire.logger.WireLoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class WireCompilerTest {
-
+  private StringWireLogger logger;
   private File testDir;
 
   @Before public void setUp() {
@@ -56,7 +54,6 @@ public class WireCompilerTest {
 
   @After public void tearDown() {
     cleanupAndDelete(testDir);
-    WireLoggerFactory.reset();
   }
 
   private void cleanupAndDelete(File dir) {
@@ -91,7 +88,7 @@ public class WireCompilerTest {
     }
     System.arraycopy(sources, 0, args, numFlags, sources.length);
 
-    WireCompiler.main(args);
+    invokeCompiler(args);
 
     List<String> filesAfter = getAllFiles(testDir);
     assertEquals(filesAfter.toString(), outputs.length, filesAfter.size());
@@ -111,7 +108,7 @@ public class WireCompilerTest {
     args[3] = "--java_out=" + testDir.getAbsolutePath();
     System.arraycopy(sources, 0, args, numFlags, sources.length);
 
-    WireCompiler.main(args);
+    invokeCompiler(args);
 
     List<String> filesAfter = getAllFiles(testDir);
     assertEquals(outputs.length, filesAfter.size());
@@ -130,7 +127,7 @@ public class WireCompilerTest {
     args[2] = "--registry_class=" + registryClass;
     System.arraycopy(sources, 0, args, numFlags, sources.length);
 
-    WireCompiler.main(args);
+    invokeCompiler(args);
 
     List<String> filesAfter = getAllFiles(testDir);
     assertEquals(outputs.length, filesAfter.size());
@@ -161,7 +158,7 @@ public class WireCompilerTest {
     }
     System.arraycopy(sources, 0, args, index, sources.length);
 
-    WireCompiler.main(args);
+    invokeCompiler(args);
 
     List<String> filesAfter = getAllFiles(testDir);
     assertEquals("Wrong number of files written", outputs.length, filesAfter.size());
@@ -182,7 +179,7 @@ public class WireCompilerTest {
     args[4] = "--roots=" + roots;
     System.arraycopy(sources, 0, args, numFlags, sources.length);
 
-    WireCompiler.main(args);
+    invokeCompiler(args);
 
     List<String> filesAfter = getAllFiles(testDir);
     assertEquals(filesAfter.toString(), outputs.length, filesAfter.size());
@@ -191,6 +188,7 @@ public class WireCompilerTest {
       assertJavaFilesMatchWithSuffix(testDir, output, serviceSuffix);
     }
   }
+
 
   @Test public void testPerson() throws Exception {
     String[] sources = {
@@ -603,18 +601,16 @@ public class WireCompilerTest {
   }
 
   @Test public void testDryRun() throws Exception {
-    StringWireLogger logger = new StringWireLogger();
-    WireLoggerFactory.set(logger);
     String[] sources = {
         "service_root.proto"
     };
 
     String[] outputs = { };
     String roots = "squareup.wire.protos.roots.TheService";
-    // When running with the --dry-run flag and --quiet, only the names of the output
-    // files should be printed to the log
+    // When running with the --dry_run flag and --quiet, only the names of the output
+    // files should be printed to the log.
     String[] extraArgs = {
-        "--dry-run",
+        "--dry_run",
         "--quiet"
     };
     testProtoWithRoots(sources, roots, outputs, extraArgs);
@@ -684,6 +680,12 @@ public class WireCompilerTest {
         getAllFilesHelper(f, files);
       }
     }
+  }
+
+  private void invokeCompiler(String[] args) throws WireException {
+    CommandLineOptions options = new CommandLineOptions(args);
+    logger = new StringWireLogger(options.quiet);
+    new WireCompiler(options, new IO.FileIO(), logger).compile();
   }
 
   private void assertFilesMatch(File outputDir, String path) throws FileNotFoundException {

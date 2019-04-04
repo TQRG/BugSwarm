@@ -5,9 +5,6 @@ import com.squareup.javawriter.JavaWriter;
 import com.squareup.protoparser.ProtoFile;
 import com.squareup.protoparser.ProtoSchemaParser;
 
-import com.squareup.wire.logger.WireLogger;
-import com.squareup.wire.logger.WireLoggerFactory;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,7 +36,6 @@ interface IO {
    * Concrete implementation of the IO interface that proxies to the file system.
    */
   class FileIO implements IO {
-    private static final WireLogger log = WireLoggerFactory.get();
     private static final Charset UTF_8 = Charset.forName("UTF8");
 
     @Override
@@ -51,14 +47,8 @@ interface IO {
     @Override
     public JavaWriter getJavaWriter(OutputArtifact artifact)
         throws IOException {
-      File directory = artifact.getArtifactDir();
-      boolean created = directory.mkdirs();
-      if (created) {
-        log.info("Created output directory " + directory);
-      }
-
-      File outputFile = artifact.getArtifactFile();
-      return new JavaWriter(new OutputStreamWriter(new FileOutputStream(outputFile), UTF_8));
+      artifact.dir().mkdirs();
+      return new JavaWriter(new OutputStreamWriter(new FileOutputStream(artifact.file()), UTF_8));
     }
   }
 }

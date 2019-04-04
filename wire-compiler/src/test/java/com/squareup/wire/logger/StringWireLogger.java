@@ -2,26 +2,22 @@ package com.squareup.wire.logger;
 
 import com.squareup.wire.OutputArtifact;
 
-/**
- * Created by zundel on 12/23/14.
- */
-public class StringWireLogger implements WireLogger {
-  private boolean isQuiet = false;
+
+public final class StringWireLogger implements WireLogger {
+  private final boolean isQuiet;
   private StringBuilder buffer = new StringBuilder();
 
-  @Override
-  public void setQuiet(boolean isQuiet) {
-    this.isQuiet = isQuiet;
+  public StringWireLogger(boolean quiet) {
+    this.isQuiet = quiet;
   }
 
   @Override public void error(String message) {
     buffer.append(message);
     buffer.append('\n');
-
   }
 
   @Override public void artifact(OutputArtifact artifact) {
-    buffer.append(artifact.getArtifactFile().toString());
+    buffer.append(artifact.file().toString());
     buffer.append('\n');
   }
 
