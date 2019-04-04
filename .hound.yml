@@ -1,0 +1,11 @@
+coffeescript:
+  enabled: false
+jshint:
+  enabled: false
+python:
+  enabled: true
+  config_file: setup.cfg
+ruby:
+  enabled: false
+scss:
+  enabled: false
