@@ -1,0 +1,11 @@
+cache: pip
+dist: precise
+group: stable
+install: [pip install -r test-requirements.txt, python2 -m pip install --user typing==3.6.1,
+  python setup.py install]
+language: python
+os: linux
+python: '3.3'
+script: [python runtests.py -x lint, 'if [[ $TRAVIS_PYTHON_VERSION == ''3.6'' ]];
+    then flake8; fi']
+sudo: false
