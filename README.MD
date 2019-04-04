@@ -1,0 +1,57 @@
+OIPA
+============
+
+[![Build Status](https://travis-ci.org/openaid-IATI/OIPA.svg?branch=develop)](https://travis-ci.org/openaid-IATI/OIPA)
+[![Coverage Status](https://coveralls.io/repos/openaid-IATI/OIPA/badge.svg?branch=develop&service=github)](https://coveralls.io/github/openaid-IATI/OIPA?branch=develop)
+
+OIPA is developed within the www.openaid.nl and www.openaidsearch.org platform and enables IATI standard compliant datasets to easily parse and interface that data using the OIPA framework that has been developed using a Django interface. It has been implemented for UN-Habitat at http://open.unhabitat.org and UNESCO: http://opendata.unesco.org.
+
+IATI is a global aid transparency standard and it makes information about aid spending easier to access, re-use and understand the underlying data using a unified open standard. You can find more about the IATA XML standard at:
+
+www.iatistandard.org
+
+OIPA is extended to support a variety of global health indicators published by UN-Habitat, The World Bank and other sources of statistics.
+
+OIPA is licensed under the GNU AGPL license.
+
+Check the full documentation and how to use OIPA here: www.oipa.nl
+
+Codebase maintained by team Zimmerman & Zimmerman in Amsterdam.
+
+============
+
+Development on [Vagrant](https://www.vagrantup.com/)
+========
+
+Initial setup scripts and Vagrantfile included,
+in order to setup new instance type following inside repository root directory:
+
+```#!bash
+vagrant up
+```
+
+Setup includes:
+ - OIPA directory mounted into /vagrant on VM
+ - all dependencies installed
+ - PostgresSQL database created (name: `oipa`, user: `oipa`, password: `oipa`)
+ - inital superuser created (name: `vagrant`, password: `vagrant`)
+
+To start:
+
+```#!bash
+vagrant ssh
+# ...logs you onto VM
+./manage.py runserver
+```
+
+Or install pyinvoke locally: `sudo pip install invoke`
+
+and run:
+
+```#!bash
+invoke serve
+```
+
+and open your browser at `http://localhost:8000/`.
+
+This setup includes supervisor runnning on background, log is stored at `/vagrant/OIPA/static/supervisor.log`.
