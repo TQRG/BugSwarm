@@ -57,15 +57,15 @@ public final class WireField {
     return options;
   }
 
-  public final boolean isDeprecated() {
+  public boolean isDeprecated() {
     return element.isDeprecated();
   }
 
-  public final boolean isPacked() {
+  public boolean isPacked() {
     return element.isPacked();
   }
 
-  public final WireOption getDefault() {
+  public WireOption getDefault() {
     return Util.findOption(options, "default");
   }
 

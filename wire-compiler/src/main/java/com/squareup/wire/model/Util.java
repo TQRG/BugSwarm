@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 final class Util {
+  private Util() {
+  }
+
   public static <T> T checkNotNull(T value, String name) {
     if (value == null) {
       throw new NullPointerException(name + " == null");
@@ -32,7 +35,7 @@ final class Util {
     }
   }
 
-  static <T> List<T> concatenate(List<T> a, T b) {
+  public static <T> List<T> concatenate(List<T> a, T b) {
     List<T> result = new ArrayList<T>();
     result.addAll(a);
     result.add(b);
