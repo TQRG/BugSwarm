@@ -14,8 +14,8 @@ __all__ = ('get_version',)
 # git-archive substitution markers. When this file is written out by a `git
 # archive` command, these will be replaced by the short commit hash and the
 # commit date, respectively.
-VERSION_GIT_REF = 'd65e84bcd0'
-VERSION_GIT_DATE = '1500887234'
+VERSION_GIT_REF = '50296083e8'
+VERSION_GIT_DATE = '1500888311'
 
 # Fallback version in case we cannot derive the version.
 VERSION_UNKNOWN = '0+unknown'

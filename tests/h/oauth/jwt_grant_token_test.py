@@ -48,7 +48,7 @@ class TestJWTGrantToken(object):
         with pytest.raises(MissingJWTGrantTokenClaimError) as exc:
             grant_token.issuer
 
-        assert exc.value.description == 'Missing grant token issuer (iss).'
+        assert exc.value.description == "Missing claim 'iss' (issuer) from grant token."
 
     def test_verified_initializes_verified_token(self, patch):
         verified_token = patch('h.oauth.jwt_grant_token.VerifiedJWTGrantToken')
@@ -125,7 +125,7 @@ class TestVerifiedJWTGrantToken(object):
         with pytest.raises(InvalidGrantError) as exc:
             VerifiedJWTGrantToken(jwttok, 'top-secret', 'test-audience')
 
-        assert exc.value.description == 'Missing grant token {} ({}).'.format(description, claim)
+        assert exc.value.description == "Missing claim '{}' ({}) from grant token.".format(claim, description)
 
     def test_init_raises_for_invalid_aud(self, claims):
         claims['aud'] = 'different-audience'
@@ -134,7 +134,7 @@ class TestVerifiedJWTGrantToken(object):
         with pytest.raises(InvalidJWTGrantTokenClaimError) as exc:
             VerifiedJWTGrantToken(jwttok, 'top-secret', 'test-audience')
 
-        assert exc.value.description == 'Invalid grant token audience (aud).'
+        assert exc.value.description == "Invalid claim 'aud' (audience) in grant token."
 
     @pytest.mark.parametrize('claim,description', [
         ['exp', 'expiry'],
@@ -147,7 +147,7 @@ class TestVerifiedJWTGrantToken(object):
         with pytest.raises(InvalidJWTGrantTokenClaimError) as exc:
             VerifiedJWTGrantToken(jwttok, 'top-secret', 'test-audience')
 
-        assert exc.value.description == 'Invalid grant token {} ({}).'.format(description, claim)
+        assert exc.value.description == "Invalid claim '{}' ({}) in grant token.".format(claim, description)
 
     def test_init_returns_token_when_expired_but_in_leeway(self, claims):
         claims['exp'] = epoch(delta=timedelta(seconds=-8))
@@ -219,7 +219,7 @@ class TestVerifiedJWTGrantToken(object):
         with pytest.raises(InvalidGrantError) as exc:
             grant_token.subject
 
-        assert exc.value.description == 'Missing grant token subject (sub).'
+        assert exc.value.description == "Missing claim 'sub' (subject) from grant token."
 
     def test_subject_raises_for_empty_sub_claim(self, claims):
         claims['sub'] = ''
@@ -229,7 +229,7 @@ class TestVerifiedJWTGrantToken(object):
         with pytest.raises(InvalidGrantError) as exc:
             grant_token.subject
 
-        assert exc.value.description == 'Missing grant token subject (sub).'
+        assert exc.value.description == "Missing claim 'sub' (subject) from grant token."
 
     @pytest.fixture
     def claims(self):
