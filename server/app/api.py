@@ -874,7 +874,7 @@ class AssignmentAPI(APIResource):
         r = requests.post(AUTOGRADER_URL+'/api/ok/grade/batch',
             data=json.dumps(data), headers=headers)
         if r.status_code == requests.codes.ok:
-          return {'status_url': ag_url+'/rq', 'length': str(len(subm_ids))}
+          return {'status_url': AUTOGRADER_URL+'/rq', 'length': str(len(subm_ids))}
         else:
           raise BadValueError('The autograder the rejected your request')
       else:
