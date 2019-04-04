@@ -1,0 +1,18 @@
+active: true
+derived: false
+level: 1.4
+links:
+- REQ003: 1f33605bbc5d1a39c9a6441b91389e88
+normative: true
+ref: ''
+reviewed: c4e3f66be726f0c52536f13720148f03
+text: |
+  **Validating the Tree**
+
+  Enter a VCS working copy:
+
+      $ cd /tmp/doorstop
+
+  Build and validate the tree:
+
+      $ doorstop

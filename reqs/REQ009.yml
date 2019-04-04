@@ -1,0 +1,10 @@
+active: true
+derived: false
+level: 3.3
+links: []
+normative: true
+ref: ''
+reviewed: 6c23761dd907de37c62614155cca22cc
+text: |
+  Doorstop **shall** provide the capability to baseline versions of
+  requirements.

@@ -1,0 +1,10 @@
+active: true
+derived: false
+level: 2.1
+links: []
+normative: true
+ref: ''
+reviewed: 1f33605bbc5d1a39c9a6441b91389e88
+text: |
+  Doorstop **shall** provide unique and permanent identifiers to linkable
+  sections of text.
