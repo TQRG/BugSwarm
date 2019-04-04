@@ -21,8 +21,10 @@ import time
 from os.path import dirname, basename
 
 from typing import (AbstractSet, Dict, Iterable, Iterator, List,
-                    NamedTuple, Optional, Set, Tuple, Union, TYPE_CHECKING)
-if TYPE_CHECKING:
+                    NamedTuple, Optional, Set, Tuple, Union)
+# Can't use TYPE_CHECKING because it's not in the Python 3.5.1 stdlib
+MYPY = False
+if MYPY:
     from typing import Deque
 
 from mypy.nodes import (MypyFile, Node, ImportBase, Import, ImportFrom, ImportAll)
@@ -1399,7 +1401,8 @@ class State:
         # this before processing imports, since this may mark some
         # import statements as unreachable.
         first = FirstPass(manager.semantic_analyzer)
-        first.visit_file(self.tree, self.xpath, self.id, self.options)
+        with self.wrap_context():
+            first.visit_file(self.tree, self.xpath, self.id, self.options)
 
         # Initialize module symbol table, which was populated by the
         # semantic analyzer.
