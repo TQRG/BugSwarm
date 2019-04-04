@@ -1,0 +1,18 @@
+build/
+__pycache__
+*.py[cod]
+*~
+@*
+/build
+/env
+docs/build/
+*.iml
+/out/
+.venv/
+
+# Packages
+*.egg
+*.egg-info
+
+#IDEs
+.idea

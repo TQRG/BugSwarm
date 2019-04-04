@@ -1,0 +1,102 @@
+-- Test cases for type checker related to super().
+
+
+-- Supertype member reference
+-- --------------------------
+
+
+[case testAccessingSupertypeMethod]
+
+class B:
+  def f(self) -> 'B': pass
+class A(B):
+  def f(self) -> 'A':
+    a, b = None, None # type: (A, B)
+    a = super().f() # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+    a = super().g() # E: "g" undefined in superclass
+    b = super().f()
+[out]
+main: note: In member "f" of class "A":
+
+[case testAccessingSuperTypeMethodWithArgs]
+from typing import Any
+class B:
+  def f(self, y: 'A') -> None: pass
+class A(B):
+  def f(self, x: Any) -> None:
+    a, b = None, None # type: (A, B)
+    super().f(b) # E: Argument 1 to "f" of "B" has incompatible type "B"; expected "A"
+    super().f(a)
+    self.f(b)
+    self.f(a)
+[out]
+main: note: In member "f" of class "A":
+
+[case testAccessingSuperInit]
+import typing
+class B:
+    def __init__(self, x: A) -> None: pass
+class A(B):
+  def __init__(self) -> None:
+    super().__init__(B(None)) # E: Argument 1 to "__init__" of "B" has incompatible type "B"; expected "A"
+    super().__init__()       # E: Too few arguments for "__init__" of "B"
+    super().__init__(A())
+[out]
+main: note: In member "__init__" of class "A":
+
+[case testAccessingSuperMemberWithDeepHierarchy]
+import typing
+class C:
+  def f(self) -> None: pass
+class B(C): pass
+class A(B):
+  def f(self) -> None:
+    super().g() # E: "g" undefined in superclass
+    super().f()
+[out]
+main: note: In member "f" of class "A":
+
+[case testAssignToBaseClassMethod]
+import typing
+class A:
+    def f(self) -> None: pass
+class B(A):
+    def g(self) -> None:
+        super().f = None
+[out]
+main: note: In function "g":
+main:6: error: Invalid assignment target
+
+[case testSuperWithMultipleInheritance]
+import typing
+class A:
+  def f(self) -> None: pass
+class B:
+  def g(self, x: int) -> None: pass
+class C(A, B):
+    def f(self) -> None:
+        super().f()
+        super().g(1)
+        super().f(1) # E: Too many arguments for "f" of "A"
+        super().g() # E: Too few arguments for "g" of "B"
+        super().not_there() # E: "not_there" undefined in superclass
+[out]
+main: note: In member "f" of class "C":
+
+[case testSuperWithNew]
+class A:
+    def __new__(cls, x: int) -> 'A':
+        return object.__new__(cls)
+
+class B(A):
+    def __new__(cls, x: str) -> 'A':
+        super().__new__(cls, 1)
+        super().__new__(cls, x) # E
+B('')
+B(1) # E
+[builtins fixtures/__new__.py]
+[out]
+main: note: In member "__new__" of class "B":
+main:8: error: Argument 2 to "__new__" of "A" has incompatible type "str"; expected "int"
+main: note: At top level:
+main:10: error: Argument 1 to "B" has incompatible type "int"; expected "str"

@@ -1,0 +1,91 @@
+-- Type checker test cases for conditional checks that result in some
+-- blocks classified as unreachable (they are not type checked or semantically
+-- analyzed).
+--
+-- For example, we skip blocks that will not be executed on the active
+-- Python version.
+
+[case testConditionalTypeAliasPY3]
+import typing
+def f(): pass
+PY3 = f()
+if PY3:
+    t = int
+    x = object() + 'x' # E: Unsupported left operand type for + ("object")
+else:
+    t = str
+    y = 'x' / 1
+x
+z = 1 # type: t
+
+[case testConditionalTypeAliasPY3_python2]
+import typing
+def f(): pass
+PY3 = f()
+if PY3:
+    t = int
+    x = object() + 'x'
+else:
+    t = str
+    y = 'x' / 1 # E: "str" has no attribute "__div__"
+y
+z = '' # type: t
+
+[case testConditionalAssignmentPY2]
+import typing
+def f(): pass
+PY2 = f()
+if PY2:
+    x = object() + 'x'
+else:
+    y = 'x' / 1 # E: Unsupported left operand type for / ("str")
+y
+
+[case testConditionalAssignmentPY2_python2]
+import typing
+def f(): pass
+PY2 = f()
+if PY2:
+    x = object() + 'x' # E: Unsupported left operand type for + ("object")
+else:
+    y = 'x' / 1
+x
+
+[case testConditionalImport]
+import typing
+def f(): pass
+PY2 = f()
+if PY2:
+    import fuzzybar
+    from barbar import *
+    from pawwaw import a, bc
+else:
+    import m
+[file m.py]
+import typing
+x = 1
+x = 'a'
+[out]
+main:9: note: In module imported here:
+tmp/m.py:3: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+
+[case testNegatedMypyConditional]
+import typing
+MYPY = 0
+if not MYPY:
+    import xyz753
+else:
+    import pow123 # E
+[builtins fixtures/bool.py]
+[out]
+main:6: error: Cannot find module named 'pow123'
+main:6: note: (Perhaps setting MYPYPATH would help)
+
+[case testMypyConditional]
+import typing
+MYPY = 0
+if MYPY:
+    None + 1 # E: Unsupported left operand type for + (None)
+else:
+    None + ''
+[builtins fixtures/bool.py]
