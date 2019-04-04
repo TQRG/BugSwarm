@@ -780,8 +780,7 @@ class MessageBuilder:
     def forward_operator_not_callable(
             self, forward_method: str, context: Context) -> None:
         self.fail('Forward operator "{}" is not callable'.format(
-                      forward_method),
-                  context)
+            forward_method), context)
 
     def signatures_incompatible(self, method: str, other_method: str,
                                 context: Context) -> None:
