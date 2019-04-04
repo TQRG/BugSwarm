@@ -1,0 +1,22 @@
+active: true
+derived: false
+level: 3.3
+links:
+- REQ016: cd08e04c45e8f91de19227a183f78777
+normative: true
+ref: ''
+reviewed: fb9ce2ceabcc8d5743490be3e8649c3b
+text: |
+  **Importing an Item**
+
+  Enter a VCS working copy:
+
+      $ cd /tmp/doorstop
+
+  Import an item:
+
+      $ doorstop import --item HLR HLR001
+
+  Import an item with attributes:
+
+      $ doorstop import --item LLR LLR001 --attr "{'text': 'The item text.'}"
