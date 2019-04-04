@@ -1,0 +1,32 @@
+.container {
+    margin-top: 60px;
+}
+
+.block {
+  display: block;
+}
+
+pre code  {
+  font-family: Menlo,Monaco,Consolas,'Courier New',monospace !important;
+}
+
+.dashed {
+  border-bottom: 1px dashed #999;
+}
+
+.no-dash {
+  border-bottom: none !important;
+}
+
+.top-align {
+    margin-top: -1em;
+}
+
+td.slim-cell {
+  padding-top: 0em;
+  padding-bottom: 0em;
+}
+
+.text-center {
+    text-align: center;
+}

@@ -1,0 +1,80 @@
+{% extends "student/base.html" %}
+{% import 'student/assignment/_tablehelper.html' as table %}
+{% import 'diff.html' as diff %}
+
+{% block title %} Assignment | Ok {% endblock %}
+{% block css %}
+  <!-- src="https:// .. .js" -->
+{% endblock %}
+
+{% block header %}
+
+  <!-- <div class="left col-md-2">
+    <div class="stripes">
+      <div class="stripe"></div>
+      <div class="stripe"></div>
+      <div class="stripe"></div>
+    </div>
+  </div> -->
+
+{% endblock %}
+
+{% block body %}
+    <main>
+      {% include 'student/assignment/sidebar.html' %}
+      <div class="col-md-2"></div>
+      <section class="content nomapa col-md-10 col-xs-12">
+        <header>
+          <div class="header-bg">
+            <div class="right col-md-5">
+
+
+                <a href="{{ url_for('auth.logout') }}" class="header-text"><span>Logout</span></a>
+
+                <div class="header-text user-profile hidden-sm hidden-xs">
+
+                  <span class="user-name"> {{ current_user.name | default(current_user.email, True) }}</span>
+                  <i class="fa fa-user"></i>
+                </div>
+              </div>
+          </div>
+        </header>
+
+        {% set backup_type = 'Submission' if backup.submit else 'Backup' %}
+        <div class="subcontent heading">
+          <div class="wrap">
+            <div class="string-nav">
+              <span><a href="{{ url_for('.index', auto_redir=False) }}">Courses</a></span> &raquo;
+              <span><a href="{{ url_for('.course', offering=course.offering) }}"> {{ course.display_name }}</a></span> &raquo;
+              <span><a href="{{ url_for('.assignment', name=assignment.name) }}"> {{ assignment.display_name }}</a></span> &raquo;
+              <span> {{backup_type}} {{ utils.encode_id(backup.id) }} </span>
+            </div>
+            <h3 class="text-center">Received on {{ utils.local_time(backup.created, course) }} from {{ backup.submitter.email }}</h3>
+          </div>
+          {% include 'alerts.html' %}
+        </div>
+        <!-- start desktop/tablet version -->
+        <div class="subcontent list">
+            <div class="wrap">
+                <!-- Action bar -->
+                <a href="{{ url_for('.code', name=assignment.name, bid=backup.id, submit=backup.submit, diff=None if use_diff else 1) }}" class="no-dash button-small">
+                  <i class="fa fa-file-code-o"> </i> View {{ 'Code' if use_diff else 'Diff' }}
+                </a>
+            </div>
+        </div>
+        <div class="subcontent list">
+          <div class="wrap">
+            {% if use_diff %}
+              {{ diff.highlight_diffs(files_before, files_after) }}
+            {% else %}
+              {{ diff.highlight_files(files_after) }}
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}
+
+{% block js %}
+  <!-- src="https:// .. .js" -->
+{% endblock %}
