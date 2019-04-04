@@ -1,0 +1,28 @@
+language: java
+
+sudo: false
+
+# Triggers an update of the OracleJDK distribution. Travis is currently running v8u31 which
+# exposes problems with the instrumentation of invokedynamic call sites.
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - jdk: openjdk6
+    - jdk: oraclejdk7
+      env: TARGET=-Pjava7
+    - jdk: oraclejdk8
+      env: TARGET=-Pjava8
+
+install: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: ./mvnw jacoco:prepare-agent verify jacoco:report $TARGET -Pintegration -Dnet.bytebuddy.test.travis=true -B -V
+
+after_success:
+  - ./mvnw coveralls:report
