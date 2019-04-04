@@ -150,7 +150,7 @@ adds:
 ``form_group``
 **************
 
-**type**: ``string`` **default**: ``form.group_routing`
+**type**: ``string`` **default**: ``form.group_routing``
 
 .. include:: ../_partials/sonata_admin_form_group.rst.inc
 
