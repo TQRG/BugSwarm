@@ -6,16 +6,13 @@ import static org.junit.Assert.assertEquals;
 
 public class OutputArtifactTest {
 
-  @Test
-  public void testOutputArtifact() {
-
+  @Test public void testOutputArtifact() {
     OutputArtifact artifact = new OutputArtifact("foo/bar", "com.company", "Foo");
-    assertEquals("foo/bar", artifact.getOutputDirectory());
-    assertEquals("com.company", artifact.getJavaPackage());
-    assertEquals("Foo", artifact.getClassName());
-
-    assertEquals("foo/bar/com/company", artifact.getArtifactDir().toString());
-    assertEquals("foo/bar/com/company/Foo.java", artifact.getArtifactFile().toString());
-    assertEquals("com.company.Foo", artifact.getFullClassName());
+    assertEquals("foo/bar", artifact.outputDirectory());
+    assertEquals("com.company", artifact.javaPackage());
+    assertEquals("Foo", artifact.className());
+    assertEquals("foo/bar/com/company", artifact.dir().toString());
+    assertEquals("foo/bar/com/company/Foo.java", artifact.file().toString());
+    assertEquals("com.company.Foo", artifact.fullClassName());
   }
 }
