@@ -1,0 +1,74 @@
+-- Test cases for parser -- Python 2 syntax.
+--
+-- See parse.test for a description of this file format.
+
+[case testEmptyFile]
+[out]
+MypyFile:1()
+
+[case testStringLiterals]
+'bar'
+u'foo'
+ur'foo'
+u'''bar'''
+b'foo'
+[out]
+MypyFile:1(
+  ExpressionStmt:1(
+    StrExpr(bar))
+  ExpressionStmt:2(
+    UnicodeExpr(foo))
+  ExpressionStmt:3(
+    UnicodeExpr(foo))
+  ExpressionStmt:4(
+    UnicodeExpr(bar))
+  ExpressionStmt:5(
+    StrExpr(foo)))
+
+[case testSimplePrint]
+print 1
+print 2, 3
+print (4, 5)
+[out]
+MypyFile:1(
+  PrintStmt:1(
+    IntExpr(1)
+    Newline)
+  PrintStmt:2(
+    IntExpr(2)
+    IntExpr(3)
+    Newline)
+  PrintStmt:3(
+    TupleExpr:3(
+      IntExpr(4)
+      IntExpr(5))
+    Newline))
+
+[case testSimpleWithTrailingComma]
+print 1,
+print 2, 3,
+print (4, 5),
+[out]
+MypyFile:1(
+  PrintStmt:1(
+    IntExpr(1))
+  PrintStmt:2(
+    IntExpr(2)
+    IntExpr(3))
+  PrintStmt:3(
+    TupleExpr:3(
+      IntExpr(4)
+      IntExpr(5))))
+
+[case testOctalIntLiteral]
+00
+01
+0377
+[out]
+MypyFile:1(
+  ExpressionStmt:1(
+    IntExpr(0))
+  ExpressionStmt:2(
+    IntExpr(1))
+  ExpressionStmt:3(
+    IntExpr(255)))

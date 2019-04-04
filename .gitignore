@@ -1,0 +1,8 @@
+build/
+__pycache__
+*.pyc
+*~
+@*
+/build
+/env
+docs/build/

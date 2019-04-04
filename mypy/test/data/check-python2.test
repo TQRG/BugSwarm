@@ -1,0 +1,32 @@
+-- Type checker test cases for Python 2.x mode.
+
+
+[case testUnicode]
+import typing
+u = u'foo'
+u = unicode()
+s = ''
+s = u'foo' # E: Incompatible types in assignment (expression has type "unicode", variable has type "str")
+s = b'foo'
+[builtins fixtures/python2.py]
+
+[case testPrintStatement]
+import typing
+print ''() # E: "str" not callable
+print 1, 1() # E: "int" not callable
+
+[case testDivision]
+import typing
+class A:
+    def __div__(self, x: int) -> str: pass
+s = A() / 1
+s = ''
+s = 1 # E: Incompatible types in assignment (expression has type "int", variable has type "str")
+
+[case testStrUnicodeCompatiblity]
+import typing
+def f(x: unicode) -> None: pass
+f('')
+f(u'')
+f(b'')
+[builtins fixtures/python2.py]
