@@ -57,7 +57,7 @@ public final class WireEnum extends WireType {
     return options;
   }
 
-  @Override public final List<WireType> nestedTypes() {
+  @Override public List<WireType> nestedTypes() {
     return Collections.emptyList(); // Enums do not allow nested type declarations.
   }
 
