@@ -84,7 +84,7 @@ public final class RootSet {
     }
 
     // Mark everything reachable by what's enqueued, queueing new things as we go.
-    for (String name; (name = markSet.queue.poll()) != null; ) {
+    for (String name; (name = markSet.queue.poll()) != null;) {
       if (ProtoTypeName.getScalar(name) != null) {
         continue; // Skip scalar types.
       }
