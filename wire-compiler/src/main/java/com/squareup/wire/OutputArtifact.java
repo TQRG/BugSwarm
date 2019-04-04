@@ -5,40 +5,41 @@ import java.io.File;
 /**
  * A container class that represents an artifact output from the compiler.
  */
-public class OutputArtifact {
+public final class OutputArtifact {
   private final String outputDirectory;
   private final String className;
   private final String javaPackage;
-  private final File artifactFile;
 
   public OutputArtifact(String outputDirectory, String javaPackage, String className) {
     this.outputDirectory = outputDirectory;
     this.className = className;
     this.javaPackage = javaPackage;
-    String dir = outputDirectory + File.separator
-        + javaPackage.replace(".", File.separator);
-    artifactFile = new File(dir, className + ".java");
   }
 
-  public String getOutputDirectory() {
+
+  public String outputDirectory() {
     return outputDirectory;
   }
 
-  public String getClassName() {
+  public String className() {
     return className;
   }
 
-  public String getJavaPackage() {
+  public String javaPackage() {
     return javaPackage;
   }
 
-  public File getArtifactFile() {
-    return artifactFile;
+  public File file() {
+    String dir = outputDirectory + File.separator
+        + javaPackage.replace(".", File.separator);
+    return new File(dir, className + ".java");
   }
 
-  public File getArtifactDir() {
-    return artifactFile.getParentFile();
+  public File dir() {
+    return file().getParentFile();
   }
 
-  public String getFullClassName() { return javaPackage + "." + className; }
+  public String fullClassName() {
+    return javaPackage + "." + className;
+  }
 }
