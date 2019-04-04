@@ -1,0 +1,59 @@
+{% extends "student/base.html" %}
+{% import 'student/course/_assigntable.html' as table %}
+
+{% block title %} Courses | Ok {% endblock %}
+
+{% block header %}
+
+  <!-- <div class="left col-md-2">
+    <div class="stripes">
+      <div class="stripe"></div>
+      <div class="stripe"></div>
+      <div class="stripe"></div>
+    </div>
+  </div> -->
+
+{% endblock %}
+
+{% block body %}
+    <main>
+      {% include 'student/course/sidebar.html' %}
+      <div class="col-md-2"></div>
+      <section class="content nomapa col-md-10 col-xs-12">
+        <header>
+          <div class="header-bg">
+            <div class="right col-md-5 col-sm-3">
+                <a href="{{ url_for('auth.logout') }}" class="header-text"><span>Logout</span></a>
+                <div class="header-text user-profile hidden-sm hidden-xs">
+                  <span class="user-name"> {{ current_user.name | default(current_user.email, True) }}</span>
+                  <i class="fa fa-user"></i>
+                </div>
+              </div>
+          </div>
+        </header>
+
+        <div class="subcontent heading">
+            {% include 'alerts.html' %}
+
+          <div class="wrap">
+            <div class="string-nav">
+              <span><a href="{{ url_for('student.index') }}">Courses</a></span> &raquo;
+              <span>{{ course.display_name }}</span>
+            </div>
+            <h1>{{ course.display_name}}</h1>
+          </div>
+
+
+        </div>
+        <!-- start desktop/tablet version -->
+        {{ table.render_assign(active, course=course, tname="Current Assignments", empty=True) }}
+        {{ table.render_assign(inactive, course=course, tname="Past Assignments") }}
+
+        <!-- end desktop/tablet version -->
+        <!-- start mobile version -->
+        {{ table.render_assign_mobile(active, course=course, tname="Current Assignments", empty=True) }}
+        {{ table.render_assign_mobile(inactive,course=course, tname="Past Assignments") }}
+        <!-- end mobile version -->
+      </section>
+    </main>
+{% endblock %}
