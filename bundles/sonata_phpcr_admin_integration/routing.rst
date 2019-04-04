@@ -194,7 +194,7 @@ configuration in the ``sonata_admin`` section of your project configuration:
 See the `Sonata Admin extension documentation`_ for more information.
 
 Styling the Frontend Link
-~~~~~~~~~~~~~~~~~~~~~~~~~
+*************************
 
 The frontend link button can be customized using the following CSS selectors:
 
