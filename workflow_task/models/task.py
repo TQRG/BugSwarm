@@ -73,7 +73,6 @@ class Task(models.Model):
                                  compute='_get_action_ids')
     pretty_res_type = fields.Char(compute='_get_pretty_res_type')
 
-    
     def fields_get(self, cr, user, allfields=None, context=None,
                    write_access=True, attributes=None):
         res = super(Task, self).fields_get(
