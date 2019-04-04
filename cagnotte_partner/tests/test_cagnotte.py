@@ -92,4 +92,4 @@ class TestCagnotte(common.TransactionCase):
         with self.assertRaises(ValidationError):
             cagnotte2.write({'active': True})
 
-        cagnotte2.write({'active': False})
+        cagnotte.write({'active': False})
