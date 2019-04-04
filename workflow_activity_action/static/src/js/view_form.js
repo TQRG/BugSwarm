@@ -39,12 +39,16 @@ var FieldMany2ManyActionButtons = form_relational.AbstractManyField.extend(commo
                 $.when().then(function () {
                     if (parent_form) {
                         parent_form.save();
-                        var context = self.view.dataset.context;
+                        var context = self.view.dataset.get_context().eval();
                         context['res_type'] = self.view.model;
                         context['res_id'] = self.view.datarecord.id;
                         var model = new Model(self.field.relation);
-                        model.call("do_action", [parseInt(button.dataset.id)], {"context": context}).then(function() {
-                            self.view.reload();
+                        model.call("do_action", [parseInt(button.dataset.id)], {"context": context}).then(function(result) {
+                            if (result) {
+                                self.view.do_action(result);
+                            }
+                            self.view.recursive_save();
+                            self.view.recursive_reload();
                         });
                     } else {
                         return $.when();

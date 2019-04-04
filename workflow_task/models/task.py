@@ -44,7 +44,8 @@ class Task(models.Model):
     activity_id = fields.Many2one(comodel_name='workflow.activity',
                                   string='Activity', required=True)
     description = fields.Text()
-    user_id = fields.Many2one(comodel_name='res.users', string='Assigned User',
+    user_id = fields.Many2one(comodel_name='res.users',
+                              string='Assigned User',
                               track_visibility='onchange')
     state = fields.Selection([('new', 'Todo'),
                               ('started', 'In progress'),
@@ -65,8 +66,53 @@ class Task(models.Model):
     ref_object = fields.Reference(string='Objet',
                                   selection=_select_objects,
                                   store=True, compute='_get_ref_object')
+    ref_object_name = fields.Char(search='_search_ref_object',
+                                  compute='_dummy_compute',
+                                  string="Related object")
     action_ids = fields.One2many(comodel_name='workflow.activity.action',
                                  compute='_get_action_ids')
+    pretty_res_type = fields.Char(compute='_get_pretty_res_type')
+
+    def fields_get(self, cr, user, allfields=None, context=None,
+                   write_access=True, attributes=None):
+        res = super(Task, self).fields_get(
+            cr, user, allfields, context, write_access, attributes)
+        # remove ref_object from searchable field into the advanced search
+        # since the field to use is ref_object_name
+        if 'ref_object' in res:
+            res['ref_object']['searchable'] = False
+        return res
+
+    @api.multi
+    @api.depends('res_type')
+    def _get_pretty_res_type(self):
+        for record in self:
+            model = self.env['ir.model']\
+                .search([('model', '=', record.res_type)])
+            record.pretty_res_type = model.name
+
+    def _search_ref_object(self, operator, value):
+        self._cr.execute("""SELECT distinct res_type FROM workflow_task""")
+        models = self._cr.fetchall()
+        all_task_ids = []
+        for model in models:
+            model = model[0]
+            self._cr.execute("""SELECT distinct res_id FROM workflow_task
+                WHERE res_type=%s""", (model,))
+            mids = [r[0] for r in self._cr.fetchall()]
+            ns_result = self.env[model].name_search(
+                name=value, operator=operator, args=[('id', 'in', mids)])
+            obj_ids = [r[0] for r in ns_result]
+            tids = self.search([('res_type', '=', model),
+                                ('res_id', 'in', obj_ids)])
+            all_task_ids.extend(tids._ids)
+        return [('id', 'in', all_task_ids)]
+
+    @api.depends('ref_object')
+    @api.multi
+    def _dummy_compute(self):
+        for record in self:
+            record.ref_object_name = record.ref_object
 
     @api.multi
     def _get_action_ids(self):
@@ -124,7 +170,8 @@ class Task(models.Model):
 
     @api.multi
     def check(self, mode, values=None):
-        """Restricts the access to a workflow task, according to referred model.
+        """Restricts the access to a workflow task, according to
+           referred model.
         """
         res_ids = {}
         if self._ids:
@@ -148,15 +195,10 @@ class Task(models.Model):
 
     def _search(self, cr, uid, args, offset=0, limit=None, order=None,
                 context=None, count=False, access_rights_uid=None):
-        ids = super(Task, self)._search(cr, uid, args, offset=offset,
-                                        limit=limit, order=order,
+        ids = super(Task, self)._search(cr, uid, args, offset=0,
+                                        limit=None, order=order,
                                         context=context, count=False,
                                         access_rights_uid=access_rights_uid)
-        context = context or {}
-        # keep a copy of the context since it will be modified to disallow
-        # the test on active when searching for res_type
-        no_active_test_context = context.copy()
-        no_active_test_context['active_test'] = False
         if not ids:
             if count:
                 return 0
@@ -186,12 +228,12 @@ class Task(models.Model):
                 # remove all corresponding task ids
                 for attach_id in itertools.chain(*targets.values()):
                     ids.remove(attach_id)
-                continue  # skip ir.rule processing, these ones are out already
+                continue  # skip ir.rule processing,these ones are out already
 
             # filter ids according to what access rules permit
             target_ids = targets.keys()
             allowed_ids = [0] + self.pool[model].search(
-                cr, uid, [('id', 'in', target_ids)], context=no_active_test_context)
+                cr, uid, [('id', 'in', target_ids)], context=context)
             disallowed_ids = set(target_ids).difference(allowed_ids)
             for res_id in disallowed_ids:
                 for attach_id in targets[res_id]:
@@ -203,7 +245,12 @@ class Task(models.Model):
 #                 ids.remove(task_id)
         # sort result according to the original sort ordering
         result = [id for id in orig_ids if id in ids]
-        return len(result) if count else list(result)
+        ids = super(Task, self)._search(cr, uid, [('id', 'in', result)],
+                                        offset=offset, limit=limit,
+                                        order=order, context=context,
+                                        count=False,
+                                        access_rights_uid=access_rights_uid)
+        return len(ids) if count else list(ids)
 
     @api.multi
     def read(self, fields=None, load='_classic_read'):
