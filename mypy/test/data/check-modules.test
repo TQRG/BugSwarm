@@ -1,0 +1,700 @@
+-- Type checker test cases dealing with modules and imports.
+
+[case testAccessImportedDefinitions]
+import m
+import typing
+m.f()           # E: Too few arguments for "f"
+m.f(object())   # E: Argument 1 to "f" has incompatible type "object"; expected "A"
+m.x = object()  # E: Incompatible types in assignment (expression has type "object", variable has type "A")
+m.f(m.A())
+m.x = m.A()
+[file m.py]
+class A: pass
+def f(a: A) -> None: pass
+x = A()
+
+[case testAccessImportedDefinitions]
+import m
+import typing
+m.f(object()) # E: Argument 1 to "f" has incompatible type "object"; expected "A"
+m.f(m.A())
+[file m.py]
+class A: pass
+def f(a: A) -> None: pass
+
+[case testAccessImportedDefinitions2]
+from m import f, A
+import typing
+f(object()) # E: Argument 1 to "f" has incompatible type "object"; expected "A"
+f(A())
+[file m.py]
+class A: pass
+def f(a: A) -> None: pass
+
+[case testImportedExceptionType]
+import m
+import typing
+try:
+    pass
+except m.Err:
+    pass
+except m.Bad: # E: Exception type must be derived from BaseException
+    pass
+[file m.py]
+class Err(BaseException): pass
+class Bad: pass
+[builtins fixtures/exception.py]
+
+[case testImportedExceptionType2]
+from m import Err, Bad
+import typing
+try:
+    pass
+except Err:
+    pass
+except Bad: # E: Exception type must be derived from BaseException
+    pass
+[file m.py]
+class Err(BaseException): pass
+class Bad: pass
+[builtins fixtures/exception.py]
+
+[case testImportWithinBlock]
+import typing
+if None:
+    import m
+    m.a = m.b   # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+    m.a = m.a
+    m.f()
+    m.f(m.a)    # E: Too many arguments for "f"
+    m.a = m.A()
+    m.a = m.B() # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+[file m.py]
+class A: pass
+class B: pass
+a = A()
+b = B()
+def f() -> None: pass
+
+[case testImportWithinFunction]
+import typing
+def f() -> None:
+    from m import a, b, f, A, B
+    a = b   # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+    a = a
+    f()
+    f(a)    # E: Too many arguments for "f"
+    a = A()
+    a = B() # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+[file m.py]
+class A: pass
+class B: pass
+a = A()
+b = B()
+def f() -> None: pass
+[out]
+main: note: In function "f":
+
+[case testImportWithinMethod]
+import typing
+class C:
+    def f(self) -> None:
+        from m import *
+        a = b   # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+        a = a
+        f()
+        f(a)    # E: Too many arguments for "f"
+        a = A()
+        a = B() # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+[file m.py]
+class A: pass
+class B: pass
+a = A()
+b = B()
+def f() -> None: pass
+[out]
+main: note: In member "f" of class "C":
+
+[case testImportWithinClassBody]
+import typing
+class C:
+    import m
+    m.f()
+    m.f(C) # E: Too many arguments for "f"
+[file m.py]
+def f() -> None: pass
+[out]
+main: note: In class "C":
+
+[case testImportWithinClassBody2]
+import typing
+class C:
+    from m import f
+    f()
+    f(C) # E: Too many arguments for "f"
+[file m.py]
+def f() -> None: pass
+[out]
+main: note: In class "C":
+
+[case testImportWithStub]
+import _m
+_m.f("hola")
+[file _m.pyi]
+def f(c:str) -> None: pass
+[out]
+
+[case testImportWithStubIncompatibleType]
+import _m
+_m.f("hola")
+_m.f(12)  # E: Argument 1 to "f" has incompatible type "int"; expected "str"
+[file _m.py]
+def f(c):
+  print(c)
+[file _m.pyi]
+def f(c:str) -> None: pass
+
+[case testInvalidOperationsOnModules]
+import m
+import typing
+class A: pass
+m()      # E: "module" not callable
+a = m # type: A  # E: Incompatible types in assignment (expression has type "module", variable has type "A")
+m + None # E: Unsupported left operand type for + ("module")
+[file m.py]
+[builtins fixtures/module.py]
+
+[case testNameDefinedInDifferentModule]
+import m, n
+import typing
+m.x # E: "module" has no attribute "x"
+[file m.py]
+y = object()
+[file n.py]
+x = object()
+[builtins fixtures/module.py]
+
+[case testChainedAssignmentAndImports]
+import m
+
+i, s = None, None # type: (int, str)
+i = m.x
+i = m.y
+s = m.x # E: Incompatible types in assignment (expression has type "int", variable has type "str")
+s = m.y # E: Incompatible types in assignment (expression has type "int", variable has type "str")
+[file m.py]
+x = y = 1
+[builtins fixtures/primitives.py]
+
+[case testConditionalFunctionDefinitionAndImports]
+import m
+import typing
+m.f(1)
+m.f('x') # E: Argument 1 to "f" has incompatible type "str"; expected "int"
+[file m.py]
+x = object()
+if x:
+    def f(x: int) -> None: pass
+else:
+    def f(x: int) -> None: pass
+
+[case testTypeCheckWithUnknownModule]
+import nonexistent
+None + ''
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckWithUnknownModule2]
+import m, nonexistent
+None + ''
+m.x = 1
+m.x = ''
+[file m.py]
+x = 1
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+main:4: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+
+[case testTypeCheckWithUnknownModule3]
+import nonexistent, m
+None + ''
+m.x = 1
+m.x = ''
+[file m.py]
+x = 1
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+main:4: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+
+[case testTypeCheckWithUnknownModule4]
+import nonexistent, another
+None + ''
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:1: error: Cannot find module named 'another'
+main:2: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckWithUnknownModule5]
+import nonexistent as x
+None + ''
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckWithUnknownModuleUsingFromImport]
+from nonexistent import x
+None + ''
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckWithUnknownModuleUsingImportStar]
+from nonexistent import *
+None + ''
+[out]
+main:1: error: Cannot find module named 'nonexistent'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Unsupported left operand type for + (None)
+
+[case testAccessingUnknownModule]
+import xyz
+xyz.foo()
+xyz()
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+
+[case testAccessingUnknownModule2]
+import xyz, bar
+xyz.foo()
+bar()
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:1: error: Cannot find module named 'bar'
+
+[case testAccessingUnknownModule3]
+import xyz as z
+xyz.foo()
+z()
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Name 'xyz' is not defined
+
+[case testAccessingNameImportedFromUnknownModule]
+from xyz import y, z
+y.foo()
+z()
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+
+[case testAccessingNameImportedFromUnknownModule2]
+from xyz import *
+y
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Name 'y' is not defined
+
+[case testAccessingNameImportedFromUnknownModule3]
+from xyz import y as z
+y
+z
+[out]
+main:1: error: Cannot find module named 'xyz'
+main:1: note: (Perhaps setting MYPYPATH would help)
+main:2: error: Name 'y' is not defined
+
+[case testUnknownModuleRedefinition]
+import xab
+def xab(): pass
+[out]
+main:1: error: Cannot find module named 'xab'
+main:1: note: (Perhaps setting MYPYPATH would help)
+
+[case testAccessingUnknownModuleFromOtherModule]
+import x
+x.nonexistent.foo
+x.z
+[file x.py]
+import nonexistent
+[builtins fixtures/module.py]
+[out]
+main:1: note: In module imported here:
+tmp/x.py:1: error: Cannot find module named 'nonexistent'
+tmp/x.py:1: note: (Perhaps setting MYPYPATH would help)
+main:3: error: "module" has no attribute "z"
+
+[case testUnknownModuleImportedWithinFunction]
+def f():
+    import foobar
+def foobar(): pass
+foobar('')
+[out]
+main:2: error: Cannot find module named 'foobar'
+main:2: note: (Perhaps setting MYPYPATH would help)
+main:4: error: Too many arguments for "foobar"
+
+[case testUnknownModuleImportedWithinFunction2]
+def f():
+    from foobar import x
+def x(): pass
+x('')
+[out]
+main:2: error: Cannot find module named 'foobar'
+main:2: note: (Perhaps setting MYPYPATH would help)
+main:4: error: Too many arguments for "x"
+
+[case testRelativeImports]
+import typing
+import m.a
+m.a.x = m.a.y # Error
+[file m/__init__.py]
+[file m/a.py]
+import typing
+from .b import A, B, x, y
+z = x
+z = y # Error
+[file m/b.py]
+import typing
+class A: pass
+class B: pass
+x = A()
+y = B()
+[out]
+main:2: note: In module imported here:
+tmp/m/a.py:4: error: Incompatible types in assignment (expression has type "B", variable has type "A")
+main:3: error: Incompatible types in assignment (expression has type "B", variable has type "A")
+
+[case testRelativeImports2]
+import typing
+import m.a
+m.a.x = m.a.y # E: Incompatible types in assignment (expression has type "B", variable has type "A")
+[file m/__init__.py]
+[file m/a.py]
+import typing
+from .b import A, B, x, y
+[file m/b.py]
+import typing
+class A: pass
+class B: pass
+x = A()
+y = B()
+
+[case testEllipsisInitializerInStubFileWithType]
+import m
+m.x = '' # E: Incompatible types in assignment (expression has type "str", variable has type "int")
+[file m.pyi]
+x = ... # type: int
+
+[case testEllipsisInitializerInStubFileWithoutType]
+import m
+m.x = '' # E: Incompatible types in assignment (expression has type "str", variable has type "ellipsis")
+[file m.pyi]
+# Ellipsis is only special with a # type: comment (not sure though if this is great)
+x = ...
+
+[case testEllipsisInitializerInModule]
+x = ... # type: int # E: Incompatible types in assignment (expression has type "ellipsis", variable has type "int")
+
+[case testEllipsisDefaultArgValueInStub]
+import m
+m.f(1)
+m.f('') # E: Argument 1 to "f" has incompatible type "str"; expected "int"
+[file m.pyi]
+def f(x: int = ...) -> None: pass
+
+[case testEllipsisDefaultArgValueInStub2]
+import m
+def f(x: int = ...) -> None: pass
+[file m.pyi]
+def g(x: int = '') -> None: pass
+[out]
+main:1: note: In module imported here:
+tmp/m.pyi: note: In function "g":
+tmp/m.pyi:1: error: Incompatible types in assignment (expression has type "str", variable has type "int")
+main: note: In function "f":
+main:2: error: Incompatible types in assignment (expression has type "ellipsis", variable has type "int")
+
+[case testEllipsisDefaultArgValueInNonStub]
+def f(x: int = ...) -> None: pass # E: Incompatible types in assignment (expression has type "ellipsis", variable has type "int")
+[out]
+main: note: In function "f":
+
+[case testStarImportOverlapping]
+from m1 import *
+from m2 import *
+j = ''
+[file m1.py]
+x = 1
+[file m2.py]
+x = 1
+
+[case testStarImportOverlappingMismatch]
+from m1 import *
+from m2 import * # E: Incompatible import of "x" (imported name has type "int", local name has type "str")
+j = ''
+[file m1.py]
+x = ''
+[file m2.py]
+x = 1
+
+[case testStarImportOverridingLocalImports-skip]
+from m1 import *
+from m2 import *
+x = '' # E: TODO (cannot assign str to int)
+[file m1.py]
+x = 1
+[file m2.py]
+x = 1
+
+[case testAssignToFuncDefViaImport]
+from m import *
+# TODO: This is bad, we don't see what's coming from m.
+f = None # E: Need type annotation for variable
+x = ''
+[file m.py]
+def f(): pass
+x = 1
+[out]
+
+
+-- Conditional definitions and function redefinitions via module object
+-- --------------------------------------------------------------------
+
+
+[case testConditionalImportAndAssign]
+try:
+    from m import x
+except:
+    x = None
+try:
+    from m import x as y
+except:
+    y = 1 # E: Incompatible types in assignment (expression has type "int", variable has type "str")
+[file m.py]
+x = ''
+
+[case testAssignAndConditionalImport]
+x = ''
+try:
+    from m import x
+except:
+    pass
+y = 1
+try:
+    from m import x as y  # E: Incompatible import of "y" (imported name has type "str", local name has type "int")
+except:
+    pass
+[file m.py]
+x = ''
+
+[case testAssignAndConditionalStarImport]
+x = ''
+y = 1
+try:
+    from m import * # E: Incompatible import of "y" (imported name has type "str", local name has type "int")
+except:
+    pass
+[file m.py]
+x = ''
+y = ''
+
+[case testRedefineImportedFunctionViaImport]
+try:
+    from m import f, g
+except:
+    def f(x): pass
+    def g(x): pass # E: All conditional function variants must have identical signatures
+[file m.py]
+def f(x): pass
+def g(x, y): pass
+
+[case testImportedVariableViaImport]
+try:
+    from m import x
+except:
+    from n import x # E: Incompatible import of "x" (imported name has type "str", local name has type "int")
+[file m.py]
+x = 1
+[file n.py]
+x = ''
+
+[case testRedefineFunctionViaImport]
+def f(x): pass
+def g(x): pass
+try:
+    from m import f, g # E: Incompatible import of "g" (imported name has type Callable[[Any, Any], Any], local name has type Callable[[Any], Any])
+except:
+    pass
+[file m.py]
+def f(x): pass
+def g(x, y): pass
+
+[case testImportVariableAndAssignNone]
+try:
+    from m import x
+except:
+    x = None
+[file m.py]
+x = 1
+
+[case testImportFunctionAndAssignNone]
+try:
+    from m import f
+except:
+    f = None
+[file m.py]
+def f(): pass
+
+[case testImportFunctionAndAssignFunction]
+def g(x): pass
+try:
+    from m import f
+except:
+    f = g
+[file m.py]
+def f(y): pass
+
+[case testImportFunctionAndAssignIncompatible]
+try:
+    from m import f
+except:
+    f = 1 # E: Incompatible types in assignment (expression has type "int", variable has type Callable[[], Any])
+[file m.py]
+def f(): pass
+
+[case testAssignToFuncDefViaGlobalDecl2]
+import typing
+from m import f
+def g() -> None:
+    global f
+    f = None
+    f = 1 # E: Incompatible types in assignment (expression has type "int", variable has type Callable[[], Any])
+[file m.py]
+def f(): pass
+[out]
+main: note: In function "g":
+
+[case testAssignToFuncDefViaNestedModules]
+import m.n
+m.n.f = None
+m.n.f = 1 # E: Incompatible types in assignment (expression has type "int", variable has type Callable[[], Any])
+[file m/__init__.py]
+[file m/n.py]
+def f(): pass
+[out]
+
+[case testAssignToFuncDefViaModule]
+import m
+m.f = None
+m.f = 1 # E: Incompatible types in assignment (expression has type "int", variable has type Callable[[], Any])
+[file m.py]
+def f(): pass
+[out]
+
+[case testConditionalImportAndAssignNoneToModule]
+if object():
+    import m
+else:
+    m = None
+m.f(1) # E: Argument 1 to "f" has incompatible type "int"; expected "str"
+[file m.py]
+def f(x: str) -> None: pass
+[builtins fixtures/module.py]
+[out]
+
+[case testConditionalImportAndAssignInvalidToModule]
+if object():
+    import m
+else:
+    m = 1 # E: Incompatible types in assignment (expression has type "int", variable has type "module")
+[file m.py]
+[builtins fixtures/module.py]
+[out]
+
+[case testImportAndAssignToModule]
+import m
+m = None
+m.f(1) # E: Argument 1 to "f" has incompatible type "int"; expected "str"
+[file m.py]
+def f(x: str) -> None: pass
+[builtins fixtures/module.py]
+[out]
+
+
+-- Test cases that simulate 'mypy -m modname'
+--
+-- The module name to import is encoded in a comment.
+
+[case testTypeCheckNamedModule]
+# cmd: mypy -m m.a
+[file m/__init__.py]
+None + 1
+[file m/a.py]
+[out]
+tmp/m/__init__.py:1: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckNamedModule2]
+# cmd: mypy -m m.a
+[file m/__init__.py]
+[file m/a.py]
+None + 1
+[out]
+tmp/m/a.py:1: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckNamedModule3]
+# cmd: mypy -m m
+[file m/__init__.py]
+None + 1
+[file m/a.py]
+[out]
+tmp/m/__init__.py:1: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckNamedModule4]
+# cmd: mypy -m m
+[file m/__init__.py]
+[file m/a.py]
+None + 1  # Not analyzed.
+[out]
+
+[case testTypeCheckNamedModule5]
+# cmd: mypy -m m
+None + ''  # Not analyzed.
+[file m.py]
+None + 1
+[out]
+tmp/m.py:1: error: Unsupported left operand type for + (None)
+
+[case testTypeCheckNamedModuleWithImportCycle]
+# cmd: mypy -m m.a
+None + 1  # Does not generate error, as this file won't be analyzed.
+[file m/__init__.py]
+import m.a
+[file m/a.py]
+[out]
+
+
+-- Misc
+
+[case testInheritFromBadImport]
+# cmd: mypy -m bar
+[file foo.py]
+pass
+[file bar.py]
+from foo import B
+class C(B):
+    pass
+[out]
+tmp/bar.py:1: error: Module has no attribute 'B'
