@@ -6,7 +6,7 @@ addons:
 dist: precise
 group: stable
 install: [virtualenv --system-site-packages venv && source venv/bin/activate, pip
-    install -U pip==8.1.2 wheel==0.29.0 setuptools==25.1.3, pip install -r requirements.txt,
+    install -U pip==8.1.2 wheel==0.29.0 setuptools==25.1.6, pip install -r requirements.txt,
   pip install "$(pwd)"]
 language: python
 os: linux
