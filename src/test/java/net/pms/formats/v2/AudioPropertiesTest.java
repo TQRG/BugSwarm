@@ -76,7 +76,7 @@ public class AudioPropertiesTest {
 	public void testSetBitRate() {
 		properties.setBitRate(5000);
 		assertThat(properties.getBitRate()).isEqualTo(5000);
-		properties.setBitRate("unknown / unknown / 1 509 kb/s");
+		properties.setBitRate("unknown / unknown / 1509000");
 		assertThat(properties.getBitRate()).isEqualTo(1509000);
 		properties.setBitRate("-3");
 		assertThat(properties.getBitRate()).isEqualTo(8000);
@@ -186,9 +186,7 @@ public class AudioPropertiesTest {
 	@Test
 	public void testGetBitRateFromLibMediaInfo() {
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("1")).isEqualTo(1);
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo("1509 kb/s")).isEqualTo(1509000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("8000")).isEqualTo(8000);
-		assertThat(AudioProperties.getBitRateFromLibMediaInfo("3018 kb/s")).isEqualTo(3018000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("3018000 / 1509000 / 640000")).isEqualTo(3018000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("3018000 / 1509000")).isEqualTo(3018000);
 		assertThat(AudioProperties.getBitRateFromLibMediaInfo("-3 kb/s")).isEqualTo(8000);
