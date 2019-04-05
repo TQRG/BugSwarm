@@ -16,40 +16,21 @@
 package okhttp3.internal.huc;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import okhttp3.MediaType;
 import okhttp3.internal.http.OneShotRequestBody;
 import okhttp3.internal.io.Pipe;
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.Okio;
-import okio.Timeout;
 
+/**
+ * This request body streams bytes from an application thread to an OkHttp dispatcher thread via a
+ * pipe. Because the data is not buffered it can only be transmitted once.
+ */
 final class StreamedRequestBody extends OutputStreamRequestBody implements OneShotRequestBody {
-  final Pipe pipe = new Pipe(8192);
-  final BufferedSink sink = Okio.buffer(pipe.sink);
-  final long expectedContentLength;
-  final OutputStream outputStream;
+  private final Pipe pipe = new Pipe(8192);
 
   StreamedRequestBody(long expectedContentLength) {
-    this.expectedContentLength = expectedContentLength;
-    this.outputStream = newOutputStream(expectedContentLength, sink);
-  }
-
-  @Override OutputStream outputStream() {
-    return outputStream;
-  }
-
-  @Override Timeout timeout() {
-    return sink.timeout();
-  }
-
-  @Override public MediaType contentType() {
-    return null; // We let the caller provide this in a regular header.
-  }
-
-  @Override public long contentLength() throws IOException {
-    return expectedContentLength;
+    initOutputStream(Okio.buffer(pipe.sink), expectedContentLength);
   }
 
   @Override public void writeTo(BufferedSink sink) throws IOException {

@@ -18,6 +18,8 @@ package okhttp3.internal.huc;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ProtocolException;
+import okhttp3.MediaType;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
 import okio.Timeout;
@@ -29,17 +31,19 @@ import okio.Timeout;
  * stream.
  */
 public abstract class OutputStreamRequestBody extends RequestBody {
-  abstract OutputStream outputStream();
-  abstract Timeout timeout();
+  private Timeout timeout;
+  private long expectedContentLength;
+  private OutputStream outputStream;
+  boolean closed;
 
-  /**
-   * Returns a new output stream that writes to {@code sink}. If {@code expectedContentLength} is
-   * not -1, then exactly that many bytes must be written to the stream before it is closed.
-   */
-  static OutputStream newOutputStream(final long expectedContentLength, final BufferedSink sink) {
-    return new OutputStream() {
-      long bytesReceived;
-      boolean closed;
+  protected void initOutputStream(final BufferedSink sink, final long expectedContentLength) {
+    this.timeout = sink.timeout();
+    this.expectedContentLength = expectedContentLength;
+
+    // An output stream that writes to sink. If expectedContentLength is not -1, then this expects
+    // exactly that many bytes to be written.
+    this.outputStream = new OutputStream() {
+      private long bytesReceived;
 
       @Override public void write(int b) throws IOException {
         write(new byte[] {(byte) b}, 0, 1);
@@ -73,5 +77,29 @@ public abstract class OutputStreamRequestBody extends RequestBody {
         sink.close();
       }
     };
+  }
+
+  public final OutputStream outputStream() {
+    return outputStream;
+  }
+
+  public final Timeout timeout() {
+    return timeout;
+  }
+
+  public final boolean isClosed() {
+    return closed;
+  }
+
+  @Override public long contentLength() throws IOException {
+    return expectedContentLength;
+  }
+
+  @Override public final MediaType contentType() {
+    return null; // Let the caller provide this in a regular header.
+  }
+
+  public Request prepareToSendRequest(Request request) throws IOException {
+    return request;
   }
 }

@@ -257,7 +257,9 @@ public class HttpURLConnectionImpl extends HttpURLConnection implements Callback
     if (requestBody instanceof StreamedRequestBody) {
       connect();
       networkInterceptor.proceed();
-    } else if (executed) {
+    }
+
+    if (requestBody.isClosed()) {
       throw new ProtocolException("cannot write request body after response has been read");
     }
 
@@ -579,6 +581,13 @@ public class HttpURLConnectionImpl extends HttpURLConnection implements Callback
     }
 
     @Override public Response intercept(Chain chain) throws IOException {
+      Request request = chain.request();
+
+      // Double-check the URL filter to prevent redirects from hitting filtered URLs.
+      if (urlFilter != null) {
+        urlFilter.checkURLPermitted(request.url().url());
+      }
+
       synchronized (HttpURLConnectionImpl.this) {
         connectPending = false;
         proxy = chain.connection().route().proxy();
@@ -594,7 +603,13 @@ public class HttpURLConnectionImpl extends HttpURLConnection implements Callback
         }
       }
 
-      Response response = chain.proceed(chain.request());
+      // Try to lock in the Content-Length before transmitting the request body.
+      if (request.body() instanceof OutputStreamRequestBody) {
+        OutputStreamRequestBody requestBody = (OutputStreamRequestBody) request.body();
+        request = requestBody.prepareToSendRequest(request);
+      }
+
+      Response response = chain.proceed(request);
 
       synchronized (HttpURLConnectionImpl.this) {
         networkResponse = response;

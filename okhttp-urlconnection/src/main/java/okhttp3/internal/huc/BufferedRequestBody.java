@@ -16,11 +16,9 @@
 package okhttp3.internal.huc;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import okhttp3.MediaType;
+import okhttp3.Request;
 import okio.Buffer;
 import okio.BufferedSink;
-import okio.Timeout;
 
 /**
  * This request body involves an application thread only. First all bytes are written to the buffer.
@@ -32,29 +30,30 @@ import okio.Timeout;
  */
 final class BufferedRequestBody extends OutputStreamRequestBody {
   final Buffer buffer = new Buffer();
-  final long expectedContentLength;
-  final OutputStream outputStream;
+  long contentLength = -1L;
 
   BufferedRequestBody(long expectedContentLength) {
-    this.expectedContentLength = expectedContentLength;
-    this.outputStream = newOutputStream(expectedContentLength, buffer);
-  }
-
-  @Override OutputStream outputStream() {
-    return outputStream;
-  }
-
-  @Override Timeout timeout() {
-    return Timeout.NONE;
-  }
-
-  @Override public MediaType contentType() {
-    return null; // We let the caller provide this in a regular header.
+    initOutputStream(buffer, expectedContentLength);
   }
 
   @Override public long contentLength() throws IOException {
-    outputStream.close(); // Lock in the current size!
-    return buffer.size();
+    return contentLength;
+  }
+
+  /**
+   * Now that we've buffered the entire request body, update the request headers and the body
+   * itself. This happens late to enable HttpURLConnection users to complete the socket connection
+   * before sending request body bytes.
+   */
+  @Override public Request prepareToSendRequest(Request request) throws IOException {
+    if (request.header("Content-Length") != null) return request;
+
+    outputStream().close();
+    contentLength = buffer.size();
+    return request.newBuilder()
+        .removeHeader("Transfer-Encoding")
+        .header("Content-Length", Long.toString(buffer.size()))
+        .build();
   }
 
   @Override public void writeTo(BufferedSink sink) throws IOException {
