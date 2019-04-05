@@ -1,0 +1,171 @@
+{% if request.user.is_anonymous %}
+  <p>Please Login</p>
+{% else %}
+
+<form id="add-action-item-form" action="add_action_item/" method="post" role="form">{% csrf_token %}
+    <div class="modal fade" id="add-action-item" tabindex="-1" role="dialog" aria-labelledby="add-action_item-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="add-action_item-label">Add action item</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="action_item-title">Title</label>
+                        <input type="text" name="title" placeholder="Action item title" id="action_item-title" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <script>
+                            window.milestoneActionItemTargets = [];
+                            {% for milestone in object.milestone_set.all %}
+                                window.milestoneActionItemTargets.push(
+                                    new Date('{{milestone.target_date.isoformat}}')
+                                );
+                            {% endfor %}
+                        </script>
+                        <label for="action_item-milestones">Milestone</label>
+                        <select name="milestone" id="action_item-milestone"
+                                class="form-control">
+                            {% for milestone in object.milestone_set.all %}
+                            <option
+                                 value="{{milestone.mid}}"
+                                 {% ifequal milestone.mid upcoming_milestone.mid %}
+                                 selected="selected"
+                                 {% endifequal %}
+                                 >
+                                {{milestone.name}} ({{milestone.target_date}})
+                                {% if not milestone.is_open %}[CLOSED]{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="clearfix">
+                        <div class="form-group pull-left form-group-col-2">
+                            <label for="action_item-owner">Owner</label>
+                            <select name="owner" id="action_item-owner"
+                                    class="form-control">
+
+                                {% for user in object.all_personnel_in_project %}
+                                {# the formatting for this option is important for a unit test. keep it on one line. #}
+                                <option value="{{user.username}}" {% if user.username == request.user.userprofile.username %}selected="selected"{% endif %}>
+                                    {% firstof user.fullname user.username %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group pull-right form-group-col-2">
+                            <label for="action_item-assigned_to">Assigned To</label>
+                            <span id="multiple-pmt-notice"></span>
+                            <select multiple="multiple"
+                                    name="assigned_to"
+                                    id="action_item-assigned_to"
+                                    class="form-control">
+                                {% for user in object.all_personnel_in_project %}
+                                <option value="{{user.username}}"
+                                        {% if user.user.id == object.caretaker_user.id %}
+                                        selected="selected"
+                                        {% endif %} >
+                                    {% firstof user.fullname user.username %}
+                                    {% if user.user.id == object.caretaker_user.id %} *{% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <div class="instructions">* Caretaker</div>
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix">
+                      <div class="form-group pull-left form-group-col-2">
+                          <label for="action_item-priority">Priority</label>
+                          <select name="priority" id="action_item-priority" class="form-control">
+                              <option value="0">ICING</option>
+                              <option value="1" selected="selected">LOW</option>
+                              <option value="2">MEDIUM</option>
+                              <option value="3">HIGH</option>
+                              <option value="4">CRITICAL</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group pull-right form-group-col-2">
+                          <label for="actionitem_target_date">Target Date</label>
+                          <input type="text" name="target_date"
+                                 id="actionitem_target_date"
+                                 class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="clearfix">
+                        <div class="form-group pull-right form-group-col-2">
+                            <label>Remind Me
+                                <input type="checkbox"
+                                       name="remind_me_toggle"
+                                       class="remind-me-toggle">
+                            </label>
+
+                            <div class="remind-me-form">
+                                <input name="reminder_time"
+                                       type="number"
+                                       id="id_reminder_time"
+                                       class="form-control">
+                                <select name="reminder_unit"
+                                        class="form-control">
+                                    <option value="d">days</option>
+                                    <option value="h">hours</option>
+                                </select>
+                                <span class="help-block">
+                                    Time before target date to email reminder
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix">
+                      <div class="form-group pull-left form-group-col-2">
+                          <label for="bug-estimate">Time Estimate</label>
+                          <input type="text" name="estimated_time" id="bug-estimate"
+                                 value="1 hour" class="form-control"/>
+                      </div>
+
+                      <div class="form-group pull-right form-group-col-2">
+                          <label for="action_item-tags">Tags</label>
+                          <input type="text" name="tags" id="action_item-tags" placeholder="Add tags (comma or space separated)" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="instructions">
+                          <span class="glyphicon glyphicon-question-sign"></span>
+                          For text formatting, please see the <a href="http://wiki.ccnmtl.columbia.edu/index.php/Markdown_syntax_cheat_sheet" target="_blank">Markdown cheat sheet</a> for syntax rules.
+                        </div>
+
+                        {% include 'main/markdown_toolbar.html' %}
+
+                        <textarea
+                             id="dmt-new-item-desc"
+                             name="description"
+                             class="form-control"
+                             rows="5"
+                             placeholder="Description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="instructions">
+                          Description preview:
+                        </div>
+                        <div class="dmt-markdown-item-preview dmt-markdown-preview">Description</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" id="add-action_item-button" value="Add"/>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+{% endif %}

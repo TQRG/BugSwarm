@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Active Projects{% endblock %}
+
+{% load dmttags %}
+
+{% block content %}
+<ul class="breadcrumb">
+    <li><a href="/"><span class="glyphicon glyphicon-home"></span></a></li>
+    <li><a href="{% url 'report_list' %}">Reports</a></li>
+    <li class="active">Active Projects</li>
+</ul>
+
+<h2>Most Active Projects</h2>
+
+{% include 'main/daterange_form.html' %}
+
+<div class="col-md-3">
+    <div class="control-group">
+        Total hours reported:
+        <strong>{{total_hours}}</strong>
+    </div>
+
+    <div class="control-group">
+        Export as:
+        <a href="{% url 'active_projects_report_export' %}?format=csv&interval_start={{interval_start|format_ymd}}&interval_end={{interval_end|format_ymd}}"
+        >.csv</a>,
+        <a href="{% url 'active_projects_report_export' %}?format=xlsx&interval_start={{interval_start|format_ymd}}&interval_end={{interval_end|format_ymd}}"
+        >.xlsx</a>
+    </div>
+</div>
+
+<table id="active-projects-report"
+       class="table table-bordered table-striped tablesorter tablesorter-default">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Project Number</th>
+            <th>Last worked on</th>
+            <th>Project Status</th>
+            <th>Caretaker</th>
+            <th>Hours logged</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in projects %}
+        <tr>
+            <td>
+                <a href="{% url 'project_detail' p.pid %}#reports">
+                    {{p.pid}}
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'project_detail' p.pid %}#reports">
+                    {{p.name}}
+                </a>
+            </td>
+            <td>
+                {% if p.projnum %}
+                {{p.projnum}}
+                {% else %}
+                -
+                {% endif %}
+            </td>
+            <td>{{p.last_worked_on}}</td>
+            <td>{{p.status}}</td>
+            <td>
+                <a href="{% url 'user_detail' p.caretaker_user.userprofile.username %}">
+                    {% firstof p.caretaker_user.get_full_name p.caretaker_user.username %}
+                </a>
+            </td>
+            <td>{{p.hours_logged|interval_to_hours}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block js %}
+<script>
+$(document).ready(function() {
+    $('#active-projects-report').tablesorter({sortList: [[6,1]]});
+});
+</script>
+{% endblock %}

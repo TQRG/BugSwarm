@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% load emoji_tags %}
+{% load dmttags %}
+
+
+{% block title %}Search Results: {{q}}{% endblock %}
+
+{% block content %}
+
+<h1>Search for "{{q}}"</h1>
+
+{% if error %}
+<div class="alert alert-danger">Sorry, I need at least three
+    characters to search for.</div>
+{% endif %}
+
+{% if tags %}
+<p>Tag Matches:</p>
+<ul>
+{% for t in tags %}
+<li><a href="/tag/{{t.slug}}/"><span class="label label-info">{{t.name}}</span></a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if users %}
+<p>User Matches:</p>
+<ul>
+{% for u in users %}
+<li><a href="{{u.get_absolute_url}}">{% firstof u.fullname u.username %}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if clients %}
+<p>Client matches:</p>
+<ul>
+{% for client in clients %}
+<li><a href="/client/{{client.client_id}}/">{{client.lastname}}, {{client.firstname}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if projects %}
+<p>Project matches:</p>
+<ul>
+{% for project in projects %}
+<li><a href="{{project.get_absolute_url}}">{{project.name}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if milestones %}
+<p>Milestone matches:</p>
+<ul>
+{% for milestone in milestones %}
+<li><span class="{{milestone.status_class}}">{{milestone.status}}</span> <a href="{{milestone.get_absolute_url}}">{{milestone.project.name}}:
+        {{milestone.name}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if items %}
+<p>Item matches:</p>
+<ul>
+{% for item in items %}
+<li><span class="{{item.status_class}}">{{item.status}}</span> <a href="{{item.get_absolute_url}}">{{item.title}}</a>
+ (<a href="{{item.milestone.project.get_absolute_url}}">{{item.milestone.project.name}}</a>)</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if status_updates %}
+<p>Status Update Matches:</p>
+<ul>
+{% for su in status_updates %}
+<p><a href="{{su.project.get_absolute_url}}">{{su.project.name}}</a>:
+ {{su.body}}
+ &mdash; <a href="{{su.user.get_absolute_url}}">{% firstof su.user.fullname su.user.username %}</a>
+ ({{su.added.date}})</p>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if nodes %}
+<p>Forum post matches:</p>
+<ul>
+{% for node in nodes %}
+<li><a href="{{node.get_absolute_url}}">[{{node.added}}]
+        {{node.subject}}</a> (<a href="{{node.user.userprofile.get_absolute_url}}">{% firstof node.author.fullname node.author.username %}</a>)</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if chat_messages %}
+    <p>Chat Messages</p>
+    <ul>
+    {% for message in chat_messages %}
+        <li>
+            [<a href="{% url 'project-chat' message.project.pid %}">{{message.project.name}}</a>]
+            <a href="{{message.get_absolute_url}}">{{message.added}} - {{message.user.get_full_name}}</a>: 
+            <blockquote>{{message.text|commonmark|linkify|emoji_replace}}</blockquote>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

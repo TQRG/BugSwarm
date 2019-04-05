@@ -1,0 +1,61 @@
+<div class="modal fade" id="add-tracker" tabindex="-1" role="dialog"
+     aria-labelledby="add-tracker-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-tracker-label">Add Tracker</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add-tracker-form" action="/drf/trackers/add/"
+                      method="post" role="form">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="project"
+                           value="{{object.pk}}" />
+
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <input type="text" name="title" placeholder="Task"
+                                   id="tracker-task-input"
+                                   required="required"
+                                   class="form-control"/>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <input type="text" name="client" placeholder="Client UNI"
+                                   id="tracker-client-input"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="text" name="time"
+                                  placeholder="Time"
+                                  id="tracker-time-input"
+                                  class="form-control" />
+                        </div>
+                        {% include 'main/simpleduration_help.html' %}
+                    </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                        <label for="tracker-completed-input">completed at</label>
+                                                <select class="form-control" name="completed" id="tracker-completed-input">
+                                                    <option value="" selected="selected">this week</option>
+                                                    <option value="last">last week</option>
+                                                    <option value="before_last">week before last</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" form="add-tracker-form"
+                        class="btn btn-primary" id="add-tracker-button">Add</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
