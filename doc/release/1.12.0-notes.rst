@@ -81,6 +81,13 @@ The following functions are changed: ``sum``, ``product``,
 The previous identity was 1, it is now -1. See entry in `Improvements`_ for
 more explanation.
 
+Scalar-Scalar power result type changed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Raising an integer scalar to a negative integer power will always result in a
+floating point scalar type.  Previously when using mixed integer types an
+integer type would be produced, while the pure type case produced a floating
+point type.
+
 FutureWarning to changed behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -127,6 +134,11 @@ Add a hook in ``numpy/__init__.py`` to import a ``numpy/_distributor_init.py``
 file that will remain empty (bar a docstring) in the standard numpy source,
 but that can be overwritten by people making binary distributions of numpy.
 
+New nanfunctions ``nancumsum`` and ``nancumprod`` added
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Nanfunctions ``nancumsum`` and ``nancumprod`` have been added to
+compute ``cumsum`` and ``cumprod`` by ignoring nans.
+
 Improvements
 ============
 
@@ -159,6 +171,11 @@ The *__complex__* method has been implemented on the ndarray object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Calling ``complex()`` on a size 1 array will now cast to a python
 complex.
+
+Mixed type scalar-scalar operators should be faster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rather than defering to the ufunc, mixed type scalar-scalar operators are
+handled in the scalar operator resulting in a speedup.
 
 
 Changes
