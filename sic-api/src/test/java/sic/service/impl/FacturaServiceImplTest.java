@@ -117,7 +117,7 @@ public class FacturaServiceImplTest {
         when(condicionIVAqueDiscrimina.isDiscriminaIVA()).thenReturn(Boolean.TRUE);
         when(empresa.getCondicionIVA()).thenReturn(condicionIVAqueDiscrimina);
         when(cliente.getCondicionIVA()).thenReturn(condicionIVAqueDiscrimina);
-        String[] expResult = {"Factura A", "Factura B", "Factura X", "Factura Y", "Pedido"};
+        String[] expResult = {"Factura A", "Factura X", "Factura Y", "Pedido"};
         String[] result = facturaService.getTipoFacturaVenta(empresa, cliente);
         assertArrayEquals(expResult, result);
     }
