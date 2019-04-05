@@ -182,7 +182,8 @@ public class JoinEncodingConfigurationTest extends RewriteTest
 
    /**
     * Make sure that an URL containing a space in the query string (encoded as '+') is rewritten to a path containing
-    * the space encoded as %20.
+    * the space encoded as %20. This effectively tests if proper encoding/decoding is occurring throughout the entire
+    * life-cycle of the parameter.
     */
    @Test
    public void testOutboundRewritingSpaceCharacter() throws Exception

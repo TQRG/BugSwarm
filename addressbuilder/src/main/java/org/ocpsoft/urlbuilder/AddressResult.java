@@ -15,6 +15,8 @@
  */
 package org.ocpsoft.urlbuilder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +34,7 @@ class AddressResult implements Address
    private final String query;
    private final String anchor;
    private CharSequence result;
+   private Map<String, List<Object>> queries = Collections.emptyMap();
 
    public AddressResult(AddressBuilder parent)
    {
@@ -65,8 +68,10 @@ class AddressResult implements Address
       else
          path = null;
 
-      if (isSet(parent.queries))
+      if (isSet(parent.queries)) {
+         this.queries = Collections.unmodifiableMap(parent.getQueries());
          query = toQuery(parent.queries).toString();
+      }
       else
          query = null;
 
@@ -93,7 +98,7 @@ class AddressResult implements Address
          if (parameter.getValueCount() > 0)
          {
             for (int i = 0; i < parameter.getValueCount(); i++) {
-               String value = parameter.getValueAsQueryParam(i);
+               String value = parameter.getValue(i);
 
                if (value != null)
                   result.append('=').append(value);
@@ -113,33 +118,7 @@ class AddressResult implements Address
    {
       if (this.result == null)
       {
-         StringBuilder result = new StringBuilder();
-
-         if (isSchemeSet())
-            result.append(getScheme()).append(":");
-
-         if (isSchemeSpecificPartSet())
-         {
-            result.append(getSchemeSpecificPart());
-         }
-         else
-         {
-            if (isDomainSet())
-               result.append("//").append(getDomain());
-
-            if (isPortSet())
-               result.append(":").append(getPort());
-
-            if (isPathSet())
-               result.append(getPath());
-
-            if (isQuerySet())
-               result.append('?').append(getQuery());
-
-            if (isAnchorSet())
-               result.append('#').append(getAnchor());
-         }
-
+         StringBuilder result = AddressBuilder.toString(this);
          this.result = result;
       }
 
@@ -257,6 +236,12 @@ class AddressResult implements Address
    public String getQuery()
    {
       return query;
+   }
+
+   @Override
+   public Map<String, List<Object>> getQueryParameters()
+   {
+      return queries;
    }
 
    @Override

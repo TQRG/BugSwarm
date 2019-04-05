@@ -20,7 +20,7 @@ public class AddressBuilderTest
                         .path("/{s}/{t}")
                         .set("s", "search")
                         .set("t", "table")
-                        .query("q", "query string")
+                        .queryEncoded("q", "query string")
                         .anchor("foo")
                         .build()
                         .toString());
@@ -38,7 +38,7 @@ public class AddressBuilderTest
                         .path("/{s}/{t}")
                         .set("s", "search")
                         .set("t", "table")
-                        .query("q", "query string")
+                        .queryEncoded("q", "query string")
                         .anchor("foo")
                         .build()
                         .toString());
@@ -182,6 +182,15 @@ public class AddressBuilderTest
    }
 
    @Test
+   public void testBuildHostAndQuery()
+   {
+      Assert.assertEquals("//ocpsoft.org/?buy=23",
+               AddressBuilder.begin()
+                        .domain("ocpsoft.org")
+                        .query("buy", "23").build().toString());
+   }
+
+   @Test
    public void testBuildHostAndPathResult()
    {
       Assert.assertEquals("//ocpsoft.org/store/23/buy",
@@ -240,6 +249,18 @@ public class AddressBuilderTest
    }
 
    @Test
+   public void testFromStringOnlyWithPathAndQuery2()
+   {
+      Address address = AddressBuilder.create("search?q=foobar");
+      assertEquals(null, address.getScheme());
+      assertEquals(null, address.getDomain());
+      assertEquals(null, address.getPort());
+      assertEquals("search", address.getPath());
+      assertEquals("q=foobar", address.getQuery());
+      assertEquals("search?q=foobar", address.getPathAndQuery());
+   }
+
+   @Test
    public void testCreateSchemalessUrl()
    {
 
@@ -289,7 +310,8 @@ public class AddressBuilderTest
    public void shouldCreateAddressFromUrlWithCurlyBrace()
    {
       Address address = AddressBuilder.createLiteral("http://localhost/somepath/%7Bsomething%7D");
-      assertEquals("/somepath/{something}", address.getPath());
+      assertEquals("/somepath/%7Bsomething%7D", address.getPath());
+      assertEquals("http://localhost/somepath/%7Bsomething%7D", address.toString());
    }
 
 }

@@ -42,8 +42,8 @@ public class AddressBuilderPath implements BuildableAddress
    }
 
    /**
-    * Set a query-parameter to a value or multiple values. The given name and values will be encoded before they are
-    * stored.
+    * Set a query-parameter to a value or multiple values. The given name and values will be stored without additional
+    * encoding or decoding.
     */
    public AddressBuilderQuery query(CharSequence name, Object... values)
    {
@@ -51,8 +51,15 @@ public class AddressBuilderPath implements BuildableAddress
    }
 
    /**
-    * Set a pre-encoded query-parameter to a pre-encoded value or multiple values. The given name and values be stored
-    * without additional encoding or decoding.
+    * Set a query-parameter value or multiple values. The given name and values be decoded before they are stored.
+    */
+   public AddressBuilderQuery queryDecoded(CharSequence name, Object... values)
+   {
+      return parent.queryDecoded(name, values);
+   }
+
+   /**
+    * Set a query-parameter to a value or multiple values. The given name and values be encoded before they are stored.
     */
    public AddressBuilderQuery queryEncoded(CharSequence name, Object... values)
    {
@@ -77,8 +84,7 @@ public class AddressBuilderPath implements BuildableAddress
    }
 
    /**
-    * Set a parameter name and value or values. Any supplied values will be encoded appropriately for their location in
-    * the {@link Address}.
+    * Set a parameter name and value or values. The supplied values will be stored without additional encoding.
     */
    public AddressBuilderPath set(CharSequence name, Object... values)
    {
@@ -87,8 +93,16 @@ public class AddressBuilderPath implements BuildableAddress
    }
 
    /**
-    * Set a pre-encoded parameter name and value or values. The values will be stored with no additional encoding or
-    * decoding.
+    * Set a parameter name and value or values. The values will be decoded before they are stored.
+    */
+   public AddressBuilderPath setDecoded(CharSequence name, Object... values)
+   {
+      parent.setDecoded(name, values);
+      return this;
+   }
+
+   /**
+    * Set a parameter name and value or values. The values will be encoded before they are stored.
     */
    public AddressBuilderPath setEncoded(CharSequence name, Object... values)
    {

@@ -29,6 +29,33 @@ public class AddressBuilderSchemeSpecificPart implements BuildableAddress
       this.parent = parent;
    }
 
+   /**
+    * Set a parameter name and value or values. The supplied values will be stored without additional encoding.
+    */
+   public AddressBuilderSchemeSpecificPart set(CharSequence name, Object... values)
+   {
+      parent.set(name, values);
+      return this;
+   }
+
+   /**
+    * Set a parameter name and value or values. The values will be decoded before they are stored.
+    */
+   public AddressBuilderSchemeSpecificPart setDecoded(CharSequence name, Object... values)
+   {
+      parent.setDecoded(name, values);
+      return this;
+   }
+
+   /**
+    * Set a parameter name and value or values. The values will be encoded before they are stored.
+    */
+   public AddressBuilderSchemeSpecificPart setEncoded(CharSequence name, Object... values)
+   {
+      parent.setEncoded(name, values);
+      return this;
+   }
+
    @Override
    public Address build()
    {
