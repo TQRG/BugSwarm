@@ -61,13 +61,11 @@ public class Template {
 	 * @param key
 	 */
 	public Template(String key) {
-		this.key = key;//(key != null) ? key : Template.DEFAULT_KEY;
+		this.key = key;
 	}
 
 	/**
 	 * A HAL-Forms template with no name is dubbed the <a href="https://rwcbook.github.io/hal-forms/#_the_code__templates_code_element">"default" template</a>.
-	 *
-	 * TODO: Assess spec's statement that 'For this release, the only valid value for key is "default"'
 	 */
 	public Template() {
 		this(Template.DEFAULT_KEY);

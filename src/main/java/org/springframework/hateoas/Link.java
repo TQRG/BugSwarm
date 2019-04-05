@@ -137,8 +137,8 @@ public class Link implements Serializable {
 	 * 
 	 * @return
 	 */
-	public Collection<Affordance> getAffordances() {
-		return Collections.unmodifiableCollection(this.affordances);
+	public List<Affordance> getAffordances() {
+		return new ArrayList<Affordance>(Collections.unmodifiableCollection(this.affordances));
 	}
 
 	/**
@@ -171,6 +171,15 @@ public class Link implements Serializable {
 		List<Affordance> newAffordances = new ArrayList<Affordance>();
 		newAffordances.addAll(this.affordances);
 		newAffordances.add(affordance);
+
+		return new Link(this.href, this.rel, newAffordances);
+	}
+
+	public Link withAffordances(List<Affordance> affordances) {
+
+		List<Affordance> newAffordances = new ArrayList<Affordance>();
+		newAffordances.addAll(this.affordances);
+		newAffordances.addAll(affordances);
 
 		return new Link(this.href, this.rel, newAffordances);
 	}

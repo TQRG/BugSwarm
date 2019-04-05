@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
@@ -47,7 +46,6 @@ public class HalFormsMessageConverter extends AbstractHttpMessageConverter<Objec
 
 		this.objectMapper = objectMapper;
 
-		objectMapper.registerModule(new Jackson2HalModule());
 		objectMapper.registerModule(new Jackson2HalFormsModule());
 
 		setSupportedMediaTypes(Arrays.asList(MediaTypes.HAL_FORMS_JSON));
