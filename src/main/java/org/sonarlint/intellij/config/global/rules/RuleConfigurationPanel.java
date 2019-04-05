@@ -114,7 +114,7 @@ public class RuleConfigurationPanel implements ConfigurationPanel<SonarLintGloba
   }
 
   private void saveCurrentActivation() {
-    currentActivationByRuleKey = model.getCurrentRuleActivation();
+    model.saveCurrentRuleActivation(currentActivationByRuleKey);
   }
 
   @Override public void load(SonarLintGlobalSettings settings) {
@@ -127,6 +127,8 @@ public class RuleConfigurationPanel implements ConfigurationPanel<SonarLintGloba
   }
 
   private void updateModel() {
+    saveCurrentActivation();
+    filterComponent.getTextEditor().setText(filterModel.getText());
     Collection<RuleDetails> ruleDetails = engine.getAllRuleDetails();
     Map<String, List<RulesTreeNode.Rule>> rulesByLanguage = ruleDetails.stream()
       .map(r -> new RulesTreeNode.Rule(r, currentActivationByRuleKey.get(r.getKey())))
@@ -240,7 +242,6 @@ public class RuleConfigurationPanel implements ConfigurationPanel<SonarLintGloba
 
     filterComponent = new FilterComponent("sonarlint_rule_filter", 10) {
       @Override public void filter() {
-        saveCurrentActivation();
         filterModel.setText(getFilter());
       }
     };
