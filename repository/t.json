@@ -543,6 +543,17 @@
 			]
 		},
 		{
+			"name": "Test Switcher",
+			"details": "https://github.com/davidmreed/test_switcher",
+			"labels": ["testing"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "TestCafe Test Runner",
 			"details": "https://github.com/churkin/testcafe-sublimetext",
 			"readme": "https://github.com/churkin/testcafe-sublimetext/blob/master/README.md",
@@ -2467,6 +2478,17 @@
 		{
 			"name": "Tomorrow Night Italics Color Scheme",
 			"details": "https://github.com/kennethreitz/sublime-tomorrow-night-italics-theme",
+			"labels": ["color scheme"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Toned Color Scheme",
+			"details": "https://github.com/mariusz-kowalski/toned",
 			"labels": ["color scheme"],
 			"releases": [
 				{
