@@ -23,10 +23,16 @@ class A {
     int age = cookie.getMaxAge();
   }
 
-  Cookie servletCookie(Cookie cookie4, boolean param) {
+  Cookie servletCookie(
+      Cookie firstParam, // Noncompliant [[sc=14;ec=24]] {{Add the "secure" attribute to this cookie}}
+      Cookie secondParam,
+      Cookie thirdParam,
+      boolean param) {
+    firstParam.setSecure(false);
+    secondParam.setSecure(true);
 
-    field4 = new Cookie("name, value"); // FN
-    field5.setSecure(false); // FN
+    field4 = new Cookie("name, value"); // FN, ignore fields
+    field5.setSecure(false); // FN, ignore fields
 
     Cookie cookie = new Cookie("name", "value");
     cookie.setSecure(true);
@@ -35,8 +41,6 @@ class A {
 
     Cookie cookie3 = new Cookie("name", "value"); // Noncompliant {{Add the "secure" attribute to this cookie}}
     cookie3.setSecure(false);
-
-    cookie4.setSecure(false); // FN
 
     Cookie cookie5 = new Cookie("name", "value");
     cookie5.setSecure(FALSE_CONSTANT); // FN
@@ -62,10 +66,10 @@ class A {
     c10 = new Cookie("name", "value");
     c10.setSecure(true);
 
-    Object c12; // Noncompliant
+    Object c12;  // Noncompliant [[sc=12;ec=15]] {{Add the "secure" attribute to this cookie}}
     c12 = new Cookie("name", "value");
 
-    return new Cookie("name", "value"); // FN
+    return new Cookie("name", "value"); // Noncompliant
   }
 
   HttpCookie getHttpCookie() {
@@ -84,7 +88,7 @@ class A {
     c5 = new HttpCookie("name", "value");
     c3.setSecure(false);
 
-    field6 = new HttpCookie("name, value"); // FN
+    field6 = new HttpCookie("name, value"); // FN, ignore fields
 
     return new HttpCookie("name", "value"); // Noncompliant
   }
@@ -130,26 +134,33 @@ class A {
   }
 
   void playFw(play.mvc.Http.Cookie.SameSite sameSite) {
-    play.mvc.Http.Cookie c1 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", false, true); // Noncompliant
-    play.mvc.Http.Cookie c2 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", false, false, sameSite); // Noncompliant
-    play.mvc.Http.Cookie c3 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", true, false);
-    CookieBuilder cb1 = Cookie.builder("1", "2");
-    cb1.withSecure(false); // Noncompliant
-    cb1.withSecure(true); // is ignored, so above is a FN
-    CookieBuilder cb2 = Cookie.builder("1", "2");
+    play.mvc.Http.Cookie c11 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", false, true); // Noncompliant
+    play.mvc.Http.Cookie c12 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", true, false);
+    play.mvc.Http.Cookie c21 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", false, false, sameSite); // Noncompliant
+    play.mvc.Http.Cookie c22 = new play.mvc.Http.Cookie("1", "2", 3, "4", "5", true, false, sameSite);
+    play.mvc.Http.Cookie c4;
+    c4 =  new play.mvc.Http.Cookie("1", "2", 3, "4", "5", true, true);
+    CookieBuilder cb1 = play.mvc.Http.Cookie.builder("1", "2"); // Noncompliant
+    cb1.withSecure(false);
+    CookieBuilder cb2 = play.mvc.Http.Cookie.builder("1", "2");
     cb2.withSecure(true);
     play.mvc.Http.Cookie.builder("1", "2")
         .withMaxAge(1)
         .withPath("x")
         .withDomain("x")
         .withSecure(true)
-        .withSecure(false) // Noncompliant
+        .withSecure(false) // Noncompliant [[sc=20;ec=27]] {{Add the "secure" attribute to this cookie}}
+        .withSecure(true)
         .build();
-    play.mvc.Http.Cookie.builder("theme", "blue").withSecure(true);
+    play.mvc.Http.Cookie c5 = play.mvc.Http.Cookie.builder("theme", "blue").withSecure(true).build();
   }
 
   play.mvc.Http.Cookie getC5() {
     return new play.mvc.Http.Cookie("1", "2", 3, "4", "5", false, true); // Noncompliant
+  }
+
+  play.mvc.Http.Cookie getC5() {
+    return new play.mvc.Http.Cookie("1", "2", 3, "4", "5", true, true);
   }
 
   play.mvc.Http.Cookie getC6() {
@@ -161,12 +172,26 @@ class B extends Cookie {
   public Cookie c;
   public void setSecure(boolean bool) { }
   void foo() {
-    setSecure(false); // Noncompliant
+    setSecure(false); // FN (to avoid implementation complexity)
   }
+  Date d = new Date();
   void bar(boolean x) {
     setSecure(x);
   }
   void baz() {
     setSecure(true);
+    return; // code coverage
+  }
+  Date codeCoverage(Cookie cookie) {
+    A a = new A();
+    a.foo(cookie);
+    Date d1 = new Date();
+    Date d2;
+    d2 = d1;
+    d2 = new Date();
+    d = d1;
+    d = new Date();
+    new Date() = new Date();
+    return new Date();
   }
 }
