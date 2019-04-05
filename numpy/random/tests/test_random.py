@@ -208,12 +208,13 @@ class TestRandint(TestCase):
         assert_(tgt[np.dtype(np.bool).name] == res)
 
 
-class TestRandomDist(TestCase):
+class TestRandomDist:
     # Make sure the random distribution returns the correct value for a
     # given seed
 
-    def setUp(self):
-        self.seed = 1234567890
+    @classmethod
+    def setup_class(cls):
+        cls.seed = 1234567890
 
     def test_rand(self):
         np.random.seed(self.seed)
@@ -356,15 +357,16 @@ class TestRandomDist(TestCase):
 
     def test_shuffle(self):
         # Test lists, arrays (of various dtypes), and multidimensional versions
-        # of both:
-        np.random.shuffle(np.array([]))
-        for conv in [lambda x: x,
+        # of both, c-contiguous or not:
+        for conv in [lambda x: np.array([]),
+                     lambda x: x,
                      lambda x: np.asarray(x).astype(np.int8),
                      lambda x: np.asarray(x).astype(np.float32),
                      lambda x: np.asarray(x).astype(np.complex64),
                      lambda x: np.asarray(x).astype(object),
                      lambda x: [(i, i) for i in x],
-                     lambda x: np.asarray([(i, i) for i in x]),
+                     lambda x: np.asarray([[i, i] for i in x]),
+                     lambda x: np.vstack([x, x]).T,
                      # gh-4270
                      lambda x: np.asarray([(i, i) for i in x],
                                           [("a", object, 1),
@@ -374,7 +376,7 @@ class TestRandomDist(TestCase):
             np.random.shuffle(alist)
             actual = alist
             desired = conv([0, 1, 9, 6, 2, 4, 5, 8, 7, 3])
-            np.testing.assert_array_equal(actual, desired)
+            yield np.testing.assert_array_equal, actual, desired
 
     def test_shuffle_masked(self):
         # gh-3263
