@@ -852,7 +852,9 @@ def legint(c, m=1, k=[], lbnd=0, scl=1, axis=0):
     c = np.array(c, ndmin=1, copy=1)
     if c.dtype.char in '?bBhHiIlLqQpP':
         c = c.astype(np.double)
-    if not np.iterable(k):
+    try:
+        iter(k)
+    except TypeError:
         k = [k]
     cnt, iaxis = [int(t) for t in [m, axis]]
 

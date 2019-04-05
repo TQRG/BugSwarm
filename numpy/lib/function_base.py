@@ -64,9 +64,9 @@ def iterable(y):
     Examples
     --------
     >>> np.iterable([1, 2, 3])
-    False
-    >>> np.iterable(2)
     True
+    >>> np.iterable(2)
+    False
 
     """
     # 2016-02-07, 1.12
@@ -360,7 +360,9 @@ def histogram(a, bins=10, range=None, normed=False, weights=None,
     # computing histograms, to minimize memory usage.
     BLOCK = 65536
 
-    if not iterable(bins):
+    try:
+        iter(bins)
+    except TypeError:
         if np.isscalar(bins) and bins < 1:
             raise ValueError(
                 '`bins` should be a positive integer.')
@@ -380,7 +382,9 @@ def histogram(a, bins=10, range=None, normed=False, weights=None,
                                         np.can_cast(weights.dtype, np.complex)):
             bins = linspace(mn, mx, bins + 1, endpoint=True)
 
-    if not iterable(bins):
+    try:
+        iter(bins)
+    except TypeError:
         # We now convert values of a to bin indices, under the assumption of
         # equal bin widths (which is valid here).
 
@@ -1989,11 +1993,12 @@ class vectorize(object):
                 if char not in typecodes['All']:
                     raise ValueError(
                         "Invalid otype specified: %s" % (char,))
-        elif iterable(otypes):
-            self.otypes = ''.join([_nx.dtype(x).char for x in otypes])
         else:
-            raise ValueError(
-                "Invalid otype specification")
+            try:
+                iter(otypes)
+            except TypeError:
+                raise ValueError("Invalid otype specification")
+            self.otypes = ''.join([_nx.dtype(x).char for x in otypes])
 
         # Excluded variable support
         if excluded is None:
