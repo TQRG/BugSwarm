@@ -33,7 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.springframework.core.env.Environment;
@@ -72,6 +74,7 @@ import io.nflow.engine.workflow.instance.WorkflowInstanceAction.WorkflowActionTy
  * Use setter injection because constructor injection may not work when nFlow is used in some legacy systems.
  */
 @Component
+@Singleton
 @SuppressFBWarnings(value = "SIC_INNER_SHOULD_BE_STATIC_ANON", justification = "common jdbctemplate practice")
 public class WorkflowInstanceDao {
 
@@ -100,9 +103,6 @@ public class WorkflowInstanceDao {
   @Inject
   public void setJdbcTemplate(@NFlow JdbcTemplate nflowJdbcTemplate) {
     this.jdbc = nflowJdbcTemplate;
-    if (this.jdbc != null) {
-      findColumnMaxLengths();
-    }
   }
 
   @Inject
@@ -135,7 +135,8 @@ public class WorkflowInstanceDao {
     this.workflowInstanceExecutor = workflowInstanceExecutor;
   }
 
-  private void findColumnMaxLengths() {
+  @PostConstruct
+  public void findColumnMaxLengths() {
     instanceStateTextLength = jdbc.query("select state_text from nflow_workflow where 1 = 0", firstColumnLengthExtractor);
     actionStateTextLength = jdbc.query("select state_text from nflow_workflow_action where 1 = 0", firstColumnLengthExtractor);
   }
