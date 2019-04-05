@@ -1,0 +1,22 @@
+[run]
+branch = False
+cover_pylib = False
+omit = 
+    abjad/demos/*
+    abjad/docs/*
+    abjad/ly/*
+    abjad/tools/*/test/*
+    abjad/tools/test/*
+    experimental/docs/*
+    experimental/tools/*/test/*
+    scoremanager/docs/*
+    scoremanager/idetools/test/*
+    scoremanager/scores/*
+    scoremanager/test/*
+    setup.py
+source =
+    abjad
+
+[report]
+exclude_lines = 
+    raise NotImplementedError
