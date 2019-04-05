@@ -1,0 +1,19 @@
+{% extends 'indico_base.html' %}
+
+{% block early_js %}{% endblock %}
+{% block late_js %}{% endblock %}
+
+{% block html_body %}
+    {% block topbar %}
+        <div class="indico-top-bar">
+            {% block logo %}
+                {%- set logo_url = indico_config.LOGO_URL or (indico_config.IMAGES_BASE_URL + '/logo_indico_bw.png') -%}
+                <a class="indico-top-bar-logo" href="{{ url_for_index() }}">
+                    <img src="{{ logo_url }}">
+                </a>
+            {% endblock %}
+            <div class="indico-user-menu" id="indico-user-menu-container"></div>
+        </div>
+    {% endblock %}
+    {% block body %}{% endblock %}
+{% endblock %}

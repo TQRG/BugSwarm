@@ -1,0 +1,33 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "browsers": ["last 2 versions", "firefox esr", "not ie<11", "not ie_mob>0"]
+      }
+    }]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties",
+    ["import", {
+      "libraryName": "antd",
+      "libraryDirectory": "es",
+      "style": "css"
+    }],
+    ["react-css-modules", {
+      "exclude": "node_modules",
+      "context": "indico/modules",
+      "filetypes": {
+        ".scss": {
+          "syntax": "postcss-scss"
+        }
+      }
+    }]
+  ],
+  "env": {
+    "production": {
+      "presets": ["minify"]
+    }
+  }
+}
