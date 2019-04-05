@@ -1,0 +1,15 @@
+bin
+build
+dist
+.classpath
+.project
+.gradle
+.settings
+.idea
+out
+*.iml
+*.ipr
+*.iws
+secring.gpg
+sonatype-credentials.properties
+node_modules
