@@ -7,7 +7,6 @@ hierarchy of Python dicts containing equivalent intrinsic Python data types.
 :license: Apache License, Version 2.0, see LICENSE for details.
 """
 import copy
-import shlex
 from string import whitespace
 
 from f90nml.fpy import pyfloat, pycomplex, pybool, pystr
@@ -118,17 +117,6 @@ class Parser(object):
     def readstream(self, nml_file, nml_patch):
         """Parse an input stream containing a Fortran namelist."""
 
-        #f90lex = shlex.shlex(nml_file)
-        #f90lex.whitespace = ''
-        #f90lex.wordchars += '.-+'       # Include floating point tokens
-        #if nml_patch:
-        #    f90lex.commenters = ''
-        #else:
-        #    f90lex.commenters = self.comment_tokens
-
-        ##print(list(f90lex))
-        #self.tokens = iter(f90lex)
-
         tokenizer = Tokenizer()
         f90lex = []
         for line in nml_file:
@@ -136,7 +124,6 @@ class Parser(object):
             toks.append('\n')
             f90lex.extend(toks)
 
-        print(f90lex)
         self.tokens = iter(f90lex)
 
         nmls = Namelist()
