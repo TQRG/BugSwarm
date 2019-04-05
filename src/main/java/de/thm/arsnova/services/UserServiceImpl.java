@@ -227,7 +227,7 @@ public class UserServiceImpl extends DefaultEntityServiceImpl<UserProfile> imple
 
 		de.thm.arsnova.entities.ClientAuthentication clientAuthentication =
 				new de.thm.arsnova.entities.ClientAuthentication(user.getId(), user.getUsername(),
-						user.getAuthProvider(), user.getToken());
+						user.getAuthProvider(), jwt);
 
 		return clientAuthentication;
 	}
@@ -388,6 +388,18 @@ public class UserServiceImpl extends DefaultEntityServiceImpl<UserProfile> imple
 			} else {
 				throw new UsernameNotFoundException("User does not exist.");
 			}
+		}
+
+		return new User(userProfile, grantedAuthorities);
+	}
+
+	@Override
+	public User loadUser(final String userId, final Collection<GrantedAuthority> grantedAuthorities)
+			throws UsernameNotFoundException {
+		logger.debug("Load user: UserId: {}", userId);
+		UserProfile userProfile = userRepository.findOne(userId);
+		if (userProfile == null) {
+			throw new UsernameNotFoundException("User does not exist.");
 		}
 
 		return new User(userProfile, grantedAuthorities);

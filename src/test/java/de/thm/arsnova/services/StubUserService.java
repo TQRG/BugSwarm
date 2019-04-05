@@ -41,7 +41,7 @@ public class StubUserService extends UserServiceImpl {
 			UserRepository repository,
 			JavaMailSender mailSender,
 			@Qualifier("defaultJsonMessageConverter") MappingJackson2HttpMessageConverter jackson2HttpMessageConverter) {
-		super(repository, null, mailSender, jackson2HttpMessageConverter);
+		super(repository, mailSender, jackson2HttpMessageConverter);
 		grantedAuthorities = new HashSet<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	}
