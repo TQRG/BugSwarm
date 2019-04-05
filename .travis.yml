@@ -1,0 +1,10 @@
+dist: trusty
+group: stable
+install: [pip install -U pip==10.0.1 wheel==0.31.1, pip install -U setuptools==39.2.0,
+  pip install -r requirements.txt]
+language: python
+notifications: {slack: 'ccnmtl:GizSNscLWJLldjQrffB8mwgm'}
+os: linux
+python: 2.7.6
+script: [make]
+sudo: false

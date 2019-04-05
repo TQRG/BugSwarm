@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static plexustags %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/lib/tablesorter/tablesorter.css' %}">
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'js/lib/tablesorter/jquery.tablesorter.min.js' %}"></script>
+<script>
+jQuery(document).ready(function () {
+    jQuery('.tablesorter').tablesorter({
+        sortList: [[0,0]],
+        headerTemplate: '{content} {icon}',
+        headers: {
+            '.nosort': {
+                sorter: false
+            },
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="text-center">
+            <img src="{{STATIC_URL}}img/neurons.png" alt-text="plexus logo" style="height: 270px"/>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron text-center" style="height: 270px">
+            <h1>{{servers|length}}</h1>
+            <h3>servers</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron text-center" style="height: 270px">
+            <h1>{{applications|length}}</h1>
+            <h3>applications</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Raw Logs</div>
+            <div class="panel-body">
+                {% for grainlog in logs %}
+                    <li><a href="{% url 'grainlog-detail' grainlog.id %}">{{grainlog.created}}</a></li>
+                {% empty %}
+                    <li>No grainlogs yet.</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a name="servers"></a>
+<div class="panel panel-default" style="margin-bottom: 0; border-bottom: 0;">
+    <div class="panel-heading" style="padding-bottom: 12px;">
+        Servers
+        {% if request.user.is_staff %}
+            <a href="/add_server/" class="btn btn-default btn-sm pull-right" role="button">Add Server</a>
+        {% endif %}
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="tablesorter tablesorter-bootstrap table table-bordered table-striped table-condensed">
+        <thead>
+            <tr class="tab">
+                <th>Name</th>
+                <th style="width: 10%">Environment</th>
+                <th>Function</th>
+                <th>Roles</th>
+                <th style="width: 25%">Applications</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for server in servers %}
+            {% server_grain grains server.graphite_name as grain %}
+            <tr>
+                <td>
+                    <a href="{% url 'server-detail' server.id %}">{{server.name}}</a>
+                </td>
+                <td>{{grain.d.environment|capfirst}}</td>
+                <td>{{server.primary_function }}</td>
+                <td>
+                    {% for role in grain.d.roles|dictsort:0 %}
+                        {{role}}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if grain.d.apps|length > 0 %}
+                        {% for app_name in grain.d.apps|dictsort:0 %}
+                            {% app_by_graphite_name app_name as app %}
+                            {% if app %}
+                                <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{app_name}}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if grain.d.proxy|length > 0 %}
+                        {% for app_name in grain.d.proxy|dictsort:0 %}
+                            {% app_by_graphite_name app_name as app %}
+                            {% if app %}
+                                {% if app.technology is None or app.technology.name == "Hugo" or app.technology.name == "Go" %}
+                                    <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {{app_name}}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
