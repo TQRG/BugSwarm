@@ -69,7 +69,19 @@ public final class MockResponse implements Cloneable {
   }
 
   public MockResponse setResponseCode(int code) {
-    return setStatus("HTTP/1.1 " + code + " Mock Response");
+    String reason = "Mock Response";
+    if (code >= 100 && code < 200) {
+      reason = "Informational";
+    } else if (code >= 200 && code < 300) {
+      reason = "OK";
+    } else if (code >= 300 && code < 400) {
+      reason = "Redirection";
+    } else if (code >= 400 && code < 500) {
+      reason = "Client Error";
+    } else if (code >= 500 && code < 600) {
+      reason = "Server Error";
+    }
+    return setStatus("HTTP/1.1 " + code + " " + reason);
   }
 
   public MockResponse setStatus(String status) {
