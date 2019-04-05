@@ -1,0 +1,120 @@
+sudo: false
+language: java
+
+before_script:
+  - test "x$XA" == 'x' || ./travis_install_dependencies.sh
+  - psql -U postgres -c "create user test with password 'test';"
+  - psql -c 'create database test owner test;' -U postgres
+  - echo "MAVEN_OPTS='-Xmx1g -Dgpg.skip=true'" > ~/.mavenrc
+  - test "x$PG_VERSION" == 'x' || test $PG_VERSION == '8.4' || test $PG_VERSION == '9.0' || psql test -c 'CREATE EXTENSION hstore;' -U postgres
+  - test "x$PG_VERSION" == 'x' || test $PG_VERSION != '8.4' || createlang -U postgres plpgsql test
+
+env:
+  global:
+    - secure: "3HRd+UJQzXoxmBAiJ8SLFuYK8NvMVgIs0erfcPdgvtfFGTPkH3XMONfNr2VE2uz6qwUB5GWkVzvS4c9CPbnnft9QhyYeeUINiqQMN5+6AN5re3C2D7VQMm3NSB+T2R6zS/18UZW5tIoTJILgl5oRCQFI7RSpqhvZ8nqPxJ4gptI="
+    - secure: "VrNgbyKQi5HjSMZfkt/zwG+AHk1NW1b+f3Jo1ZH7DCqcgLApwvp4MNsw+XamqHxudjj3Z8+4bYBxG2H6zIOobIyYhBvxUwMq7HTjM4jH8m5phqvQIWZOzZzqguYNNS7JJQUpIMwR7wTuHqucVfMxljoSuXQbs+0BUxo4Eh+FScQ="
+
+script:
+  # make sure previous build artifacts are not used for subsequent builds
+  - rm -rf $HOME/.m2/repository/org/postgresql || true
+  - export JDK6_HOME=$(jdk_switcher home openjdk6)
+  - export JDK7_HOME=$(jdk_switcher home openjdk7)
+  - export JDK8_HOME=$(jdk_switcher home oraclejdk8)
+  - envsubst < toolchains.xml > ~/.m2/toolchains.xml
+  - ./travis_build.sh
+  # To avoid useless S3 cache updates (https://github.com/travis-ci/travis-ci/issues/1441#issuecomment-67607074)
+  #- mkdir /tmp/cache-trick
+  #- mv $HOME/.m2/repository/org/postgresql /tmp/cache-trick/
+
+before_cache:
+  # No sense in caching current build artifacts
+  rm -rf $HOME/.m2/repository/org/postgresql
+
+# Skip default "mvn install" issued by Travis
+# Root project cannot be compiled with older JDKs, so it makes sense to just skip the step
+install: true
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+
+matrix:
+  fast_finish: true
+  include:
+    - jdk: oraclejdk8
+      sudo: required
+      dist: trusty
+      env:
+        - PG_VERSION=9.5
+        - XA=true
+        - COVERAGE=Y
+    - jdk: oraclejdk8
+      sudo: required
+      dist: trusty
+      env:
+        - PG_VERSION=8.4
+        - XA=true
+        - COVERAGE=Y
+    - jdk: oraclejdk8
+      env: RUN_CHECKSTYLE=true
+      script: cd pgjdbc && mvn checkstyle:check
+    - jdk: oraclejdk8
+      addons:
+        postgresql: "9.4"
+      env:
+        - PG_VERSION=9.4
+        - COVERAGE=Y
+    - jdk: openjdk7
+      addons:
+        postgresql: "9.4"
+      env: PG_VERSION=9.4
+    - jdk: openjdk6
+      addons:
+        postgresql: "9.4"
+      env: PG_VERSION=9.4
+    - jdk: oraclejdk8
+      addons:
+        postgresql: "9.3"
+      env: PG_VERSION=9.3
+    - jdk: openjdk7
+      addons:
+        postgresql: "9.3"
+      env:
+        - PG_VERSION=9.3
+        - COVERAGE=Y
+    - jdk: openjdk6
+      addons:
+        postgresql: "9.3"
+      env: PG_VERSION=9.3
+    - jdk: oraclejdk8
+      addons:
+        postgresql: "9.2"
+      env: PG_VERSION=9.2
+    - jdk: openjdk7
+      addons:
+        postgresql: "9.2"
+      env: PG_VERSION=9.2
+    - jdk: openjdk6
+      addons:
+        postgresql: "9.2"
+      env:
+        - PG_VERSION=9.2
+        - COVERAGE=Y
+    - jdk: oraclejdk8
+      addons:
+        postgresql: "9.1"
+      env:
+        - PG_VERSION=9.1
+        - COVERAGE=Y
+    - jdk: openjdk7
+      addons:
+        postgresql: "9.1"
+      env: PG_VERSION=9.1
+    - jdk: openjdk6
+      addons:
+        postgresql: "9.1"
+      env: PG_VERSION=9.1
+
+# Deploy snapshots to Maven Central
+after_success:
+  - "test $TRAVIS_PULL_REQUEST == 'false' && test $TRAVIS_BRANCH == 'master' && test $PG_VERSION == '9.4' && ./travis_deploy.sh"
