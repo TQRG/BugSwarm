@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <parent>
+    <groupId>org.sonarsource.parent</groupId>
+    <artifactId>parent</artifactId>
+    <version>38</version>
+  </parent>
+
+  <groupId>org.sonarsource.php</groupId>
+  <artifactId>php</artifactId>
+  <version>2.10-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>PHP</name>
+  <description>Enables scanning of PHP source files</description>
+  <url>http://docs.codehaus.org/display/SONAR/PHP+Plugin</url>
+  <inceptionYear>2010</inceptionYear>
+  <organization>
+    <name>SonarSource and Akram Ben Aissi</name>
+    <url>http://www.sonarsource.com/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GNU LGPL v3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <modules>
+    <module>sonar-php-plugin</module>
+    <module>php-frontend</module>
+    <module>php-checks</module>
+  </modules>
+
+  <developers>
+    <developer>
+      <id>lindamartin</id>
+      <name>Linda Martin</name>
+      <email>linda.martin@sonarsource.com</email>
+      <organization>SonarSource</organization>
+    </developer>
+    <developer>
+      <id>fabemn</id>
+      <name>Fabrice Bellingard</name>
+      <email>fabrice.bellingard@sonarsource.com</email>
+    </developer>
+    <developer>
+      <id>proofek</id>
+      <name>Sebastian Marek</name>
+      <email>proofek@gmail.com</email>
+    </developer>
+    <developer>
+      <id>gennadiyl</id>
+      <name>Gennadiy Litvinyuk</name>
+      <email>gennadiy@gmail.com</email>
+    </developer>
+    <developer>
+      <id>akram</id>
+      <name>Akram Ben Aissi</name>
+      <email>akram.benaissi@free.fr</email>
+    </developer>
+    <developer>
+      <id>blacksun</id>
+      <name>Gabriele Santini</name>
+      <email>gab.santini@gmail.com</email>
+    </developer>
+    <developer>
+      <id>henryju</id>
+      <name>Julien Henry</name>
+      <email>julien.henry@sonarsource.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:SonarSource/sonar-php.git</connection>
+    <developerConnection>scm:git:git@github.com:SonarSource/sonar-php.git</developerConnection>
+    <url>https://github.com/SonarSource/sonar-php</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPHP</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Cloudbees</system>
+    <url>https://sonarplugins.ci.cloudbees.com/job/php/</url>
+  </ciManagement>
+
+  <properties>
+    <gitRepositoryName>sonar-php</gitRepositoryName>
+    <license.title>SonarQube PHP Plugin</license.title>
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+
+    <!-- plugin versions -->
+    <version.sonar-packaging-maven-plugin>1.17</version.sonar-packaging-maven-plugin>
+
+    <!-- JAR versions -->
+    <version.assertj>3.5.2</version.assertj>
+    <version.commons-io>2.5</version.commons-io>
+    <version.commons-lang>2.6</version.commons-lang>
+    <version.gson>2.7</version.gson>
+    <version.junit>4.10</version.junit>
+    <version.logback>0.9.30</version.logback>
+    <version.maven-project>2.0.6</version.maven-project>
+    <version.mockito>1.9.0</version.mockito>
+    <version.slf4j>1.6.2</version.slf4j>
+    <version.sonar>6.2</version.sonar>
+    <version.sonar-orchestrator>3.13</version.sonar-orchestrator>
+    <version.sslr>1.21</version.sslr>
+    <version.sslr-squid-bridge>2.6.1</version.sslr-squid-bridge>
+    <version.xstream>1.3.1</version.xstream>
+    <version.sonarlint>2.5.0.36</version.sonarlint>
+
+    <!-- Release: enable publication to Bintray -->
+    <artifactsToPublish>${project.groupId}:sonar-php-plugin:jar</artifactsToPublish>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Compile dependencies -->
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>php-frontend</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>php-checks</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-core</artifactId>
+        <version>${version.sslr}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-toolkit</artifactId>
+        <version>${version.sslr}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr-squid-bridge</groupId>
+        <artifactId>sslr-squid-bridge</artifactId>
+        <version>${version.sslr-squid-bridge}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-xpath</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.thoughtworks.xstream</groupId>
+        <artifactId>xstream</artifactId>
+        <version>${version.xstream}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>${version.commons-lang}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${version.commons-io}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${version.gson}</version>
+      </dependency>
+
+      <!-- Test dependencies -->
+      <dependency>
+        <groupId>org.sonarsource.sonarqube</groupId>
+        <artifactId>sonar-testing-harness</artifactId>
+        <version>${version.sonar}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-testing-harness</artifactId>
+        <version>${version.sslr}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.orchestrator</groupId>
+        <artifactId>sonar-orchestrator</artifactId>
+        <version>${version.sonar-orchestrator}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sonarlint.core</groupId>
+        <artifactId>sonarlint-core</artifactId>
+        <version>${version.sonarlint}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${version.junit}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>${version.mockito}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${version.assertj}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
+        <version>${version.maven-project}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Provided dependencies -->
+      <dependency>
+        <groupId>org.sonarsource.sonarqube</groupId>
+        <artifactId>sonar-plugin-api</artifactId>
+        <version>${version.sonar}</version>
+        <scope>provided</scope>
+        <exclusions>
+          <!-- allows to package dependencies into plugin -->
+          <exclusion>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${version.logback}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${version.slf4j}</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+          <artifactId>sonar-packaging-maven-plugin</artifactId>
+          <version>${version.sonar-packaging-maven-plugin}</version>
+          <configuration>
+            <sonarLintSupported>true</sonarLintSupported>
+            <sonarQubeMinVersion>5.6</sonarQubeMinVersion> <!-- allow to depend on API 6.2 but run on LTS -->
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>its</id>
+      <modules>
+        <module>its</module>
+      </modules>
+    </profile>
+  </profiles>
+
+</project>
