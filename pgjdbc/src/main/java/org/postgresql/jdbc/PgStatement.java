@@ -967,13 +967,23 @@ public class PgStatement implements Statement, BaseStatement {
       flags |= QueryExecutor.QUERY_SUPPRESS_BEGIN;
     }
 
+    BatchResultHandler handler;
+    handler = createBatchHandler(updateCounts, queries, parameterLists);
+
     if (preDescribe || forceBinaryTransfers) {
       // Do a client-server round trip, parsing and describing the query so we
       // can determine its result types for use in binary parameters, batch sizing,
       // etc.
       int flags2 = flags | QueryExecutor.QUERY_DESCRIBE_ONLY;
       StatementResultHandler handler2 = new StatementResultHandler();
-      connection.getQueryExecutor().execute(queries[0], parameterLists[0], handler2, 0, 0, flags2);
+      try {
+        connection.getQueryExecutor().execute(queries[0], parameterLists[0], handler2, 0, 0, flags2);
+      } catch (SQLException e) {
+        // Unable to parse the first statement -> throw BatchUpdateException
+        handler.handleError(e);
+        handler.handleCompletion();
+        // Will not reach here (see above)
+      }
       ResultWrapper result2 = handler2.getResults();
       if (result2 != null) {
         result2.getResultSet().close();
@@ -981,9 +991,6 @@ public class PgStatement implements Statement, BaseStatement {
     }
 
     result = null;
-
-    BatchResultHandler handler;
-    handler = createBatchHandler(updateCounts, queries, parameterLists);
 
     try {
       startTimer();
