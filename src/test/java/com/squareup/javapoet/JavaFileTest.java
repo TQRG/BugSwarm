@@ -241,7 +241,7 @@ public final class JavaFileTest {
     assertThat(source).isEqualTo(""
         + "package com.squareup.tacos;\n"
         + "\n"
-        + "import dagger.Component;\n"
+        + "import com.squareup.wire.Message;\n"
         + "\n"
         + "class Taco extends Message {\n"
         + "  class Builder extends Message.Builder {\n"
