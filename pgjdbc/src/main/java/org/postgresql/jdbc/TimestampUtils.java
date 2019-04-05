@@ -55,6 +55,8 @@ public class TimestampUtils {
       NUMBERS[i] = ((i < 10 ? "0" : "") + Integer.toString(i)).toCharArray();
     }
 
+    // Backend's gmt-3 means GMT+03 in Java. Here a map is created so gmt-3 can be converted to
+    // java TimeZone
     for (int i = -12; i <= 14; i++) {
       TimeZone timeZone;
       String pgZoneName;
@@ -505,6 +507,7 @@ public class TimestampUtils {
     appendDate(sbuf, cal);
     appendEra(sbuf, cal);
     if (withTimeZone) {
+      sbuf.append(' ');
       appendTimeZone(sbuf, cal);
     }
 
