@@ -305,38 +305,38 @@ public final class RequestBuilderTest {
     }
   }
 
-  //@Test public void formEncodingFailsOnNonBodyMethod() {
-  //  class Example {
-  //    @FormUrlEncoded //
-  //    @GET("/") //
-  //    Response method() {
-  //      return null;
-  //    }
-  //  }
-  //  try {
-  //    buildRequest(Example.class);
-  //    fail();
-  //  } catch (IllegalArgumentException e) {
-  //    assertThat(e).hasMessage(
-  //        "Example.method: FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST).");
-  //  }
-  //}
-  //
-  //@Test public void formEncodingFailsWithNoParts() {
-  //  class Example {
-  //    @FormUrlEncoded //
-  //    @POST("/") //
-  //    Response method() {
-  //      return null;
-  //    }
-  //  }
-  //  try {
-  //    buildRequest(Example.class);
-  //    fail();
-  //  } catch (IllegalArgumentException e) {
-  //    assertThat(e).hasMessage("Example.method: Form-encoded method must contain at least one @Field.");
-  //  }
-  //}
+  @Test public void formEncodingFailsOnNonBodyMethod() {
+    class Example {
+      @FormUrlEncoded //
+      @GET("/") //
+      Call<Object> method() {
+        return null;
+      }
+    }
+    try {
+      buildRequest(Example.class);
+      fail();
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage(
+          "Example.method: FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST).");
+    }
+  }
+
+  @Test public void formEncodingFailsWithNoParts() {
+    class Example {
+      @FormUrlEncoded //
+      @POST("/") //
+      Call<Object> method() {
+        return null;
+      }
+    }
+    try {
+      buildRequest(Example.class);
+      fail();
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage("Example.method: Form-encoded method must contain at least one @Field.");
+    }
+  }
 
   @Test public void headersFailWhenEmptyOnMethod() {
     class Example {
@@ -582,6 +582,20 @@ public final class RequestBuilderTest {
     assertThat(request.method()).isEqualTo("GET");
     assertThat(request.headers().size()).isZero();
     assertThat(request.urlString()).isEqualTo("http://example.com/foo/bar/po%20ng/");
+    assertThat(request.body()).isNull();
+  }
+
+  @Test public void getWithUnusedAndInvalidNamedPathParam() {
+    class Example {
+      @GET("/foo/bar/{ping}/{kit,kat}/") //
+      Call<Object> method(@Path("ping") String ping) {
+        return null;
+      }
+    }
+    Request request = buildRequest(Example.class, "pong");
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.urlString()).isEqualTo("http://example.com/foo/bar/pong/%7Bkit,kat%7D/");
     assertThat(request.body()).isNull();
   }
 
