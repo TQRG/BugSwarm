@@ -1,0 +1,12 @@
+addons: {}
+after_failure: [.env/bin/pip freeze]
+after_success: [codecov]
+dist: trusty
+group: stable
+install: [pip install virtualenv==15.1.0, pip install codecov==2.0.10]
+language: python
+os: linux
+python: '3.4'
+script: [make env, make test, 'if [[ $TRAVIS_PYTHON_VERSION == ''3.6'' ]]; then make
+    pylint; fi']
+sudo: false
