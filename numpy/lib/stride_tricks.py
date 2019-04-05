@@ -55,7 +55,12 @@ def as_strided(x, shape=None, strides=None, subok=False):
 
 
 def _broadcast_to(array, shape, subok, readonly):
-    shape = tuple(shape) if np.iterable(shape) else (shape,)
+    try:
+        iter(shape)
+    except TypeError:
+        shape = (shape,)
+    else:
+        shape = tuple(shape)
     array = np.array(array, copy=False, subok=subok)
     if not shape and array.shape:
         raise ValueError('cannot broadcast a non-scalar to a scalar array')
