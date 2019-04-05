@@ -273,25 +273,24 @@ def get_printoptions():
     return _format_options.copy()
 
 
-def _leading_trailing(a, index=()):
+def _leading_trailing(a, edgeitems, index=()):
     """
     Keep only the N-D corners (leading and trailing edges) of an array.
 
     Should be passed a base-class ndarray, since it makes no guarantees about
     preserving subclasses.
     """
-    edgeitems =  _format_options['edgeitems']
     axis = len(index)
     if axis == a.ndim:
         return a[index]
 
     if a.shape[axis] > 2*edgeitems:
         return concatenate((
-            _leading_trailing(a, index + np.index_exp[ :edgeitems]),
-            _leading_trailing(a, index + np.index_exp[-edgeitems:])
+            _leading_trailing(a, edgeitems, index + np.index_exp[ :edgeitems]),
+            _leading_trailing(a, edgeitems, index + np.index_exp[-edgeitems:])
         ), axis=axis)
     else:
-        return _leading_trailing(a, index + np.index_exp[:])
+        return _leading_trailing(a, edgeitems, index + np.index_exp[:])
 
 
 def _object_format(o):
@@ -437,7 +436,7 @@ def _array2string(a, options, separator=' ', prefix=""):
 
     if a.size > options['threshold']:
         summary_insert = "..."
-        data = _leading_trailing(data)
+        data = _leading_trailing(data, options['edgeitems'])
     else:
         summary_insert = ""
 
@@ -637,17 +636,16 @@ def _formatArray(a, format_function, max_line_len, next_line_prefix,
     axes_left = a.ndim - axis
 
     if axes_left == 0:
-        return format_function(a[index]) + '\n'
+        return format_function(a[()]) + '\n'
 
     a_len = a.shape[axis]
-
-    if summary_insert and 2*edge_items < a_len:
+    show_summary = summary_insert and 2*edge_items < a_len
+    if show_summary:
         leading_items = edge_items
         trailing_items = edge_items
     else:
         leading_items = 0
         trailing_items = a_len
-        summary_insert = ""
 
     if axes_left == 1:
         s = ""
@@ -656,7 +654,7 @@ def _formatArray(a, format_function, max_line_len, next_line_prefix,
             word = format_function(a[index + (i,)]) + separator
             s, line = _extendLine(s, line, word, max_line_len, next_line_prefix)
 
-        if summary_insert:
+        if show_summary:
             if legacy == '1.13':
                 word = summary_insert + ", "
             else:
@@ -673,22 +671,21 @@ def _formatArray(a, format_function, max_line_len, next_line_prefix,
         s = '[' + s[len(next_line_prefix):]
     else:
         s = '['
-        sep = separator.rstrip()
-        line_sep = '\n'*(axes_left - 1)
+        line_sep = separator.rstrip() + '\n'*(axes_left - 1)
         for i in range(leading_items):
             if i > 0:
                 s += next_line_prefix
             s += _formatArray(a, format_function, max_line_len,
                               " " + next_line_prefix, separator, edge_items,
                               summary_insert, legacy, index=index+(i,))
-            s = s.rstrip() + sep + line_sep
+            s = s.rstrip() + line_sep
 
-        if summary_insert:
+        if show_summary:
             if legacy == '1.13':
-                # trailing space, fixed number of newlines, and ignores sep
+                # trailing space, fixed number of newlines, and fixed separator
                 s += next_line_prefix + summary_insert + ", \n"
             else:
-                s += next_line_prefix + summary_insert + sep + line_sep
+                s += next_line_prefix + summary_insert + line_sep
 
         for i in range(trailing_items, 1, -1):
             if leading_items or i != trailing_items:
@@ -696,7 +693,7 @@ def _formatArray(a, format_function, max_line_len, next_line_prefix,
             s += _formatArray(a, format_function, max_line_len,
                               " " + next_line_prefix, separator, edge_items,
                               summary_insert, legacy, index=index+(-i,))
-            s = s.rstrip() + sep + line_sep
+            s = s.rstrip() + line_sep
         if leading_items or trailing_items > 1:
             s += next_line_prefix
         s += _formatArray(a, format_function, max_line_len,
