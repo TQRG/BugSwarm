@@ -108,6 +108,7 @@ public class SpringRequestMonitorTest {
 		when(tracingPlugin.getDefaultRateLimitSpansPercent()).thenReturn(1.0);
 		when(tracingPlugin.getRateLimitSpansPerMinutePercentPerType()).thenReturn(Collections.emptyMap());
 		when(tracingPlugin.getProfilerRateLimitPerMinuteOption()).thenReturn(mock(ConfigurationOption.class));
+		when(tracingPlugin.isSampled(any())).thenReturn(true);
 
 		when(servletPlugin.getGroupUrls()).thenReturn(Collections.singletonMap(Pattern.compile("(.*).js$"), "*.js"));
 		requestMonitor = new RequestMonitor(configuration, registry);
