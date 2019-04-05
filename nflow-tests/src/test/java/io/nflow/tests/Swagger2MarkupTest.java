@@ -26,8 +26,8 @@ public class Swagger2MarkupTest extends AbstractNflowTest {
   public void convertRemoteSwaggerToAsciiDoc() throws IOException {
     Swagger2MarkupConverter.from(server.getHttpAddress() + "/api/swagger.json").build().intoFolder(SWAGGER2_MARKUP_ASCIIDOC_DIR);
 
-    // Then validate that five AsciiDoc files have been created
+    // Then validate that three AsciiDoc files have been created
     String[] files = new File(SWAGGER2_MARKUP_ASCIIDOC_DIR).list();
-    assertEquals(5, files.length);
+    assertEquals(4, files.length);
   }
 }
