@@ -229,7 +229,7 @@ class SphinxDocumentHandlerTests(unittest.TestCase):
             </a>
             ''')
         self.assertEqual(actual, expected)
-        assert len(os.listdir(self.abjadbook_images_directory)) == 7
+        assert len(os.listdir(self.abjadbook_images_directory)) == 8
         for name in (
             'default.ly',
             'external-settings-file-1.ly',
@@ -237,6 +237,8 @@ class SphinxDocumentHandlerTests(unittest.TestCase):
             'lilypond-0b7a2a64005bc82bc16303c2f194f4497ea94e15.ly',
             'lilypond-0b7a2a64005bc82bc16303c2f194f4497ea94e15.png',
             'non-proportional.ly',
+            'rhythm-maker-gallery.ily',
+            'text-spanner-id.ily',
             ):
             path = os.path.join(self.images_directory, 'abjadbook', name)
             assert os.path.exists(path)
