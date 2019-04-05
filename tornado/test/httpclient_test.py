@@ -486,14 +486,15 @@ X-XSS-Protection: 1;
     @gen_test
     def test_ignore_body_sanity_checks_when_allow_nonstandard_methods(self):
         all_methods_url = self.get_url('/all_methods')
-        for method in {'POST', 'PUT'}:
+        for method in ('POST', 'PUT'):
             response = yield self.http_client.fetch(
                 all_methods_url, method=method, body=None,
                 allow_nonstandard_methods=True)
             self.assertEqual(response.code, 200)
             self.assertIsNone(response.request.body)
 
-        for method in {'PATCH', 'GET', 'DELETE', 'OPTIONS'}:
+        # Don't test for GET with a body. Curl client does not allow it.
+        for method in ('PATCH', 'DELETE', 'OPTIONS'):
             response = yield self.http_client.fetch(
                 all_methods_url, method=method, body=utf8(method),
                 allow_nonstandard_methods=True)

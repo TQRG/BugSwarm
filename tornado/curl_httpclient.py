@@ -389,11 +389,11 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
 
         # Handle curl's cryptic options for every individual HTTP method
         if request.method == "GET":
+            # Even with `allow_nonstandard_methods` we disallow GET with a
+            # body. While the spec doesn't forbid clients from sending a body,
+            # it arguably disallows the server from doing anything with them.
             if request.body is not None:
-                if not request.allow_nonstandard_methods:
-                    raise ValueError('Body must be None for GET request')
-                # Set to prevent curl from making this a 'PUT'.
-                curl.setopt(pycurl.CUSTOMREQUEST, request.method)
+                raise ValueError('Body must be None for GET request')
         if request.method in ("POST", "PUT") or request.body:
             # Fail in case POST or PUT method has no body, unless the user has
             # opted out of sanity checks with allow_nonstandard_methods.
