@@ -1,0 +1,13 @@
+addons: {}
+after_failure: [.env/bin/pip freeze]
+after_success: [codecov]
+dist: trusty
+env: TRAVIS_PYLINT=false
+group: stable
+install: [pip install virtualenv==16.0.0, pip install codecov==2.0.15]
+language: python
+os: linux
+python: 3.7-dev
+script: [make env, 'if [[ $TRAVIS_PYLINT != ''true'' ]]; then make test; else make
+    pylint; fi']
+sudo: false
