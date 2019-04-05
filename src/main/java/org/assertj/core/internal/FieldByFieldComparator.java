@@ -19,7 +19,6 @@ import static org.assertj.core.util.Strings.join;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,7 +45,7 @@ public class FieldByFieldComparator implements Comparator<Object> {
   }
 
   protected FieldByFieldComparator() {
-    this(new HashMap<String, Comparator<?>>(), defaultTypeComparators());
+    this(new TreeMap<String, Comparator<?>>(), defaultTypeComparators());
   }
 
   @Override
