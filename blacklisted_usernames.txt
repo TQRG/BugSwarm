@@ -1,0 +1,97 @@
+^troll$
+tejveer ?iq
+ser?vice pemanas?
+\bnigg[aeu][rh]?
+\b(fuck(er|ing)?|penis)\b
+^\w{0,3}w.{0,2}ng.?d.{0,2}ng\w{0,3}$
+dlqudals
+[a-z ]{3,}juri(?:ns|sa|ya|yam|ym)$
+^[a-z]+jiibond$
+Marlin Woods
+xiguai
+Dr\.? Madonna
+Pro Max
+^hl12
+defort essid
+^pus+y?$
+radlelgl
+Anonymous\WTeacher
+Satyajay\WMandal
+fujihdmanufacturer
+Skybridge Infotech
+SenPerfect
+laserscheap
+yingao
+Support Polyvalent
+Bill Cookie
+صابر خلیلی
+فن بیان
+android\Wexample
+Vladislav Yakov
+JAAFAR LENDING
+Shirley J Mintz
+shifflettkristen
+maccolar
+limeprox(y|ies)
+^dongfang$
+Da Whole Truth
+Merit Campus
+Learner Logic
+online\W?time\W?sheets?
+medo74
+shitfuck
+vbage tech
+^ling xing$
+printers?\W?driver
+^689 Cloud$
+JoeClark
+^Gracia\W?Ryan\d*$
+^Juliet Bell$
+^Prasanta Shee$
+^gesture(?: screen)?$
+^jhon lee$
+^mike alec$
+^Madhav sharma$
+car\W?insurance
+^xiao(?:xi|zhu)$
+lavinia\W?stark
+rosanna\W?cart
+annalee899
+evie\W?berge
+.+hoo1
+Brook Davis
+zixuan[0-9][0-9]
+emilie\W?larsen
+air\W?purifier\W?reviews
+Cum\W?Juice
+agen judi
+donald\W*j?\.?\W*trump
+^yolo_does_not_detect_me$
+^christine roebuck$
+techelpp
+\W?router$
+\b(?:moth(?:e?r|a))?fu+[ck]+(?:[ei]ng*|e[dr])?\b
+(?:hurriyet|turkish)(?:daily)?news
+tour\W?packages
+sputnik\W?international
+daily\W?news
+^Jack Hollywood$
+^router\W+sup*ort$
+fauk\W?usa
+michael\W?david\W?mills
+Hurriyet\W?Daily\W?News
+bablo.ru
+istanbul\W?hair\W?transplant
+away\W?days
+Racist
+Reihmann
+rayaz
+\w*\d+\W+Virk$
+Charles\WRane
+adol(?:f|ph)\W*hitler
+heinrich\W*(?:luitpold\W*)?himmler
+ante\W*paveli[cć]
+^LGBT representative$
+muh[ae]mm[ae]d\W*the\W*pa?edophile
+^.{1,7}dl?san$
+^eray$
