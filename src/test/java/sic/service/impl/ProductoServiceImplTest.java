@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringRunner;
-import sic.util.Utilidades;
 
 @RunWith(SpringRunner.class)
 public class ProductoServiceImplTest {
@@ -17,8 +16,8 @@ public class ProductoServiceImplTest {
     public void shouldcalcularGanancia_Porcentaje() {
         double precioCosto = 12.34;
         double pvp = 23.45;
-        double resultadoEsperado = 90.03;
-        double resultadoObtenido = Utilidades.truncarDecimal(productoService.calcularGanancia_Porcentaje(0.0 ,0.0, 0.0, 0.0,precioCosto, pvp, false), 2);
+        double resultadoEsperado = 90.03241491085899;
+        double resultadoObtenido = productoService.calcularGanancia_Porcentaje(null ,null, pvp, null, null, precioCosto, false);
         assertEquals(resultadoEsperado, resultadoObtenido, 0);
     }
     
@@ -44,8 +43,8 @@ public class ProductoServiceImplTest {
     public void shouldcalcularCalcularIVA_Neto() {
         double pvp = 24.68;
         double ivaPorcentaje = 21;
-        double resultadoEsperado = 5.18;
-        double resultadoObtenido = Utilidades.truncarDecimal(productoService.calcularIVA_Neto(pvp, ivaPorcentaje), 2);
+        double resultadoEsperado = 5.182799999999999;
+        double resultadoObtenido = productoService.calcularIVA_Neto(pvp, ivaPorcentaje);
         assertEquals(resultadoEsperado, resultadoObtenido, 0);
     }
     
@@ -63,8 +62,8 @@ public class ProductoServiceImplTest {
         double pvp = 24.68;
         double ivaPorcentaje = 21;
         double impuestoInternoPorcentaje = 10;
-        double resultadoEsperado = 32.33;
-        double resultadoObtenido = Utilidades.truncarDecimal(productoService.calcularPrecioLista(pvp, ivaPorcentaje, impuestoInternoPorcentaje), 2);
+        double resultadoEsperado = 32.330799999999996;
+        double resultadoObtenido = productoService.calcularPrecioLista(pvp, ivaPorcentaje, impuestoInternoPorcentaje);
         assertEquals(resultadoEsperado, resultadoObtenido, 0);
     }
     
@@ -76,9 +75,9 @@ public class ProductoServiceImplTest {
         double ImpInternoPorcentaje = 10;
         double precioDeListaAnterior = 124.00546;
         double precioDeListaNuevo = 125;
-        double resultadoEsperado = 20.98;
-        double resultadoObtenido = Utilidades.truncarDecimal(productoService.calcularGananciaPorcentajeSegunPrecioDeLista(precioDeListaNuevo,
-                precioDeListaAnterior, pvp, ivaPorcentaje, ImpInternoPorcentaje, precioDeCosto), 2);
+        double resultadoEsperado = 20.982379265780374;
+        double resultadoObtenido = productoService.calcularGananciaPorcentajeSegunPrecioDeLista(precioDeListaNuevo,
+                precioDeListaAnterior, pvp, ivaPorcentaje, ImpInternoPorcentaje, precioDeCosto);
         assertEquals(resultadoEsperado, resultadoObtenido, 0);
     }
     

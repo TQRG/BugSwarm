@@ -133,13 +133,13 @@ public class ProductoController {
     
     @GetMapping("/productos/ganancia-porcentaje")
     @ResponseStatus(HttpStatus.OK)
-    public double calcularGanancia_Porcentaje(@RequestParam(required = false) Double precioDeLista, 
-                                              @RequestParam(required = false) Double precioDeListaAnterior, 
+    public double calcularGanancia_Porcentaje(@RequestParam(required = false) boolean ascendente,
+                                              @RequestParam double precioCosto,
                                               @RequestParam double pvp, 
                                               @RequestParam(required = false) Double ivaPorcentaje, 
-                                              @RequestParam(required = false) Double impInternoPorcentaje,
-                                              @RequestParam double precioCosto,
-                                              @RequestParam(required = false) boolean ascendente){
+                                              @RequestParam(required = false) Double impInternoPorcentaje,                                              
+                                              @RequestParam(required = false) Double precioDeLista, 
+                                              @RequestParam(required = false) Double precioDeListaAnterior){
         return productoService.calcularGanancia_Porcentaje(precioDeLista, precioDeListaAnterior,
                                                            pvp, ivaPorcentaje, impInternoPorcentaje, 
                                                            precioCosto, ascendente);

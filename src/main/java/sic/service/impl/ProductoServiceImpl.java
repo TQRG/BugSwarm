@@ -346,7 +346,7 @@ public class ProductoServiceImpl implements IProductoService {
         if (precioCosto == 0) {
             return 0;
         }
-        double resultado = 0;
+        double resultado;
         if (ascendente == false) {
             resultado = ((pvp - precioCosto) / precioCosto) * 100;
         } else if (precioDeListaAnterior == 0 || precioCosto == 0) {
