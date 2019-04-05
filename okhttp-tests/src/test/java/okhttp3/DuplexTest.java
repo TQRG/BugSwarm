@@ -80,8 +80,9 @@ public final class DuplexTest {
     BufferedSource source = response.body().source();
     assertEquals("staten island", source.readUtf8());
 
-    assertEquals(Arrays.asList(Headers.of("h1", "v1", "h2", "v2"), Headers.of("brooklyn", "zoo"),
-        Headers.of("toronto", "aquarium")),
+    assertEquals(Headers.of("h1", "v1", "h2", "v2"), response.headers());
+
+    assertEquals(Arrays.asList(Headers.of("brooklyn", "zoo"), Headers.of("toronto", "aquarium")),
         headersListener.takeAll());
     assertTrue(source.exhausted());
   }
