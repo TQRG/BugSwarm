@@ -7,11 +7,15 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityNotFoundException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sic.modelo.Caja;
+import sic.modelo.EstadoCaja;
 import sic.modelo.Gasto;
 import sic.service.BusinessServiceException;
 import sic.repository.GastoRepository;
+import sic.service.ICajaService;
 import sic.service.IEmpresaService;
 import sic.service.IFormaDePagoService;
 
@@ -21,14 +25,17 @@ public class GastoServiceImpl implements IGastoService {
     private final GastoRepository gastoRepository;
     private final IEmpresaService empresaService;
     private final IFormaDePagoService formaDePagoService;
+    private final ICajaService cajaService;
     private static final Logger LOGGER = Logger.getLogger(GastoServiceImpl.class.getPackage().getName());
 
     @Autowired
+    @Lazy
     public GastoServiceImpl(GastoRepository gastoRepository, IEmpresaService empresaService, 
-                            IFormaDePagoService formaDePagoService) {
+                            IFormaDePagoService formaDePagoService, ICajaService cajaService) {
         this.gastoRepository = gastoRepository;
         this.empresaService = empresaService;
         this.formaDePagoService = formaDePagoService;
+        this.cajaService = cajaService;
     }
     
     @Override
@@ -48,6 +55,15 @@ public class GastoServiceImpl implements IGastoService {
         if (gasto.getFecha() == null) {
             throw new BusinessServiceException(ResourceBundle.getBundle("Mensajes")
                     .getString("mensaje_gasto_fecha_vacia"));
+        }
+        Caja caja = this.cajaService.getUltimaCaja(gasto.getEmpresa().getId_Empresa());
+        if (caja.getEstado().equals(EstadoCaja.CERRADA)) {
+            throw new BusinessServiceException(ResourceBundle.getBundle("Mensajes")
+                    .getString("mensaje_gasto_caja_cerrada"));
+        }
+        if (gasto.getFecha().before(caja.getFechaApertura())) {
+            throw new BusinessServiceException(ResourceBundle.getBundle("Mensajes")
+                    .getString("mensaje_gasto_fecha_no_valida"));
         }
         if (gasto.getEmpresa() == null) {
             throw new BusinessServiceException(ResourceBundle.getBundle("Mensajes")
@@ -100,6 +116,10 @@ public class GastoServiceImpl implements IGastoService {
     @Transactional
     public void eliminar(long idGasto) {
         Gasto gastoParaEliminar = this.getGastoPorId(idGasto);
+        if(this.cajaService.getUltimaCaja(gastoParaEliminar.getEmpresa().getId_Empresa()).getEstado().equals(EstadoCaja.CERRADA)){
+            throw new BusinessServiceException(ResourceBundle.getBundle("Mensajes")
+                    .getString("mensaje_gasto_caja_cerrada"));
+        }
         gastoParaEliminar.setEliminado(true);
         gastoRepository.save(gastoParaEliminar);
     }

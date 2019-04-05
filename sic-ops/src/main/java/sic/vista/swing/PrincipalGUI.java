@@ -19,7 +19,6 @@ import sic.modelo.Caja;
 import sic.modelo.Empresa;
 import sic.modelo.EmpresaActiva;
 import sic.modelo.UsuarioActivo;
-import sic.modelo.EstadoCaja;
 import sic.util.Utilidades;
 
 public class PrincipalGUI extends JFrame {
@@ -537,27 +536,6 @@ public class PrincipalGUI extends JFrame {
                     getDesktopPane().getHeight() / 2 - gui.getHeight() / 2);
             getDesktopPane().add(gui);
             gui.setVisible(true);
-            try {
-                Caja caja = RestClient.getRestTemplate().getForObject("/cajas/empresas/"
-                        + EmpresaActiva.getInstance().getEmpresa().getId_Empresa()
-                        + "/ultima", Caja.class);
-                if (caja != null) {
-                    if (caja.getEstado() == EstadoCaja.ABIERTA) {
-                        CajaGUI cajaAbierta = new CajaGUI(caja);
-                        cajaAbierta.setModal(true);
-                        cajaAbierta.setLocationRelativeTo(this);
-                        cajaAbierta.setVisible(true);
-                    }
-                }
-            } catch (RestClientResponseException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (ResourceAccessException ex) {
-                LOGGER.error(ex.getMessage());
-                JOptionPane.showMessageDialog(this,
-                        ResourceBundle.getBundle("Mensajes").getString("mensaje_error_conexion"),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
         } else {
             //selecciona y trae al frente el internalframe
             try {

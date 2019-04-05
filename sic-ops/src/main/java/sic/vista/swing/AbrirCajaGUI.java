@@ -160,13 +160,10 @@ public class AbrirCajaGUI extends JDialog {
             ftxt_Monto.setValue(0);
         }
         try {
-            CajaGUI abrirCaja = new CajaGUI(RestClient.getRestTemplate()
+            RestClient.getRestTemplate()
                     .postForObject("/cajas",
                     this.construirCaja(((Number) ftxt_Monto.getValue()).doubleValue()),
-                    Caja.class));
-            abrirCaja.setModal(true);
-            abrirCaja.setLocationRelativeTo(this);
-            abrirCaja.setVisible(true);
+                    Caja.class);
             this.dispose();
         } catch (RestClientResponseException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

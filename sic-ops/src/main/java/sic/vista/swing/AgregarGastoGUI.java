@@ -3,6 +3,7 @@ package sic.vista.swing;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.slf4j.Logger;
@@ -20,8 +21,8 @@ public class AgregarGastoGUI extends JDialog {
     
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    public AgregarGastoGUI(JDialog parent, boolean modal) {
-        super(parent, modal);
+    public AgregarGastoGUI() {
+        this.setModal(true);
         initComponents();
     }
 
@@ -163,6 +164,7 @@ public class AgregarGastoGUI extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setModal(true);
         try {
             for (FormaDePago formaDePago : RestClient.getRestTemplate().getForObject("/formas-de-pago/empresas/"
                     + EmpresaActiva.getInstance().getEmpresa().getId_Empresa(), FormaDePago[].class)) {
