@@ -1,0 +1,73 @@
+# C extensions
+*.so
+
+# Emacs
+*~
+\#*\#
+
+# Installer logs
+pip-log.txt
+
+# IPython
+.ipynb_checkpoints
+
+# LaTeX intermediate files
+*.synctex.gz
+
+# Misc.
+*.bak
+*.pkl
+.cache
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+/.settings
+
+# MyPy
+.mypy_cache
+
+# OS X
+.DS_Store
+
+# Packages
+*.egg
+*.egg-info
+dist
+*/docs/build
+#build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Pycharm
+.idea/
+
+# Pytest
+.pytest_cache
+
+# Python
+*.py[cod]
+
+# Translations
+*.mo
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Virtual Environments
+venv/
+Envs/
+ENV/
+.virtualenvs
+.python-version
