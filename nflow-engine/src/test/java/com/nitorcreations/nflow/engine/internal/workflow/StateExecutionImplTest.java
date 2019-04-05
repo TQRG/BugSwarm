@@ -92,9 +92,10 @@ public class StateExecutionImplTest {
     assertThat(execution.getWakeUpParentWorkflowStates(), is(arrayContaining("state1", "state2")));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void nonChildWorkflowCannotWakeUpParent() {
     execution.wakeUpParentWorkflow();
+    assertThat(execution.getWakeUpParentWorkflowStates(), is(nullValue()));
   }
 
   @Test
