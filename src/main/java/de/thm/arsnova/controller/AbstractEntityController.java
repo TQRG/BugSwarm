@@ -51,7 +51,7 @@ public abstract class AbstractEntityController<E extends Entity> {
 	protected static final String DEFAULT_ID_MAPPING = "/{id}";
 	protected static final String DEFAULT_FIND_MAPPING = "/find";
 	protected static final String GET_MAPPING = DEFAULT_ID_MAPPING;
-	protected static final String GET_MULTIPLE_MAPPING = DEFAULT_ID_MAPPING;
+	protected static final String GET_MULTIPLE_MAPPING = DEFAULT_ROOT_MAPPING;
 	protected static final String PUT_MAPPING = DEFAULT_ID_MAPPING;
 	protected static final String POST_MAPPING = DEFAULT_ROOT_MAPPING;
 	protected static final String PATCH_MAPPING = DEFAULT_ID_MAPPING;
