@@ -28,7 +28,7 @@ import errno
 from functools import wraps
 
 from typing import (AbstractSet, Any, cast, Dict, Iterable, Iterator, List,
-                    Mapping, NamedTuple, Optional, Set, Tuple, TypeVar, Union, Callable)
+                    Mapping, NamedTuple, Optional, Set, Tuple, Union, Callable)
 # Can't use TYPE_CHECKING because it's not in the Python 3.5.1 stdlib
 MYPY = False
 if MYPY:
@@ -81,7 +81,7 @@ class BuildResult:
         self.graph = graph
         self.files = manager.modules
         self.types = manager.all_types  # Non-empty for tests only or if dumping deps
-        self.errors = manager.errors.messages()
+        self.errors = []  # type: List[str]  # Filled in by build if desired
 
 
 class BuildSource:
@@ -128,33 +128,13 @@ class BuildSourceSet:
 # be updated in place with newly computed cache data.  See dmypy.py.
 SavedCache = Dict[str, Tuple['CacheMeta', MypyFile, Dict[Expression, Type]]]
 
-F = TypeVar('F', bound=Callable[..., Any])
 
-
-def flush_compile_errors(f: F) -> F:
-    """Catch and flush out any messages from a CompileError thrown in build."""
-    @wraps(f)
-    def func(*args, **kwargs):
-        # type: (*Any, **Any) -> Any
-        try:
-            return f(*args, **kwargs)
-        except CompileError as e:
-            serious = not e.use_stdout
-            error_flush = kwargs.get('flush_errors', None)
-            if error_flush:
-                error_flush(e.messages[e.num_already_seen:], serious)
-            raise
-    return cast(F, func)
-
-
-@flush_compile_errors
 def build(sources: List[BuildSource],
           options: Options,
           alt_lib_path: Optional[str] = None,
           bin_dir: Optional[str] = None,
           saved_cache: Optional[SavedCache] = None,
           flush_errors: Optional[Callable[[List[str], bool], None]] = None,
-          plugin: Optional[Plugin] = None,
           ) -> BuildResult:
     """Analyze a program.
 
@@ -163,6 +143,11 @@ def build(sources: List[BuildSource],
 
     Return BuildResult if successful or only non-blocking errors were found;
     otherwise raise CompileError.
+
+    If a flush_errors callback is provided, all error messages will be
+    passed to it and the errors and messages fields of BuildResult and
+    CompileError (respectively) will be empty. Otherwise those fields will
+    report any error messages.
 
     Args:
       sources: list of sources to build
@@ -173,8 +158,35 @@ def build(sources: List[BuildSource],
         directories; if omitted, use '.' as the data directory
       saved_cache: optional dict with saved cache state for dmypy (read-write!)
       flush_errors: optional function to flush errors after a file is processed
-      plugin: optional plugin that overrides the configured one
+
     """
+    # If we were not given a flush_errors, we use one that will populate those
+    # fields for callers that want the traditional API.
+    messages = []
+
+    def default_flush_errors(new_messages: List[str], is_serious: bool) -> None:
+        messages.extend(new_messages)
+
+    flush_errors = flush_errors or default_flush_errors
+
+    try:
+        result = _build(sources, options, alt_lib_path, bin_dir, saved_cache, flush_errors)
+        result.errors = messages
+        return result
+    except CompileError as e:
+        serious = not e.use_stdout
+        flush_errors(e.messages, serious)
+        e.messages = messages
+        raise
+
+
+def _build(sources: List[BuildSource],
+           options: Options,
+           alt_lib_path: Optional[str],
+           bin_dir: Optional[str],
+           saved_cache: Optional[SavedCache],
+           flush_errors: Callable[[List[str], bool], None],
+           ) -> BuildResult:
     # This seems the most reasonable place to tune garbage collection.
     gc.set_threshold(50000)
 
@@ -223,7 +235,7 @@ def build(sources: List[BuildSource],
     reports = Reports(data_dir, options.report_dirs)
     source_set = BuildSourceSet(sources)
     errors = Errors(options.show_error_context, options.show_column_numbers)
-    plugin = plugin or load_plugins(options, errors)
+    plugin = load_plugins(options, errors)
 
     # Construct a build manager object to hold state during the build.
     #
@@ -544,7 +556,7 @@ class BuildManager:
       version_id:      The current mypy version (based on commit id when possible)
       plugin:          Active mypy plugin(s)
       errors:          Used for reporting all errors
-      flush_errors:    A function for optionally processing errors after each SCC
+      flush_errors:    A function for processing errors after each SCC
       saved_cache:     Dict with saved cache state for dmypy and fine-grained incremental mode
                        (read-write!)
       stats:           Dict with various instrumentation numbers
@@ -559,7 +571,7 @@ class BuildManager:
                  version_id: str,
                  plugin: Plugin,
                  errors: Errors,
-                 flush_errors: Optional[Callable[[List[str], bool], None]] = None,
+                 flush_errors: Callable[[List[str], bool], None],
                  saved_cache: Optional[SavedCache] = None,
                  ) -> None:
         self.start_time = time.time()
@@ -733,8 +745,7 @@ class BuildManager:
         return self.stats
 
     def error_flush(self, msgs: List[str], serious: bool=False) -> None:
-        if self.flush_errors:
-            self.flush_errors(msgs, serious)
+        self.flush_errors(msgs, serious)
 
 
 def remove_cwd_prefix_from_path(p: str) -> str:
@@ -1886,14 +1897,14 @@ class State:
 
     def semantic_analysis(self) -> None:
         assert self.tree is not None, "Internal error: method must be called on parsed file only"
-        patches = []  # type: List[Callable[[], None]]
+        patches = []  # type: List[Tuple[int, Callable[[], None]]]
         with self.wrap_context():
             self.manager.semantic_analyzer.visit_file(self.tree, self.xpath, self.options, patches)
         self.patches = patches
 
     def semantic_analysis_pass_three(self) -> None:
         assert self.tree is not None, "Internal error: method must be called on parsed file only"
-        patches = []  # type: List[Callable[[], None]]
+        patches = []  # type: List[Tuple[int, Callable[[], None]]]
         with self.wrap_context():
             self.manager.semantic_analyzer_pass3.visit_file(self.tree, self.xpath,
                                                             self.options, patches)
@@ -1902,7 +1913,8 @@ class State:
         self.patches = patches + self.patches
 
     def semantic_analysis_apply_patches(self) -> None:
-        for patch_func in self.patches:
+        patches_by_priority = sorted(self.patches, key=lambda x: x[0])
+        for priority, patch_func in patches_by_priority:
             patch_func()
 
     def type_check_first_pass(self) -> None:
@@ -2524,7 +2536,7 @@ def process_stale_scc(graph: Graph, scc: List[str], manager: BuildManager) -> No
     for id in stale:
         graph[id].finish_passes()
         graph[id].generate_unused_ignore_notes()
-        manager.error_flush(manager.errors.new_file_messages(graph[id].xpath))
+        manager.error_flush(manager.errors.file_messages(graph[id].xpath))
         graph[id].write_cache()
         graph[id].mark_as_rechecked()
 

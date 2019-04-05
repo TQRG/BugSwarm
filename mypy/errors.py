@@ -95,17 +95,11 @@ class Errors:
     # files were processed.
     error_info_map = None  # type: Dict[str, List[ErrorInfo]]
 
-    # The size of error_info the last time that error messages were flushed
-    new_errors_start_map = None  # type: Dict[str, int]
-
-    # A cache of the formatted messages
-    formatted_messages = None  # type: List[str]
+    # Files that we have reported the errors for
+    flushed_files = None  # type: Set[str]
 
     # Current error context: nested import context/stack, as a list of (path, line) pairs.
     import_ctx = None  # type: List[Tuple[str, int]]
-
-    # Set of files with errors.
-    error_files = None  # type: Set[str]
 
     # Path name prefix that is removed from all paths, if set.
     ignore_prefix = None  # type: str
@@ -150,10 +144,8 @@ class Errors:
 
     def initialize(self) -> None:
         self.error_info_map = OrderedDict()
-        self.new_errors_start_map = defaultdict(int)
+        self.flushed_files = set()
         self.import_ctx = []
-        self.formatted_messages = []
-        self.error_files = set()
         self.type_name = [None]
         self.function_or_member = [None]
         self.ignored_lines = OrderedDict()
@@ -318,7 +310,6 @@ class Errors:
                 return
             self.only_once_messages.add(info.message)
         self._add_error_info(info)
-        self.error_files.add(file)
 
     def generate_unused_ignore_notes(self, file: str) -> None:
         ignored_lines = self.ignored_lines[file]
@@ -356,7 +347,7 @@ class Errors:
 
     def is_errors_for_file(self, file: str) -> bool:
         """Are there any errors for the given file?"""
-        return file in self.error_files
+        return file in self.error_info_map
 
     def raise_error(self) -> None:
         """Raise a CompileError with the generated messages.
@@ -364,13 +355,10 @@ class Errors:
         Render the messages suitable for displaying.
         """
         # self.new_messages() will format all messages that haven't already
-        # been returned from a new_module_messages() call. Count how many
-        # we've seen before that.
-        already_seen = len(self.formatted_messages)
-        raise CompileError(self.messages(),
+        # been returned from a new_module_messages() call.
+        raise CompileError(self.new_messages(),
                            use_stdout=True,
-                           module_with_blocker=self.blocker_module(),
-                           num_already_seen=already_seen)
+                           module_with_blocker=self.blocker_module())
 
     def format_messages(self, error_info: List[ErrorInfo]) -> List[str]:
         """Return a string list that represents the error messages.
@@ -396,20 +384,15 @@ class Errors:
             a.append(s)
         return a
 
-    def new_file_messages(self, path: str) -> List[str]:
+    def file_messages(self, path: str) -> List[str]:
         """Return a string list of new error messages from a given file.
 
         Use a form suitable for displaying to the user.
-        Formatted messages are cached in the order they are generated
-        by new_file_messages() in order to have consistency in output
-        between incrementally generated messages and .messages() calls.
         """
         if path not in self.error_info_map:
             return []
-        msgs = self.format_messages(self.error_info_map[path][self.new_errors_start_map[path]:])
-        self.new_errors_start_map[path] = len(self.error_info_map[path])
-        self.formatted_messages += msgs
-        return msgs
+        self.flushed_files.add(path)
+        return self.format_messages(self.error_info_map[path])
 
     def new_messages(self) -> List[str]:
         """Return a string list of new error messages.
@@ -419,17 +402,10 @@ class Errors:
         they first generated an error.
         """
         msgs = []
-        for key in self.error_info_map.keys():
-            msgs.extend(self.new_file_messages(key))
+        for path in self.error_info_map.keys():
+            if path not in self.flushed_files:
+                msgs.extend(self.file_messages(path))
         return msgs
-
-    def messages(self) -> List[str]:
-        """Return a string list that represents the error messages.
-
-        Use a form suitable for displaying to the user.
-        """
-        self.new_messages()  # Updates formatted_messages as a side effect
-        return self.formatted_messages
 
     def targets(self) -> Set[str]:
         """Return a set of all targets that contain errors."""
@@ -518,7 +494,7 @@ class Errors:
     def sort_messages(self, errors: List[ErrorInfo]) -> List[ErrorInfo]:
         """Sort an array of error messages locally by line number.
 
-        I.e., sort a run of consecutive messages with the same file
+        I.e., sort a run of consecutive messages with the same
         context by line number, but otherwise retain the general
         ordering of the messages.
         """
@@ -568,24 +544,27 @@ class CompileError(Exception):
 
     It can be a parse, semantic analysis, type check or other
     compilation-related error.
+
+    CompileErrors raised from an errors object carry all of the
+    messages that have not been reported out by error streaming.
+    This is patched up by build.build to contain either all error
+    messages (if errors were streamed) or none (if they were not).
+
     """
 
     messages = None  # type: List[str]
     use_stdout = False
     # Can be set in case there was a module with a blocking error
     module_with_blocker = None  # type: Optional[str]
-    num_already_seen = 0
 
     def __init__(self,
                  messages: List[str],
                  use_stdout: bool = False,
-                 module_with_blocker: Optional[str] = None,
-                 num_already_seen: int = 0) -> None:
+                 module_with_blocker: Optional[str] = None) -> None:
         super().__init__('\n'.join(messages))
         self.messages = messages
         self.use_stdout = use_stdout
         self.module_with_blocker = module_with_blocker
-        self.num_already_seen = num_already_seen
 
 
 class DecodeError(Exception):
@@ -614,7 +593,8 @@ def report_internal_error(err: Exception, file: Optional[str], line: int,
     # Dump out errors so far, they often provide a clue.
     # But catch unexpected errors rendering them.
     try:
-        for msg in errors.messages():
+        errors.flushed_files = set()  # Print out already flushed messages too
+        for msg in errors.new_messages():
             print(msg)
     except Exception as e:
         print("Failed to dump errors:", repr(e), file=sys.stderr)
