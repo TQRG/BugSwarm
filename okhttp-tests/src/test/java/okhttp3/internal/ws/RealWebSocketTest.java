@@ -153,7 +153,7 @@ public final class RealWebSocketTest {
 
   @Test public void nullPongPayloadThrows() throws IOException {
     try {
-      client.sendPong(ByteString.encodeUtf8("Hello!"));
+      client.sendPong(null);
       fail();
     } catch (NullPointerException e) {
       assertEquals("payload == null", e.getMessage());
