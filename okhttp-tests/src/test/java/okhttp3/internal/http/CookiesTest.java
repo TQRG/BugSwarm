@@ -176,11 +176,11 @@ public class CookiesTest {
         .cookieJar(new JavaNetCookieJar(cookieManager))
         .build();
 
-    get(server.url("/"));
+    get(urlWithIpAddress(server, "/"));
     RecordedRequest request1 = server.takeRequest();
     assertNull(request1.getHeader("Cookie"));
 
-    get(server.url("/"));
+    get(urlWithIpAddress(server, "/"));
     RecordedRequest request2 = server.takeRequest();
     assertEquals("a=android; b=banana", request2.getHeader("Cookie"));
   }
