@@ -1,0 +1,51 @@
+-- Test cases for generating fine-grained dependencies for classes.
+--
+-- The dependencies are used for fined-grained incremental checking.
+--
+-- See the comment at the top of deps.test for more documentation.
+
+-- TODO: Move class related test cases from deps.test to here
+
+[case testNamedTuple]
+from typing import NamedTuple, Any
+from a import A
+N = NamedTuple('N', [('a', 'A')])
+
+def f(a: Any) -> None:
+    n = N(a)
+    n.a
+[file a.py]
+class A: pass
+[out]
+<m.N.__init__> -> m.f
+<m.N.a> -> m.f
+<m.N> -> m.f
+<a.A> -> <m.N.a>, m
+
+[case testIfFalseInClassBody]
+class A:
+    if False:
+        x = None  # type: str
+        x.foo()
+[builtins fixtures/bool.pyi]
+[out]
+<m.A> -> m.A
+
+[case testAlwaysFalseIsinstanceInClassBody]
+class A:
+    x: int
+    if isinstance(x, str):
+        y: str = None
+        y.foo()
+[builtins fixtures/isinstance.pyi]
+[out]
+<m.A> -> m.A
+
+[case testDoubleAttributeInitializationToNone]
+class C:
+    def __init__(self) -> None:
+        self.x = None
+        self.x = None
+[out]
+<m.C.x> -> m.C.__init__
+<m.C> -> m.C
