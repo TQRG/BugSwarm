@@ -17,6 +17,7 @@ package com.squareup.javapoet;
 
 import java.util.Date;
 import javax.lang.model.element.Modifier;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -116,6 +117,7 @@ public final class JavaFileTest {
         + "}\n");
   }
 
+  @Ignore("https://github.com/square/javapoet/issues/298")
   @Test public void conflictingSimpleNames() throws Exception {
     String source = JavaFile.builder("com.squareup.tacos",
         TypeSpec.classBuilder("A")
