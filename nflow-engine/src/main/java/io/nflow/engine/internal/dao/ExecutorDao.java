@@ -17,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -41,6 +43,7 @@ import io.nflow.engine.workflow.executor.WorkflowExecutor;
  * Use setter injection because constructor injection may not work when nFlow is used in some legacy systems.
  */
 @Component
+@Singleton
 @SuppressFBWarnings(value = "SIC_INNER_SHOULD_BE_STATIC_ANON", justification = "common jdbctemplate practice")
 public class ExecutorDao {
   private static final Logger logger = getLogger(ExecutorDao.class);
@@ -72,12 +75,10 @@ public class ExecutorDao {
   @Inject
   public void setJdbcTemplate(@NFlow JdbcTemplate nflowJdbcTemplate) {
     this.jdbc = nflowJdbcTemplate;
-    if (this.jdbc != null) {
-      findHostMaxLength();
-    }
   }
 
-  private void findHostMaxLength() {
+  @PostConstruct
+  public void findHostMaxLength() {
     hostMaxLength = jdbc.query("select host from nflow_executor where 1 = 0", firstColumnLengthExtractor);
   }
 
