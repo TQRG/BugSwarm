@@ -4,7 +4,7 @@ import emport
 
 from slash.core.error import Error
 from slash.utils import traceback_utils
-from slash.utils.traceback_utils import _MAX_VARIABLE_VALUE_LENGTH, distill_traceback
+from slash.utils.traceback_utils import _MAX_VARIABLE_VALUE_LENGTH
 
 
 
@@ -127,7 +127,7 @@ class NonDictable(object):
         return super(NonDictable, self).__getattribute__(attr)
 
     def method(self):
-        1/0
+        1/0 # pylint: disable=pointless-statement
 
 
 def test_dict_getting_raises_exception():
