@@ -496,7 +496,7 @@ final class Utils {
   }
 
   // github.com/ReactiveX/RxJava/blob/2.x/src/main/java/io/reactivex/exceptions/Exceptions.java#L66
-  public static void throwIfFatal(Throwable t) {
+  static void throwIfFatal(Throwable t) {
     if (t instanceof VirtualMachineError) {
       throw (VirtualMachineError) t;
     } else if (t instanceof ThreadDeath) {
