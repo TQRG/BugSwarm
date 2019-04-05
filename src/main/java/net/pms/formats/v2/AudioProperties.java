@@ -66,9 +66,6 @@ public class AudioProperties {
 	 * @return bitrate (default is 8000).
 	 */
 	public int getBitRate() {
-		if (bitRate < 1) {
-			throw new IllegalArgumentException("Bitrate can't be less than 1.");
-		}
 		return bitRate;
 	}
 
@@ -78,6 +75,9 @@ public class AudioProperties {
 	 * @param bitrate to set.
 	 */
 	public void setBitRate(int bitRate) {
+		if (bitRate < 1) {
+			throw new IllegalArgumentException("Bitrate can't be less than 1.");
+		}
 		this.bitRate = bitRate;
 	}
 
@@ -95,9 +95,6 @@ public class AudioProperties {
 	 * @return number of channels (default is 2).
 	 */
 	public int getNumberOfChannels() {
-		if (numberOfChannels < 1) {
-			throw new IllegalArgumentException("Channel number can't be less than 1.");
-		}
 		return numberOfChannels;
 	}
 
@@ -107,6 +104,9 @@ public class AudioProperties {
 	 * @param numberOfChannels number of channels to set.
 	 */
 	public void setNumberOfChannels(int numberOfChannels) {
+		if (numberOfChannels < 1) {
+			throw new IllegalArgumentException("Channel number can't be less than 1.");
+		}
 		this.numberOfChannels = numberOfChannels;
 	}
 
@@ -124,9 +124,6 @@ public class AudioProperties {
 	 * @return bits per sample (default is 16).
 	 */
 	public int getBitsperSample() {
-		if (bitsperSample < 1) {
-			throw new IllegalArgumentException("Bits per sample can't be less than 1.");
-		}
 		return bitsperSample;
 	}
 
@@ -136,6 +133,9 @@ public class AudioProperties {
 	 * @param bitsperSample bits per sample to set.
 	 */
 	public void setBitsperSample(int bitsperSample) {
+		if (bitsperSample < 1) {
+			throw new IllegalArgumentException("Bits per sample can't be less than 1.");
+		}
 		this.bitsperSample = bitsperSample;
 	}
 
@@ -179,9 +179,6 @@ public class AudioProperties {
 	 * @return sample frequency in Hz.
 	 */
 	public int getSampleFrequency() {
-		if (sampleFrequency < 1) {
-			throw new IllegalArgumentException("Sample frequency can't be less than 1 Hz.");
-		}
 		return sampleFrequency;
 	}
 
@@ -191,6 +188,9 @@ public class AudioProperties {
 	 * @param sampleFrequency sample frequency in Hz
 	 */
 	public void setSampleFrequency(int sampleFrequency) {
+		if (sampleFrequency < 1) {
+			throw new IllegalArgumentException("Sample frequency can't be less than 1 Hz.");
+		}
 		this.sampleFrequency = sampleFrequency;
 	}
 
