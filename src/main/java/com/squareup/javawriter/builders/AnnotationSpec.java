@@ -15,8 +15,8 @@
  */
 package com.squareup.javawriter.builders;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Maps;
 import com.squareup.javawriter.ClassName;
 import java.lang.annotation.Annotation;
@@ -29,10 +29,6 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 
 /** A generated annotation on a declaration. */
 public final class AnnotationSpec {
-  public static final AnnotationSpec OVERRIDE = new Builder()
-      .type(ClassName.fromClass(Override.class))
-      .build();
-
   public final ClassName type;
   public final ImmutableSortedMap<String, Snippet> members;
 
@@ -41,30 +37,39 @@ public final class AnnotationSpec {
     this.members = ImmutableSortedMap.copyOf(builder.members);
   }
 
-  void emit(CodeWriter codeWriter) {
+  void emit(CodeWriter codeWriter, boolean inline) {
+    String separator = inline ? "" : "\n";
+    String suffix = inline ? " " : "\n";
     if (members.isEmpty()) {
       // @Singleton
-      codeWriter.emit("@$T\n", type);
-    } else if (members.keySet().equals(ImmutableSortedSet.of("value"))) {
+      codeWriter.emit("@$T$L", type, suffix);
+    } else if (members.keySet().equals(ImmutableSet.of("value"))) {
       // @Named("foo")
       codeWriter.emit("@$T(");
       codeWriter.emit(getOnlyElement(members.values()));
-      codeWriter.emit(")\n");
+      codeWriter.emit(")$L", suffix);
     } else {
-      // @Column(
-      //   name = "updated_at",
-      //   nullable = false
-      // )
-      codeWriter.emit("@$T(\n", type);
+      // Inline:
+      //   @Column(name = "updated_at", nullable = false)
+      //
+      // Not inline:
+      //   @Column(
+      //       name = "updated_at",
+      //       nullable = false
+      //   )
+      codeWriter.emit("@$T($L", type, separator);
+      codeWriter.indent();
       codeWriter.indent();
       for (Iterator<Map.Entry<String, Snippet>> i = members.entrySet().iterator(); i.hasNext();) {
         Map.Entry<String, Snippet> entry = i.next();
         codeWriter.emit("$L = ", entry.getKey());
         codeWriter.emit(entry.getValue());
-        codeWriter.emit(i.hasNext() ? ",\n" : "\n");
+        if (i.hasNext()) codeWriter.emit(",");
+        codeWriter.emit("$L", separator);
       }
       codeWriter.unindent();
-      codeWriter.emit(")\n");
+      codeWriter.unindent();
+      codeWriter.emit(")$L", suffix);
     }
   }
 

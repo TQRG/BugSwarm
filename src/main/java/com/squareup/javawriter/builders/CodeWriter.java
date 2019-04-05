@@ -27,6 +27,7 @@ import com.squareup.javawriter.TypeName;
 import com.squareup.javawriter.TypeNames;
 import com.squareup.javawriter.WildcardName;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,9 +42,6 @@ import static com.google.common.base.Preconditions.checkState;
  * honors imports, indentation, and deferred variable names.
  */
 final class CodeWriter {
-  private static final ImmutableList<AnnotationSpec> OVERRIDE_ONLY
-      = ImmutableList.of(AnnotationSpec.OVERRIDE);
-
   private final String indent = "  ";
   private final StringBuilder out;
   private final ImmutableMap<ClassName, String> importedTypes;
@@ -77,21 +75,18 @@ final class CodeWriter {
     return this;
   }
 
-  public void emitAnnotations(ImmutableList<AnnotationSpec> annotations) {
-    if (annotations.equals(OVERRIDE_ONLY)) {
-      emit("@$T ", Override.class);
-    } else {
-      for (AnnotationSpec annotationSpec : annotations) {
-        annotationSpec.emit(this);
-      }
+  public void emitAnnotations(ImmutableList<AnnotationSpec> annotations, boolean inline) {
+    for (AnnotationSpec annotationSpec : annotations) {
+      annotationSpec.emit(this, inline);
     }
   }
 
   public void emitModifiers(ImmutableSet<Modifier> modifiers) {
-    // TODO(jwilson): sort in standard order.
-    for (Modifier modifier : modifiers) {
-      emitAndIndent(Ascii.toLowerCase(modifier.name()));
-      emitAndIndent(" ");
+    if (!modifiers.isEmpty()) {
+      for (Modifier modifier : EnumSet.copyOf(modifiers)) {
+        emitAndIndent(Ascii.toLowerCase(modifier.name()));
+        emitAndIndent(" ");
+      }
     }
   }
 
@@ -161,7 +156,9 @@ final class CodeWriter {
       WildcardName wildcardName = (WildcardName) typeName;
       TypeName extendsBound = wildcardName.extendsBound();
       TypeName superBound = wildcardName.superBound();
-      if (extendsBound != null) {
+      if (ClassName.fromClass(Object.class).equals(extendsBound)) {
+        emit("?");
+      } else if (extendsBound != null) {
         emit("? extends $T", extendsBound);
       } else if (superBound != null) {
         emit("? super $T", superBound);

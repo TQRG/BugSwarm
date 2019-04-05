@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.squareup.javawriter.TypeName;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.lang.model.element.Modifier;
 
@@ -39,11 +39,11 @@ public final class FieldSpec {
     this.modifiers = ImmutableSet.copyOf(builder.modifiers);
     this.type = checkNotNull(builder.type);
     this.name = checkNotNull(builder.name);
-    this.initializer = checkNotNull(builder.initializer);
+    this.initializer = builder.initializer;
   }
 
   void emit(CodeWriter codeWriter) {
-    codeWriter.emitAnnotations(annotations);
+    codeWriter.emitAnnotations(annotations, false);
     codeWriter.emitModifiers(modifiers);
     codeWriter.emit("$T $L", type, name);
     if (initializer != null) {
@@ -71,7 +71,7 @@ public final class FieldSpec {
     }
 
     public Builder addModifiers(Modifier... modifiers) {
-      this.modifiers.addAll(Arrays.asList(modifiers));
+      Collections.addAll(this.modifiers, modifiers);
       return this;
     }
 
