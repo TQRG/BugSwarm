@@ -36,8 +36,8 @@ from paramiko.sftp import (
     CMD_CLOSE, SFTP_FLAG_READ, SFTP_FLAG_WRITE, SFTP_FLAG_CREATE,
     SFTP_FLAG_TRUNC, SFTP_FLAG_APPEND, SFTP_FLAG_EXCL, CMD_OPEN, CMD_REMOVE,
     CMD_RENAME, CMD_MKDIR, CMD_RMDIR, CMD_STAT, CMD_ATTRS, CMD_LSTAT,
-    CMD_SYMLINK, CMD_SETSTAT, CMD_READLINK, CMD_REALPATH, CMD_STATUS, SFTP_OK,
-    SFTP_EOF, SFTP_NO_SUCH_FILE, SFTP_PERMISSION_DENIED,
+    CMD_SYMLINK, CMD_SETSTAT, CMD_READLINK, CMD_REALPATH, CMD_STATUS,
+    CMD_EXTENDED, SFTP_OK, SFTP_EOF, SFTP_NO_SUCH_FILE, SFTP_PERMISSION_DENIED,
 )
 
 from paramiko.sftp_attr import SFTPAttributes
@@ -368,8 +368,10 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
         """
         Rename a file or folder from ``oldpath`` to ``newpath``.
 
-        :param str oldpath: existing name of the file or folder
-        :param str newpath: new name for the file or folder
+        :param str oldpath:
+            existing name of the file or folder
+        :param str newpath:
+            new name for the file or folder, must not exist already
 
         :raises:
             ``IOError`` -- if ``newpath`` is a folder, or something else goes
@@ -379,6 +381,26 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
         newpath = self._adjust_cwd(newpath)
         self._log(DEBUG, 'rename(%r, %r)' % (oldpath, newpath))
         self._request(CMD_RENAME, oldpath, newpath)
+
+    def posix_rename(self, oldpath, newpath):
+        """
+        Rename a file or folder from ``oldpath`` to ``newpath``, following
+        posix conventions.
+
+        :param str oldpath: existing name of the file or folder
+        :param str newpath: new name for the file or folder, will be
+            overwritten if it already exists
+
+        :raises:
+            ``IOError`` -- if ``newpath`` is a folder, posix-rename is not
+            supported by the server or something else goes wrong
+        """
+        oldpath = self._adjust_cwd(oldpath)
+        newpath = self._adjust_cwd(newpath)
+        self._log(DEBUG, 'posix_rename(%r, %r)' % (oldpath, newpath))
+        self._request(
+            CMD_EXTENDED, "posix-rename@openssh.com", oldpath, newpath
+        )
 
     def mkdir(self, path, mode=o777):
         """
@@ -451,8 +473,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
     def symlink(self, source, dest):
         """
-        Create a symbolic link (shortcut) of the ``source`` path at
-        ``destination``.
+        Create a symbolic link to the ``source`` path at ``destination``.
 
         :param str source: path of the original file
         :param str dest: path of the newly created symlink

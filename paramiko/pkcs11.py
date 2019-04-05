@@ -1,4 +1,5 @@
-from ctypes import *
+from ctypes import (c_void_p, c_ulong, c_int, c_char_p, cast, addressof,
+                    sizeof, byref, cdll, Structure)
 import subprocess
 import paramiko.common
 import os
@@ -64,7 +65,7 @@ def pkcs11_open_session(pkcs11provider, pkcs11pin):
         _fields_ = [('type', c_ulong), ('value', c_void_p),
                     ('value_len', c_ulong)]
 
-    attrs = (ck_attribute*3)()
+    attrs = (ck_attribute * 3)()
     count = c_ulong()
 
     # Hard coded, two defined below

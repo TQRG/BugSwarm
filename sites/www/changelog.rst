@@ -4,10 +4,25 @@ Changelog
 
 * :feature:`827` Add support for PKCS #11 which enables the use of smartcards
   and other cryptographic tokens.
+* :feature:`65` (via :issue:`471`) Add support for OpenSSH's SFTP
+  ``posix-rename`` protocol extension (section 3.3 of `OpenSSH's protocol
+  extension document
+  <http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/PROTOCOL?rev=1.31>`_),
+  via a new ``posix_rename`` method in `SFTPClient
+  <paramiko.sftp_client.SFTPClient.posix_rename>` and `SFTPServerInterface
+  <paramiko.sftp_si.SFTPServerInterface.posix_rename>`. Thanks to Wren Turkal
+  for the initial patch & Mika Pflüger for the enhanced, merged PR.
 * :feature:`869` Add an ``auth_timeout`` kwarg to `SSHClient.connect
   <paramiko.client.SSHClient.connect>` (default: 30s) to avoid hangs when the
   remote end becomes unresponsive during the authentication step. Credit to
   ``@timsavage``.
+
+  .. note::
+    This technically changes behavior, insofar as very slow auth steps >30s
+    will now cause timeout exceptions instead of completing. We doubt most
+    users will notice; those affected can simply give a higher value to
+    ``auth_timeout``.
+
 * :support:`921` Tighten up the ``__hash__`` implementation for various key
   classes; less code is good code. Thanks to Francisco Couzo for the patch.
 * :bug:`983` Move ``sha1`` above the now-arguably-broken ``md5`` in the list of
