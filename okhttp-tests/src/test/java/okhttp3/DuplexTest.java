@@ -58,9 +58,9 @@ public final class DuplexTest {
             latchParty.step(1);
             responseBodySink.sink().writeUtf8("ok");
             responseBodySink.sink().flush();
+            responseBodySink.headers(Headers.of("b", "banada"));
 
             latchParty.step(3);
-            responseBodySink.headers(Headers.of("b", "banada"));
             responseBodySink.sink().writeUtf8("http");
             responseBodySink.sink().flush();
 
@@ -91,11 +91,10 @@ public final class DuplexTest {
 
     latchParty.step(4);
     assertEquals("http", source.readUtf8(4));
-    assertEquals(Collections.singletonList(Headers.of("b", "banada")), headersListener.takeAll());
+    assertEquals(Headers.of("b", "banada"), headersListener.takeFirst());
 
     latchParty.step(6);
     assertTrue(source.exhausted());
-
     assertEquals(Collections.singletonList(Headers.of("c", "cookie")), headersListener.takeAll());
   }
 

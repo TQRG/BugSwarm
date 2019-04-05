@@ -18,6 +18,7 @@ package okhttp3.internal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nullable;
 import okhttp3.Headers;
 import okhttp3.internal.http2.Header;
 
@@ -26,6 +27,10 @@ public final class RecordingHeadersListener implements Header.Listener {
 
   @Override public void onHeaders(Headers headers) {
     receivedHeaders.add(headers);
+  }
+
+  public @Nullable Headers takeFirst() {
+    return receivedHeaders.poll();
   }
 
   public List<Headers> takeAll() {
