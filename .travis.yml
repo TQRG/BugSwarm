@@ -1,0 +1,18 @@
+after_success: [coveralls]
+cache:
+  directories: [$HOME/.cache/pip]
+dist: precise
+group: stable
+install: [pip install -e ., pip install coveralls==1.1, pip install -r dev-requirements.txt]
+language: python
+notifications:
+  email: false
+  irc:
+    channels: irc.freenode.org#paramiko
+    on_failure: change
+    on_success: change
+    template: ['%{repository}@%{branch}: %{message} (%{build_url})']
+os: linux
+python: pypy-5.4.1
+script: [inv test --coverage, inv sites, flake8]
+sudo: false
