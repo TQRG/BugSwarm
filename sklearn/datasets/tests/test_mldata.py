@@ -3,6 +3,7 @@
 import os
 import scipy as sp
 import shutil
+import warnings
 
 from sklearn import datasets
 from sklearn.datasets import mldata_filename, fetch_mldata
@@ -13,7 +14,7 @@ from sklearn.utils.testing import mock_mldata_urlopen
 from sklearn.utils.testing import assert_equal
 from sklearn.utils.testing import assert_raises
 from sklearn.utils.testing import assert_array_equal
-from sklearn.utils.testing import assert_warns, ignore_warnings
+from sklearn.utils.testing import assert_warns
 
 import pytest
 
@@ -62,8 +63,8 @@ def test_download(tmpdata):
         datasets.mldata.urlopen = _urlopen_ref
 
 
-@ignore_warnings(category=DeprecationWarning)
-def test_fetch_one_column(tmpdata):
+def test_fetch_one_column(tmpdata, recwarn):
+    warnings.simplefilter('ignore', DeprecationWarning)
     _urlopen_ref = datasets.mldata.urlopen
     try:
         dataname = 'onecol'
@@ -86,8 +87,8 @@ def test_fetch_one_column(tmpdata):
         datasets.mldata.urlopen = _urlopen_ref
 
 
-@ignore_warnings(category=DeprecationWarning)
-def test_fetch_multiple_column(tmpdata):
+def test_fetch_multiple_column(tmpdata, recwarn):
+    warnings.simplefilter('ignore', DeprecationWarning)
     _urlopen_ref = datasets.mldata.urlopen
     try:
         # create fake data set in cache
