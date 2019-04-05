@@ -2150,7 +2150,7 @@ public final class CallTest {
     assertNull(connect.getHeader("Private"));
     assertEquals(Version.userAgent(), connect.getHeader("User-Agent"));
     assertEquals("Keep-Alive", connect.getHeader("Proxy-Connection"));
-    assertEquals("android.com", connect.getHeader("Host"));
+    assertEquals("android.com:443", connect.getHeader("Host"));
 
     RecordedRequest get = server.takeRequest();
     assertEquals("Secret", get.getHeader("Private"));
