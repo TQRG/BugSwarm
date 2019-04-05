@@ -15,6 +15,7 @@
  */
 package org.springframework.data.jpa.repository;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -27,6 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class EclipseLinkStoredProcedureIntegrationTests extends StoredProcedureIntegrationTests {
 
+	@Configuration
 	@ImportResource({ "classpath:infrastructure.xml", "classpath:eclipselink.xml" })
 	static class TestConfig extends Config {}
 }
