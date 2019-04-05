@@ -1,0 +1,21 @@
+addons: {firefox: latest}
+after_success: [./manage.sh py_test_coverage, codecov]
+before_install: ['export DISPLAY=:99.0', sh -e /etc/init.d/xvfb start]
+cache:
+- pip
+- npm
+- directories: [$HOME/.cache/pip]
+dist: trusty
+group: stable
+install: [./manage.sh install_geckodriver ~/drivers, 'export PATH=~/drivers:$PATH',
+  ./manage.sh npm_packages, ./manage.sh update_dev_packages, pip install codecov==2.0.15]
+language: python
+notifications:
+  irc:
+    channels: [irc.freenode.org#searx]
+    on_success: change
+    template: ['%{repository}/#%{build_number}/%{branch} (%{author}): %{message} %{build_url}']
+os: linux
+python: '2.7'
+script: [./manage.sh styles, ./manage.sh grunt_build, ./manage.sh tests]
+sudo: false
