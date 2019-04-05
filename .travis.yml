@@ -1,0 +1,55 @@
+language: java
+sudo: false
+jdk:
+- oraclejdk9
+cache:
+  directories:
+  - $HOME/.m2
+env:
+  global:
+    - secure: "IfYURwZaDWuBDvyn47n0k1Zod/IQw1FF+CS5nnV08Q+NfC3vGGJMwV8m59XnbfwnWGxwvCaAbk4qP6s6+ijgZNKkvgfFMo3rfTok5zt43bIqgaFOANYV+OC/1c59gYD6ZUxhW5iNgMgU3qdsRtJuwSmfkVv/jKyLGfAbS4kN8BA=" # COVERITY_SCAN_TOKEN
+    - secure: "lV9OwUbHMrMpLUH1CY+Z4puLDdFXytudyPlG1eGRsesdpuG6KM3uQVz6uAtf6lrU8DRbMM/T7ML+PmvQ4UoPPYLdLxESLLBat2qUPOIVBOhTSlCc7I0DmGy04CSvkeMy8dPaQC0ukgNiR7zwoNzfcpGRN/U9S8tziDruuHoZSrg=" # BINTRAY_API_KEY
+    - secure: "oWFgRTVP6lyTa7qVxlvkpm20MtVc3BtmsNXQJS6bfg2A0o/iCQMNx7OD59BaafCLGRKvCcJVESiC8FlSylVMS7CDSyYu0gg70NUiIuHp4NBM5inFWYCy/PdQsCTzr5uvNG+rMFQpMFRaCV0FrfM3tLondcVkhsHL68l93Xoexx4=" # CODACY_PROJECT_TOKEN
+addons:
+  apt:
+    packages:
+    - haveged
+  coverity_scan:
+    project:
+      name: "cryptomator/cryptomator"
+    notification_email: sebastian.stenzel@cryptomator.org
+    build_command: "mvn -fmain/pom.xml clean test -DskipTests"
+    branch_pattern: release.*
+install:
+- mvn -fmain/pom.xml clean install -DskipTests dependency:go-offline -Pcoverage,release # "clean install" needed until we can exclude artifacts currently in the reactor, see https://maven.apache.org/plugins/maven-dependency-plugin/go-offline-mojo.html#excludeReactor and https://issues.apache.org/jira/browse/MDEP-568
+script:
+- mvn --update-snapshots -fmain/pom.xml clean test jacoco:report verify -Pcoverage
+after_success:
+- jdk_switcher use oraclejdk8
+- curl -o ~/codacy-coverage-reporter-assembly-latest.jar https://oss.sonatype.org/service/local/repositories/releases/content/com/codacy/codacy-coverage-reporter/2.0.1/codacy-coverage-reporter-2.0.1-assembly.jar
+- $JAVA_HOME/bin/java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r main/jacoco-report/target/site/jacoco-aggregate/jacoco.xml
+before_deploy:
+- jdk_switcher use oraclejdk9
+- mvn -fmain/pom.xml -Prelease package -DskipTests
+deploy:
+- provider: releases
+  prerelease: false
+  api_key:
+    secure: "ZjE1j93v3qbPIe2YbmhS319aCbMdLQw0HuymmluTurxXsZtn9D4t2+eTr99vBVxGRuB5lzzGezPR5zjk5W7iHF7xhwrawXrFzr2rPJWzWFt0aM+Ry2njU1ROTGGXGTbv4anWeBlgMxLEInTAy/9ytOGNJlec83yc0THpOY2wxnk="
+  file:
+    - "main/uber-jar/target/Cryptomator-$TRAVIS_TAG.jar"
+    - "main/ant-kit/target/antkit.tar.gz"
+  skip_cleanup: true
+  on:
+    repo: cryptomator/cryptomator
+    tags: true
+- provider: script
+  script: "curl -X POST -u cryptobot:${BINTRAY_API_KEY} -H 'Content-Type: application/json' -d '{\"name\": \"${TRAVIS_TAG}\", \"vcs_tag\": \"${TRAVIS_TAG}\"}' https://api.bintray.com/packages/cryptomator/cryptomator/cryptomator-win/versions"
+  on:
+    repo: cryptomator/cryptomator
+    tags: true
+- provider: script
+  script: "curl -X POST -u cryptobot:${BINTRAY_API_KEY} -H 'Content-Type: application/json' -d '{\"name\": \"${TRAVIS_TAG}\", \"vcs_tag\": \"${TRAVIS_TAG}\"}' https://api.bintray.com/packages/cryptomator/cryptomator/cryptomator-osx/versions"
+  on:
+    repo: cryptomator/cryptomator
+    tags: true
