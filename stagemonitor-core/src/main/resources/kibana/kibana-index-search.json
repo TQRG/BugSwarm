@@ -1,0 +1,29 @@
+{
+	"properties": {
+		"columns": {
+			"type": "keyword"
+		},
+		"description": {
+			"type": "text"
+		},
+		"hits": {
+			"type": "integer"
+		},
+		"kibanaSavedObjectMeta": {
+			"properties": {
+				"searchSourceJSON": {
+					"type": "text"
+				}
+			}
+		},
+		"sort": {
+			"type": "keyword"
+		},
+		"title": {
+			"type": "text"
+		},
+		"version": {
+			"type": "integer"
+		}
+	}
+}
