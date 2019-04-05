@@ -1,0 +1,7 @@
+numpy
+wheel
+pytest
+pytest-cov
+pytest-timeout
+codecov
+lz4
