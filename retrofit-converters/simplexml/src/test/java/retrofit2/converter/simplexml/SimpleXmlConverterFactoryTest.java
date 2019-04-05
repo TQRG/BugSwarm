@@ -100,9 +100,10 @@ public class SimpleXmlConverterFactoryTest {
     }
   }
 
-  @Test public void serializeNullThrows() {
+  @Test public void serializeNullThrows() throws IOException {
+    Call<MyObject> call = service.post(null);
     try {
-      service.post(null);
+      call.execute();
       fail();
     } catch (IllegalStateException e) {
       assertThat(e).hasMessage("Unable to serialize null object.");
