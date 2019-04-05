@@ -1,0 +1,24 @@
+bernhard
+bottle
+cassandra-driver
+couchdb
+docker>=2.0.0
+elasticsearch
+influxdb
+kafka-python
+netifaces
+nvidia-ml-py3
+pika
+potsdb
+prometheus_client
+py-cpuinfo
+pygal
+pymdstat
+pysnmp
+pystache
+pyzmq
+requests
+scandir; python_version < "3.5"
+statsd
+wifi
+zeroconf
