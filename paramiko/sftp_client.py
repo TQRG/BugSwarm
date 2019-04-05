@@ -462,7 +462,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
         try:
             self.stat(path)
-        except OSError as e:
+        except (OSError, IOError) as e:
             self._log(
                 DEBUG,
                 "{}: {} ({!r})".format(
@@ -494,7 +494,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
         try:
             self.lstat(path)
-        except OSError as e:
+        except (OSError, IOError) as e:
             self._log(
                 DEBUG,
                 "{}: {} ({!r})".format(
@@ -524,7 +524,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
         try:
             path_stat = self.stat(path)
-        except OSError as e:
+        except (OSError, IOError) as e:
             self._log(
                 DEBUG,
                 "{}: {} ({!r})".format(
@@ -554,7 +554,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
         try:
             path_lstat = self.lstat(path)
-        except OSError as e:
+        except (OSError, IOError) as e:
             self._log(
                 DEBUG,
                 "{}: {} ({!r})".format(
@@ -584,7 +584,7 @@ class SFTPClient(BaseSFTP, ClosingContextManager):
 
         try:
             path_stat = self.stat(path)
-        except OSError as e:
+        except (OSError, IOError) as e:
             self._log(
                 DEBUG,
                 "{}: {} ({!r})".format(
