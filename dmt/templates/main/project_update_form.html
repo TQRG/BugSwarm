@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Project: Edit {{object.name}}{% endblock %}
+{% block extraclass %} class="project-form"{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Project: Edit {{object.name}}</h1>
+
+<p class="instructions"><a href="http://wiki.ccnmtl.columbia.edu/index.php/PMT_Help_and_Tutorial#Edit_project" target="_blank"><span class="glyphicon glyphicon-question-sign"></span> Need help?</a></p>
+
+<br />
+<form action="." method="post">{% csrf_token %}
+<fieldset>
+
+{% bootstrap_form form %}
+
+<div class="button-set">
+<a href="{% url 'project_detail' object.pid %}" class="btn btn-default">Cancel</a>
+<input type="submit" value="Save updates" class="btn btn-primary" />
+</div>
+</fieldset>
+</form>
+{% endblock %}

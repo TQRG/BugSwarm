@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% load waffle_tags %}
+{% load emoji_tags %}
+{% load dmttags %}
+
+{% block title %}Project Timeline: {{object.name}}{% endblock %}
+
+{% block extraclass %} class="timeline-page"{% endblock %}
+
+{% block primarynavtabs %}
+{% endblock %}
+
+{% block primarynavtabsright %}
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="page-title">Project Timeline &#8226; {{object.name}}</h1>
+
+{% include 'main/daterange_form.html' %}
+<div class="clearfix"></div>
+{% include 'main/daterange_pagination.html' %}
+
+{% if timeline %}
+<div class="pmt-timeline-interval">
+    {% for i in timeline %}
+    {% with i.timestamp|date:"Y-m-d" as date %}
+    {% ifchanged date %}
+    {% if not forloop.first %}
+        </div><!-- /.pmt-timeline-item -->
+    </div><!-- /.pmt-timeline-day -->
+    {% endif %}
+    <div class="pmt-timeline-day">
+        <div class="pmt-timeline-arrow">
+        </div><!-- /.pmt-timeline-arrow -->
+        <div class="pmt-timeline-item">
+            <h3 class="text-muted pmt-timeline-timestamp">{{i.timestamp|date:"D, F jS Y"}}</h3>
+    {% endifchanged %}
+            <div class="pmt-timeline-item-row">
+            {% ifequal i.event_type "event" %}
+                <span class="glyphicon glyphicon-check text-muted"></span>
+            {% if i.body %}
+                <div class="event-body">{{i.body|commonmark|linkify|emoji_replace}}</div>
+            {% endif %}
+            by
+            {% if i.user %}
+            <a class="text-primary"
+               href="{% url 'user_detail' i.user.username %}"
+               >{% firstof i.user.fullname i.user.username %}</a>,
+            {% endif %}
+            item
+            “{% if i.url %}<a href="{{i.url}}">{% endif %}{{i.title|emoji_replace}}{% if i.url %}</a>{% endif %}”
+            {% endifequal %}
+
+            {% ifequal i.event_type "comment" %}
+                <span class="glyphicon glyphicon-comment text-muted"></span>
+            {% if i.user %}
+            <a class="text-primary"
+               href="{% url 'user_detail' i.user.username %}"
+               >{% firstof i.user.fullname i.user.username %}</a>
+            {% endif %}
+            commented on item
+            “{% if i.url %}<a href="{{i.url}}">{% endif %}{{i.title|emoji_replace}}{% if i.url %}</a>{% endif %}”
+            {% endifequal %}
+
+            {% ifequal i.event_type "actual_time" %}
+                <span class="glyphicon glyphicon-time text-muted"></span>
+            {% if i.user %}
+            <a class="text-primary"
+               href="{% url 'user_detail' i.user.username %}"
+               >{% firstof i.user.fullname i.user.username %}</a>
+            {% endif %}
+                logged
+            {% if i.body %}
+                <div class="event-body">{{i.body|commonmark|linkify|emoji_replace}}</div>
+            {% endif %}
+                for item
+            “{% if i.url %}<a href="{{i.url}}">{% endif %}{{i.title|emoji_replace}}{% if i.url %}</a>{% endif %}”
+            {% endifequal %}
+
+            {% ifequal i.event_type "status_update" %}
+                <span class="glyphicon glyphicon-info-sign text-muted"></span>
+            {% if i.user %}
+            <a class="text-primary"
+               href="{% url 'user_detail' i.user.username %}"
+               >{% firstof i.user.fullname i.user.username %}</a>
+            {% endif %}
+                added status update
+            {% if i.body %}
+                <div class="status-body">“{{i.body|commonmark|linkify|emoji_replace}}”</div>
+            {% endif %}
+            {% endifequal %}
+
+            {% ifequal i.event_type "forum_post" %}
+                <span class="glyphicon glyphicon-comment text-muted"></span>
+            {% if i.user %}
+            <a class="text-primary"
+               href="{% url 'user_detail' i.user.username %}"
+               >{% firstof i.user.fullname i.user.username %}</a>
+            {% endif %}
+                posted a forum
+             “{% if i.url %}<a href="{{i.url}}">{% endif %}{{i.title|emoji_replace}}{% if i.url %}</a>{% endif %}”
+           {% endifequal %}
+
+            {% ifequal i.event_type "milestone" %}
+                    <span class="glyphicon glyphicon-alert text-muted"></span>
+                Milestone
+            “{% if i.url %}<a href="{{i.url}}">{% endif %}{{i.title|emoji_replace}}{% if i.url %}</a>{% endif %}”
+                is overdue
+            {% endifequal %}
+
+            in <a href="{{i.project.get_absolute_url}}">{{i.project.name}}</a>
+
+            </div>
+    {% if forloop.last %}
+        </div><!-- /.pmt-timeline-item -->
+    </div><!-- /.pmt-timeline-day -->
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
+</div><!-- /.pmt-timeline-interval -->
+
+{% else %}
+<h4 class="text-muted">There are no activities between {{interval_start}} and {{interval_end}} for {{object.name}}.</h4>
+
+{% endif %}
+
+{% endblock %}
