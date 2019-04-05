@@ -1,0 +1,14 @@
+after_success: ["if [[ \"$COVERAGE\" == \"true\" ]]; then\n    ls -ltrh .coverage*\n\
+    \    # Running joblib tests with coverage enabled produces empty\n    # .coverage.*\
+    \ files when starting subprocesses. They prevent proper\n    # combinations of\
+    \ .coverage.* files through \"coverage combine\" (run\n    # under the hood by\
+    \ codecov >= 2.0.13). The next line cleans up empty\n    # .coverage.* files\n\
+    \    find -name '.coverage.*' -size 0 -delete\n    codecov\nfi\n"]
+dist: trusty
+env: [PYTHON_VERSION="3.6" NUMPY_VERSION="1.14" JOBLIB_MULTIPROCESSING=0 COVERAGE="true"]
+group: stable
+install: [source continuous_integration/travis/install.sh]
+language: python
+os: linux
+script: [source continuous_integration/travis/test_script.sh]
+sudo: false
