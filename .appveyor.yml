@@ -1,0 +1,17 @@
+environment:
+    matrix:
+        - PYTHON_VERSION: 27
+        - PYTHON_VERSION: 36
+        - PYTHON_VERSION: 36-x64
+
+install:
+    - C:\Python%PYTHON_VERSION%\python.exe -m pip install -U pip setuptools
+
+build: off
+
+# before_test:
+test_script:
+    - cd test
+    - C:\Python%PYTHON_VERSION%\python.exe test_f90nml.py
+
+# after_test:
