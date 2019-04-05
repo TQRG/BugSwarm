@@ -114,7 +114,7 @@ public final class DisconnectTest {
     } catch (IOException expected) {
     }
 
-    connection.disconnect();
+    responseBody.close();
   }
 
   private void disconnectLater(final HttpURLConnection connection, final int delayMillis) {

@@ -1032,6 +1032,10 @@ public final class CacheTest {
   }
 
   @Test public void conditionalCacheHitIsNotDoublePooled() throws Exception {
+    // Ensure that the (shared) connection pool is in a consistent state.
+    client.connectionPool().evictAll();
+    assertEquals(0, client.connectionPool().idleConnectionCount());
+
     server.enqueue(new MockResponse()
         .addHeader("ETag: v1")
         .setBody("A"));

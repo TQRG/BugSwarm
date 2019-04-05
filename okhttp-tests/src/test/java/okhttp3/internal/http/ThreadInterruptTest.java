@@ -117,7 +117,7 @@ public final class ThreadInterruptTest {
     } catch (InterruptedIOException expected) {
     }
 
-    connection.disconnect();
+    responseBody.close();
   }
 
   private void interruptLater(final int delayMillis) {

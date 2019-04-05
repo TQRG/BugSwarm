@@ -16,8 +16,8 @@
 package okhttp3.internal.tls;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.security.GeneralSecurityException;
+import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.security.auth.x500.X500Principal;
@@ -161,7 +161,7 @@ public final class ClientAuthTest {
     try {
       call.execute();
       fail();
-    } catch (ConnectException expected) {
+    } catch (SSLHandshakeException expected) {
     }
   }
 
@@ -182,7 +182,7 @@ public final class ClientAuthTest {
     try {
       call.execute();
       fail();
-    } catch (ConnectException expected) {
+    } catch (SSLHandshakeException expected) {
     }
   }
 
