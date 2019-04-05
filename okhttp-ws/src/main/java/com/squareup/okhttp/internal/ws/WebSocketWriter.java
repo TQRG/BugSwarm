@@ -32,6 +32,7 @@ import static com.squareup.okhttp.internal.ws.WebSocketProtocol.OPCODE_CONTROL_P
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_LONG;
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_MAX;
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_SHORT;
+import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_SHORT_MAX;
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.toggleMask;
 
 /**
@@ -185,7 +186,7 @@ public final class WebSocketWriter {
     if (byteCount <= PAYLOAD_MAX) {
       b1 |= (int) byteCount;
       sink.writeByte(b1);
-    } else if (byteCount <= 0xffffL) { // Unsigned short.
+    } else if (byteCount <= PAYLOAD_SHORT_MAX) { // Unsigned short.
       b1 |= PAYLOAD_SHORT;
       sink.writeByte(b1);
       sink.writeShort((int) byteCount);

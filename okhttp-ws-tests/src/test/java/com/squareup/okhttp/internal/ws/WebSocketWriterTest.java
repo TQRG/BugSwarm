@@ -22,6 +22,7 @@ import okio.Buffer;
 import okio.BufferedSink;
 import okio.ByteString;
 import okio.Okio;
+import okio.Sink;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -30,6 +31,8 @@ import org.junit.runners.model.Statement;
 
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.OPCODE_BINARY;
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.OPCODE_TEXT;
+import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_MAX;
+import static com.squareup.okhttp.internal.ws.WebSocketProtocol.PAYLOAD_SHORT_MAX;
 import static com.squareup.okhttp.internal.ws.WebSocketProtocol.toggleMask;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -108,22 +111,44 @@ public final class WebSocketWriterTest {
     assertData("8000");
   }
 
-  @Test public void serverBinaryMessageLengthShort() throws IOException {
-    BufferedSink sink = Okio.buffer(serverWriter.newMessageSink(OPCODE_BINARY));
+  @Test public void serverMessageLengthShort() throws IOException {
+    Sink sink = serverWriter.newMessageSink(OPCODE_BINARY);
 
-    byte[] payload = binaryData(0xffff);
-    sink.write(payload).close();
-    assertData("827effff");
-    assertData(payload);
+    // Create a payload which will overload the normal payload byte size.
+    Buffer payload = new Buffer();
+    while (payload.completeSegmentByteCount() <= PAYLOAD_MAX) {
+      payload.writeByte('0');
+    }
+    long byteCount = payload.completeSegmentByteCount();
+
+    // Write directly to the unbuffered sink. This ensures it will become single frame.
+    sink.write(payload.clone(), byteCount);
+    assertData("027e"); // 'e' == 4-byte follow-up length.
+    assertData(String.format("%04X", payload.completeSegmentByteCount()));
+    assertData(payload.readByteArray());
+
+    sink.close();
+    assertData("8000");
   }
 
-  @Test public void serverBinaryMessageLengthLong() throws IOException {
-    BufferedSink sink = Okio.buffer(serverWriter.newMessageSink(OPCODE_BINARY));
+  @Test public void serverMessageLengthLong() throws IOException {
+    Sink sink = serverWriter.newMessageSink(OPCODE_BINARY);
 
-    byte[] payload = binaryData(65537);
-    sink.write(payload).close();
-    assertData("827f0000000000010001");
-    assertData(payload);
+    // Create a payload which will overload the normal and short payload byte size.
+    Buffer payload = new Buffer();
+    while (payload.completeSegmentByteCount() <= PAYLOAD_SHORT_MAX) {
+      payload.writeByte('0');
+    }
+    long byteCount = payload.completeSegmentByteCount();
+
+    // Write directly to the unbuffered sink. This ensures it will become single frame.
+    sink.write(payload.clone(), byteCount);
+    assertData("027f"); // 'f' == 16-byte follow-up length.
+    assertData(String.format("%016X", byteCount));
+    assertData(payload.readByteArray(byteCount));
+
+    sink.close();
+    assertData("8000");
   }
 
   @Test public void clientBinary() throws IOException {

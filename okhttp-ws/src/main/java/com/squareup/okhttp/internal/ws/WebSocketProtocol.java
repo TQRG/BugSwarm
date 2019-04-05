@@ -71,11 +71,13 @@ public final class WebSocketProtocol {
    * Maximum length of frame payload. Larger payloads, if supported, can use the special values
    * {@link #PAYLOAD_SHORT} or {@link #PAYLOAD_LONG}.
    */
-  static final int PAYLOAD_MAX = 125;
+  static final long PAYLOAD_MAX = 125L;
   /**
    * Value for {@link #B1_MASK_LENGTH} which indicates the next two bytes are the unsigned length.
    */
   static final int PAYLOAD_SHORT = 126;
+  /** Maximum length of a frame payload to be denoted as {@link #PAYLOAD_SHORT}. */
+  static final long PAYLOAD_SHORT_MAX = 0xffffL;
   /**
    * Value for {@link #B1_MASK_LENGTH} which indicates the next eight bytes are the unsigned
    * length.
