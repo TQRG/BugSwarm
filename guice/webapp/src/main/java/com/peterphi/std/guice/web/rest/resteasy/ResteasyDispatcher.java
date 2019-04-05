@@ -125,6 +125,8 @@ public class ResteasyDispatcher extends HttpServlet implements Filter
 			return _isAzureAppService.booleanValue();
 
 		_isAzureAppService = (SystemUtils.IS_OS_WINDOWS && System.getenv("WEBSITE_SITE_NAME") != null);
+
+		return _isAzureAppService.booleanValue();
 	}
 
 
