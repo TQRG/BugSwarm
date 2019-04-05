@@ -38,8 +38,8 @@ public final class ResponseBodyTest {
   }
 
   @Test public void stringLooksLikeBomButTooShort() throws IOException {
-    ResponseBody body = body("ef48");
-    assertEquals("\ufffdH", body.string());
+    ResponseBody body = body("000048");
+    assertEquals("\0\0H", body.string());
   }
 
   @Test public void stringDefaultsToUtf8() throws IOException {
@@ -113,8 +113,8 @@ public final class ResponseBodyTest {
   }
 
   @Test public void readerLooksLikeBomButTooShort() throws IOException {
-    ResponseBody body = body("ef48");
-    assertEquals("\ufffdH", exhaust(body.charStream()));
+    ResponseBody body = body("000048");
+    assertEquals("\0\0H", exhaust(body.charStream()));
   }
 
   @Test public void readerDefaultsToUtf8() throws IOException {
