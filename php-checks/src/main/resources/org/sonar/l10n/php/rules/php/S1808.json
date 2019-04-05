@@ -1,0 +1,15 @@
+{
+  "title": "Source code should comply with formatting standards",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "1min"
+  },
+  "tags": [
+    "psr2",
+    "style"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-1808"
+}

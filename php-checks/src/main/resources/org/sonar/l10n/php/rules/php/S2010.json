@@ -1,0 +1,14 @@
+{
+  "title": "\"&&\" and \"||\" should be used",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "suspicious"
+  ],
+  "defaultSeverity": "Minor",
+  "ruleSpecification": "RSPEC-2010"
+}
