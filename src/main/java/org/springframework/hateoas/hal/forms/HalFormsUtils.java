@@ -22,12 +22,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.hateoas.Affordance;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -63,7 +67,7 @@ final class HalFormsUtils {
 		return HalFormsDocument.halFormsDocument()
 			.content(resources.getContent())
 			.links(resources.getLinks())
-			.templates(new ArrayList<Template>())
+			.templates(new HashMap<String, Template>())
 			.build();
 	}
 
@@ -75,10 +79,27 @@ final class HalFormsUtils {
 	 */
 	private static HalFormsDocument toHalFormsDocument(Resource<?> resource) {
 
+		Map<String, Template> templates = new HashMap<String, Template>();
+
+		for (Affordance affordance : resource.getLink(Link.REL_SELF).getAffordances()) {
+			Template template = new Template();
+			template.setHttpMethod(HttpMethod.valueOf(affordance.getVerb()));
+
+			List<Property> properties = new ArrayList<Property>();
+
+			for (Map.Entry<String, Class<?>> entry : affordance.getProperties().entrySet()) {
+				properties.add(new Property(entry.getKey(), null, null, null, null, false, affordance.isRequired(), false));
+			}
+
+			template.setProperties(properties);
+
+			templates.put(affordance.getVerb(), template);
+		}
+
 		return HalFormsDocument.halFormsDocument()
 			.content(resource.getContent())
 			.links(resource.getLinks())
-			.templates(new ArrayList<Template>())
+			.templates(templates)
 			.build();
 	}
 
@@ -112,7 +133,7 @@ final class HalFormsUtils {
 		return HalFormsDocument.halFormsDocument()
 			.content(content)
 			.links(rs.getLinks())
-			.templates(new ArrayList<Template>())
+			.templates(new HashMap<String, Template>())
 			.build();
 	}
 

@@ -90,10 +90,11 @@ public class HalFormsMessageConverterTest {
 		assertThat(halFormsDocument.getLinks().get(1).getHref(), is("/employees/1"));
 
 		assertThat(halFormsDocument.getTemplates().size(), is(1));
-		assertThat(halFormsDocument.getTemplates().get(0).getContentType(), is("application/hal+json"));
-		assertThat(halFormsDocument.getTemplates().get(0).getKey(), is(Template.DEFAULT_KEY));
-		assertThat(halFormsDocument.getTemplates().get(0).getHttpMethod(), is(HttpMethod.GET));
-		assertThat(halFormsDocument.getTemplates().get(0).getMethod(), is(HttpMethod.GET.toString().toLowerCase()));
+		assertThat(halFormsDocument.getTemplates().keySet(), hasItems("default"));
+		assertThat(halFormsDocument.getTemplates().get("default").getContentType(), is("application/hal+json"));
+		assertThat(halFormsDocument.getTemplates().get("default").getKey(), is(Template.DEFAULT_KEY));
+		assertThat(halFormsDocument.getTemplates().get("default").getHttpMethod(), is(HttpMethod.GET));
+		assertThat(halFormsDocument.getTemplates().get("default").getMethod(), is(HttpMethod.GET.toString().toLowerCase()));
 	}
 
 	@Test
@@ -107,10 +108,10 @@ public class HalFormsMessageConverterTest {
 		template.setTitle("HAL-Forms unit test");
 		template.getProperties().add(property);
 
-		HalFormsDocument halFormsDocument = halFormsDocument()
+		HalFormsDocument expected = halFormsDocument()
 			.link(new Link("/employees").withRel("collection"))
 			.link(new Link("/employees/1").withSelfRel())
-			.template(template)
+			.template("foo", template)
 			.build();
 
 
@@ -128,11 +129,15 @@ public class HalFormsMessageConverterTest {
 			}
 		};
 
-		this.messageConverter.write(halFormsDocument, MediaTypes.HAL_FORMS_JSON, convertedMessage);
+		this.messageConverter.write(expected, MediaTypes.HAL_FORMS_JSON, convertedMessage);
 
-		HalFormsDocument copy = this.mapper.readValue(stream.toString(), HalFormsDocument.class);
+		String json = stream.toString();
 
-		assertThat(copy, is(halFormsDocument));
+		System.out.println(json);
+		
+		HalFormsDocument actual = this.mapper.readValue(json, HalFormsDocument.class);
+
+		assertThat(actual, is(expected));
 	}
 
 }
