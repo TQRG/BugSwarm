@@ -1,0 +1,27 @@
+language: python
+sudo: false
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6-dev"
+# command to run tests, e.g. python setup.py test
+install: 
+  - pip install virtualenv
+script: 
+  - make env
+  - .env/bin/pip install lxml
+  - .env/bin/py.test tests -k 'xunit and session and errors'
+after_success:
+  - .env/bin/coveralls
+after_failure:
+  - .env/bin/pip freeze
+deploy:
+  provider: pypi
+  user: vmalloc
+  password:
+    secure: EBE30QsQvwodsakJRtXvmeah0KRQoMpHQSfSACjE0FviWU6eHhgE7nSzxrTSwetmLaB/+hexkys8ULsE4Dxwgvd8aXJ5T6+GnhFkWLgaTl8Q39g/cnLqnVj+OCS95XlyFcWyBLsdyPY+tAc34YpYRfjuWgXup5UNc7Ze2KQ7wqk=
+  on:
+    tags: true
+    repo: getslash/slash
