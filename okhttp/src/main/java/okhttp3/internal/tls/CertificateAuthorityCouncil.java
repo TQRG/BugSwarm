@@ -27,7 +27,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.X509TrustManager;
 import javax.security.auth.x500.X500Principal;
 
 /**
@@ -40,15 +39,15 @@ import javax.security.auth.x500.X500Principal;
 public final class CertificateAuthorityCouncil {
   private final Map<X500Principal, List<X509Certificate>> subjectToCaCerts = new LinkedHashMap<>();
 
-  public CertificateAuthorityCouncil(X509TrustManager trustManager) {
-    for (X509Certificate caCert : trustManager.getAcceptedIssuers()) {
+  public CertificateAuthorityCouncil(X509Certificate... caCerts) {
+    for (X509Certificate caCert : caCerts) {
       X500Principal subject = caCert.getSubjectX500Principal();
-      List<X509Certificate> caCerts = subjectToCaCerts.get(subject);
-      if (caCerts == null) {
-        caCerts = new ArrayList<>(1);
-        subjectToCaCerts.put(subject, caCerts);
+      List<X509Certificate> subjectCaCerts = subjectToCaCerts.get(subject);
+      if (subjectCaCerts == null) {
+        subjectCaCerts = new ArrayList<>(1);
+        subjectToCaCerts.put(subject, subjectCaCerts);
       }
-      caCerts.add(caCert);
+      subjectCaCerts.add(caCert);
     }
   }
 
@@ -75,10 +74,14 @@ public final class CertificateAuthorityCouncil {
     while (true) {
       X509Certificate toVerify = (X509Certificate) result.get(result.size() - 1);
 
-      // If this cert has been signed by a trusted CA cert, we're done.
+      // If this cert has been signed by a trusted CA cert, we're done. Add the trusted CA
+      // certificate to the end of the chain, unless it's already present. (That would happen if the
+      // first certificate in the chain is itself a self-signed and trusted CA certificate.)
       X509Certificate caCert = findByIssuerAndSignature(toVerify);
       if (caCert != null) {
-        result.add(caCert);
+        if (result.size() > 1 || !toVerify.equals(caCert)) {
+          result.add(caCert);
+        }
         return result;
       }
 
@@ -100,10 +103,10 @@ public final class CertificateAuthorityCouncil {
   /** Returns the trusted CA certificate that signed {@code cert}. */
   private X509Certificate findByIssuerAndSignature(X509Certificate cert) {
     X500Principal issuer = cert.getIssuerX500Principal();
-    List<X509Certificate> caCerts = subjectToCaCerts.get(issuer);
-    if (caCerts == null) return null;
+    List<X509Certificate> subjectCaCerts = subjectToCaCerts.get(issuer);
+    if (subjectCaCerts == null) return null;
 
-    for (X509Certificate caCert : caCerts) {
+    for (X509Certificate caCert : subjectCaCerts) {
       PublicKey publicKey = caCert.getPublicKey();
       try {
         cert.verify(publicKey);
