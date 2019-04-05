@@ -149,7 +149,7 @@ def test_logs_deletion(suite, suite_test, errors_log_path, logs_dir, config_over
     summary = suite.run()
 
     remaining_files = []
-    for dirname, _, files in os.walk(logs_dir):
+    for dirname, _, files in os.walk(str(logs_dir)):
         for filename in files:
             f = os.path.join(dirname, filename)
             if os.path.isfile(f) and not os.path.islink(f):
