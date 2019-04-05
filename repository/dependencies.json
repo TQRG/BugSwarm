@@ -536,7 +536,7 @@
 			]
 		},
 		{
-            "name": "PortalockerFiles",
+			"name": "PortalockerFiles",
 			"author": "evandroforks",
 			"load_order": "08",
 			"description": "An extended version of PortalockerFiles to lock files in Python using the with statement",
