@@ -38,7 +38,9 @@ class ProjectFilter(FilterSet):
     caretaker_user = ModelChoiceFilter(
         queryset=User.objects.filter(
             ~Q(username__startswith='grp_')).order_by('username'))
-    project_manager_user = caretaker_user
+    project_manager_user = ModelChoiceFilter(
+        queryset=User.objects.filter(
+            ~Q(username__startswith='grp_')).order_by('username'))
     description = CharFilter(lookup_expr='icontains')
 
     @property
