@@ -21,7 +21,7 @@ import com.squareup.javawriter.TypeName;
 import com.squareup.javawriter.TypeNames;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.lang.model.element.Modifier;
 
@@ -42,7 +42,7 @@ public final class ParameterSpec {
   }
 
   void emit(CodeWriter codeWriter) {
-    codeWriter.emitAnnotations(annotations);
+    codeWriter.emitAnnotations(annotations, true);
     codeWriter.emitModifiers(modifiers);
     codeWriter.emit("$T $L", type, name);
   }
@@ -64,7 +64,7 @@ public final class ParameterSpec {
     }
 
     public Builder addModifiers(Modifier... modifiers) {
-      this.modifiers.addAll(Arrays.asList(modifiers));
+      Collections.addAll(this.modifiers, modifiers);
       return this;
     }
 
