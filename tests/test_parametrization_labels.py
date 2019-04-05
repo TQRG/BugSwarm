@@ -1,4 +1,4 @@
-import itertools
+from slash._compat import izip_longest
 
 
 def test_parametrization_labels(suite, suite_test):
@@ -13,7 +13,7 @@ def test_parametrization_labels(suite, suite_test):
 
     res = suite.run()
 
-    for label, value, result in itertools.zip_longest(
+    for label, value, result in izip_longest(
             param.labels, param.values, res.get_all_results_for_test(suite_test)):
         assert label
         assert value
