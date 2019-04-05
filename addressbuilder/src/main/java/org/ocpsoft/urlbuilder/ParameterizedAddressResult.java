@@ -15,11 +15,12 @@
  */
 package org.ocpsoft.urlbuilder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.ocpsoft.urlbuilder.util.CaptureType;
 import org.ocpsoft.urlbuilder.util.CapturingGroup;
-import org.ocpsoft.urlbuilder.util.Encoder;
 import org.ocpsoft.urlbuilder.util.ParseTools;
 
 /**
@@ -38,6 +39,7 @@ class ParameterizedAddressResult implements Address
    private final String query;
    private final String anchor;
    private CharSequence result;
+   private Map<String, List<Object>> queries = Collections.emptyMap();
 
    public ParameterizedAddressResult(AddressBuilder parent)
    {
@@ -47,7 +49,7 @@ class ParameterizedAddressResult implements Address
          protocol = null;
 
       if (isSet(parent.schemeSpecificPart))
-         schemeSpecificPart = parameterize(parent.parameters, parent.schemeSpecificPart, false).toString();
+         schemeSpecificPart = parameterize(parent.parameters, parent.schemeSpecificPart).toString();
       else
          schemeSpecificPart = null;
 
@@ -72,7 +74,10 @@ class ParameterizedAddressResult implements Address
          path = null;
 
       if (isSet(parent.queries))
+      {
+         this.queries = Collections.unmodifiableMap(parent.getQueries());
          query = toQuery(parent.queries).toString();
+      }
       else
          query = null;
 
@@ -99,7 +104,7 @@ class ParameterizedAddressResult implements Address
          if (parameter.getValueCount() > 0)
          {
             for (int i = 0; i < parameter.getValueCount(); i++) {
-               String value = parameter.getValueAsQueryParam(i);
+               String value = parameter.getValue(i);
 
                if (value != null)
                   result.append('=').append(value);
@@ -119,33 +124,7 @@ class ParameterizedAddressResult implements Address
    {
       if (this.result == null)
       {
-         StringBuilder result = new StringBuilder();
-
-         if (isSchemeSet())
-            result.append(getScheme()).append(":");
-
-         if (isSchemeSpecificPartSet())
-         {
-            result.append(getSchemeSpecificPart());
-         }
-         else
-         {
-            if (isDomainSet())
-               result.append("//").append(getDomain());
-
-            if (isPortSet())
-               result.append(":").append(getPort());
-
-            if (isPathSet())
-               result.append(getPath());
-
-            if (isQuerySet())
-               result.append('?').append(getQuery());
-
-            if (isAnchorSet())
-               result.append('#').append(getAnchor());
-         }
-
+         StringBuilder result = AddressBuilder.toString(this);
          this.result = result;
       }
 
@@ -153,12 +132,6 @@ class ParameterizedAddressResult implements Address
    }
 
    private CharSequence parameterize(Map<CharSequence, Parameter> parameters, CharSequence sequence)
-   {
-      return parameterize(parameters, sequence, true);
-   }
-
-   private CharSequence parameterize(Map<CharSequence, Parameter> parameters, CharSequence sequence,
-            boolean encodeSequence)
    {
       StringBuilder result = new StringBuilder();
       int cursor = 0;
@@ -168,11 +141,7 @@ class ParameterizedAddressResult implements Address
          switch (sequence.charAt(cursor))
          {
          case '{':
-            CharSequence subSequence = sequence.subSequence(lastEnd, cursor);
-            if (encodeSequence)
-               subSequence = Encoder.path(subSequence);
-
-            result.append(subSequence);
+            result.append(sequence.subSequence(lastEnd, cursor));
 
             int startPos = cursor;
             CapturingGroup group = ParseTools.balancedCapture(sequence, startPos, sequence.length() - 1,
@@ -187,7 +156,7 @@ class ParameterizedAddressResult implements Address
                throw new IllegalStateException("No parameter [" + name + "] was set in the pattern [" + sequence
                         + "]. Call address.set(\"" + name + "\", value); or remove the parameter from the pattern.");
 
-            result.append(parameter.getValueAsPathParam(0));
+            result.append(parameter.getValue(0));
 
             break;
 
@@ -200,11 +169,7 @@ class ParameterizedAddressResult implements Address
 
       if (cursor >= lastEnd)
       {
-         CharSequence subSequence = sequence.subSequence(lastEnd, cursor);
-         if (encodeSequence)
-            subSequence = Encoder.path(subSequence);
-
-         result.append(subSequence);
+         result.append(sequence.subSequence(lastEnd, cursor));
       }
       return result;
    }
@@ -320,6 +285,12 @@ class ParameterizedAddressResult implements Address
    public String getQuery()
    {
       return query;
+   }
+
+   @Override
+   public Map<String, List<Object>> getQueryParameters()
+   {
+      return queries;
    }
 
    @Override
