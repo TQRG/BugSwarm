@@ -1,0 +1,851 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% load waffle_tags %}
+{% load emoji_tags %}
+{% load static %}
+{% load dmttags %}
+
+{% block title %}Item #{{object.iid}}&ndash;{{object.title}}{% endblock %}
+
+{% block primarynavtabs %}
+{% endblock %}
+
+{% block primarynavtabsright %}
+{% endblock %}
+
+
+{% block content %}
+
+<p class="project-breadcrumb">
+  <a href="{{object.milestone.project.get_absolute_url }}" class="project breadcrumb-item" title="View this project">{{object.milestone.project.name}}</a>
+  &nbsp;|&nbsp;
+  <a href="{{object.milestone.get_absolute_url }}" class="milestone breadcrumb-item" title="View this milestone">{{object.milestone.name}}</a>
+</p>
+
+
+<h1 class="page-title no-margin no-padding">
+    Item #{{object.iid}} &#8226; {% if object.is_bug %}BUG:{% endif %} {{object.title|emoji_replace}}
+</h1>
+
+
+<p class="item-status">
+  <span class="item-last-modified">Last modified on {{object.last_mod}}</span><br />
+  <b>Status:</b> <span class="{{object.status_class}}">{{ object.status }} {{object.r_status|default:""}}</span>
+</p>
+
+
+<div class="item-box clearfix">
+
+  <div class="item-action-set clearfix">
+    <ul>
+      <li class="item-action" title="Edit item">
+        <a href="edit/" class="item-action-link"><span class="glyphicon glyphicon-pencil"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Edit item</span></a>
+      </li>
+      <li class="item-action" title="Write comment">
+        <a href="#" class="item-action-link" data-toggle="modal"
+        data-target="#add-comment"><span class="glyphicon glyphicon-comment"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Write comment</span></a>
+      </li>
+      {% flag s3_upload %}
+      <li class="item-action" title="Add attachment">
+        <a href="#" class="item-action-link" data-toggle="modal"
+        data-target="#add-attachment">
+        <span class="glyphicon glyphicon-paperclip"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Add attachment</span>
+        </a>
+      </li>
+      {% endflag %}
+      <li class="item-action" title="Log time">
+        <a href="#" class="item-action-link" data-toggle="modal"
+        data-target="#add-hours">
+        <span class="glyphicon glyphicon-time"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Log time</span>
+        </a>
+      </li>
+      <li class="item-action" title="Split item">
+        <a href="#" class="item-action-link" data-toggle="modal"
+        data-target="#split"><span class="glyphicon glyphicon-tasks"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Split item</span></a>
+      </li>
+      <li class="item-action" title="Move to another project">
+        <a href="{% url 'item-move-project' object.iid %}" class="item-action-link"><span class="glyphicon glyphicon-transfer"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Move to another project</span></a>
+      </li>
+      <li class="item-action" title="Delete item">
+        <a href="{{object.get_absolute_url}}delete/" class="item-action-link"><span class="glyphicon glyphicon-trash"></span>
+        <span class="item-action-text hidden-xs hidden-sm">Delete item</span></a>
+      </li>
+    </ul>
+  </div><!-- ./item-action-set -->
+
+  <div class="item-details">
+    <div class="item-description">{{object.description|commonmark|linkify|emoji_replace}}</div>
+
+    <dl class="dl-horizontal">
+      <dt>Change status</dt>
+      <dd>
+        <div class="btn-group">
+        {% if object.resolvable %}
+        <a class="btn btn-primary btn-xs btn-resolved" href="#" data-toggle="modal"
+        data-target="#resolve"><span class="glyphicon
+        glyphicon-ok"></span> Resolve</a>
+        {% endif %}
+
+        {% if object.inprogressable %}
+        <a class="btn btn-default btn-xs btn-inprogress" href="#" data-toggle="modal"
+        data-target="#mark-in-progress"><span class="glyphicon
+        glyphicon-record"></span> Mark as in-progress</a>
+        {% endif %}
+
+        {% if object.verifiable %}
+        <a class="btn btn-success btn-xs btn-verify" href="#" data-toggle="modal"
+        data-target="#verify"><span class="glyphicon
+        glyphicon-ok"></span> Verify</a>
+        {% endif %}
+
+        {% if object.reopenable %}
+        <a class="btn btn-danger btn-xs" href="#" data-toggle="modal"
+        data-target="#reopen"><span class="glyphicon
+        glyphicon-repeat"></span> Reopen</a>
+        {% endif %}
+        </div>
+      </dd>
+
+      {% if object.created_by %}
+      <dt>Created By</dt>
+      <dd>
+          <a href="{{object.created_by.userprofile.get_absolute_url}}">
+              {{object.created_by.userprofile}}
+          </a>
+      </dd>
+      {% endif %}
+
+      <dt>Owner</dt>
+      <dd>
+        <a href="{{object.owner_user.userprofile.get_absolute_url}}">{{object.owner_user.userprofile}}</a>
+        &nbsp;
+        <a class="btn btn-default btn-xs" href="#" data-toggle="modal"
+        data-target="#change-owner" title="change-owner"><span class="glyphicon glyphicon-pencil"></span></a>
+      </dd>
+
+      <dt>Assigned to</dt>
+      <dd>
+        <a href="{{object.assigned_user.userprofile.get_absolute_url}}">{{object.assigned_user.userprofile}}</a>
+        &nbsp;
+        <a class="btn btn-default btn-xs" href="#" data-toggle="modal"
+        data-target="#reassign" title="reassign item"><span class="glyphicon glyphicon-pencil"></span></a>
+      </dd>
+
+      <dt>Priority</dt>
+      <dd>
+        <span class="pr{{object.priority}}">{{object.priority_label}}</span>
+        &nbsp;
+        <div class="dropdown item-priority-edit">
+          <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-pencil"></span></a>
+          <ul class="dropdown-menu">
+            <li><p class="navbar-text">Change to...</p></li>
+            {% if object.priority == 0 %}{% else %}<li><a href="priority/0/" class="pr0">ICING</a></li>{% endif %}
+            {% if object.priority == 1 %}{% else %}<li><a href="priority/1/" class="pr1">LOW</a></li>{% endif %}
+            {% if object.priority == 2 %}{% else %}<li><a href="priority/2/" class="pr2">MEDIUM</a></li>{% endif %}
+            {% if object.priority == 3 %}{% else %}<li><a href="priority/3/" class="pr3">HIGH</a></li>{% endif %}
+            {% if object.priority == 4 %}{% else %}<li><a href="priority/4/" class="pr4">CRITICAL</a></li>{% endif %}
+          </ul>
+        </div>
+      </dd>
+
+      <dt>Target date</dt>
+      <dd>
+          {{object.target_date}}
+          {% if has_reminder %}
+          <span class="glyphicon glyphicon-bell"
+                aria-hidden="true"
+                title="You'll be reminded {{reminder_time}} before the due date"></span>
+          {% endif %}
+      </dd>
+
+      {% if object.estimated_time %}
+      <dt>Estimated time</dt>
+      <dd>{{object.estimated_time|simpleduration}}</dd>
+      {% endif %}
+
+      {% if object.actualtime_set.count %}
+          <dt>Time logged</dt>
+          <dd>
+              <div>Total: {{workedon_total|simpleduration}}</div>
+      {% for at in times %}
+      <ul class="time-logged">
+          <li>
+              {{at.actual_time|simpleduration}}
+              <a href="{{at.user.userprofile.get_absolute_url}}"
+              >
+                  {{ at.user.userprofile.get_fullname }}
+              </a>
+              {{at.completed}}
+              {% if at.user == request.user %}
+                  <a href="{% url 'delete_time' at.uuid %}"
+                     title="Delete time" class="remove-link">
+                      <span class="glyphicon glyphicon-remove"
+                            aria-hidden="true"></span>
+                  </a>
+              {% endif %}
+          </li>
+      </ul>
+      {% endfor %}
+
+      </dd>
+      {% endif %}
+
+      {% if object.url %}
+      <dt>Link</dt>
+      <dd><a href="{{object.url}}" target="_blank">{{object.url|truncatechars:40}}</a></dd>
+      {% endif %}
+
+      {% if clients %}
+      <dt>Clients</dt>
+      {% for client in clients %}
+      <dd>
+      <a href="{% url 'client_detail' client.client_id %}">
+      {{client.firstname}} {{client.lastname}}
+      </a>
+      </dd>
+      {% endfor %}
+      {% endif %}
+
+      <dt>Tags</dt>
+      <dd>
+          {% if object.tags %}
+              {% for tag in object.tags.all %}
+                  <span class="tag">
+                      <a href="/tag/{{tag.slug}}/"><span>{{tag}}</span></a>
+                      <a href="remove_tag/{{tag.slug}}/" class="remove-link">x</a>
+                  </span>
+              {% endfor %}
+          {% endif %}
+          <form action="tag/" method="post">{% csrf_token %}
+              <div class="input-group input-group-sm tag-form">
+                  <input class="form-control" type="text" placeholder="Add tags (comma or space separated)" name="tags" />
+                  <span class="input-group-btn"><input type="submit" value="Tag" class="btn btn-primary" /></span>
+              </div>
+          </form>
+      </dd>
+
+      {% flag notification_ui %}
+      <span id="item-id" style="display: none;">{{object.iid}}</span>
+
+      <div id="item-container"></div>
+
+      <dt>Subscribers</dt>
+      <dd>
+          <div class="input-group" id="item-notification-container">
+              <label
+                  {% if assigned_to_current_user and notifications_enabled_for_current_user %}
+                  class="disabled"
+                  {% endif %}
+
+                  for="input_notification">
+                  <input
+                      {% if assigned_to_current_user and notifications_enabled_for_current_user %}
+                      disabled="disabled"
+                      checked="checked"
+                      {% elif notifications_enabled_for_current_user %}
+                      checked="checked"
+                      {% endif %}
+
+                      class="form-control"
+                      type="checkbox"
+                      name="input_notification"
+                      id="input_notification" />
+                  &nbsp; Subscribe to this item?
+              </label>
+          </div>
+      </dd>
+      <dd>
+          <ul>
+              {% for user in notified_users %}
+                  <li>
+                      <a href="{% url 'user_detail' user.userprofile.username %}">
+                          {{ user.userprofile.get_fullname }}
+                      </a>
+                  </li>
+              {% endfor %}
+          </ul>
+      </dd>
+
+      {% if potential_subscribers %}
+          <dt>Add Subscriber</dt>
+          <dd>
+              <form method="post"
+                    action="{% url 'add_subscriber' object.pk %}"
+                    class="form-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="item" value="{{object.pk}}" />
+                  <div class="form-group">
+                      <select name="subscriber" class="form-control" required="required">
+                          <option value>---------</option>
+                          {% for user in potential_subscribers %}
+                              <option value="{{user.username}}">
+                                  {{ user.userprofile.get_fullname }}
+                              </option>
+                          {% endfor %}
+                      </select>
+                      <button type="submit"
+                              class="btn btn-primary">Add</button>
+                  </div>
+              </form>
+          </dd>
+      {% endif %}
+
+      <script type="text/template" id="item-template">
+      </script>
+      {% endflag %}
+    </dl>
+
+  </div><!-- /.item-details -->
+
+</div><!-- /.item-box -->
+
+
+
+
+
+<div class="modal fade" id="add-hours" tabindex="-1" role="dialog" aria-labelledby="add-time-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="add-time-label">Log Time</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add-time-form" role="form">
+                    <input type="hidden" name="iid" value="{{object.iid}}" id="item-iid-input" />
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="text" name="time"
+                              placeholder="Time" id="tracker-time-input"
+                              class="form-control" />
+                        </div>
+                        {% include 'main/simpleduration_help.html' %}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" form="add-time-form"
+                        class="btn btn-primary" id="add-time-button">Add</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% if object.resolvable %}
+<form action="resolve/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="resolve" tabindex="-1" role="dialog" aria-labelledby="resolve-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="resolve-label">Resolve Item</h4>
+      </div>
+      <div class="modal-body">
+                <div class="form-group">
+                    <label for="resolve-status">Resolve Status</label>
+                    <select class="form-control" id="resolve-status" name="r_status">
+                        <option value="FIXED">FIXED</option>
+                        <option value="INVALID">INVALID</option>
+                        <option value="WORKSFORME">WORKSFORME</option>
+                        <option value="WONTFIX">WONTFIX</option>
+                        <option value="DUPLICATE">DUPLICATE</option>
+                        <option value="NEEDINFO">NEEDINFO</option>
+                    </select>
+                </div>
+
+                {% with modalname='resolve' %}
+                {% include 'main/item_detail_textarea_preview.html' %}
+                {% endwith %}
+
+                <div class="form-group">
+                    <label for="resolve-time-input">Time</label>
+                    <input type="text" name="time" placeholder="time"
+                                 id="resolve-time-input"
+                                 class="form-control" />
+                </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Resolve" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endif %}
+
+{% if object.inprogressable %}
+<form action="inprogress/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="mark-in-progress" tabindex="-1" role="dialog" aria-labelledby="inprogress-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="inprogress-label">Mark as In Progress</h4>
+      </div>
+      <div class="modal-body">
+          {% with modalname='inprogress' %}
+          {% include 'main/item_detail_textarea_preview.html' %}
+          {% endwith %}
+
+          <div class="form-group">
+              <label for="progress-time-input">Time</label>
+              <input type="text" name="time" placeholder="time"
+              id="progress-time-input"
+              class="form-control" />
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Mark as In Progress" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endif %}
+
+{% if object.verifiable %}
+<form action="verify/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="verify" tabindex="-1" role="dialog" aria-labelledby="verify-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verify-label">Verify</h4>
+      </div>
+      <div class="modal-body">
+          {% with modalname='verify' %}
+          {% include 'main/item_detail_textarea_preview.html' %}
+          {% endwith %}
+
+          <div class="form-group">
+              <label for="verify-time-input">Time</label>
+              <input type="text" name="time" placeholder="time"
+                     id="verify-time-input"
+                     class="form-control" />
+          </div>
+      </div><!-- end .modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Verify" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endif %}
+
+{% if object.reopenable %}
+<form action="reopen/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="reopen" tabindex="-1" role="dialog" aria-labelledby="reopen-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="reopen-label">Reopen</h4>
+      </div>
+      <div class="modal-body">
+          {% with modalname='reopen' %}
+          {% include 'main/item_detail_textarea_preview.html' %}
+          {% endwith %}
+
+          <div class="form-group">
+              <label for="reopen-time-input">Time</label>
+              <input type="text" name="time" placeholder="time"
+              id="reopen-time-input"
+              class="form-control" />
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Reopen" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endif %}
+
+<form action="comment/" method="post" role="form">{% csrf_token %}
+    <div class="modal fade"
+         id="add-comment"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="add-comment-label"
+         aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-comment-label">Write Comment</h4>
+      </div>
+      <div class="modal-body">
+          {% with modalname='addcomment' %}
+          {% include 'main/item_detail_textarea_preview.html' %}
+          {% endwith %}
+
+          <div class="form-group">
+              <label for="comment-time-input">Time</label>
+              <input type="text" name="time" placeholder="time"
+              id="comment-time-input"
+              class="form-control" />
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add Comment" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+
+{% flag s3_upload %}
+<form action="add_attachment/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="add-attachment" tabindex="-1" role="dialog" aria-labelledby="add-attachment-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="add-attachment-label">Add Attachment</h4>
+      </div>
+      <div class="modal-body">
+          <p id="status"><b>Please select a file</b></p>
+          <div class="form-group">
+              <input type="file" id="file" onchange="s3_upload();"/>
+          </div>
+          <input type="hidden" name="s3_url" id="uploaded-url" />
+          <div class="form-group">
+              <label>Title</label>
+              <input type="text" name="title" placeholder="title"
+              class="form-control" />
+          </div>
+
+          {% with modalname='addattachment' inputname='description' %}
+          {% include 'main/item_detail_textarea_preview.html' %}
+          {% endwith %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add
+        Attachment" id="add-attachment-submit" disabled />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endflag %}
+
+<form action="split/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="split" tabindex="-1" role="dialog" aria-labelledby="split-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="split-label">Split Item</h4>
+      </div>
+      <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="title_0" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_1" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_2" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_3" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_4" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_5" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_6" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_7" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_8" class="form-control" placeholder="Sub-item title" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="title_9" class="form-control" placeholder="Sub-item title" />
+                    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Split Item" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+
+
+<form action="assigned_to/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="reassign" tabindex="-1" role="dialog" aria-labelledby="reassign-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="reassign-label">Reassign</h4>
+      </div>
+      <div class="modal-body">
+                <div class="form-group">
+                    <label for="assign-to-select">Assign To</label>
+                    <select name="assigned_to" class="form-control" id="assign-to-select">
+                        {% for user in all_personnel %}
+                        <option value="{{user.username}}"
+                                {% if user.username == item.assigned_user.userprofile.username %}
+                                selected="selected"
+                                {% endif %}
+                        >{% firstof user.fullname user.username %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {% with modalname='reassign' %}
+                {% include 'main/item_detail_textarea_preview.html' %}
+                {% endwith %}
+
+                <div class="form-group">
+                    <label for="reassign-time-input">Time</label>
+                    <input type="text" name="time" placeholder="time"
+                                 id="reassign-time-input"
+                                 class="form-control" />
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Reassign" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+
+<form action="owner/" method="post" role="form">{% csrf_token %}
+<div class="modal fade" id="change-owner" tabindex="-1" role="dialog" aria-labelledby="reassign-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="reassign-label">Change Owner</h4>
+      </div>
+      <div class="modal-body">
+                <div class="form-group">
+                    <label for="assign-to-select">Owner</label>
+                    <select name="owner" class="form-control" id="assign-to-select">
+                        {% for user in all_personnel %}
+                        <option value="{{user.username}}"
+                                {% if user.username == item.owner_user.userprofile.username %}
+                                selected="selected"
+                                {% endif %}>{% firstof user.fullname user.username %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {% with modalname='changeowner' %}
+                {% include 'main/item_detail_textarea_preview.html' %}
+                {% endwith %}
+
+                <div class="form-group">
+                    <label for="owner-time-input">Time</label>
+                    <input type="text" name="time" placeholder="time"
+                                 id="owner-time-input"
+                                 class="form-control" />
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Change Owner" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+
+
+
+
+{% if item.attachment_set.all.count %}
+<h4 class="attachment-header">Attachments</h4>
+
+{% for attachment in item.attachment_set.all %}
+<div class="row">
+    <div class="col-sm-2" class="attachment-thumbnail">
+    {% if attachment.image %}
+        {% if attachment.url %}
+        <a href="{{attachment.url}}" title="Download this attachment"><img src="{{attachment.url}}" class="attachment-image" /></a>
+        {% else %}
+        <a href="{{attachment.src}}" title="Download this attachment"><img src="{{attachment.src}}" class="attachment-image" /></a>
+        {% endif %}
+    {% else %}
+        <a href="{{attachment.url}}" title="Download this attachment"><img src="{% static 'img/icon-document.png' %}" class="attachment-document" /></a>
+    {% endif %}
+    </div><!-- attachment thumbnail -->
+    <div class="col-sm-10">
+        <div class="attachment-title">
+        {% if attachment.url %}
+        <h4><a href="{{attachment.url}}" title="Download this attachment">{{attachment.title|default:attachment.filename}}</a></h4>
+        {% else %}
+        <h4><a href="{{attachment.src}}" title="Download this attachment">{{attachment.title|default:attachment.filename}}</a></h4>
+        {% endif %}
+
+
+        </div>
+
+        <div class="attachment-byline text-muted">
+            Uploaded by <a href="{% url 'user_detail' attachment.user.userprofile.username %}">
+            {{ attachment.user.userprofile.get_fullname }}
+            </a>
+        on {{attachment.last_mod}}
+        </div>
+        <div class="attachment-description">
+            {{attachment.description|commonmark|linkify|emoji_replace}}
+        </div>
+        <ul class="attachment-action-set clearfix">
+            <li class="attachment-action">
+                <a href="{% url 'delete_attachment' attachment.id %}"
+                   class="btn btn-default btn-sm"
+                   title="delete attachment"
+                   ><span class="glyphicon glyphicon-trash"></span>
+                    <span class="attachment-action-text">Delete</span></a>
+            </li>
+        </ul>
+    </div><!-- attachment details -->
+</div><!-- /.row -->
+
+<hr />
+
+{% endfor %}
+{% endif %}
+
+
+<h4 class="history-header">History</h4>
+
+<div class="item-history">
+    {% for history_item in object.history %}
+    <hr />
+    <span class="pmt-anchor" id="event-{{forloop.counter}}"></span>
+    <div class="row">
+        <div class="col-md-2 {{history_item.status_class}}">
+            {{history_item.status}}
+        </div>
+        <div class="col-md-3 item-history-date">
+            by <a href="{{history_item.user.get_absolute_url}}">
+            {% firstof history_item.user.fullname history_item.user.username %}
+
+            </a>
+            <br />
+            <div class="pmt-item-timestamp">
+                on
+                <a href="#event-{{forloop.counter}}">
+                    <time title="{{history_item.timestamp}}">
+                        {{history_item.timestamp}}
+                    </time>
+                </a>
+            </div>
+            {% if history_item.c and history_item.c.has_been_edited %}
+            <div class="pmt-item-timestamp-updated">
+                Updated
+                <time title="{{history_item.c.updated_at}}">
+                    {{history_item.c.updated_at}}
+                </time>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-7 item-comment">
+
+            {# Does this history item belong to the current user? #}
+            {% if request.user.userprofile.username == history_item.user.username %}
+            {# Is it a comment? #}
+            {% if history_item.c %}
+
+            <div class="btn-group pull-right" role="group">
+                <a class="btn btn-default btn-xs"
+                   title="Edit comment"
+                   href="{% url 'comment_update' history_item.c.cid %}"
+                   ><span class="glyphicon glyphicon-pencil"></span></a>
+
+                <a class="btn btn-default btn-xs"
+                    title="Delete comment"
+                    href="{% url 'comment_delete' history_item.c.cid %}"
+                    ><span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </div>
+            {% endif %}
+            {% endif %}
+
+            {{history_item.comment|commonmark|linkify|emoji_replace}}
+        </div>
+    </div>
+    {% endfor %}
+<br />
+<a href="#" class="btn btn-sm btn-default pull-right" data-toggle="modal"
+    data-target="#add-comment"><span class="glyphicon glyphicon-comment"></span> <span class="item-action-text hidden-xs hidden-sm">Write comment</span></a>
+</div>
+{% endblock %}
+
+
+{% block js %}
+{% flag s3_upload %}
+<script src="{{STATIC_URL}}s3sign/js/s3upload.js"></script>
+
+<script>
+function s3_upload() {
+    var s3upload = new S3Upload({
+        file_dom_selector: 'file',
+        s3_sign_put_url: '/sign_s3/',
+        s3_object_name: $('#file')[0].value,
+
+        onProgress: function(percent, message) {
+            $('#status').html('Upload progress: ' + percent + '%' + message);
+        },
+        onFinishS3Put: function(url) {
+            if (/(jpg|gif|png)$/.test(url)) {
+                $('#status').html(
+                    '<img src="' +
+                    url +
+                    '" style="max-width:100%; max-height:200px;" />');
+            }
+            $('#uploaded-url').val(url);
+            $('#add-attachment-submit').removeAttr("disabled");
+        },
+        onError: function(status) {
+            $('#status').html('Upload error: ' + status);
+        }
+    });
+}
+</script>
+
+{% endflag %}
+{% endblock %}

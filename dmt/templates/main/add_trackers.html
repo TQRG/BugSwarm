@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block title %}Add Trackers{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Add Trackers</h1>
+
+<p class="instructions">
+    <a href="http://wiki.ccnmtl.columbia.edu/index.php/PMT_Help_and_Tutorial#Trackers"
+       target="_blank">
+        <span class="glyphicon glyphicon-question-sign"></span> Need help?
+    </a>
+</p>
+<br />
+
+<form method="post" id="add-trackers-form" action="">{% csrf_token %}
+    {{ formset.management_form }}
+    <table class="table table-condensed">
+        <thead>
+            <th>Project</th>
+            <th>Task</th>
+            <th>Time</th>
+            <th>Client UNI</th>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+            <tr>
+                {% for field in form %}
+                <td class="field-{{ field.name }}">
+                    {% bootstrap_field field layout='inline' %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Add Trackers</button>
+</form>
+{% endblock %}

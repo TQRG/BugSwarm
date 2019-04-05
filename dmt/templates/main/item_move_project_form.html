@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Move item to another project{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title clearfix">Move item to another project</h1>
+
+<br />
+
+<form action="." method="post">{% csrf_token %}
+    <fieldset>
+    <div class="form-group">
+        <label for="resolve-status">Select New Project</label>
+
+        <select name="project" class="form-control">
+            {% for project in request.user.userprofile.personnel_on %}
+            <option value="{{project.pid}}">{{project.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type="submit" value="Move" class="btn btn-primary"/>
+    </fieldset>
+</form>
+
+{% endblock %}
