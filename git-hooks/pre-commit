@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Pre commit hook that prevents FORBIDDEN code from being commited.
+# Add unwanted code to the FORBIDDEN array as necessary
+
+FORBIDDEN=( STOPSHIP )
+
+for i in "${FORBIDDEN[@]}"
+do
+  git diff --cached | grep -i $i && echo 'COMMIT REJECTED Found' $i 'references. Please remove them before commiting.' && exit 1
+done
+
+exit 0
