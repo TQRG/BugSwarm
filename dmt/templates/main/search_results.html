@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% load emoji_tags %}
+{% load dmttags %}
+
+
+{% block title %}Search Results: {{q}}{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">Search results for "{{q}}"</h1>
+
+{% if error %}
+<div class="alert alert-danger">Sorry, I need at least three
+    characters to search for.</div>
+{% endif %}
+
+  <ul class="nav nav-tabs project-tabs homepage-tabs">
+    <li class="active">
+        <a href="#items-match" data-toggle="tab">Items ({% if items %}{{ items.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#projects-match" data-toggle="tab">Projects ({% if projects %}{{ projects.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#defunctprojects-match" data-toggle="tab">Defunct ({% if defunctprojects %}{{ defunctprojects.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#milestones-match" data-toggle="tab">Milestones ({% if milestones %}{{ milestones.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#status-match" data-toggle="tab">Status ({% if status_updates %}{{ status_updates.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#forums-match" data-toggle="tab">Forums ({% if nodes %}{{ nodes.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#tags-match" data-toggle="tab">Tags ({% if tags %}{{ tags.count}}{% else %}0{% endif%})</a>
+    </li>
+    <li>
+        <a href="#users-match" data-toggle="tab">Users ({% if users %}{{ users.count}}{% else %}0{% endif%})</a>
+    </li>
+  </ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="items-match">
+        {% if items %}
+        <h3>Item matches:</h3>
+        
+        <table class="table table-condensed table-striped tablesorter tablesorter-default table-search-results"
+           id="search-items">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th class="hidden-xs">Project</th>
+                    <th class="hidden-xs">Category</th>
+                    <th class="hidden-xs">Assigned To</th>
+                    <th class="hidden-xs">Target Date</th>
+                    <th class="hidden-xs">Estimated time</th>
+                    <th class="hidden-xs">Time logged</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{% if item.is_bug %}<img src="{{STATIC_URL}}img/tinybug.gif"
+  width="14" height="14"/> {% endif %}<a href="{{item.get_absolute_url}}">{{item.title}}</a></td>
+                    <td class="{{item.status_class}}">{{item.status}} {{item.r_status|default:""}}</td>
+                    <td class="hidden-xs"><a href="{{item.milestone.project.get_absolute_url}}">{{item.milestone.project.name}}</a></td>
+                    <td class="hidden-xs">{{item.milestone.project.category}}</td>
+                    <td class="hidden-xs"><a href="{{item.assigned_user.userprofile.get_absolute_url}}"
+                      >{{ item.assigned_user.userprofile.get_fullname }}</a>
+                    </td>
+                    <td class="hidden-xs">{{item.target_date|date:"Y-m-d"}}</td>
+                    <td class="hidden-xs">{% if item.estimated_time %}{{item.estimated_time|simpleduration}}{% endif %}</td>
+                    <td class="hidden-xs">{{item.workedon_total|simpleduration}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There are no results for "{{q}}" in Items.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="projects-match">
+        {% if projects %}
+        <h3>Project matches:</h3>
+        <table class="table table-condensed table-striped tablesorter tablesorter-default table-search-results"
+           id="search-projects">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Launch Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td><a href="{{project.get_absolute_url}}">{{project.name}}</a></td>
+                    <td>{{project.category}}</td>
+                    <td>{{project.status}}</td>
+                    <td>{{project.start_date}}</td>
+                    <td>{{project.due_date}}</td>
+                    <td>{{project.launch_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There are no results for "{{q}}" in Projects.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="defunctprojects-match">
+        {% if defunctprojects %}
+        <h3>Defunct Project matches:</h3>
+        <table class="table table-condensed table-striped tablesorter tablesorter-default table-search-results"
+           id="search-defunctprojects">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Launch Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for defunctproject in defunctprojects %}
+                <tr>
+                    <td><a href="{{defunctproject.get_absolute_url}}">{{defunctproject.name}}</a></td>
+                    <td>{{defunctproject.category}}</td>
+                    <td>{{defunctproject.status}}</td>
+                    <td>{{defunctproject.start_date}}</td>
+                    <td>{{defunctproject.due_date}}</td>
+                    <td>{{defunctproject.launch_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There are no results for "{{q}}" in Defunct Projects.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="milestones-match">
+        {% if milestones %}
+        <h3>Milestone matches:</h3>
+        <table class="table table-condensed table-striped tablesorter tablesorter-default table-search-results"
+           id="search-milestones">
+            <thead>
+                <tr>
+                    <th>Milestone</th>
+                    <th>In Project</th>
+                    <th>Milestone Status</th>
+                    <th>Target Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for milestone in milestones %}
+                <tr>
+                    <td><a href="{{milestone.get_absolute_url}}">{{milestone.name}}</a></td>
+                    <td><a href="{{milestone.project.get_absolute_url}}">{{milestone.project.name}}</a></td>
+                    <td class="{{milestone.status_class}}">{{milestone.status}}</td>
+                    <td>{{milestone.target_date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>There are no results for "{{q}}" in Milestones.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="status-match">
+        {% if status_updates %}
+        <h2>Status Update Matches:</h2>
+        <ul>
+        {% for su in status_updates %}
+        <p><a href="{{su.project.get_absolute_url}}">{{su.project.name}}</a>:
+         {{su.body}}
+         &mdash; <a href="{{su.user.get_absolute_url}}">{% firstof su.user.fullname su.user.username %}</a>
+         ({{su.added.date}})</p>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>There are no results for "{{q}}" in Status Updates.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="forums-match">
+        {% if nodes %}
+        <h2>Forum post matches:</h2>
+        <ul>
+        {% for node in nodes %}
+        <li><a href="{{node.get_absolute_url}}">[{{node.added}}]
+                {{node.subject}}</a> (<a href="{{node.user.userprofile.get_absolute_url}}">{% firstof node.author.fullname node.author.username %}</a>)</li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>There are no results for "{{q}}" in Forums.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="tags-match">
+        {% if tags %}
+        <h2>Tag matches:</h2>
+        <ul>
+        {% for t in tags %}
+        <li><a href="/tag/{{t.slug}}/"><span class="label label-info">{{t.name}}</span></a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>There are no results for "{{q}}" in Tags.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="users-match">
+        {% if users %}
+        <h2>User matches:</h2>
+        <ul>
+        {% for u in users %}
+        <li><a href="{{u.get_absolute_url}}">{% firstof u.fullname u.username %}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>There are no results for "{{q}}" in Users.</p>
+        {% endif %}
+    </div>
+</div><!-- ./tab-content -->
+{% endblock %}
+
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $("#search-items").tablesorter({
+            sortList: [[1,0], [0,0]]
+        });
+        $("#search-projects").tablesorter({
+            sortList: [[0,0]]
+        });
+        $("#search-defunctprojects").tablesorter({
+            sortList: [[0,0]]
+        });
+    });
+</script>
+{% endblock %}
