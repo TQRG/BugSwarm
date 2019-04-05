@@ -28,11 +28,12 @@ import org.slf4j.LoggerFactory;
  */
 public class WebDriverOperations {
 
+    private static final Logger logger = LoggerFactory
+            .getLogger(WebDriverOperations.class);
+
     protected final WebDriver webDriver;
 
     protected long defaultTimeoutSecForImplicitlyWait = 5;
-
-    private static final Logger logger = LoggerFactory.getLogger(WebDriverOperations.class);
 
     public WebDriverOperations(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -45,15 +46,6 @@ public class WebDriverOperations {
     public void setDefaultTimeoutForImplicitlyWait(
             long defaultTimeoutSecForImplicitlyWait) {
         this.defaultTimeoutSecForImplicitlyWait = defaultTimeoutSecForImplicitlyWait;
-    }
-
-    /**
-     * Get the text (display value) set for the specified element.
-     * @param by Identifier to look for elements
-     * @return And returns the text (display value)
-     */
-    public String getText(By by) {
-    	return webDriver.findElement(by).getText();
     }
 
     /**
@@ -95,11 +87,13 @@ public class WebDriverOperations {
      * @return application server name
      */
     public ApServerName getApServerName() {
-        String serverName = getText(By.id("apServerName")).toUpperCase();
+        String serverName = webDriver.findElement(By.id("apServerName"))
+                .getText().toUpperCase();
         try {
-    	    return ApServerName.valueOf(serverName);
+            return ApServerName.valueOf(serverName);
         } catch (IllegalArgumentException e) {
-            logger.warn("Unkown application server name:{} is detected.", serverName);
+            logger.warn("Unkown application server name:{} is detected.",
+                    serverName);
             // If server name not defined in the ApServerName class, set it to UNKNOWN.
             return ApServerName.UNKNOWN;
         }
@@ -110,6 +104,6 @@ public class WebDriverOperations {
      * @return application server version
      */
     public String getApServerVersion() {
-    	return getText(By.id("apServerVersion"));
+        return webDriver.findElement(By.id("apServerVersion")).getText();
     }
 }
