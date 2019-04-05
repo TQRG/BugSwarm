@@ -38,16 +38,11 @@ public class AudioPropertiesTest {
 
 	@Test
 	public void testDefaultValues() {
-		assertThat(properties.getBitRate()).isEqualTo(8000);
+		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
 		assertThat(properties.getNumberOfChannels()).isEqualTo(2);
 		assertThat(properties.getAudioDelay()).isEqualTo(0);
 		assertThat(properties.getSampleFrequency()).isEqualTo(48000);
 		assertThat(properties.getBitsperSample()).isEqualTo(16);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testSetBitRate_withIllegalArgument() {
-		properties.setBitRate(0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -78,8 +73,10 @@ public class AudioPropertiesTest {
 		assertThat(properties.getBitRate()).isEqualTo(5000);
 		properties.setBitRate("unknown / unknown / 1509000");
 		assertThat(properties.getBitRate()).isEqualTo(1509000);
+		properties.setBitRate("0");
+		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
 		properties.setBitRate("-3");
-		assertThat(properties.getBitRate()).isEqualTo(8000);
+		assertThat(properties.getBitRate()).isEqualTo(AudioProperties.BITRATE_DEFAULT);
 	}
 
 	@Test
