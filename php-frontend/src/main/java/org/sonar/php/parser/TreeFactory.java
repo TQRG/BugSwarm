@@ -1687,7 +1687,7 @@ public class TreeFactory {
     }
   }
 
-  public static <T, U> Tuple<T, U> newTuple(T first, U second) {
+  public <T, U> Tuple<T, U> newTuple(T first, U second) {
     return new Tuple<>(first, second);
   }
 
