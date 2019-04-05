@@ -51,7 +51,10 @@ class TestWebSocketHandler(WebSocketHandler):
 
 class EchoHandler(TestWebSocketHandler):
     def on_message(self, message):
-        self.write_message(message, isinstance(message, bytes))
+        try:
+            self.write_message(message, isinstance(message, bytes))
+        except StreamClosedError:
+            pass
 
 
 class ErrorInOnMessageHandler(TestWebSocketHandler):
