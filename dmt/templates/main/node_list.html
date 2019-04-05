@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load markup %}
+{% load emoji_tags %}
+{% load dmttags %}
+
+{% block title %}Forum Posts{% endblock %}
+
+
+{% block content %}
+
+<h1 class="page-title">Forum Posts</h1>
+
+{% if is_paginated %}
+<div class="pagination-nav">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li><a href="/forum/?page={{ page_obj.previous_page_number }}"><span aria-hidden="true"><b>&lt;</b></span><span class="sr-only">Previous</span></a></li>
+    {% else %}
+    <li class="disabled"><a href="#"><span aria-hidden="true"><span aria-hidden="true"><b>&lt;</b></span><span class="sr-only">Previous</span></a></li>
+    {% endif %}
+    <li class="disabled"><span class="page-current">
+     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span></li>
+
+    {% if page_obj.has_next %}
+      <li><a href="/forum/?page={{ page_obj.next_page_number }}"><span aria-hidden="true"><b>&gt;</b></span><span class="sr-only">Next</span></a></li>
+    {% else %}
+      <li class="disabled"><a href="#"><span aria-hidden="true"><b>&gt;</b></span><span class="sr-only">Next</span></a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+
+
+{% for n in object_list %}
+<div class="forum-entry">
+  {% if n.project %}
+  <div class="forum-project">
+  <a href="{{n.project.get_absolute_url}}">{{n.project.name}}</a>
+  </div>
+  {% endif %}
+
+  <div class="forum-title">
+  <h4><a href="{{n.get_absolute_url}}">{{n.subject|emoji_replace}}</a></h4>
+  </div>
+
+  <div class="forum-byline text-muted">
+  by <a href="{{n.user.userprofile.get_absolute_url}}">{{n.user.userprofile.get_fullname}}</a>
+  | {{n.added}}
+  | <a href="{{n.get_absolute_url}}#replies"><span class="glyphicon glyphicon-comment"></span>
+  {% ifequal n.replies 0 %}
+    Add reply
+  {% else %}
+    {% ifequal n.replies 1 %}
+      {{n.replies}} reply
+    {% else %}
+      {{n.replies}} replies
+    {% endifequal %}
+  {% endifequal %}
+  </a>
+  </div>
+
+  {% if n.tags.count %}
+  <dl class="dl-horizontal forum-tags">
+    <dt>Tags</dt>
+    <dd>
+    {% for tag in n.tags.all %}
+    <span class="tag">
+    <a href="/tag/{{tag.slug}}/"><span>{{tag}}</span></a>
+    <a href="remove_tag/{{tag.slug}}/" class="remove-link">x</a>
+    </span>
+    {% endfor %}
+    </dd>
+  </dl><!-- /.forum-tags -->
+  {% endif %}
+
+  <div class="forum-body">
+  {{n.body|commonmark|linkify|emoji_replace}}
+  </div>
+
+
+</div>
+{% endfor %}
+
+{% if is_paginated %}
+<div class="pagination-nav">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li><a href="/forum/?page={{ page_obj.previous_page_number }}"><span aria-hidden="true"><b>&lt;</b></span><span class="sr-only">Previous</span></a></li>
+    {% else %}
+    <li class="disabled"><a href="#"><span aria-hidden="true"><span aria-hidden="true"><b>&lt;</b></span><span class="sr-only">Previous</span></a></li>
+    {% endif %}
+    <li class="disabled"><span class="page-current">
+     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span></li>
+
+    {% if page_obj.has_next %}
+      <li><a href="/forum/?page={{ page_obj.next_page_number }}"><span aria-hidden="true"><b>&gt;</b></span><span class="sr-only">Next</span></a></li>
+    {% else %}
+      <li class="disabled"><a href="#"><span aria-hidden="true"><b>&gt;</b></span><span class="sr-only">Next</span></a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+<p>track changes <a href="{% url 'forum_feed' %}"><img src="{{STATIC_URL}}img/rss.png" width="14" height="14" alt="RSS" /></a></p>
+{% endblock %}

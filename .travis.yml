@@ -1,0 +1,10 @@
+addons: {postgresql: '9.6'}
+before_script: [psql -c 'create database ci_test;' -U postgres]
+dist: trusty
+group: stable
+language: python
+notifications: {slack: 'ccnmtl:GizSNscLWJLldjQrffB8mwgm'}
+os: linux
+python: '2.7'
+script: [make travis]
+sudo: false
