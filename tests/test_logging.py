@@ -99,10 +99,7 @@ def test_compressing_to_unified_file(files_dir, suite, config_override):
     #validate compressing successfully
     decompressed_logs = _decompress(session_log_path, use_gzip=True)
     with open(raw_file_name, 'r') as raw_file:
-        raw = raw_file.read()
-        print(f"***************raw**************\n {raw}")
-        print(f"***************decompressed_logs**************\n {decompressed_logs}")
-        assert decompressed_logs.endswith(raw)
+        assert decompressed_logs.endswith(raw_file.read())
 
 def test_log_file_colorize(files_dir, config_override, suite, suite_test):
     config_override('log.colorize', True)
