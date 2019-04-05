@@ -1,0 +1,34 @@
+{% load emoji_tags %}
+<tr>
+    <td data-field="item">
+        {% if item.is_bug %}
+            <img src="{{STATIC_URL}}img/tinybug.gif"
+                 width="14" height="14"/>
+        {% endif %}
+        <a href="{% url 'item_detail' item.iid %}">
+            {{item.title|truncatechars:70|emoji_replace}}
+        </a>
+    </td>
+    <td data-field="priority" class="pr{{item.priority}} hidden-xs pr">
+        <span class="invisible">
+            {{item.priority}}
+        </span>
+        {{item.priority_label}}
+    </td>
+    <td data-field="target-date" class="{{item.target_date_status}} hidden-xs">
+        {{item.target_date|date:"Y-m-d"}}
+    </td>
+    <td data-field="milestone">
+        <a href="{% url 'user_detail' item.assigned_user.userprofile.username %}">
+            {{ item.assigned_user.userprofile.get_fullname }}
+        </a>
+    </td>
+    <td data-field="project">
+        <a href="{% url 'project_detail' item.milestone.project.pid %}">
+            {{item.milestone.project.name}}
+        </a>
+    </td>
+    <td data-field="status" class="{{item.status_class}} hidden-xs hidden-sm">
+        {% firstof item.r_status item.status %}
+    </td>
+</tr>
