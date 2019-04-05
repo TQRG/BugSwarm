@@ -1,0 +1,23 @@
+backports.ssl_match_hostname==3.5.0.1
+certifi==2016.8.8
+dulwich==0.14.1
+IPython==5.0.0
+matplotlib==2.0.0b3
+mysql-python==1.2.5
+numpy==1.11.1
+paramiko==2.0.2
+# PyQt<5.0
+pyth==0.6.0
+python-dateutil==2.5.3
+redbaron==0.6.1
+scipy==0.18.0
+scp==0.10.2
+SQLAlchemy==1.1.0b3
+suds==0.4
+VTK
+xlrd==1.0.0
+xlwt==1.1.2
+scikit-learn==0.17.1
+file_archive==0.6
+tej==0.3
+usagestats==0.3
