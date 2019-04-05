@@ -1,0 +1,105 @@
+link:../index.asciidoc[&larr; Docs Index] link:./index.asciidoc[ &larr; Configuration]
+
+== Parameterize Rules
+
+Rule parameters allow for value extraction, modification, validation, and conversion before use in the application. Parameterization is a core feature of Rewrite, adding flexibility and power to the configuration API. Values from HTTP headers, URLs, GET and POST values, and more may all be parameterized as needed.
+
+=== Basic Parameterization
+
+Parameters are defined using braces notation inside a normal `String`, such as `"{example}"`. The following rule demonstrates simple parameterization, where we have a single parameter named "`path`".
+
+[source,java]  
+----
+.addRule()
+
+ /* condition */
+.when(Path.matches("/requested/{path}"))
+
+ /* operation */
+.perform(Forward.to("/other/{path}"));
+----
+
+The value of `{path}` is extracted from the +Condition+, and inserted into the +Operation+ at the specified location. So for an initial request of:
+
+`"/requested/lincoln"`
+
+The request will subsequently be forwarded to the internal path:
+
+`"/other/lincoln"`
+
+This is a very simple example of parameterization, but is also the most common. We will now take a closer look at how parameters can be used to meet specific requirements such as validation and conversion.
+
+[TIP]
+Custom conditions and operations may be parameterized if built-in functionality is insufficient. 
+
+=== Configure Parameters
+
+Once a +Rule+ has been parameterized, the parameters themselves can be configured in several ways, such as regular expression constraints, custom constraints, transposition, conversion, and lastly validation.
+
+Let's configure the parameter in our example rule:
+
+[source,java]  
+----
+.addRule()
+.when(Path.matches("/requested/{path}"))
+.perform(Forward.to("/other/{path}"))
+----
+
+In order to configure parameters, a parameter must be selected using the +where(...)+ clause. Parameters are selected by name.
+
+[source,java]  
+----
+ /* Parameter selection */
+.where("path")
+----
+
+Once this is done, we may now move on to configuring the parameter using any of the following methods:
+
+==== Regular Expression Constraints
+
+Regular expression constraints are the simplest form of parameter configuration, and can be set using the shorthand `.matches(regex)` notation. 
+
+[source,java]
+----
+.matches("[0-9]+")
+----
+
+==== Custom Constraints
+
+If you require a specific constraint that would be difficult to model using regular expressions, custom constraints can be used to handle more complex scenarios. These constraints allow full use of the Java programming language:
+
+[source,java]  
+----
+.constrainedBy(new Constraint<String>() {
+  boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value) {
+    // perform the custom constraint check
+  }
+})
+----
+
+==== Converters
+TBD
+
+[source,java]  
+----
+.convertedBy(new Converter<String>() {
+  String convert(Rewrite event, EvaluationContext context, Object value) {
+    // perform the custom conversion
+  }
+})
+----
+
+==== Validators
+TBD
+
+[source,java]  
+----
+.validatedBy(new Validator<String>() {
+  boolean isValid(Rewrite event, EvaluationContext context, String value) {
+    // perform the custom validation
+  }
+})
+----
+
+==== Bindings
+TBD
