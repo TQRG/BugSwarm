@@ -2464,6 +2464,7 @@ public class QueryExecutorImpl extends QueryExecutorBase {
     long count = 0;
     int delim1 = status.indexOf(" ");
     // Status is in the format of "COMMAND OID ROWS" where both 'OID' and 'ROWS' are optional
+    // and COMMAND can have spaces within it.
     if (delim1 != -1) {
       delim1 += 1;
       int delim2 = status.indexOf(" ", delim1);
@@ -2471,7 +2472,7 @@ public class QueryExecutorImpl extends QueryExecutorBase {
         if (delim2 != -1) {
           oid = Long.parseLong(status.substring(delim1, delim2));
           count = Long.parseLong(status.substring(delim2 + 1));
-        } else {
+        } else if (Character.isDigit(status.charAt(delim1))) {
           count = Long.parseLong(status.substring(delim1));
         }
       } catch (NumberFormatException e) {
