@@ -17,6 +17,7 @@ package org.springframework.hateoas.hal.forms;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.springframework.hateoas.Affordance.byLink;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -87,12 +88,20 @@ public class HalFormsWebMvcTest {
 		this.mockMvc.perform(get("/employees/0").accept(MediaTypes.HAL_FORMS_JSON))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$._links.*", hasSize(4)))
+			.andExpect(jsonPath("$.name", is("Frodo Baggins")))
+			.andExpect(jsonPath("$.role", is("ring bearer")))
+			.andExpect(jsonPath("$._links.*", hasSize(2)))
 			.andExpect(jsonPath("$._links['self'].href", is("http://localhost/employees/0")))
-			.andExpect(jsonPath("$._links['put'].href", is("http://localhost/employees/0")))
-			.andExpect(jsonPath("$._links['patch'].href", is("http://localhost/employees/0")))
 			.andExpect(jsonPath("$._links['employees'].href", is("http://localhost/employees")))
-			.andExpect(jsonPath("$._templates.*", hasSize(1)));
+			.andExpect(jsonPath("$._templates.*", hasSize(2)))
+			.andExpect(jsonPath("$._templates['PUT'].properties[0].name", is("role")))
+			.andExpect(jsonPath("$._templates['PUT'].properties[0].required", is(true)))
+			.andExpect(jsonPath("$._templates['PUT'].properties[1].name", is("name")))
+			.andExpect(jsonPath("$._templates['PUT'].properties[1].required", is(true)))
+			.andExpect(jsonPath("$._templates['PATCH'].properties[0].name", is("role")))
+			.andExpect(jsonPath("$._templates['PATCH'].properties[0].required", is(false)))
+			.andExpect(jsonPath("$._templates['PATCH'].properties[1].name", is("name")))
+			.andExpect(jsonPath("$._templates['PATCH'].properties[1].required", is(false)));
 	}
 
 	@RestController
@@ -138,13 +147,16 @@ public class HalFormsWebMvcTest {
 			Link partiallyUpdateLink =
 				linkTo(methodOn(EmployeeController.class).partiallyUpdateEmployee(null, id)).withRel("patch");
 
+			// Define final affordance as means to find entire collection.
+			Link employeesLink = linkTo(methodOn(EmployeeController.class).all()).withRel("employees");
+
 			// Return the affordance + a link back to the entire collection resource.
 			return new Resource<Employee>(
 				EMPLOYEES.get(Integer.parseInt(id)),
-				findOneLink,
-				updateLink,
-				partiallyUpdateLink,
-				linkTo(methodOn(EmployeeController.class).all()).withRel("employees"));
+				findOneLink
+					.withAffordances(byLink(updateLink))
+					.withAffordances(byLink(partiallyUpdateLink)),
+				employeesLink);
 		}
 
 		@PostMapping("/employees")

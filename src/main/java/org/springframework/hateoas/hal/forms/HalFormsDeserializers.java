@@ -19,17 +19,24 @@ import static org.springframework.hateoas.hal.Jackson2HalModule.*;
 import static org.springframework.hateoas.hal.forms.HalFormsDocument.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.hateoas.Resource;
 import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.fasterxml.jackson.databind.deser.std.ContainerDeserializerBase;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -38,13 +45,50 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
  */
 public class HalFormsDeserializers {
 
+	static class HalFormsResourceDeserializer extends ContainerDeserializerBase<Resource<?>> implements ContextualDeserializer {
+
+		private JavaType contentType;
+
+		HalFormsResourceDeserializer(JavaType contentType) {
+
+			super(contentType);
+			this.contentType = contentType;
+		}
+
+		HalFormsResourceDeserializer() {
+			this(null);
+		}
+		
+		@Override
+		public Resource<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+			HalFormsDocument doc = p.getCodec().readValue(p, HalFormsDocument.class);
+			
+			return new Resource<Object>(doc.getContent(), doc.getLinks());
+		}
+
+		@Override
+		public JavaType getContentType() {
+			return null;
+		}
+
+		@Override
+		public JsonDeserializer<Object> getContentDeserializer() {
+			return null;
+		}
+
+		@Override
+		public JsonDeserializer<?> createContextual(DeserializationContext deserializationContext, BeanProperty beanProperty) throws JsonMappingException {
+			return null;
+		}
+	}
+
 	/**
 	 * Deserialize an entire <a href="https://rwcbook.github.io/hal-forms/">HAL-Forms</a> document.
 	 */
 	static class HalFormsDocumentDeserializer extends JsonDeserializer<HalFormsDocument> {
 
 		private final HalLinkListDeserializer linkDeser = new HalLinkListDeserializer();
-		private final HalFormsTemplateListDeserializer templateDeser = new HalFormsTemplateListDeserializer();
 
 		@Override
 		public HalFormsDocument deserialize(JsonParser jp, DeserializationContext ctxt)
@@ -63,7 +107,8 @@ public class HalFormsDeserializers {
 				if ("_links".equals(jp.getCurrentName())) {
 					halFormsDocumentBuilder.links(this.linkDeser.deserialize(jp, ctxt));
 				} else if ("_templates".equals(jp.getCurrentName())) {
-					halFormsDocumentBuilder.templates(this.templateDeser.deserialize(jp, ctxt));
+					TypeReference<Map<String, Template>> type = new TypeReference<Map<String, Template>>() {};
+					halFormsDocumentBuilder.templates(jp.getCodec().<Map<? extends String, ? extends Template>> readValue(jp, type));
 				}
 			}
 
@@ -74,10 +119,10 @@ public class HalFormsDeserializers {
 	/**
 	 * Deserialize an object of HAL-Forms {@link Template}s into a {@link List} of {@link Template}s.
 	 */
-	static class HalFormsTemplateListDeserializer extends ContainerDeserializerBase<List<Template>> {
+	static class HalFormsTemplateListDeserializer extends ContainerDeserializerBase<Map<String, Template>> {
 
 		public HalFormsTemplateListDeserializer() {
-			super(TypeFactory.defaultInstance().constructCollectionLikeType(List.class, Template.class));
+			super(TypeFactory.defaultInstance().constructMapType(Map.class, String.class, Template.class));
 		}
 
 		/**
@@ -145,9 +190,9 @@ public class HalFormsDeserializers {
 		 * @return Deserialized value
 		 */
 		@Override
-		public List<Template> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+		public Map<String, Template> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 
-			List<Template> result = new ArrayList<Template>();
+			Map<String, Template> result = new HashMap<String, Template>();
 			String relation;
 			Template template;
 
@@ -161,16 +206,16 @@ public class HalFormsDeserializers {
 				// save the relation in case the link does not contain it
 				relation = jp.getText();
 
-				if (JsonToken.START_ARRAY.equals(jp.nextToken())) {
-					while (!JsonToken.END_ARRAY.equals(jp.nextToken())) {
+				if (JsonToken.START_OBJECT.equals(jp.nextToken())) {
+					while (!JsonToken.END_OBJECT.equals(jp.nextToken())) {
 						template = jp.readValueAs(Template.class);
 						template.setKey(relation);
-						result.add(template);
+						result.put(relation, template);
 					}
 				} else {
 					template = jp.readValueAs(Template.class);
 					template.setKey(relation);
-					result.add(template);
+					result.put(relation, template);
 				}
 			}
 

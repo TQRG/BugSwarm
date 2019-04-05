@@ -20,6 +20,7 @@ import lombok.Value;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Describe a parameter for the associated state transition in a HAL-FORMS document. A {@link Template} may contain a
@@ -43,7 +44,7 @@ public class Property {
 	private String prompt;
 	private String regex;
 	private boolean templated;
-	private boolean required;
+	@JsonInclude(Include.ALWAYS) private boolean required;
 	private boolean multi;
 
 	/**
