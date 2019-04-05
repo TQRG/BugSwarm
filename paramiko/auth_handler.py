@@ -23,8 +23,10 @@
 import subprocess
 import threading
 import os
-from ctypes import *
+from ctypes import (cdll, Structure, c_ulong, c_void_p, byref, c_char,
+                    c_int)
 import cryptography
+from cryptography.hazmat.primitives.serialization import load_ssh_public_key
 import weakref
 import time
 
@@ -114,7 +116,8 @@ class AuthHandler (object):
         finally:
             self.transport.lock.release()
 
-    def auth_pkcs11(self, username, pkcs11pin, pkcs11provider, pkcs11session, event):
+    def auth_pkcs11(self, username, pkcs11pin, pkcs11provider, pkcs11session,
+                    event):
         self.transport.lock.acquire()
         try:
             self.auth_event = event
@@ -272,8 +275,13 @@ class AuthHandler (object):
         public_key = ""
         if self.pkcs11session is None:
             if which("pkcs15-tool") is None:
-                raise Exception("Cannot find pkcs15-tool in PATH. Install opensc and make sure pkcs15-tool is in the path")
-            p = subprocess.Popen(["pkcs15-tool", "--read-ssh-key", "01"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                raise Exception("Cannot find pkcs15-tool in PATH. Install \
+                                 opensc and make sure pkcs15-tool is in \
+                                  the path")
+            p = subprocess.Popen(["pkcs15-tool", "--read-ssh-key", "01"],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE)
             out, err = p.communicate()
             if out is not None:
                 public_key = out
@@ -283,19 +291,23 @@ class AuthHandler (object):
 
     def _pkcs11_sign_ssh_data(self, blob):
         if not os.path.isfile(self.pkcs11provider):
-            raise Exception("pkcs11provider path is not valid: %s" % self.pkcs11provider)
+            raise Exception("pkcs11provider path is not valid: %s"
+                            % self.pkcs11provider)
         lib = cdll.LoadLibrary(self.pkcs11provider)
         if self.pkcs11session is None:
-            (session, public_key, keyret) = pkcs11_open_session(self.pkcs11provider, self.pkcs11pin)
+            (session,
+             public_key,
+             keyret) = pkcs11_open_session(self.pkcs11provider, self.pkcs11pin)
         else:
             (session, public_key, keyret) = self.pkcs11session
 
         # Init Signing Data
         class ck_mechanism(Structure):
-            _fields_ = [("mechanism", c_ulong),("parameter", c_void_p),("parameter_len", c_ulong)]
+            _fields_ = [("mechanism", c_ulong), ("parameter", c_void_p),
+                        ("parameter_len", c_ulong)]
 
         mech = ck_mechanism()
-        mech.mechanism =  6 #CKM_SHA1_RSA_PKCS
+        mech.mechanism = 6 # CKM_SHA1_RSA_PKCS
         self.pkcs11_lock.acquire()
         res = lib.C_SignInit(session, byref(mech), keyret)
         if res != 0:
@@ -354,14 +366,19 @@ class AuthHandler (object):
                     # Smartcard PKCS11 Private Key
                     keym = Message()
                     keym.add_string('ssh-rsa')
-                    test_pub = cryptography.hazmat.primitives.serialization.load_ssh_public_key(self._pkcs11_get_public_key(), cryptography.hazmat.backends.default_backend())
-                    keym.add_mpint(test_pub.public_numbers().e)
-                    keym.add_mpint(test_pub.public_numbers().n)
+                    pkcs11_tmp_pub = load_ssh_public_key(
+                        self._pkcs11_get_public_key(),
+                        cryptography.hazmat.backends.default_backend())
+                    keym.add_mpint(pkcs11_tmp_pub.public_numbers().e)
+                    keym.add_mpint(pkcs11_tmp_pub.public_numbers().n)
                     key_asbytes = keym.asbytes()
                     m.add_boolean(True)
                     m.add_string("ssh-rsa")
                     m.add_string(key_asbytes)
-                    blob = self._get_session_blob_pkcs11("ssh-rsa", key_asbytes, 'ssh-connection', self.username)
+                    blob = self._get_session_blob_pkcs11("ssh-rsa",
+                                                         key_asbytes,
+                                                         'ssh-connection',
+                                                         self.username)
                     sig = self._pkcs11_sign_ssh_data(blob)
                     m.add_string(sig)
             elif self.auth_method == 'keyboard-interactive':
