@@ -196,10 +196,6 @@ class Loader(object):
 def _walk(p):
     if os.path.isfile(p):
         return [p]
-
-    returned = []
-    for path, dirnames, filenames in os.walk(p):
-        dirnames[:] = [dirname for dirname in dirnames if not dirname.startswith('.')]
-        for filename in filenames:
-            returned.append(os.path.join(path, filename))
-    return returned
+    return (os.path.join(dirname, filename)
+            for dirname, _, filenames in os.walk(p)
+            for filename in sorted(filenames))
