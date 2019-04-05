@@ -1,0 +1,42 @@
+architect:
+- yegor256
+- dmarkov
+install:
+- sudo gem install pdd
+assets:
+  secring.gpg: zerocracy/home#assets/secring.gpg
+  settings.xml: zerocracy/home#assets/jcabi/settings.xml
+  pubring.gpg: zerocracy/home#assets/pubring.gpg
+  s3cfg: zerocracy/home#assets/s3cfg
+merge:
+  script: |-
+    mvn clean install -Pqulice -Pjcabi-s3 --errors --settings ../settings.xml
+    mvn clean
+    pdd --source=$(pwd) --verbose --file=/dev/null
+  commanders:
+  - carlosmiranda
+  - darkled
+  - dmzaytsev
+  - ggajos
+  - hdouss
+  - krzyk
+  - longtimeago
+  - mkordas
+  - original-brownbear
+  - pinaf
+deploy:
+  script: |-
+    mvn clean deploy -Pqulice --errors --settings ../settings.xml
+    mvn clean
+    pdd --source=$(pwd) --verbose --file=jcabi-s3.xml
+    s3cmd --no-progress put jcabi-s3.xml --config=../s3cfg s3://pdd.teamed.io/jcabi-s3.xml
+env:
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
+release:
+  script: |-
+    mvn versions:set "-DnewVersion=${tag}"
+    git commit -am "${tag}"
+    mvn clean deploy -Pqulice -Psonatype -Pjcabi -Pjcabi-s3 --errors --settings ../settings.xml
+    mvn clean site-deploy -Pjcabi -Psite --errors --settings ../settings.xml
+  commanders:
+  - yegor256
