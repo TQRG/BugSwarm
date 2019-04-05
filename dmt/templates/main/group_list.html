@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Groups List{% endblock %}
+
+{% block primarynavtabs %}
+{% endblock %}
+
+{% block primarynavtabsright %}
+{% endblock %}
+
+{% block content %}
+<ul class="breadcrumb">
+  <li><a href="/"><span class="glyphicon glyphicon-home"></span></a></li>
+    <li class="active">Groups</li>
+</ul>
+
+<div class="tab-content">
+
+<table class="table table-striped table-condensed">
+{% for group in object_list %}
+<tr>
+    <td>
+        <a href="{% url 'group_detail' group.0 %}">
+            {{ group.1 }}
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+
+<form action="{% url 'group_create' %}" method="post" class="form-inline" >{% csrf_token %}
+    <fieldset><legend>Add Group</legend>
+        <input type="text" placeholder="group name" name="group"
+        class="form-control" />
+        <input type="submit" value="add" class="btn btn-primary" />
+    </fieldset>
+</form>
+
+{% endblock %}
