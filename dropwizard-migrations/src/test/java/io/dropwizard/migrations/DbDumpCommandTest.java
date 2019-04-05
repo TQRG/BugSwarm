@@ -1,22 +1,11 @@
 package io.dropwizard.migrations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.Resources;
-import net.jcip.annotations.NotThreadSafe;
-import net.sourceforge.argparse4j.inf.Namespace;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,8 +18,18 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import net.jcip.annotations.NotThreadSafe;
+import net.sourceforge.argparse4j.inf.Namespace;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 @NotThreadSafe
 public class DbDumpCommandTest extends AbstractMigrationTest {
@@ -192,7 +191,7 @@ public class DbDumpCommandTest extends AbstractMigrationTest {
         final Element idColumn = (Element) columns.item(0);
         assertThat(idColumn.getAttribute("autoIncrement")).isEqualTo("true");
         assertThat(idColumn.getAttribute("name")).isEqualTo("ID");
-        assertThat(idColumn.getAttribute("type")).isEqualTo("INT(10)");
+        assertThat(idColumn.getAttribute("type")).isEqualTo("INT");
         final Element idColumnConstraints = getFirstElement(idColumn, "constraints");
         assertThat(idColumnConstraints.getAttribute("primaryKey")).isEqualTo("true");
         assertThat(idColumnConstraints.getAttribute("primaryKeyName")).isEqualTo("PK_PERSONS");

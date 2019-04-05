@@ -1,18 +1,17 @@
 package io.dropwizard.migrations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import liquibase.change.CheckSum;
-import net.jcip.annotations.NotThreadSafe;
-import net.sourceforge.argparse4j.inf.Namespace;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import liquibase.change.CheckSum;
+import net.jcip.annotations.NotThreadSafe;
+import net.sourceforge.argparse4j.inf.Namespace;
+import org.junit.Test;
 
 @NotThreadSafe
 public class DbCalculateChecksumCommandTest extends AbstractMigrationTest {
@@ -24,7 +23,7 @@ public class DbCalculateChecksumCommandTest extends AbstractMigrationTest {
     public void testRun() throws Exception {
         final AtomicBoolean checkSumVerified = new AtomicBoolean();
         migrateCommand.setCheckSumConsumer(checkSum -> {
-            assertThat(checkSum).isEqualTo(CheckSum.parse("7:3a61a7a72c9ce082b7059215975e6e09"));
+            assertThat(checkSum).isEqualTo(CheckSum.parse("8:0f3683b37321ccfb1694a044986de4d9"));
             checkSumVerified.set(true);
         });
         migrateCommand.run(null, new Namespace(ImmutableMap.of("id", ImmutableList.of("2"),
