@@ -205,7 +205,9 @@ class Selector(AbjadValueObject):
                 )
         else:
             raise ValueError(argument)
-        return self._append_callback(callback)
+        selector = self._append_callback(callback)
+        template = self._get_template(inspect.currentframe())
+        return abjad.new(selector, template=template)
 
     ### PRIVATE METHODS ###
 
@@ -234,7 +236,8 @@ class Selector(AbjadValueObject):
             function_name = frame_info.function
             arguments = abjad.Expression._wrap_arguments(frame)
             stem = self.template or 'abjad.select()'
-            template = f'{stem}.{function_name}({arguments})'
+            template = '{}.{}({})'
+            template = template.format(stem, function_name, arguments)
         finally:
             del frame
         return template
@@ -1765,7 +1768,7 @@ class Selector(AbjadValueObject):
         '''
         import abjad
         length_expr = None
-        if isinstance(inequality, ( int, float, abjad.LengthInequality)):
+        if isinstance(inequality, (int, float, abjad.LengthInequality)):
             length_expr = inequality
         elif isinstance(inequality, str) and length is not None:
             length_expr = abjad.LengthInequality(
@@ -1799,7 +1802,7 @@ class Selector(AbjadValueObject):
         self,
         pitched=False,
         trivial=True,
-        with_grace_notes=False,
+        with_grace_notes=True,
         ):
         r'''Selects by logical tie.
 
