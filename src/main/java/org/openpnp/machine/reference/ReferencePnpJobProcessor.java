@@ -108,14 +108,15 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
         }
     }
 
-    public static class PlannedJobPlacement {
+    public static class PlannedPlacement {
         public final JobPlacement jobPlacement;
         public final Nozzle nozzle;
         public Feeder feeder;
         public Location alignmentOffsets;
+        public boolean fed;
         public boolean stepComplete;
 
-        public PlannedJobPlacement(Nozzle nozzle, JobPlacement jobPlacement) {
+        public PlannedPlacement(Nozzle nozzle, JobPlacement jobPlacement) {
             this.nozzle = nozzle;
             this.jobPlacement = jobPlacement;
         }
@@ -142,7 +143,7 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
 
     protected List<JobPlacement> jobPlacements = new ArrayList<>();
 
-    protected List<PlannedJobPlacement> plannedJobPlacements = new ArrayList<>();
+    protected List<PlannedPlacement> plannedPlacements = new ArrayList<>();
 
     protected Map<BoardLocation, Location> boardLocationFiducialOverrides = new HashMap<>();
 
@@ -167,13 +168,18 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
                 Message.Next);
         fsm.add(State.ChangeNozzleTip, Message.Abort, State.Cleanup, Message.Next);
 
-        fsm.add(State.Feed, Message.Next, State.Pick, this::doFeed, Message.Next);
+        fsm.add(State.Feed, Message.Next, State.Align, this::doFeedAndPick, Message.Next);
         fsm.add(State.Feed, Message.Skip, State.Feed, this::doSkip, Message.Next);
         fsm.add(State.Feed, Message.Abort, State.Cleanup, Message.Next);
 
-        fsm.add(State.Pick, Message.Next, State.Align, this::doPick, Message.Next);
-        fsm.add(State.Pick, Message.Skip, State.Pick, this::doSkip, Message.Next);
-        fsm.add(State.Pick, Message.Abort, State.Cleanup, Message.Next);
+        // TODO: See notes on doFeedAndPick()
+//        fsm.add(State.Feed, Message.Next, State.Pick, this::doFeed, Message.Next);
+//        fsm.add(State.Feed, Message.Skip, State.Feed, this::doSkip, Message.Next);
+//        fsm.add(State.Feed, Message.Abort, State.Cleanup, Message.Next);
+//
+//        fsm.add(State.Pick, Message.Next, State.Align, this::doPick, Message.Next);
+//        fsm.add(State.Pick, Message.Skip, State.Pick, this::doSkip, Message.Next);
+//        fsm.add(State.Pick, Message.Abort, State.Cleanup, Message.Next);
 
         fsm.add(State.Align, Message.Next, State.Place, this::doAlign, Message.Next);
         fsm.add(State.Align, Message.Skip, State.Align, this::doSkip, Message.Next);
@@ -327,8 +333,8 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
     /**
      * Description of the planner:
      * 
-     * 1. Create a List<List<JobPlacement>> where each List<JobPlacement> is a List of
-     * JobPlacements that the corresponding (in order) Nozzle can handle in Nozzle order.
+     * 1. Create a List<List<JobPlacement>> where each List<JobPlacement> is a List of JobPlacements
+     * that the corresponding (in order) Nozzle can handle in Nozzle order.
      * 
      * In addition, each List<JobPlacement> contains one instance of null which represents a
      * solution where that Nozzle does not perform a placement.
@@ -343,14 +349,14 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
      * 4. Sort the solutions by fewest nulls followed by fewest nozzle changes. The result is that
      * we prefer solutions that use more nozzles in a cycle and require fewer nozzle changes.
      * 
-     * Note: TODO: Originally planned to have this sort by part height but that went out the
-     * window during development. Need to think about how to best combine the height requirement
-     * with the want to fill all nozzles and perform minimal nozzle changes. Based on IRC
-     * discussion, the part height thing might be a red herring - most machines will have enough
-     * Z to place all parts regardless of height order.
+     * Note: TODO: Originally planned to have this sort by part height but that went out the window
+     * during development. Need to think about how to best combine the height requirement with the
+     * want to fill all nozzles and perform minimal nozzle changes. Based on IRC discussion, the
+     * part height thing might be a red herring - most machines will have enough Z to place all
+     * parts regardless of height order.
      */
     protected void doPlan() throws Exception {
-        plannedJobPlacements.clear();
+        plannedPlacements.clear();
 
         // Get the list of unfinished placements and sort them by part height.
         List<JobPlacement> jobPlacements = getPendingJobPlacements().stream()
@@ -364,10 +370,8 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
         // Create a List of Lists of JobPlacements that each Nozzle can handle, including
         // one instance of null per Nozzle. The null indicates a possible "no solution"
         // for that Nozzle.
-        List<List<JobPlacement>> solutions = head.getNozzles().stream().map(nozzle ->
-        {
-            return Stream.concat(jobPlacements.stream().filter(jobPlacement ->
-            {
+        List<List<JobPlacement>> solutions = head.getNozzles().stream().map(nozzle -> {
+            return Stream.concat(jobPlacements.stream().filter(jobPlacement -> {
                 return nozzleCanHandle(nozzle, jobPlacement.placement.getPart());
             }), Stream.of((JobPlacement) null)).collect(Collectors.toList());
         }).collect(Collectors.toList());
@@ -375,8 +379,7 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
         // Get the cartesian product of those Lists
         List<JobPlacement> result = cartesianProduct(solutions).stream()
                 // Filter out any results that contains the same JobPlacement more than once
-                .filter(list ->
-                {
+                .filter(list -> {
                     return new HashSet<JobPlacement>(list).size() == list.size();
                 })
                 // Sort by the solutions that contain the fewest nulls followed by the
@@ -393,14 +396,16 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
                 continue;
             }
             jobPlacement.status = Status.Processing;
-            plannedJobPlacements.add(new PlannedJobPlacement(nozzle, jobPlacement));
+            plannedPlacements.add(new PlannedPlacement(nozzle, jobPlacement));
         }
+        
+        System.out.println("planned " + plannedPlacements);
 
-        logger.debug("Planned placements {}", plannedJobPlacements);
+        logger.debug("Planned placements {}", plannedPlacements);
     }
 
     protected void doChangeNozzleTip() throws Exception {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+        for (PlannedPlacement plannedPlacement : plannedPlacements) {
             if (plannedPlacement.stepComplete) {
                 continue;
             }
@@ -429,86 +434,28 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
         clearStepComplete();
     }
 
-    protected void doFeed() throws Exception {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
-            if (plannedPlacement.stepComplete) {
-                continue;
-            }
-            Nozzle nozzle = plannedPlacement.nozzle;
-            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
-            Placement placement = jobPlacement.placement;
-            Part part = placement.getPart();
-
-            while (true) {
-                // Find a compatible, enabled feeder
-                Feeder feeder = findFeeder(part);
-                plannedPlacement.feeder = feeder;
-
-                // Feed the part
-                try {
-                    // Try to feed the part. If it fails, retry the specified number of times before
-                    // giving up.
-                    retry(1 + feeder.getRetryCount(), () ->
-                    {
-                        logger.info("Attempt Feed {} from {} with {}.",
-                                new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
-
-                        feeder.feed(nozzle);
-
-                        logger.info("Fed {} from {} with {}.",
-                                new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
-                    });
-
-                    break;
-                }
-                catch (Exception e) {
-                    logger.info("Feed {} from {} with {} failed!",
-                            new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
-                    // If the feed fails, disable the feeder and continue. If there are no
-                    // more valid feeders the findFeeder() call above will throw and exit the
-                    // loop.
-                    feeder.setEnabled(false);
-                }
-            }
-            plannedPlacement.stepComplete = true;
-        }
-
-        clearStepComplete();
-    }
-
-    protected void doPick() throws Exception {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
-            if (plannedPlacement.stepComplete) {
-                continue;
-            }
-            Nozzle nozzle = plannedPlacement.nozzle;
-            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
-            Placement placement = jobPlacement.placement;
-            Part part = placement.getPart();
-
-            // Get the feeder that was used to feed
-            Feeder feeder = plannedPlacement.feeder;
-
-            // Move to the pick location
-            MovableUtils.moveToLocationAtSafeZ(nozzle, feeder.getPickLocation());
-
-            // Pick
-            nozzle.pick(part);
-
-            // Retract
-            nozzle.moveToSafeZ();
-
-            logger.info("Pick {} from {} with {}",
-                    new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
-
-            plannedPlacement.stepComplete = true;
-        }
-
-        clearStepComplete();
-    }
-
-    protected void doAlign() throws Exception {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+    /*
+     * TODO: This method is a compromise due to time constraints. Below, there is doFeed and doPick,
+     * which were intended to be used in sequence. I realized too late that I had made an error in
+     * designing the FSM and for multiple nozzles it was doing feed, feed, pick, pick instead of
+     * feed, pick, feed, pick. The latter is correct while the former is useless. Since I need
+     * to release this feature before Maker Faire I've decided to just combine the methods to get
+     * this done.
+     * 
+     * The whole FSM system needs to be reconsidered. There are two main things to consider:
+     * 1. current FSM cannot handle transitions within action methods. If it could then we
+     * could have doFeed process one PlannedPlacement, continue to Pick and then have Pick
+     * either loop back to Feed if there are more PlannedPlacements or continue to Align if not. I
+     * don't love this idea because it makes the FSM non-deterministic and thus harder to
+     * reason about.
+     * 
+     * 2. An ideal system would treat each step that required actions for multiple PlannedPlacements
+     * as their own FSM, producing a hierarchy of FSMs. I've also seen this idea referred to as
+     * "fork and join" FSMs and I have brainstormed this type of system a bit in the image at:
+     * https://imgur.com/a/63Y1t
+     */
+    protected void doFeedAndPick() throws Exception {
+        for (PlannedPlacement plannedPlacement : plannedPlacements) {
             if (plannedPlacement.stepComplete) {
                 continue;
             }
@@ -517,6 +464,149 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
             Placement placement = jobPlacement.placement;
             Part part = placement.getPart();
             
+            if (!plannedPlacement.fed) {
+                while (true) {
+                    // Find a compatible, enabled feeder
+                    Feeder feeder = findFeeder(part);
+                    plannedPlacement.feeder = feeder;
+
+                    // Feed the part
+                    try {
+                        // Try to feed the part. If it fails, retry the specified number of times before
+                        // giving up.
+                        retry(1 + feeder.getRetryCount(), () ->
+                        {
+                            logger.info("Attempt Feed {} from {} with {}.",
+                                    new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+
+                            feeder.feed(nozzle);
+
+                            logger.info("Fed {} from {} with {}.",
+                                    new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+                        });
+
+                        break;
+                    }
+                    catch (Exception e) {
+                        logger.info("Feed {} from {} with {} failed!",
+                                new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+                        // If the feed fails, disable the feeder and continue. If there are no
+                        // more valid feeders the findFeeder() call above will throw and exit the
+                        // loop.
+                        feeder.setEnabled(false);
+                    }
+                }
+                plannedPlacement.fed = true;
+            }
+            
+            // Get the feeder that was used to feed
+            Feeder feeder = plannedPlacement.feeder;
+    
+            // Move to the pick location
+            MovableUtils.moveToLocationAtSafeZ(nozzle, feeder.getPickLocation());
+    
+            // Pick
+            nozzle.pick(part);
+    
+            // Retract
+            nozzle.moveToSafeZ();
+    
+            logger.info("Pick {} from {} with {}",
+                    new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+            
+            plannedPlacement.stepComplete = true;
+        }
+
+        clearStepComplete();
+    }
+
+//    protected void doFeed() throws Exception {
+//        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+//            if (plannedPlacement.stepComplete) {
+//                continue;
+//            }
+//            Nozzle nozzle = plannedPlacement.nozzle;
+//            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
+//            Placement placement = jobPlacement.placement;
+//            Part part = placement.getPart();
+//
+//            while (true) {
+//                // Find a compatible, enabled feeder
+//                Feeder feeder = findFeeder(part);
+//                plannedPlacement.feeder = feeder;
+//
+//                // Feed the part
+//                try {
+//                    // Try to feed the part. If it fails, retry the specified number of times before
+//                    // giving up.
+//                    retry(1 + feeder.getRetryCount(), () -> {
+//                        logger.info("Attempt Feed {} from {} with {}.",
+//                                new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+//
+//                        feeder.feed(nozzle);
+//
+//                        logger.info("Fed {} from {} with {}.",
+//                                new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+//                    });
+//
+//                    break;
+//                }
+//                catch (Exception e) {
+//                    logger.info("Feed {} from {} with {} failed!",
+//                            new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+//                    // If the feed fails, disable the feeder and continue. If there are no
+//                    // more valid feeders the findFeeder() call above will throw and exit the
+//                    // loop.
+//                    feeder.setEnabled(false);
+//                }
+//            }
+//            plannedPlacement.stepComplete = true;
+//        }
+//
+//        clearStepComplete();
+//    }
+//
+//    protected void doPick() throws Exception {
+//        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+//            if (plannedPlacement.stepComplete) {
+//                continue;
+//            }
+//            Nozzle nozzle = plannedPlacement.nozzle;
+//            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
+//            Placement placement = jobPlacement.placement;
+//            Part part = placement.getPart();
+//
+//            // Get the feeder that was used to feed
+//            Feeder feeder = plannedPlacement.feeder;
+//
+//            // Move to the pick location
+//            MovableUtils.moveToLocationAtSafeZ(nozzle, feeder.getPickLocation());
+//
+//            // Pick
+//            nozzle.pick(part);
+//
+//            // Retract
+//            nozzle.moveToSafeZ();
+//
+//            logger.info("Pick {} from {} with {}",
+//                    new Object[] {part.getId(), feeder.getName(), nozzle.getName()});
+//
+//            plannedPlacement.stepComplete = true;
+//        }
+//
+//        clearStepComplete();
+//    }
+
+    protected void doAlign() throws Exception {
+        for (PlannedPlacement plannedPlacement : plannedPlacements) {
+            if (plannedPlacement.stepComplete) {
+                continue;
+            }
+            Nozzle nozzle = plannedPlacement.nozzle;
+            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
+            Placement placement = jobPlacement.placement;
+            Part part = placement.getPart();
+
             Location alignmentOffsets = machine.getPartAlignment().findOffsets(part, nozzle);
             plannedPlacement.alignmentOffsets = alignmentOffsets;
 
@@ -529,7 +619,7 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
     }
 
     protected void doPlace() throws Exception {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+        for (PlannedPlacement plannedPlacement : plannedPlacements) {
             if (plannedPlacement.stepComplete) {
                 continue;
             }
@@ -618,16 +708,16 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
     }
 
     /**
-     * Discard the picked part, if any. Remove the currently processing PlannedJobPlacement from the
+     * Discard the picked part, if any. Remove the currently processing PlannedPlacement from the
      * list and mark the JobPlacement as Skipped.
      * 
      * @throws Exception
      */
     protected void doSkip() throws Exception {
-        if (plannedJobPlacements.size() > 0) {
-            PlannedJobPlacement plannedJobPlacement = plannedJobPlacements.remove(0);
-            JobPlacement jobPlacement = plannedJobPlacement.jobPlacement;
-            Nozzle nozzle = plannedJobPlacement.nozzle;
+        if (plannedPlacements.size() > 0) {
+            PlannedPlacement plannedPlacement = plannedPlacements.remove(0);
+            JobPlacement jobPlacement = plannedPlacement.jobPlacement;
+            Nozzle nozzle = plannedPlacement.nozzle;
             discard(nozzle);
             jobPlacement.status = Status.Skipped;
             logger.debug("Skipped {}", jobPlacement.placement);
@@ -635,14 +725,13 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
     }
 
     protected void clearStepComplete() {
-        for (PlannedJobPlacement plannedPlacement : plannedJobPlacements) {
+        for (PlannedPlacement plannedPlacement : plannedPlacements) {
             plannedPlacement.stepComplete = false;
         }
     }
 
     protected List<JobPlacement> getPendingJobPlacements() {
-        return this.jobPlacements.stream().filter((jobPlacement) ->
-        {
+        return this.jobPlacements.stream().filter((jobPlacement) -> {
             return jobPlacement.status == Status.Pending;
         }).collect(Collectors.toList());
     }
@@ -692,15 +781,13 @@ public class ReferencePnpJobProcessor implements PnpJobProcessor {
     }
 
     // Sort a List<JobPlacement> by the number of nulls it contains in ascending order.
-    Comparator<List<JobPlacement>> byFewestNulls = (a, b) ->
-    {
+    Comparator<List<JobPlacement>> byFewestNulls = (a, b) -> {
         return Collections.frequency(a, null) - Collections.frequency(b, null);
     };
 
     // Sort a List<JobPlacement> by the number of nozzle changes it will require in
     // descending order.
-    Comparator<List<JobPlacement>> byFewestNozzleChanges = (a, b) ->
-    {
+    Comparator<List<JobPlacement>> byFewestNozzleChanges = (a, b) -> {
         int countA = 0, countB = 0;
         for (int i = 0; i < head.getNozzles().size(); i++) {
             Nozzle nozzle = head.getNozzles().get(i);

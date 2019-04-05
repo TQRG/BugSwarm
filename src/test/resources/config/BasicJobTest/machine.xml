@@ -36,7 +36,7 @@
                     	</nozzle-tip>
                     </nozzle-tips>
                 </nozzle>
-                <nozzle class="org.openpnp.machine.reference.ReferenceNozzle" id="N2" current-nozzle-tip-id="NT1" changer-enabled="true">
+                <nozzle class="org.openpnp.machine.reference.ReferenceNozzle" id="N2" current-nozzle-tip-id="NT2" changer-enabled="true">
                     <head-offsets x="20" y="0" z="0" rotation="0" units="Millimeters" />
                     <nozzle-tips>
                     	<nozzle-tip class="org.openpnp.machine.reference.ReferenceNozzleTip" id="NT1" allow-incompatible-packages="false">

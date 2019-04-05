@@ -31,6 +31,12 @@ a complete change list, only those that may directly interest or affect users.
 	* Pre and Post Job Machine Cleanup: Before a job starts and after it either finishes or is
 	aborted, if any nozzles are holding a part the part will be discarded.
 	https://github.com/openpnp/openpnp/issues/102
+	
+	
+	Note to developers: The code and API for this feature is considered alpha quality and is
+	expected to change. I am not happy with the code quality of the feature, but I am very happy
+	with the functionality, so I am releasing it. I intend to revisit this and make significant
+	changes to both the code and the API. 
 
 * Nozzle Runout Compensation (Unfinished)
 
