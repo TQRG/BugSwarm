@@ -3,6 +3,7 @@ Spring Data JPA Changelog
 
 Changes in version 1.9.0.M1 (2015-06-02)
 ----------------------------------------
+* DATAJPA-731 - Donwgrade to Querydsl 3.6.3.
 * DATAJPA-730 - Release 1.9 M1 (Gosling).
 * DATAJPA-726 - Pageable Always Adding From Entity to Sort Field Name.
 * DATAJPA-721 - Enable Slack notifications for Travis build.
