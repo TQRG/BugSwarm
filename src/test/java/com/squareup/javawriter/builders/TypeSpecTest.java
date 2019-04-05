@@ -19,6 +19,9 @@ import com.google.common.collect.ImmutableList;
 import com.squareup.javawriter.ClassName;
 import com.squareup.javawriter.ParameterizedTypeName;
 import com.squareup.javawriter.WildcardName;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.lang.model.element.Modifier;
 import org.junit.Test;
 
@@ -43,9 +46,45 @@ public class TypeSpecTest {
         + "import java.lang.String;\n"
         + "\n"
         + "class Taco {\n"
-        + "  @Override public final String toString() {\n"
+        + "  @Override\n"
+        + "  public final String toString() {\n"
         + "    return \"taco\";\n"
         + "  }\n"
+        + "}\n");
+  }
+
+  @Test public void interestingTypes() throws Exception {
+    TypeSpec taco = new TypeSpec.Builder()
+        .name(ClassName.create("com.squareup.tacos", "Taco"))
+        .addField(new FieldSpec.Builder()
+            .type(ParameterizedTypeName.create(ClassName.fromClass(List.class),
+                WildcardName.createWithUpperBound(ClassName.fromClass(Object.class))))
+            .name("extendsObject")
+            .build())
+        .addField(new FieldSpec.Builder()
+            .type(ParameterizedTypeName.create(ClassName.fromClass(List.class),
+                WildcardName.createWithUpperBound(ClassName.fromClass(Serializable.class))))
+            .name("extendsSerializable")
+            .build())
+        .addField(new FieldSpec.Builder()
+            .type(ParameterizedTypeName.create(ClassName.fromClass(List.class),
+                WildcardName.createWithLowerBound(ClassName.fromClass(String.class))))
+            .name("superString")
+            .build())
+        .build();
+    assertThat(toString(taco)).isEqualTo(""
+        + "package com.squareup.tacos;\n"
+        + "\n"
+        + "import java.io.Serializable;\n"
+        + "import java.lang.String;\n"
+        + "import java.util.List;\n"
+        + "\n"
+        + "class Taco {\n"
+        + "  List<?> extendsObject;\n"
+        + "\n"
+        + "  List<? extends Serializable> extendsSerializable;\n"
+        + "\n"
+        + "  List<? super String> superString;\n"
         + "}\n");
   }
 
@@ -115,9 +154,11 @@ public class TypeSpecTest {
         + "\n"
         + "class Taco {\n"
         + "  static final Thang<Foo, Bar> NAME = new Thang<Foo, Bar>() {\n"
-        + "    @Override public Thung<? super Bar> call(final Thung<? super Foo> thung) {\n"
+        + "    @Override\n"
+        + "    public Thung<? super Bar> call(final Thung<? super Foo> thung) {\n"
         + "      return new SimpleThung<Bar>(thung) {\n"
-        + "        @Override public void doSomething(Bar bar) {\n"
+        + "        @Override\n"
+        + "        public void doSomething(Bar bar) {\n"
         + "          /* code snippets */\n"
         + "        }\n"
         + "      };\n"

@@ -21,7 +21,7 @@ import com.squareup.javawriter.ClassName;
 import com.squareup.javawriter.TypeName;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.lang.model.element.Modifier;
 
@@ -58,7 +58,7 @@ public final class TypeSpec {
       codeWriter.emit(anonymousTypeArguments);
       codeWriter.emit(") {\n");
     } else {
-      codeWriter.emitAnnotations(annotations);
+      codeWriter.emitAnnotations(annotations, false);
       codeWriter.emitModifiers(modifiers);
       codeWriter.emit("class $L {\n", name.simpleName());
     }
@@ -78,7 +78,7 @@ public final class TypeSpec {
     }
 
     codeWriter.unindent();
-    codeWriter.emit(anonymousTypeArguments != null ? "}" : "};");
+    codeWriter.emit(anonymousTypeArguments != null ? "}" : "}\n");
   }
 
   public static enum Type {
@@ -106,7 +106,7 @@ public final class TypeSpec {
     }
 
     public Builder addModifiers(Modifier... modifiers) {
-      this.modifiers.addAll(Arrays.asList(modifiers));
+      Collections.addAll(this.modifiers, modifiers);
       return this;
     }
 
