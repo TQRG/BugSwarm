@@ -1,0 +1,2 @@
+{dist: trusty, group: stable, jdk: openjdk7, language: java, os: linux, script: mvn
+    clean verify}
