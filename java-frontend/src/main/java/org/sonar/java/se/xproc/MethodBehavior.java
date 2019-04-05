@@ -21,6 +21,7 @@ package org.sonar.java.se.xproc;
 
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +49,7 @@ public class MethodBehavior {
     this.parameters = new ArrayList<>();
     this.varArgs = varArgs;
     this.arity = org.objectweb.asm.Type.getArgumentTypes(signature.substring(signature.indexOf('('))).length;
+    this.thrownDeclaration = Collections.emptyList();
   }
 
   public MethodBehavior(String signature) {
