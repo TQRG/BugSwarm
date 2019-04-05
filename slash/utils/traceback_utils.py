@@ -235,7 +235,7 @@ def _unwrap_self_locals(local_pairs, blacklisted_types):
 
         yield name, value
         if name == 'self' and not isinstance(value, blacklisted_types):
-            for name, value in iter_distilled_object_attributes(value):
+            for attr_name, attr_value in iter_distilled_object_attributes(value):
                 yield 'self.{}'.format(attr_name), attr_value
 
 
