@@ -4977,24 +4977,34 @@ cdef class RandomState:
             npy_intp i, j, n = len(x)
             size_t stride, nbytes
             char* x_ptr
-            char* buf
+            char* buf_ptr
 
-        # Fast, statically typed path: shuffle the underlying buffer.
-        # We exclude subclasses as this approach fails e.g. with MaskedArrays.
-        if type(x) is np.ndarray and x.size:  # Special-case empty arrays.
+        if type(x) is np.ndarray and x.ndim == 1 and x.size:
+            # Fast, statically typed path: shuffle the underlying buffer.
+            # Only for non-empty, 1d objects of class ndarray (subclasses such
+            # as MaskedArrays may not support this approach).
             x_ptr = NULL + <size_t>x.ctypes.data  # Fool cython's type-checker.
             stride = x.strides[0]
             nbytes = x[:1].nbytes
-            _buf = np.empty_like(x[0])  # GC'd at function exit
-            buf = NULL + <size_t>_buf.ctypes.data
+            buf = np.empty_like(x[0])  # GC'd at function exit
+            buf_ptr = NULL + <size_t>buf.ctypes.data
             with self.lock:
                 for i in reversed(range(1, n)):
                     j = rk_interval(i, self.internal_state)
-                    string.memcpy(buf, x_ptr + j * stride, nbytes)
+                    string.memcpy(buf_ptr, x_ptr + j * stride, nbytes)
                     string.memcpy(x_ptr + j * stride, x_ptr + i * stride, nbytes)
-                    string.memcpy(x_ptr + i * stride, buf, nbytes)
-        # Untyped path.
+                    string.memcpy(x_ptr + i * stride, buf_ptr, nbytes)
+        elif isinstance(x, np.ndarray) and x.ndim > 1 and x.size:
+            # Multidimensional ndarrays require a bounce buffer.
+            buf = np.empty_like(x[0])
+            with self.lock:
+                for i in reversed(range(1, n)):
+                    j = rk_interval(i, self.internal_state)
+                    buf[...] = x[j]
+                    x[j] = x[i]
+                    x[i] = buf
         else:
+            # Untyped path.
             with self.lock:
                 for i in reversed(range(1, n)):
                     j = rk_interval(i, self.internal_state)
