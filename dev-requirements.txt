@@ -3,7 +3,7 @@ tox==2.3.1
 # For newer tasks like building Sphinx docs.
 invoke==0.13.0
 invocations==0.13.0
-sphinx==1.4.3
+sphinx==1.4.4
 alabaster==0.7.8
 releases==1.2.0
 semantic_version==2.5.0
