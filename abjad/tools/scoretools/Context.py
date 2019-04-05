@@ -30,6 +30,7 @@ class Context(Container):
     __slots__ = (
         '_context_name',
         '_consists_commands',
+        '_dependent_wrappers',
         '_remove_commands',
         )
 
@@ -44,15 +45,16 @@ class Context(Container):
         is_simultaneous=None,
         name=None,
         ):
+        self._consists_commands = []
+        self._dependent_wrappers = []
+        self._remove_commands = []
         Container.__init__(
             self,
             is_simultaneous=is_simultaneous,
             components=components,
             name=name,
             )
-        self.context_name = context_name
-        self._consists_commands = []
-        self._remove_commands = []
+        self.context_name = context_name 
 
     ### SPECIAL METHODS ###
 
@@ -177,6 +179,29 @@ class Context(Container):
             return ['is_simultaneous', 'name']
         else:
             return ['is_simultaneous', 'context_name', 'name']
+
+    def _get_last_wrapper(self, prototype):
+        import abjad
+        self._update_now(indicators=True)
+        candidate_wrappers = {}
+        for wrapper in self._indicator_wrappers:
+            if wrapper.is_annotation:
+                continue
+            if isinstance(wrapper.indicator, prototype):
+                offset = wrapper.start_offset
+                candidate_wrappers.setdefault(offset, []).append(wrapper)
+        for wrapper in self._dependent_wrappers:
+            if wrapper.is_annotation:
+                continue
+            if isinstance(wrapper.indicator, prototype):
+                offset = wrapper.start_offset
+                candidate_wrappers.setdefault(offset, []).append(wrapper)
+        if not candidate_wrappers:
+            return
+        last_offset = max(candidate_wrappers)
+        wrappers = candidate_wrappers[last_offset]
+        assert len(wrappers) == 1
+        return wrappers[0]
 
     ### PUBLIC PROPERTIES ###
 

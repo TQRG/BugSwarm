@@ -11,7 +11,7 @@ class Component(AbjadObject):
     ### CLASS VARIABLES ###
 
     __slots__ = (
-        '_dependent_wrappers',
+        #'_dependent_wrappers',
         '_indicator_wrappers',
         '_indicators_are_current',
         '_is_forbidden_to_update',
@@ -37,7 +37,7 @@ class Component(AbjadObject):
     @abc.abstractmethod
     def __init__(self, name=None):
         import abjad
-        self._dependent_wrappers = []
+        #self._dependent_wrappers = []
         self._indicator_wrappers = []
         self._indicators_are_current = False
         self._is_forbidden_to_update = False
@@ -313,7 +313,7 @@ class Component(AbjadObject):
             parentage = abjad.inspect(self).get_parentage(include_self=False)
             return parentage.prolation * self._get_preprolated_duration()
 
-    def _get_effective(self, prototype=None, unwrap=True, n=0):
+    def _get_effective(self, prototype, unwrap=True, n=0):
         import abjad
         # return time signature attached to measure regardless of context
         if (prototype == abjad.TimeSignature or
@@ -324,24 +324,21 @@ class Component(AbjadObject):
                     return indicator
                 else:
                     return
-        # gather candidate wrappers
         self._update_now(indicators=True)
         candidate_wrappers = {}
-        for parent in abjad.inspect(self).get_parentage(
+        for component in abjad.inspect(self).get_parentage(
             include_self=True,
             grace_notes=True,
             ):
-            #print('PARENT', parent)
-            #print('DEP', parent._dependent_wrappers)
-            #print('DIR', parent._indicator_wrappers)
-            #print()
-            for wrapper in parent._dependent_wrappers:
+            for wrapper in component._indicator_wrappers:
                 if wrapper.is_annotation:
                     continue
                 if isinstance(wrapper.indicator, prototype):
                     offset = wrapper.start_offset
                     candidate_wrappers.setdefault(offset, []).append(wrapper)
-            for wrapper in parent._indicator_wrappers:
+            if not isinstance(component, abjad.Context):
+                continue
+            for wrapper in component._dependent_wrappers:
                 if wrapper.is_annotation:
                     continue
                 if isinstance(wrapper.indicator, prototype):
@@ -349,7 +346,6 @@ class Component(AbjadObject):
                     candidate_wrappers.setdefault(offset, []).append(wrapper)
         if not candidate_wrappers:
             return
-        # elect most recent candidate wrapper
         all_offsets = sorted(candidate_wrappers)
         start_offset = abjad.inspect(self).get_timespan().start_offset
         index = bisect.bisect(all_offsets, start_offset) - 1 + int(n)
@@ -758,10 +754,12 @@ class Component(AbjadObject):
     def _remove_from_parent(self):
         import abjad
         self._update_later(offsets=True)
-        for parent in abjad.inspect(self).get_parentage(include_self=False):
-            for wrapper in parent._dependent_wrappers[:]:
+        for component in abjad.inspect(self).get_parentage(include_self=False):
+            if not isinstance(component, abjad.Context):
+                continue
+            for wrapper in component._dependent_wrappers[:]:
                 if wrapper.component is self:
-                    parent._dependent_wrappers.remove(wrapper)
+                    component._dependent_wrappers.remove(wrapper)
         if self._parent is not None:
             self._parent._components.remove(self)
         self._parent = None
