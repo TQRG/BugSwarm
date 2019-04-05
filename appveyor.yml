@@ -1,0 +1,38 @@
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
+
+environment:
+  matrix:
+
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6.x"
+      PYTHON_ARCH: "64"
+
+install:
+    - "git config core.symlinks true"
+    - "git reset --hard"
+    - "%PYTHON%\\python.exe -m pip install -r test-requirements.txt"
+    - "C:\\Python27\\python.exe -m pip install typing"
+    - "git submodule update --init typeshed"
+    - "cd typeshed && git config core.symlinks true && git reset --hard && cd .."
+    - "%PYTHON%\\python.exe -m pip install ."
+
+build: off
+
+test_script:
+    # Ignore lint and mypy self check (both run in Travis)
+    - "%PYTHON%\\python.exe runtests.py -x lint -x self-check -x pytest"
+    - "%PYTHON%\\python.exe runtests.py pytest -p -k -p \"not (PythonEvaluationSuite and python2)\""
+
+skip_commits:
+  files:
+    - docs/**/*
+    - '**/*.rst'
+    - '**/*.md'
+    - .gitignore
+    - .runtest_log.json
+    - .travis.yml
+    - CREDITS
+    - LICENSE
+
+skip_branch_with_pr: true
