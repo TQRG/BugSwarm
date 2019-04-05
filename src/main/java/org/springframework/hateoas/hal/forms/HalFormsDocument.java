@@ -19,20 +19,22 @@ import static com.fasterxml.jackson.annotation.JsonInclude.*;
 import static org.springframework.hateoas.hal.Jackson2HalModule.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.hal.forms.HalFormsDeserializers.HalFormsTemplateListDeserializer;
-import org.springframework.hateoas.hal.forms.HalFormsSerializers.HalFormsTemplateListSerializer;
+import org.springframework.hateoas.hal.forms.HalFormsDeserializers.HalFormsDocumentDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -44,17 +46,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Data
 @Builder(builderMethodName = "halFormsDocument")
-@JsonPropertyOrder({ "links", "templates" })
-//@JsonDeserialize(using = HalFormsDocumentDeserializer.class)
+@JsonPropertyOrder({ "content", "links", "templates" })
+@JsonDeserialize(using = HalFormsDocumentDeserializer.class)
 public class HalFormsDocument {
 
+	@JsonUnwrapped
 	private Object content;
 
 	@Singular private List<Link> links;
 
-	@Singular private List<Template> templates;
+	@Singular private Map<String, Template> templates;
 
-	HalFormsDocument(Object content, List<Link> links, List<Template> templates) {
+	HalFormsDocument(Object content, List<Link> links, Map<String, Template> templates) {
 
 		this.content = content;
 		this.links = links;
@@ -62,7 +65,7 @@ public class HalFormsDocument {
 	}
 
 	HalFormsDocument() {
-		this(null, new ArrayList<Link>(), new ArrayList<Template>());
+		this(null, new ArrayList<Link>(), new HashMap<String, Template>());
 	}
 
 	@JsonInclude(Include.NON_NULL)
@@ -80,9 +83,7 @@ public class HalFormsDocument {
 
 	@JsonProperty("_templates")
 	@JsonInclude(Include.NON_EMPTY)
-	@JsonSerialize(using = HalFormsTemplateListSerializer.class)
-	@JsonDeserialize(using = HalFormsTemplateListDeserializer.class)
-	public List<Template> getTemplates() {
+	public Map<String, Template> getTemplates() {
 		return this.templates;
 	}
 
@@ -93,13 +94,6 @@ public class HalFormsDocument {
 
 	@JsonIgnore
 	public Template getTemplate(String key) {
-
-		for (Template template : this.templates) {
-			if (template.getKey().equals(key)) {
-				return template;
-			}
-		}
-
-		return null;
+		return this.templates.get(key);
 	}
 }

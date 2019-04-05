@@ -21,6 +21,7 @@ import java.util.Map;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RelProvider;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.hal.CurieProvider;
 import org.springframework.hateoas.hal.Jackson2HalModule.EmbeddedMapper;
@@ -29,7 +30,6 @@ import org.springframework.hateoas.hal.Jackson2HalModule.HalLinkListSerializer;
 import org.springframework.hateoas.hal.LinkMixin;
 import org.springframework.hateoas.hal.ResourceSupportMixin;
 import org.springframework.hateoas.hal.forms.HalFormsSerializers.HalFormsEmbeddedResourcesSerializer;
-import org.springframework.hateoas.hal.forms.HalFormsSerializers.HalFormsTemplateListSerializer;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationConfig;
@@ -59,6 +59,7 @@ public class Jackson2HalFormsModule extends SimpleModule {
 
 		setMixInAnnotation(Link.class, LinkMixin.class);
 		setMixInAnnotation(ResourceSupport.class, ResourceSupportMixin.class);
+		setMixInAnnotation(Resource.class, ResourceMixin.class);
 	}
 
 	/**
@@ -76,7 +77,6 @@ public class Jackson2HalFormsModule extends SimpleModule {
 			EmbeddedMapper mapper = new EmbeddedMapper(resolver, curieProvider, enforceEmbeddedCollections);
 
 			this.serializers.put(HalLinkListSerializer.class, new HalLinkListSerializer(curieProvider, mapper, messageSource));
-			this.serializers.put(HalFormsTemplateListSerializer.class, new HalFormsTemplateListSerializer(messageSource));
 			this.serializers.put(HalFormsEmbeddedResourcesSerializer.class, new HalFormsEmbeddedResourcesSerializer(mapper));
 		}
 
