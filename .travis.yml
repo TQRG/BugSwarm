@@ -1,0 +1,20 @@
+addons:
+  apt:
+    packages: [gfortran, libatlas-dev, libatlas-base-dev, eatmydata]
+after_success: [./tools/travis-upload-wheel.sh]
+before_install: [uname -a, free -m, df -h, ulimit -a, mkdir builds, pushd builds,
+  pip install -U 'virtualenv==14.0.4', virtualenv --python=python venv, source venv/bin/activate,
+  python -V, pip install --upgrade pip==8.0.2 setuptools==20.0, pip install nose==1.3.7,
+  pip install --install-option="--no-cython-compile" Cython==0.23.4, 'if [ -n "$USE_ASV"
+    ]; then pip install asv==0.1.1; fi', popd]
+cache:
+  directories: [$HOME/.cache/pip]
+dist: precise
+env: USE_WHEEL=1
+global_env: WHEELHOUSE_UPLOADER_USERNAME=travis.numpy
+group: stable
+language: python
+os: linux
+python: 3.5
+script: [./tools/travis-test.sh]
+sudo: false
