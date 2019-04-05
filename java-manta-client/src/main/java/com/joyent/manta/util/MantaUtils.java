@@ -7,8 +7,8 @@
  */
 package com.joyent.manta.util;
 
-import io.mikael.urlbuilder.util.Encoder;
 import io.mikael.urlbuilder.util.Decoder;
+import io.mikael.urlbuilder.util.Encoder;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,6 @@ import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
@@ -380,9 +379,8 @@ public final class MantaUtils {
     /**
      * Compute the intermediate directories between "/" and {@code rawPath}.
      *
-     * @param rawPath
-     * @return
-     * @throws IOException
+     * @param rawPath The fully qualified path of the Manta directory.
+     * @return All non-root directories leading to and including rawPath
      */
     public static String[] prefixPaths(final String rawPath) {
         final String[] parts = rawPath.split(SEPARATOR);
@@ -404,6 +402,13 @@ public final class MantaUtils {
         return paths;
     }
 
+    /**
+     * Returns intermediate directories between "/" and {@code rawPath}, not including
+     * the user's home folder and or system directories.
+     *
+     * @param rawPath The fully qualified path of the Manta directory.
+     * @return All non-root and non-system directories including rawPath
+     */
     public static String[] writeablePrefixPaths(final String rawPath) {
         final String[] paths = prefixPaths(rawPath);
         return Arrays.copyOfRange(prefixPaths(rawPath), 2, paths.length);

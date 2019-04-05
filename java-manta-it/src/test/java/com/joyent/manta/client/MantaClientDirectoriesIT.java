@@ -7,14 +7,18 @@
  */
 package com.joyent.manta.client;
 
-import com.joyent.manta.config.IntegrationTestConfigContext;
 import com.joyent.manta.config.ConfigContext;
+import com.joyent.manta.config.IntegrationTestConfigContext;
 import com.joyent.test.util.MantaAssert;
 import com.joyent.test.util.MantaFunction;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.Validate;
 import org.mockito.MockingDetails;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -161,14 +165,33 @@ public class MantaClientDirectoriesIT {
         Assert.assertEquals(dir, response.getPath());
     }
 
+    private static final Logger LOG = LoggerFactory.getLogger(MantaClientDirectoriesIT.class);
+
+    @Test(invocationCount = 10)
     public void canSkipAlreadyCreatedDirectories() throws IOException {
-        final String dir = String.format("%s/%s/%s/%s/%s/%s", testPathPrefix,
-                UUID.randomUUID(),
-                UUID.randomUUID(),
-                UUID.randomUUID(),
-                UUID.randomUUID(),
-                UUID.randomUUID());
-        final String nestedDir = dir + MantaClient.SEPARATOR + UUID.randomUUID().toString();
+
+        if (!mantaClient.existsAndIsAccessible(testPathPrefix)) {
+            mantaClient.putDirectory(testPathPrefix);
+        }
+
+        final int parentDirDepth = RandomUtils.nextInt(1, 10);
+        final int childAddedDepth = parentDirDepth + RandomUtils.nextInt(1, 10);
+
+        final StringBuilder parentDirBuilder = new StringBuilder(testPathPrefix);
+        for (int i = 0; i < parentDirDepth; i++) {
+            parentDirBuilder
+                    .append(MantaClient.SEPARATOR)
+                    .append(RandomStringUtils.random(3, true, false));
+        }
+        final String dir = parentDirBuilder.toString();
+
+        final StringBuilder childDirBuilder = new StringBuilder(dir);
+        for (int i = 0; i < childAddedDepth; i++) {
+            childDirBuilder
+                    .append(MantaClient.SEPARATOR)
+                    .append(RandomStringUtils.random(3, true, false));
+        }
+        final String nestedDir = childDirBuilder.toString();
 
         final MantaClient clientSpy = Mockito.spy(mantaClient);
 
@@ -188,7 +211,11 @@ public class MantaClientDirectoriesIT {
         Assert.assertEquals(nestedDir, nestedResponse.getPath());
 
         // verify that created the nested directory took less calls than its parent
-        Assert.assertTrue(putDirCallsNested < putDirCallsInitial);
+        final int childFullDepth = parentDirDepth + childAddedDepth;
+        LOG.info("depth (parent): " + parentDirDepth + " (child): " + childFullDepth);
+        LOG.info("calls (parent): " + putDirCallsInitial + " (child): " + putDirCallsNested);
+
+        Assert.assertTrue(putDirCallsNested <= (1 + childFullDepth));
     }
 
     private long putDirectoryAndCountCalls(final MantaClient clientSpy, final String dir) throws IOException {

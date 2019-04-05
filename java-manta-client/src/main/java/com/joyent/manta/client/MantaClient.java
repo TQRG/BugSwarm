@@ -1431,8 +1431,7 @@ public class MantaClient implements AutoCloseable {
             return;
         }
 
-        new MantaRecursiveDirectoryCreationStrategy.Probe(this)
-                .create(rawPath, headers);
+        new ProbingDirectoryCreationStrategy(this).create(rawPath, headers);
     }
 
     /**
