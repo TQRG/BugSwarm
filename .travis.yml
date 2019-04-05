@@ -1,0 +1,7 @@
+dist: trusty
+group: stable
+jdk: oraclejdk8
+language: java
+notifications: {email: admin@arsnova.eu, slack: 'f112a:GOZb6ewuAf2AVxduDXzdiCTG'}
+os: linux
+sudo: false
