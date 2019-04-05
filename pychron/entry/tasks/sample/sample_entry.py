@@ -135,7 +135,7 @@ class SampleSpec(Spec):
     def todump(self):
         return {'name': str(self.name), 'project': self.project.todump(),
                 'lat': self.lat, 'lon': self.lon,
-                'igsn': self.isgn,
+                'igsn': self.igsn,
                 'material': self.material.todump(),
                 'note': self.note}
 
@@ -299,14 +299,14 @@ class SampleEntry(DVCAble):
                         p.added = True
                         dvc.commit()
 
-        with dvc.session_ctx(use_parent_session=False):
-            for m in self._materials:
+        for m in self._materials:
+            with dvc.session_ctx(use_parent_session=False):
                 if dvc.add_material(m.name, m.grainsize or None):
                     m.added = True
                     dvc.commit()
 
-        with dvc.session_ctx(use_parent_session=False):
-            for s in self._samples:
+        for s in self._samples:
+            with dvc.session_ctx(use_parent_session=False):
                 if not s.name:
                     self.warning_dialog('A Sample name is required')
                     continue
@@ -396,6 +396,7 @@ class SampleEntry(DVCAble):
                                             lat=self.lat,
                                             lon=self.lon,
                                             igsn=self.igsn,
+                                            note=self.note,
                                             project=project_spec,
                                             material=material_spec))
             self._backup()
