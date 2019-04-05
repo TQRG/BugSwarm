@@ -1,0 +1,38 @@
+.. _index:
+
+===================
+CrateDB JDBC Driver
+===================
+
+JDBC is a core API of Java 1.1 and later. It provides a standard set of
+interfaces to SQL-compliant databases.
+
+CrateDB provides a `type 4 JDBC driver`_. The driver is written in pure Java,
+and communicates with the database using the `PostgreSQL Wire Protocol`_.
+
+.. NOTE::
+
+   The 2.x.x releases of this library differ from the 1.x.x releases in two
+   ways.
+
+   The `connection string`_ changed to the same format as PostgreSQL JDBC,
+   which means that setting the default schema with the connection string is
+   not supported. Use ``setSchema()`` instead or provide a schema name in a
+   SQL statement.
+
+   Additionally, support for the experimental ``showsubcolumns`` parameter has
+   been dropped.
+
+.. rubric:: Table of Contents
+
+.. toctree::
+   :maxdepth: 2
+
+   getting-started
+   connecting
+   compatibility
+   types
+
+.. _connection string: https://jdbc.postgresql.org/documentation/80/connect.html
+.. _PostgreSQL Wire Protocol: https://www.postgresql.org/docs/current/static/protocol.html
+.. _type 4 JDBC driver: https://en.wikipedia.org/wiki/JDBC_driver#Type_4_driver_.E2.80.93_Database-Protocol_driver_.28Pure_Java_driver.29
