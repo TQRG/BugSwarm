@@ -12,12 +12,8 @@ from ._compat import ExitStack
 from .conf import config
 from .utils.path import ensure_containing_directory
 from .warnings import WarnHandler
-<<<<<<< HEAD
 from .exceptions import InvalidConfiguraion
-||||||| merged common ancestors
-=======
 from . import hooks
->>>>>>> Add log_file_closed hook log.cleanup config to enable log files cleanups (closes #681)
 
 _logger = logbook.Logger(__name__)
 
