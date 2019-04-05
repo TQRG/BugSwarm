@@ -930,4 +930,4 @@ def test_memmap_with_padding(tmpdir):
     assert isinstance(memmap, np.memmap)
     np.testing.assert_array_equal(arr, memmap)
 
-    assert isinstance(memmap.ctypes.data / 8, int)
+    assert memmap.ctypes.data % 8 == 0

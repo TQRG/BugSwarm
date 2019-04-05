@@ -258,10 +258,11 @@ class NumpyPickler(Pickler):
         if allow_mmap:
             import io
             try:
-                wrapper_len = len(pickle.dumps(
+                dumps = pickle.dumps(
                     NumpyArrayWrapper(type(array), array.shape,
                                       order, array.dtype),
-                    protocol=self.protocol))
+                    protocol=self.protocol)
+                wrapper_len = len(dumps) - 19
                 pos_in_file = self.file_handle.tell()
                 array_pos_in_file = pos_in_file + wrapper_len
                 alignment_padding = NUMPY_ARRAY_ALIGN - \
