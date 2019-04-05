@@ -44,14 +44,6 @@ class ArrowLineSegment(LineSegment):
                 \override TextSpanner.staff-padding = #2
             }
             {
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.0
-                            ord.
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak bound-details.left.text \markup {
@@ -70,6 +62,14 @@ class ArrowLineSegment(LineSegment):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.0
+                            ord.
+                        }
+                    }
                 \startTextSpan
                 d'4
                 e'4
@@ -169,15 +169,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -197,6 +188,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -237,15 +237,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -265,6 +256,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -303,15 +303,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -331,6 +322,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -381,15 +381,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -409,6 +400,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -448,15 +448,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -476,6 +467,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -513,15 +513,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -541,6 +532,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -590,15 +590,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -618,6 +609,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -661,15 +661,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -690,6 +681,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -731,15 +731,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -760,6 +751,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -1251,15 +1251,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -1279,6 +1270,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -1319,15 +1319,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -1348,6 +1339,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
                     -\tweak style #'zigzag
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -1384,15 +1384,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -1413,6 +1404,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
                     -\tweak style #'trill
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
@@ -1449,15 +1449,6 @@ class ArrowLineSegment(LineSegment):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                \upright
-                                    ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -1478,6 +1469,15 @@ class ArrowLineSegment(LineSegment):
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
                     -\tweak style #'dotted-line
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                \upright
+                                    ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4

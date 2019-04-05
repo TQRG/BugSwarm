@@ -75,15 +75,6 @@ class TextSpanner(Spanner):
                 \override TextSpanner.staff-padding = #2.5
             }
             {
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #1.0
-                            \upright
-                                tasto
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak dash-period 0
@@ -93,6 +84,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 1.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #1.0
+                            \upright
+                                tasto
+                        }
+                    }
                 \startTextSpan
                 d'4
                 e'4
@@ -117,15 +117,6 @@ class TextSpanner(Spanner):
                 \override TextSpanner.staff-padding = #2.5
             }
             {
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #1.0
-                            \upright
-                                tasto
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak bound-details.left.text \markup {
@@ -144,6 +135,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 1.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #1.0
+                            \upright
+                                tasto
+                        }
+                    }
                 \startTextSpan
                 d'4
                 e'4
@@ -169,15 +169,6 @@ class TextSpanner(Spanner):
                 \override TextSpanner.staff-padding = #2.5
             }
             {
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.0
-                            \upright
-                                tasto
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak bound-details.left.text \markup {
@@ -197,6 +188,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.0
+                            \upright
+                                tasto
+                        }
+                    }
                 \startTextSpan
                 d'4
                 e'4
@@ -270,15 +270,6 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
                 \startTextSpan
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.0
-                            \upright
-                                four
-                        }
-                    }
                 e'4
                 \stopTextSpan
                 -\tweak Y-extent ##f
@@ -299,6 +290,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.0
+                            \upright
+                                four
+                        }
+                    }
                 \startTextSpan
                 f'4
                 \stopTextSpan
@@ -368,15 +368,6 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right.padding 1
                 -\tweak bound-details.right.stencil-align-dir-y #center
                 \startTextSpan
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.5
-                            \upright
-                                four
-                        }
-                    }
                 e'4
                 \stopTextSpan
                 -\tweak Y-extent ##f
@@ -397,6 +388,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 1
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.5
+                            \upright
+                                four
+                        }
+                    }
                 \startTextSpan
                 f'4
                 \stopTextSpan
@@ -430,15 +430,6 @@ class TextSpanner(Spanner):
             }
             {
                 \once \override TextScript.color = #blue
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.0
-                            \upright
-                                pont.
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak bound-details.left.text \markup {
@@ -458,6 +449,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.0
+                            \upright
+                                pont.
+                        }
+                    }
                 \startTextSpan
                 ^ \markup {
                     \italic
@@ -580,8 +580,6 @@ class TextSpanner(Spanner):
                 bundle.right.spanner_starts.append(string)
             tweaks = line_segment._get_lilypond_grob_overrides(tweaks=True)
             bundle.right.spanner_starts.extend(tweaks)
-            # tweaks come immediately before start command
-            bundle.right.spanner_starts.append(self._start_command())
         if last_leaf_markup is not None:
             right_hspace = line_segment.right_padding or 0
             # optical correction to draw last markup left:
@@ -601,8 +599,11 @@ class TextSpanner(Spanner):
                     ),
                 value=last_leaf_markup,
                 )
-            string = override.override_string
-            bundle.grob_overrides.append(string)
+            string = override.tweak_string
+            bundle.right.spanner_starts.append(string)
+        # all tweaks must appear immediately before start command:
+        if not component is self[-1]:
+            bundle.right.spanner_starts.append(self._start_command())
         return bundle
 
     @staticmethod
@@ -681,15 +682,6 @@ class TextSpanner(Spanner):
                 \override TextSpanner.staff-padding = #2.5
             }
             {
-                \once \override TextSpanner.bound-details.right.text = \markup {
-                    \concat
-                        {
-                            \hspace
-                                #0.0
-                            \upright
-                                pont.
-                        }
-                    }
                 c'4
                 -\tweak Y-extent ##f
                 -\tweak bound-details.left.text \markup {
@@ -709,6 +701,15 @@ class TextSpanner(Spanner):
                 -\tweak bound-details.right-broken.text ##f
                 -\tweak bound-details.right.padding 0.5
                 -\tweak bound-details.right.stencil-align-dir-y #center
+                -\tweak bound-details.right.text \markup {
+                    \concat
+                        {
+                            \hspace
+                                #0.0
+                            \upright
+                                pont.
+                        }
+                    }
                 \startTextSpanOne
                 d'4
                 e'4

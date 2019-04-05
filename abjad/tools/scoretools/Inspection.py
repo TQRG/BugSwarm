@@ -1044,14 +1044,6 @@ class Inspection(abctools.AbjadObject):
                     \override TextSpanner.staff-padding = #2
                 }
                 {
-                    \once \override TextSpanner.bound-details.right.text = \markup {
-                        \concat
-                            {
-                                \hspace
-                                    #0.0
-                                ord.
-                            }
-                        }
                     c'4
                     -\tweak Y-extent ##f
                     -\tweak bound-details.left.text \markup {
@@ -1070,6 +1062,14 @@ class Inspection(abctools.AbjadObject):
                     -\tweak bound-details.right-broken.text ##f
                     -\tweak bound-details.right.padding 0.5
                     -\tweak bound-details.right.stencil-align-dir-y #center
+                    -\tweak bound-details.right.text \markup {
+                        \concat
+                            {
+                                \hspace
+                                    #0.0
+                                ord.
+                            }
+                        }
                     \startTextSpan
                     d'4
                     e'4
