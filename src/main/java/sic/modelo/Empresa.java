@@ -23,9 +23,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "empresa")
 @NamedQueries({
-    @NamedQuery(name = "Empresa.buscarPorId",
-            query = "SELECT e FROM Empresa e "
-                    + "WHERE p.eliminada = false AND e.id_Empresa = :id"),
     @NamedQuery(name = "Empresa.buscarTodas",
             query = "SELECT e FROM Empresa e "
                     + "WHERE e.eliminada = false "
