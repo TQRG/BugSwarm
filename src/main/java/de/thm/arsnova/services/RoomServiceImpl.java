@@ -294,7 +294,7 @@ public class RoomServiceImpl extends DefaultEntityServiceImpl<Room> implements R
 
 	@Override
 	@PreAuthorize("hasPermission(#room, 'create')")
-	@Caching(evict = @CacheEvict(cacheNames = "rooms", key = "#result.keyword"))
+	@Caching(evict = @CacheEvict(cacheNames = "rooms", key = "#result.shortId"))
 	public Room save(final Room room) {
 		/* FIXME: migrate LMS course support
 		if (connectorClient != null && room.getCourseId() != null) {
@@ -323,7 +323,11 @@ public class RoomServiceImpl extends DefaultEntityServiceImpl<Room> implements R
 
 	@Override
 	public boolean isShortIdAvailable(final String shortId) {
-		return getByShortId(shortId) == null;
+		try {
+			return getByShortId(shortId) == null;
+		} catch (final NotFoundException e) {
+			return true;
+		}
 	}
 
 	@Override
