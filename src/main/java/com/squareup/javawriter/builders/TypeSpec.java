@@ -54,10 +54,12 @@ public final class TypeSpec {
           "interface %s cannot declare non-public method %s", builder.name, methodSpec.name);
     }
     for (FieldSpec fieldSpec : builder.fieldSpecs) {
-      checkArgument(fieldSpec.hasModifier(Modifier.PUBLIC)
-              && fieldSpec.hasModifier(Modifier.STATIC)
-              && fieldSpec.hasModifier(Modifier.FINAL),
-          "interface %s field %s must be public static final", builder.name, fieldSpec.name);
+      if (isInterface) {
+        checkArgument(fieldSpec.hasModifier(Modifier.PUBLIC)
+            && fieldSpec.hasModifier(Modifier.STATIC)
+            && fieldSpec.hasModifier(Modifier.FINAL),
+            "interface %s field %s must be public static final", builder.name, fieldSpec.name);
+      }
     }
 
     this.annotations = ImmutableList.copyOf(builder.annotations);

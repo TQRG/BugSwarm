@@ -133,7 +133,7 @@ public class TypeSpecTest {
     TypeSpec taco = new TypeSpec.Builder()
         .name(ClassName.create("com.squareup.tacos", "Taco"))
         .addField(new FieldSpec.Builder()
-            .addModifiers(Modifier.STATIC, Modifier.FINAL)
+            .addModifiers(Modifier.STATIC, Modifier.FINAL, Modifier.FINAL)
             .type(thingThangOfFooBar)
             .name("NAME")
             .initializer("$L", aThingThang)
