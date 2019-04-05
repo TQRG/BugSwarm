@@ -15,7 +15,7 @@
  */
 package tests.sample;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.inject.Inject;
 import javax.inject.Provider;
 import tests.PublicClassFactory;
