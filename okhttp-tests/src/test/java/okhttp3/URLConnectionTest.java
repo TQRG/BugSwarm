@@ -57,6 +57,7 @@ import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import okhttp3.internal.DoubleInetAddressDns;
 import okhttp3.internal.Internal;
 import okhttp3.internal.RecordingAuthenticator;
 import okhttp3.internal.RecordingOkAuthenticator;
@@ -1345,6 +1346,7 @@ public final class URLConnectionTest {
   }
 
   @Test public void endOfStreamResponseIsNotPooled() throws Exception {
+    client.client().getConnectionPool().evictAll();
     server.enqueue(new MockResponse()
         .setBody("{}")
         .clearHeaders()
@@ -2450,13 +2452,20 @@ public final class URLConnectionTest {
   }
 
   /**
-   * Retry redirects if the socket is closed. https://code.google.com/p/android/issues/detail?id=41576
+   * Retry redirects if the socket is closed.
+   * https://code.google.com/p/android/issues/detail?id=41576
    */
   @Test public void sameConnectionRedirectAndReuse() throws Exception {
-    server.enqueue(new MockResponse().setResponseCode(HttpURLConnection.HTTP_MOVED_TEMP)
+    // TODO(jwilson): this behavior shouldn't rely on having another IP address to attempt.
+    client.setClient(client.client().newBuilder()
+        .setDns(new DoubleInetAddressDns())
+        .build());
+    server.enqueue(new MockResponse()
+        .setResponseCode(HttpURLConnection.HTTP_MOVED_TEMP)
         .setSocketPolicy(SHUTDOWN_INPUT_AT_END)
         .addHeader("Location: /foo"));
-    server.enqueue(new MockResponse().setBody("This is the new page!"));
+    server.enqueue(new MockResponse()
+        .setBody("This is the new page!"));
 
     assertContent("This is the new page!", client.open(server.url("/").url()));
 
