@@ -333,7 +333,7 @@ public class FacturaServiceImpl implements IFacturaService {
                 Factura facturaGuardada = facturaRepository.save(this.procesarFactura(f));
                 facturasProcesadas.add(facturaGuardada);
                 LOGGER.warn("La Factura " + facturaGuardada + " se guardó correctamente.");
-                if (!pagosFactura.isEmpty()) {
+                if (pagosFactura != null) {
                     pagosFactura.forEach((p) -> {
                         pagoService.guardar(p);
                     });
