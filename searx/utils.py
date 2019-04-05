@@ -41,7 +41,9 @@ logger = logger.getChild('utils')
 blocked_tags = ('script',
                 'style')
 
-useragents = json.loads(open(os.path.dirname(os.path.realpath(__file__)) + "/data/useragents.json", 'r', encoding='utf-8').read())
+useragents = json.loads(open(os.path.dirname(os.path.realpath(__file__))
+                             + "/data/useragents.json", 'r', encoding='utf-8').read())
+
 
 def searx_useragent():
     return 'searx/{searx_version} {suffix}'.format(
