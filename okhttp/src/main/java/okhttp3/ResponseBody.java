@@ -163,8 +163,12 @@ public abstract class ResponseBody implements Closeable {
    */
   public final String string() throws IOException {
     BufferedSource source = source();
-    Charset charset = Util.bomAwareCharset(source, charset());
-    return source.readString(charset);
+    try {
+      Charset charset = Util.bomAwareCharset(source, charset());
+      return source.readString(charset);
+    } finally {
+      Util.closeQuietly(source);
+    }
   }
 
   private Charset charset() {
