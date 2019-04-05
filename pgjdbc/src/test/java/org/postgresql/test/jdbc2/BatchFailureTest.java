@@ -75,10 +75,12 @@ public class BatchFailureTest extends BaseTest4 {
   }
 
   enum FailMode {
-    NO_FAIL_JUST_INSERTS, NO_FAIL_SELECT, FAIL_VIA_SELECT, FAIL_VIA_DUP_KEY;
+    NO_FAIL_JUST_INSERTS, NO_FAIL_SELECT,
+    FAIL_VIA_SELECT_PARSE, FAIL_VIA_SELECT_RUNTIME,
+    FAIL_VIA_DUP_KEY;
 
     public boolean supports(BatchType batchType) {
-      return batchType != BatchType.SIMPLE ^ this.name().endsWith("SELECT");
+      return batchType != BatchType.SIMPLE ^ this.name().contains("SELECT");
     }
 
     public void injectFailure(Statement statement, BatchType batchType) throws SQLException {
@@ -88,8 +90,11 @@ public class BatchFailureTest extends BaseTest4 {
         case NO_FAIL_SELECT:
           statement.addBatch("select 1 union all select 2");
           break;
-        case FAIL_VIA_SELECT:
-          statement.addBatch("select 1 union all select 0/0");
+        case FAIL_VIA_SELECT_RUNTIME:
+          statement.addBatch("select 0/count(*) where 1=2");
+          break;
+        case FAIL_VIA_SELECT_PARSE:
+          statement.addBatch("seeeeleeeect 1");
           break;
         case FAIL_VIA_DUP_KEY:
           batchType.addRow(statement, "key-2");
@@ -202,14 +207,13 @@ public class BatchFailureTest extends BaseTest4 {
       batchResult = statement.executeBatch();
       Assert.assertTrue("Expecting BatchUpdateException due to " + failMode
               + ", executeBatch returned " + Arrays.toString(batchResult),
-          failMode.name().startsWith("NO"));
-      expectedRows = pos - (failPosition == FailPosition.NONE ? 0 : 1);
-      expectedRows++; // +1 since key-2 is already in the DB
+          failPosition == FailPosition.NONE);
+      expectedRows = pos + 1; // +1 since key-2 is already in the DB
     } catch (BatchUpdateException ex) {
       batchResult = ex.getUpdateCounts();
       Assert.assertTrue("Should not fail since fail mode should be " + failMode
               + ", executeBatch returned " + Arrays.toString(batchResult),
-          failMode.name().startsWith("FAIL"));
+          failPosition != FailPosition.NONE);
 
       for (int i : batchResult) {
         if (i != Statement.EXECUTE_FAILED) {
