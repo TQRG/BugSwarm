@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven and Macs
+target/
+.DS_Store
+
+# Eclipse IDE
+.classpath
+.settings
+.project
+.ant-targets-build.xml
