@@ -25,10 +25,10 @@ paging = True
 results_xpath = '//script[@id="initial-state"]'
 search_url = 'https://www.findx.com/{category}?{q}'
 type_map = {
-        'none': 'web',
-        'general': 'web',
-        'images': 'images',
-        'videos': 'videos',
+    'none': 'web',
+    'general': 'web',
+    'images': 'images',
+    'videos': 'videos',
 }
 
 
@@ -60,7 +60,6 @@ def response(resp):
 
     if len(results_json['video']['results']) > 0:
         return _videos_results(results_json['video']['results'])
-
 
     return []
 
