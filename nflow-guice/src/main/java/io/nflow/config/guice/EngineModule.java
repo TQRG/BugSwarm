@@ -28,6 +28,8 @@ import com.google.inject.util.Providers;
 
 import io.nflow.engine.internal.config.EngineConfiguration;
 import io.nflow.engine.internal.config.NFlow;
+import io.nflow.engine.internal.dao.ExecutorDao;
+import io.nflow.engine.internal.dao.WorkflowInstanceDao;
 import io.nflow.engine.internal.executor.WorkflowInstanceExecutor;
 import io.nflow.engine.internal.storage.db.DatabaseConfiguration;
 import io.nflow.engine.internal.storage.db.DatabaseInitializer;
@@ -122,7 +124,10 @@ public class EngineModule extends AbstractModule {
   }
 
   @Inject
-  void initPostConstruct(WorkflowDefinitionService workflowDefinitionService) throws Exception {
+  void initPostConstruct(WorkflowInstanceDao workflowInstanceDao, ExecutorDao executorDao,
+      WorkflowDefinitionService workflowDefinitionService) throws Exception {
+    workflowInstanceDao.findColumnMaxLengths();
+    executorDao.findHostMaxLength();
     workflowDefinitionService.postProcessWorkflowDefinitions();
   }
 }
