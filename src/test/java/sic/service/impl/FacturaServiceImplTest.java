@@ -1,6 +1,7 @@
 package sic.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -16,6 +17,8 @@ import sic.modelo.Medida;
 import sic.modelo.Producto;
 import sic.modelo.Proveedor;
 import sic.modelo.RenglonFactura;
+import sic.modelo.Transportista;
+import sic.modelo.Usuario;
 import sic.repository.IFacturaRepository;
 import sic.service.IFacturaService;
 import sic.service.IProductoService;
@@ -183,7 +186,7 @@ public class FacturaServiceImplTest {
 
     @Test
     public void shouldDividirFactura() {
-        FacturaVenta factura = Mockito.mock(FacturaVenta.class);
+//        FacturaVenta factura = Mockito.mock(FacturaVenta.class);
         RenglonFactura renglon1 = Mockito.mock(RenglonFactura.class);
         RenglonFactura renglon2 = Mockito.mock(RenglonFactura.class);
         Producto producto = Mockito.mock(Producto.class);
@@ -204,11 +207,19 @@ public class FacturaServiceImplTest {
         List<RenglonFactura> renglones = new ArrayList<>();
         renglones.add(renglon1);
         renglones.add(renglon2);
-        when(factura.getRenglones()).thenReturn(renglones);
-        when(factura.getTipoFactura()).thenReturn('A');
+        FacturaVenta factura = FacturaVenta.builder()
+                               .renglones(renglones)
+                               .fecha(new Date())
+                               .transportista(Transportista.builder().nombre("demonte").build())
+                               .empresa(Empresa.builder().nombre("CocaCola").build())
+                               .cliente(Cliente.builder().nombreFantasia("Enrrique Iglesias").build())
+                               .usuario(Usuario.builder().nombre("Marian Jhons  help").build())
+                               .tipoFactura('A').build();
+//        when(factura.getRenglones()).thenReturn(renglones);
+//        when(factura.getTipoFactura()).thenReturn('A');
         int[] indices = {0, 1};
         int cantidadDeFacturasEsperadas = 2;
-        List<FacturaVenta> result = facturaService.dividirYGuardarFactura(factura, indices);
+        List<FacturaVenta> result = facturaService.dividirFactura(factura, indices);
         double cantidadRenglon1PrimeraFactura = result.get(0).getRenglones().get(0).getCantidad();
         double cantidadRenglon2PrimeraFactura = result.get(0).getRenglones().get(1).getCantidad();
         double cantidadRenglon1SegundaFactura = result.get(1).getRenglones().get(0).getCantidad();

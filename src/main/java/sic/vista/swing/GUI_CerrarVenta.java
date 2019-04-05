@@ -243,7 +243,7 @@ public class GUI_CerrarVenta extends JDialog {
                 this.lanzarReporteFactura(this.guardarFactura(factura));
                 exito = true;
             } else {
-                List<FacturaVenta> facturasDivididas = facturaService.dividirYGuardarFactura(this.construirFactura(), indicesParaDividir);
+                List<FacturaVenta> facturasDivididas = facturaService.dividirFactura(this.construirFactura(), indicesParaDividir);
                 for (Factura factura : facturasDivididas) {
                     if (facturasDivididas.size() == 2 && !factura.getRenglones().isEmpty()) {
                         if (gui_puntoDeVenta.getPedido() != null) {

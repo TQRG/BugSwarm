@@ -516,7 +516,7 @@ public class GUI_DetalleCliente extends JDialog {
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         try {
             if (operacion == TipoDeOperacion.ALTA) {
-                this.cliente = new Cliente();
+                this.cliente = Cliente.builder().build();
                 cliente.setId_Fiscal(txt_Id_Fiscal.getText().trim());
                 cliente.setRazonSocial(txt_RazonSocial.getText().trim());
                 cliente.setNombreFantasia(txt_NombreFantasia.getText().trim());

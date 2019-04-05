@@ -434,7 +434,7 @@ public class FacturaController {
     @ResponseStatus(HttpStatus.CREATED)
     public List<FacturaVenta> dividirYGuardarFactura(@RequestParam("indices") int[] indices,
                                                      @RequestBody FacturaVenta factura) {
-        return facturaService.dividirYGuardarFactura(factura, indices);
+        return facturaService.dividirFactura(factura, indices);
     }
     
     @PostMapping("/facturas/producto/{id}/renglon")

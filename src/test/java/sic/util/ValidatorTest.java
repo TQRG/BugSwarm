@@ -51,7 +51,7 @@ public class ValidatorTest {
     @Test
     public void shouldCompararFechasWhenFechasIguales() {
         Date fechaAnterior = new Date();
-        Date fechaSiguiente = new Date();
+        Date fechaSiguiente = fechaAnterior;
         int expResult = 0;
         int result = Validator.compararFechas(fechaAnterior, fechaSiguiente);
         assertEquals(expResult, result);

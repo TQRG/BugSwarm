@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,6 +30,7 @@ import lombok.EqualsAndHashCode;
                     + "ORDER BY t.nombre ASC")
 })
 @Data
+@Builder
 @EqualsAndHashCode(of = {"nombre", "empresa"})
 public class Transportista implements Serializable {
 

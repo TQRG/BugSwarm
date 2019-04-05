@@ -746,7 +746,7 @@ public class FacturaServiceImpl implements IFacturaService {
     }
 
     @Override
-    public List<FacturaVenta> dividirYGuardarFactura(FacturaVenta factura, int[] indices) {
+    public List<FacturaVenta> dividirFactura(FacturaVenta factura, int[] indices) {
         double FacturaABC = 0;
         double FacturaX = 0;
         List<RenglonFactura> renglonesConIVA = new ArrayList<>();
@@ -836,11 +836,9 @@ public class FacturaServiceImpl implements IFacturaService {
         facturaConIVA.setEmpresa(factura.getEmpresa());
         facturaConIVA.setEliminada(factura.isEliminada());
 
-        this.guardar(facturaConIVA);
-        this.guardar(facturaSinIVA);
         List<FacturaVenta> facturas = new ArrayList<>();
-        facturas.add((FacturaVenta) this.getFacturaPorId(facturaConIVA.getId_Factura()));
-        facturas.add((FacturaVenta) this.getFacturaPorId(facturaSinIVA.getId_Factura()));
+        facturas.add(facturaConIVA);
+        facturas.add(facturaSinIVA);
         return facturas;
     }
 

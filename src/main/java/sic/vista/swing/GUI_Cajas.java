@@ -38,7 +38,7 @@ public class GUI_Cajas extends javax.swing.JInternalFrame {
         initComponents();
         this.setSize(850, 600);
         this.setColumnasCaja();
-        Usuario paraMostrar = new Usuario();
+        Usuario paraMostrar = Usuario.builder().build();
         paraMostrar.setNombre("Seleccione un Usuario....");
         cmb_Usuarios.addItem(paraMostrar);
         cmb_Usuarios.setEnabled(false);
@@ -533,7 +533,7 @@ public class GUI_Cajas extends javax.swing.JInternalFrame {
                 cmb_Usuarios.addItem(usuario);
             }
         } else {
-            Usuario paraMostrar = new Usuario();
+            Usuario paraMostrar = Usuario.builder().build();
             paraMostrar.setNombre("Seleccione un Usuario....");
             cmb_Usuarios.addItem(paraMostrar);
         }

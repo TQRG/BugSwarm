@@ -94,7 +94,7 @@ public interface IFacturaService {
 
     byte[] getReporteFacturaVenta(Factura factura);
 
-    List<FacturaVenta> dividirYGuardarFactura(FacturaVenta factura, int[] indices);
+    List<FacturaVenta> dividirFactura(FacturaVenta factura, int[] indices);
 
     RenglonFactura getRenglonFacturaPorRenglonPedido(RenglonPedido renglon, String tipoComprobante);
 

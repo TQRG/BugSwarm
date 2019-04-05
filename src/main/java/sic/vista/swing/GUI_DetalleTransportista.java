@@ -370,7 +370,7 @@ public class GUI_DetalleTransportista extends JDialog {
 	private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
             try {
                 if (operacion == TipoDeOperacion.ALTA) {
-                    Transportista transportista = new Transportista();
+                    Transportista transportista = Transportista.builder().build();
                     transportista.setNombre(txt_Nombre.getText().trim());
                     transportista.setDireccion(txt_Direccion.getText().trim());
                     transportista.setLocalidad((Localidad) cmb_Localidad.getSelectedItem());                    

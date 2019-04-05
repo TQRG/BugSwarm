@@ -173,7 +173,7 @@ public class GUI_DetalleUsuario extends JDialog {
         try {
             if (operacion == TipoDeOperacion.ALTA) {
                 if (new String(txt_Contrasenia.getPassword()).equals(new String(txt_RepetirContrasenia.getPassword()))) {
-                    Usuario usuario = new Usuario();
+                    Usuario usuario = Usuario.builder().build();
                     usuario.setNombre(txt_Usuario.getText().trim());
                     usuario.setPassword(new String(txt_Contrasenia.getPassword()));
                     usuario.setPermisosAdministrador(chk_Administrador.isSelected());
@@ -189,7 +189,7 @@ public class GUI_DetalleUsuario extends JDialog {
 
             if (operacion == TipoDeOperacion.ACTUALIZACION) {
                 if (new String(txt_Contrasenia.getPassword()).equals(new String(txt_RepetirContrasenia.getPassword()))) {
-                    Usuario usuarioModificado = new Usuario();
+                    Usuario usuarioModificado = Usuario.builder().build();
                     usuarioModificado.setId_Usuario(usuarioModificar.getId_Usuario());
                     usuarioModificado.setNombre(txt_Usuario.getText().trim());
                     usuarioModificado.setPassword(new String(txt_Contrasenia.getPassword()));

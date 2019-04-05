@@ -31,8 +31,8 @@ public class ClienteServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         empresa = Empresa.builder().build();
-        cliente = new Cliente();
-        clienteDuplicado = new Cliente();
+        cliente = Cliente.builder().build();
+        clienteDuplicado = Cliente.builder().build();
     }
 
     @Test
