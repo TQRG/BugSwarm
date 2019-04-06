@@ -1,0 +1,23 @@
+addons:
+  apt:
+    packages: [python-scipy, libatlas3-base, libatlas-dev]
+after_success: source build_tools/travis/after_success.sh
+cache:
+  apt: true
+  directories: [$HOME/.cache/pip, $HOME/.ccache]
+dist: trusty
+env: [DISTRIB="ubuntu" PYTHON_VERSION="2.7" CYTHON_VERSION="0.23.5" COVERAGE=true]
+global_env: TEST_DIR=/tmp/sklearn OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4
+group: stable
+if: type != cron
+install: source build_tools/travis/install.sh
+language: python
+notifications:
+  webhooks:
+    on_failure: always
+    on_start: never
+    on_success: change
+    urls: ['https://webhooks.gitter.im/e/4ffabb4df010b70cd624']
+os: linux
+script: bash build_tools/travis/test_script.sh
+sudo: false
