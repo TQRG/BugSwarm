@@ -66,6 +66,9 @@ class SparsePCA(BaseEstimator, TransformerMixin):
         If None, the random number generator is the RandomState instance used
         by `np.random`.
 
+    variance : bool, optional
+        If true, compute the explained variance
+
     Attributes
     ----------
     components_ : array, [n_components, n_features]
@@ -76,9 +79,6 @@ class SparsePCA(BaseEstimator, TransformerMixin):
 
     n_iter_ : int
         Number of iterations run.
-
-    variance : bool, optional
-        If true, compute the explained variance
 
     explained_variance_ : array, [n_components]
         The explained variance versus component
@@ -144,8 +144,7 @@ class SparsePCA(BaseEstimator, TransformerMixin):
         self.components_ = Vt.T
         self.error_ = E
         if self.variance:
-            self.explained_variance_ = \
-                self._get_explained_variance(self.components_, X)
+            self.explained_variance_ = self._get_explained_variance(X)
         return self
 
     def transform(self, X, ridge_alpha='deprecated'):
@@ -361,7 +360,6 @@ class MiniBatchSparsePCA(SparsePCA):
         self.components_ = Vt.T
 
         if self.variance:
-            self.explained_variance_ = \
-                self._get_explained_variance(self.components_, X)
+            self.explained_variance_ = self._get_explained_variance(X)
 
         return self

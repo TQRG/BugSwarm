@@ -80,21 +80,27 @@ def test_fit_transform():
 
 
 def test_fit_transform_variance():
+    '''
+        This function asserts that the variance computed by SparsePCA is the
+        same as the variance in PCA when the components are orthogonal.
+    '''
     alpha = 1
     rng = np.random.RandomState(0)
-    Y, _, _ = generate_toy_data(3, 10, (8, 8), random_state=rng)  # wide array
+    X, _, _ = generate_toy_data(3, 10, (8, 8), random_state=rng)  # wide array
+    # init spca and pca
     spca_lars = SparsePCA(n_components=3, method='lars', alpha=alpha,
                           random_state=0, variance=True)
     pca = PCA(n_components=3, random_state=0)
 
-    pca.fit(Y)
-    # no need to fit spca for this
-    spca_lars.fit(Y)
+    # fit PCA
+    pca.fit(X)
 
-    components = pca.components_
     explained_variance = pca.explained_variance_
-    spca_lars.components_ = components
-    explained_variance_sparse = spca_lars.explained_variance_
+
+    # force the components in spca_lars to be the same as in pca
+    spca_lars.components_ = pca.components_
+    # compute using private method
+    explained_variance_sparse = spca_lars._get_explained_variance(X)
 
     assert_array_almost_equal(explained_variance, explained_variance_sparse)
 
