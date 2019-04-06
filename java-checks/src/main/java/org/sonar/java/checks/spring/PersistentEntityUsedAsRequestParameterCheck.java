@@ -29,7 +29,7 @@ import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.VariableTree;
 
-@Rule(key = "S3751")
+@Rule(key = "S4684")
 public class PersistentEntityUsedAsRequestParameterCheck extends IssuableSubscriptionVisitor {
 
   @Override
@@ -43,8 +43,11 @@ public class PersistentEntityUsedAsRequestParameterCheck extends IssuableSubscri
     "org.springframework.web.bind.annotation.PostMapping",
     "org.springframework.web.bind.annotation.PutMapping",
     "org.springframework.web.bind.annotation.DeleteMapping",
-    "org.springframework.web.bind.annotation.PatchMapping"
-  );
+    "org.springframework.web.bind.annotation.PatchMapping");
+
+  private static final List<String> ENTITY_ANNOTATIONS = Arrays.asList(
+    "javax.persistence.Entity",
+    "org.springframework.data.mongodb.core.mapping.Document");
 
   @Override
   public void visitNode(Tree tree) {
@@ -67,6 +70,6 @@ public class PersistentEntityUsedAsRequestParameterCheck extends IssuableSubscri
   }
 
   private static boolean isPersistentEntity(VariableTree variableTree) {
-    return false;
+    return ENTITY_ANNOTATIONS.stream().anyMatch(variableTree.type().symbolType().symbol().metadata()::isAnnotatedWith);
   }
 }

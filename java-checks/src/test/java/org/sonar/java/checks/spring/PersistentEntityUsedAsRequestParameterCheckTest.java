@@ -27,8 +27,8 @@ public class PersistentEntityUsedAsRequestParameterCheckTest {
   @Test
   public void test() {
     JavaCheckVerifier.verify("src/test/files/checks/spring/PersistentEntityUsedAsRequestParameterCheck.java",
-        new PersistentEntityUsedAsRequestParameterCheck());
+      new PersistentEntityUsedAsRequestParameterCheck());
     JavaCheckVerifier.verifyNoIssueWithoutSemantic("src/test/files/checks/spring/PersistentEntityUsedAsRequestParameterCheck.java",
-        new PersistentEntityUsedAsRequestParameterCheck());
+      new PersistentEntityUsedAsRequestParameterCheck());
   }
 }
