@@ -112,7 +112,7 @@ class AddServerView(LoggedInMixin, View):
                 server=server,
             )
         server.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('servers-view'))
 
     def get(self, request):
         return render(
@@ -269,7 +269,7 @@ class AddApplicationView(LoggedInMixin, View):
             github_url=request.POST.get('github_url', ''),
         )
         application.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('servers-view'))
 
     def get(self, request):
         return render(
