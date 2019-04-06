@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/lib/tablesorter/tablesorter.css' %}">
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'js/lib/tablesorter/jquery.tablesorter.min.js' %}"></script>
+<script>
+jQuery(document).ready(function () {
+    jQuery('.tablesorter').tablesorter({
+        sortList: [[0,0]],
+        headerTemplate: '{content} {icon}',
+        headers: {
+            '.nosort': {
+                sorter: false
+            },
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="jumbotron text-center" style="height: 270px">
+            <h2>Managed<br />Servers</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron text-center" style="height: 270px">
+            <h1>{{servers|length}}</h1>
+            <h3>servers</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="jumbotron text-center" style="height: 270px">
+            <h1>{{applications|length}}</h1>
+            <h3>applications</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Raw Logs</div>
+            <div class="panel-body">
+                {% for grainlog in logs %}
+                    <li><a href="{% url 'grainlog-detail' grainlog.id %}">{{grainlog.created}}</a></li>
+                {% empty %}
+                    <li>No grainlogs yet.</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="tablesorter tablesorter-bootstrap table table-bordered table-striped table-condensed">
+        <thead>
+            <tr class="tab">
+                <th>Name</th>
+                <th>Environment</th>
+                <th>Primary Function</th>
+                <th>Roles</th>
+                <th style="width: 25%">Applications</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for server in servers %}
+                {% for key, values in server.items %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{values.environment}}</td>
+                    <td>
+                        {% if 'nginx' in values.roles %}
+                            Proxy
+                        {% else %}{% if 'celery' in values.roles %}
+                            Queue Tasks
+                        {% else %}{% if 'django' in values.roles %}
+                            Django
+                        {% else %}{% if 'php-fpm' in values.roles or 'lamp' in values.roles %}
+                            LAMP
+                        {% else %}{% if 'backups' in values.roles %}
+                            Backups
+                        {% else %}{% if 'chimney' in values.roles or 'graphite' in values.roles %}
+                            Monitoring
+                        {% else %}{% if 'solr' in values.roles %}
+                            Solr & Queuing
+                        {% else %}{% if 'saltmaster' in values.roles %}
+                            Configuration
+                        {% else %}{% if 'jenkins' in values.roles %}
+                            CI
+                        {% else %}{% if 'vault' in values.roles %}
+                            Security
+                        {% else %}{% if 'docker' in values.roles %}
+                            Docker
+                        {% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+                    </td>
+                    <td>
+                        {% for role in values.roles|dictsort:0 %}
+                            {{role}}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if 'django' in values.roles %}
+                            {% for app in values.apps|dictsort:0 %}
+                                {{app}}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            <tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

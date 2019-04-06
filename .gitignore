@@ -1,0 +1,17 @@
+local_settings.py
+._*
+*~
+*.pyc
+ve
+.coverage
+cover/
+media/CACHE
+reports/
+config.json
+node_modules/
+wheelhouse
+celerybeat-schedule
+.project
+.pydevproject
+.settings/
+uploads
