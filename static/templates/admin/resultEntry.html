@@ -1,0 +1,55 @@
+<tr class="res_entry<%= isContainer? " container": "" %><%= isContainer && _.contains(metadata.permissions, 'addRemoveContents')? " move_into" : "" 
+		%><%= isDeleted? " deleted" : "" %>" id="res_<%= metadata.id.substring(metadata.id.indexOf(':') + 1) %>">
+	<td class="check_box">
+		<div>
+			<input type="checkbox">
+		</div>
+	</td>
+	<td class="type">
+		<div class="resource_icon <%= metadata.type.toLowerCase() %>"></div>
+	</td>
+	<td class="itemdetails">
+		<div>
+			<% if (metadata.type == "File") { %>
+				<a href="/record/<%= metadata.id %>" target="_blank" class="title has_tooltip"
+							title="View details for <%= _.escape(metadata.title) %>."><%= _.escape(metadata.title) %></a>
+			<% } else { %>
+				<a href="list/<%= metadata.id %>" class="title res_link has_tooltip"
+							title="View contents of <%= _.escape(metadata.title) %>."><%= _.escape(metadata.title) %></a>
+					<% if (metadata.counts && 'child' in metadata.counts) { %>
+					<span class="searchitem_container_count">
+						(<%= metadata.counts.child %>)
+					</span>
+					<% }
+			 } %>
+			<% if (validationProblem) { %>
+				<a class="status warning_symbol" title="<%= validationProblem %>">!</a>
+			<% } %>
+			<% for (var i in metadata.tags) { 
+				var tag = metadata.tags[i];
+				%>
+				<a class="status" title="<%= tag.text %>" ><%= _.escape(tag.label) %></a>
+			<% } %>
+		</div>
+	</td>
+	<td class="creator">
+		<div>
+			<%= metadata.creator? metadata.creator[0] : '-' %><%= metadata.creator && metadata.creator.length > 1? '&nbsp;et al' : '' %> 
+		</div>
+	</td>
+	<td class="date_added">
+		<div title="<%= metadata.added ? metadata.added : '' %>">
+			<%= metadata.added? metadata.added.substring(0, metadata.added.indexOf('T')) : '-' %>
+		</div>
+	</td>
+	<td class="date_added">
+		<div title="<%= metadata.updated ? metadata.updated : '' %>">
+			<%= metadata.updated? metadata.updated.substring(0, metadata.updated.indexOf('T')) : '-' %>
+		</div>
+	</td>
+	<td class="menu_box">
+		<div>
+			<img class="action_gear" src="/static/images/admin/gear.png"/>
+		</div>
+	</td>
+</tr>
