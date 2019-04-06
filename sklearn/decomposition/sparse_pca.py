@@ -434,7 +434,6 @@ class MiniBatchSparsePCA(SparsePCA):
                           "compatibility mode will be removed in 0.22.",
                           DeprecationWarning)
 
-        self.n_samples = X.shape[0]
         if self.n_components is None:
             n_components = X.shape[1]
         else:
