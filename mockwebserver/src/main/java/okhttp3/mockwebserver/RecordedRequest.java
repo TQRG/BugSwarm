@@ -58,7 +58,7 @@ public final class RecordedRequest {
       String scheme = socket instanceof SSLSocket ? "https" : "http";
       String hostname = socket.getInetAddress().getHostName();
       int port = socket.getLocalPort();
-      this.requestUrl = HttpUrl.get(String.format("%s://%s:%s%s", scheme, hostname, port, path));
+      this.requestUrl = HttpUrl.parse(String.format("%s://%s:%s%s", scheme, hostname, port, path));
     } else {
       this.requestUrl = null;
       this.method = null;
