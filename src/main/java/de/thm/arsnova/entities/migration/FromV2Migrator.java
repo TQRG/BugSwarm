@@ -44,6 +44,7 @@ public class FromV2Migrator {
 	static final String V2_TYPE_SC = "sc";
 	static final String V2_TYPE_MC = "mc";
 	static final String V2_TYPE_VOTE = "vote";
+	static final String V2_TYPE_SCHOOL = "school";
 	static final String V2_TYPE_YESNO = "yesno";
 	static final String V2_TYPE_FREETEXT = "freetext";
 	static final String V2_TYPE_GRID = "grid";
@@ -57,6 +58,7 @@ public class FromV2Migrator {
 		formatMapping.put(V2_TYPE_SC, de.thm.arsnova.entities.Content.Format.CHOICE);
 		formatMapping.put(V2_TYPE_MC, de.thm.arsnova.entities.Content.Format.CHOICE);
 		formatMapping.put(V2_TYPE_VOTE, de.thm.arsnova.entities.Content.Format.SCALE);
+		formatMapping.put(V2_TYPE_SCHOOL, de.thm.arsnova.entities.Content.Format.SCALE);
 		formatMapping.put(V2_TYPE_YESNO, de.thm.arsnova.entities.Content.Format.BINARY);
 		formatMapping.put(V2_TYPE_FREETEXT, de.thm.arsnova.entities.Content.Format.TEXT);
 		formatMapping.put(V2_TYPE_GRID, de.thm.arsnova.entities.Content.Format.GRID);
@@ -184,6 +186,7 @@ public class FromV2Migrator {
 			case V2_TYPE_SC:
 			case V2_TYPE_MC:
 			case V2_TYPE_VOTE:
+			case V2_TYPE_SCHOOL:
 			case V2_TYPE_YESNO:
 				ChoiceQuestionContent choiceQuestionContent = new ChoiceQuestionContent();
 				to = choiceQuestionContent;
@@ -229,6 +232,7 @@ public class FromV2Migrator {
 		switch (content.getQuestionType()) {
 			case V2_TYPE_ABCD:
 			case V2_TYPE_VOTE:
+			case V2_TYPE_SCHOOL:
 			case V2_TYPE_YESNO:
 				return migrate(from, content.getPossibleAnswers(), false);
 			case V2_TYPE_MC:

@@ -17,18 +17,18 @@
  */
 package de.thm.arsnova.controller;
 
-import de.thm.arsnova.entities.Room;
-import de.thm.arsnova.services.RoomService;
+import de.thm.arsnova.entities.Content;
+import de.thm.arsnova.services.ContentService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/room")
-public class RoomController extends AbstractEntityController<Room> {
-	private RoomService roomService;
+@RequestMapping("/content")
+public class ContentController extends AbstractEntityController<Content> {
+	private ContentService contentService;
 
-	public RoomController(final RoomService roomService) {
-		super(roomService);
-		this.roomService = roomService;
+	public ContentController(final ContentService contentService) {
+		super(contentService);
+		this.contentService = contentService;
 	}
 }

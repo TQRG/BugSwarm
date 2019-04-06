@@ -19,6 +19,14 @@ package de.thm.arsnova.controller;
 
 import de.thm.arsnova.entities.Entity;
 import de.thm.arsnova.services.EntityService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.Map;
@@ -43,25 +51,31 @@ public abstract class AbstractEntityController<E extends Entity> {
 		this.entityService = entityService;
 	}
 
-	public E get(final String id) {
+	@GetMapping(GET_MAPPING)
+	public E get(@PathVariable final String id) {
 		return entityService.get(id);
 	}
 
-	public void put(final E entity) {
+	@PutMapping(PUT_MAPPING)
+	public void put(@RequestBody final E entity) {
 		entityService.create(entity);
 	}
 
-	public void post(final E entity) {
+	@PostMapping(POST_MAPPING)
+	public void post(@RequestBody final E entity) {
 		E oldEntity = entityService.get(entity.getId());
 		entityService.update(oldEntity, entity);
 	}
 
-	public void patch(final String id, final Map<String, Object> changes) throws IOException {
+	@PatchMapping(PATCH_MAPPING)
+	public void patch(@PathVariable final String id, @RequestBody final Map<String, Object> changes)
+			throws IOException {
 		E entity = entityService.get(id);
 		entityService.patch(entity, changes);
 	}
 
-	public void delete(final String id) {
+	@DeleteMapping(DELETE_MAPPING)
+	public void delete(@PathVariable final String id) {
 		E entity = entityService.get(id);
 		entityService.delete(entity);
 	}

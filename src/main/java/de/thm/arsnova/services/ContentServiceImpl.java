@@ -488,7 +488,6 @@ public class ContentServiceImpl extends DefaultEntityServiceImpl<Content> implem
 		}
 		AnswerStatistics stats = getStatistics(content.getId(), 1);
 		AnswerStatistics stats2 = getStatistics(content.getId(), 2);
-		logger.debug("Stats: {} || {}", stats, stats2);
 		stats.getRoundStatistics().add(stats2.getRoundStatistics().get(1));
 
 		return stats;
@@ -601,9 +600,6 @@ public class ContentServiceImpl extends DefaultEntityServiceImpl<Content> implem
 				// Content is not present. Most likely it has been locked by the
 				// Room's creator. Locked Questions do not appear in this list.
 				continue;
-			}
-			if (0 == answer.getRound() && content.getFormat() != Content.Format.TEXT) {
-				answer.setRound(1);
 			}
 
 			// discard all answers that aren't in the same piRound as the content
