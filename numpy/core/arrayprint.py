@@ -636,13 +636,14 @@ def _formatArray(a, format_function, rank, max_line_len, next_line_prefix,
     if rank == 0:
         return format_function(a[()]) + '\n'
 
-    if summary_insert and 2*edge_items < len(a):
+    show_summary = summary_insert and 2*edge_items < len(a)
+
+    if show_summary:
         leading_items = edge_items
         trailing_items = edge_items
     else:
         leading_items = 0
         trailing_items = len(a)
-        summary_insert = ""
 
     if rank == 1:
         s = ""
@@ -651,7 +652,7 @@ def _formatArray(a, format_function, rank, max_line_len, next_line_prefix,
             word = format_function(a[i]) + separator
             s, line = _extendLine(s, line, word, max_line_len, next_line_prefix)
 
-        if summary_insert:
+        if show_summary:
             if legacy == '1.13':
                 word = summary_insert + ", "
             else:
@@ -678,7 +679,7 @@ def _formatArray(a, format_function, rank, max_line_len, next_line_prefix,
                               summary_insert, legacy)
             s = s.rstrip() + sep + line_sep
 
-        if summary_insert:
+        if show_summary:
             if legacy == '1.13':
                 # trailing space, fixed number of newlines, and ignores sep
                 s += next_line_prefix + summary_insert + ", \n"
