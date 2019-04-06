@@ -1643,7 +1643,7 @@ def nancov(m, y=None, rowvar=1, ddof=1, fweights=None, aweights=None,
 
         if np.any(fact <= 0):
             warnings.warn("Degrees of freedom <= 0 for a slice",
-                          RuntimeWarning)
+                          RuntimeWarning, stacklevel=2)
             fact[fact <= 0] = 0.0
 
         c *= 1. / fact.astype(np.float64)
