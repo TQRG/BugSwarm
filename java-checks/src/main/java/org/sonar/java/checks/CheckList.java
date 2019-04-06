@@ -43,6 +43,7 @@ import org.sonar.java.checks.naming.MethodNameSameAsClassCheck;
 import org.sonar.java.checks.naming.MethodNamedEqualsCheck;
 import org.sonar.java.checks.naming.MethodNamedHashcodeOrEqualCheck;
 import org.sonar.java.checks.security.AESAlgorithmCheck;
+import org.sonar.java.checks.security.CookieHttpOnlyCheck;
 import org.sonar.java.checks.security.CookieShouldNotContainSensitiveDataCheck;
 import org.sonar.java.checks.security.HostnameVerifierImplementationCheck;
 import org.sonar.java.checks.security.IntegerToHexStringCheck;
@@ -305,6 +306,7 @@ public final class CheckList {
       .add(ToStringReturningNullCheck.class)
       .add(TransactionalMethodVisibilityCheck.class)
       .add(CompareToResultTestCheck.class)
+      .add(CookieHttpOnlyCheck.class)
       .add(CookieShouldNotContainSensitiveDataCheck.class)
       .add(SecureCookieCheck.class)
       .add(CatchIllegalMonitorStateExceptionCheck.class)
