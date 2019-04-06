@@ -230,6 +230,24 @@ class TestArray2String(object):
         assert_equal(eval(repr(a), vars(np)), a)
         assert_equal(eval(repr(a[0]), vars(np)), a[0])
 
+    def test_summarize_1d(self):
+        A = np.arange(1001)
+        strA = '[   0    1    2 ...  998  999 1000]'
+        assert_equal(str(A), strA)
+
+        reprA = 'array([   0,    1,    2, ...,  998,  999, 1000])'
+        assert_equal(repr(A), reprA)
+
+    def test_summarize_2d(self):
+        A = np.arange(1002).reshape(2, 501)
+        strA = '[[   0    1    2 ...  498  499  500]\n' \
+               ' [ 501  502  503 ...  999 1000 1001]]'
+        assert_equal(str(A), strA)
+
+        reprA = 'array([[   0,    1,    2, ...,  498,  499,  500],\n' \
+                '       [ 501,  502,  503, ...,  999, 1000, 1001]])'
+        assert_equal(repr(A), reprA)
+
 
 class TestPrintOptions(object):
     """Test getting and setting global print options."""
