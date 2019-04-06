@@ -84,7 +84,7 @@ public class AnswerStatistics {
 					.append("round", round)
 					.append("independentCounts", independentCounts)
 					.append("combinatedCounts", combinatedCounts)
-					.append("combinatedCounts", abstentionCount)
+					.append("abstentionCount", abstentionCount)
 					.toString();
 		}
 	}
