@@ -1,0 +1,71 @@
+{
+    "AbstractBaseModelWithSubTypes": {
+        "type": "object",
+        "discriminator" : {
+            "propertyName" : "_type"
+        },
+        "properties": {
+            "_type": {
+                "type": "string",
+                "description": "This value is used as a discriminator for serialization"
+            },
+            "a": {
+                "type": "string",
+                "description": "An arbitrary field"
+            },
+            "b": {
+                "type": "string",
+                "description": "An arbitrary field"
+            }
+        },
+        "description": "I am an Abstract Base Model with Sub-Types"
+    },
+    "ModelWithFieldWithSubTypes": {
+        "type": "object",
+        "properties": {
+            "z": {
+                "$ref": "#/components/schemas/AbstractBaseModelWithSubTypes"
+            }
+        },
+        "description": "Class that has a field that is the AbstractBaseModelWithSubTypes"
+    },
+    "Thing1": {
+        "type": "object",
+        "allOf": [
+            {
+                "$ref": "#/components/schemas/AbstractBaseModelWithSubTypes"
+            }
+        ],
+        "properties": {
+            "a": {
+                "type": "string",
+                "description": "Override the abstract a"
+            },
+            "x": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Thing1 has an additional field"
+            }
+        },
+        "description": "Shake hands with Thing1"
+    },
+    "Thing2": {
+        "type": "object",
+        "allOf": [
+            {
+                "$ref": "#/components/schemas/AbstractBaseModelWithSubTypes"
+            }
+        ],
+        "properties": {
+            "a": {
+                "type": "string",
+                "description": "Override the abstract a"
+            },
+            "s": {
+                "type": "string",
+                "description": "Thing2 has an additional field"
+            }
+        },
+        "description": "and Thing2"
+    }
+}
