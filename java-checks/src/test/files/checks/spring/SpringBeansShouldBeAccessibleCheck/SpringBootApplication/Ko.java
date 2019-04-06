@@ -1,8 +1,6 @@
 package foo.bar.Ko;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RestController;
 
 // Different from root package hierarchy

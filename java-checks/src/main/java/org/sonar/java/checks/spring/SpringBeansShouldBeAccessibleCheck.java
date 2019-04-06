@@ -26,34 +26,44 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.sonar.check.Rule;
+import org.sonar.java.checks.helpers.ConstantUtils;
+import org.sonar.java.model.PackageUtils;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.semantic.SymbolMetadata;
+import org.sonar.plugins.java.api.tree.AnnotationTree;
+import org.sonar.plugins.java.api.tree.AssignmentExpressionTree;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.CompilationUnitTree;
+import org.sonar.plugins.java.api.tree.ExpressionTree;
 import org.sonar.plugins.java.api.tree.IdentifierTree;
-import org.sonar.plugins.java.api.tree.MemberSelectExpressionTree;
-import org.sonar.plugins.java.api.tree.PackageDeclarationTree;
+import org.sonar.plugins.java.api.tree.NewArrayTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 @Rule(key = "S4605")
 public class SpringBeansShouldBeAccessibleCheck extends IssuableSubscriptionVisitor {
 
-  final Set<String> componentScanPackageNames = Sets.newHashSet();
-  final Map<String, List<ClassTree>> springBeansPerPackage = Maps.newHashMap();
+  private static final String MESSAGE_FORMAT = "'%s' is not reachable by {{@ComponentsScan}}s or {{@SpringBootApplication}}. "
+    + "Either move it to a package configured in {{@ComponentsScan}}s or update your {{@ComponentsScan}}s configuration.";
 
   private static final String[] SPRING_BEAN_ANNOTATIONS = {
-      "org.springframework.stereotype.Component",
-          "org.springframework.stereotype.Service",
-          "org.springframework.stereotype.Repository",
-          "org.springframework.stereotype.Controller",
-          "org.springframework.web.bind.annotation.RestController"
+    "org.springframework.stereotype.Component",
+    "org.springframework.stereotype.Service",
+    "org.springframework.stereotype.Repository",
+    "org.springframework.stereotype.Controller",
+    "org.springframework.web.bind.annotation.RestController"
   };
 
-  private static final String SPRING_BOOT_APP = "org.springframework.boot.autoconfigure.SpringBootApplication";
   private static final String COMPONENT_SCAN = "org.springframework.context.annotation.ComponentScan";
+  private static final List<String> COMPONENT_SCAN_CONFIG = Arrays.asList("basePackages", "value");
+  private static final String SPRING_BOOT_APP = "org.springframework.boot.autoconfigure.SpringBootApplication";
+
+  private final Map<String, List<ClassTree>> springBeansPerPackage = Maps.newHashMap();
+  private final Set<String> componentScanPackageNames = Sets.newHashSet();
+  private String springBootApplicationPackageName;
 
   @Override
   public List<Kind> nodesToVisit() {
@@ -61,50 +71,85 @@ public class SpringBeansShouldBeAccessibleCheck extends IssuableSubscriptionVisi
   }
 
   @Override
+  public void endOfAnalysis() {
+    springBeansPerPackage.forEach((packageName, beansInPackage) -> {
+      if (packageIsNotAccessible(packageName)) {
+        beansInPackage.forEach(classTree -> {
+          reportIssue(classTree.simpleName(), String.format(MESSAGE_FORMAT, classTree.simpleName()));
+        });
+      }
+    });
+  }
+
+  @Override
   public void visitNode(Tree tree) {
-    if(!hasSemantic()) {
+    if (!hasSemantic()) {
       return;
     }
+
     ClassTree classTree = (ClassTree) tree;
-    if (isClassTreeAnnotatedWith(classTree,
-        "org.springframework.stereotype.Controller",
-        "org.springframework.stereotype.Repository",
-        "org.springframework.stereotype.Service")) {
-      System.out.println(classTree);
-    }
-    // TODO must refactor this
-    String packageName = "";
-    List<SymbolMetadata.AnnotationInstance> a = classTree.symbol().metadata().annotations();
+    String classPackageName = packageName(classTree);
 
-    if (classTree.parent().is(Tree.Kind.COMPILATION_UNIT)) {
-      CompilationUnitTree cTree = (CompilationUnitTree) classTree.parent();
-      PackageDeclarationTree packageDeclarationTree = cTree.packageDeclaration();
-      if (packageDeclarationTree != null) {
-        if (packageDeclarationTree.packageName() != null && packageDeclarationTree.packageName().is(Kind.MEMBER_SELECT)) {
-          packageName = ((MemberSelectExpressionTree) packageDeclarationTree.packageName()).identifier().name();
-        } else if (packageDeclarationTree.packageName().is(Kind.IDENTIFIER)) {
-          packageName = ((IdentifierTree) packageDeclarationTree.packageName()).name();
-        }
-      }
-    }
-
-    // TODO problem: annotations.get(0).annotationType().symbolType() == "unknown"
-    if (isClassTreeAnnotatedWith(classTree, SPRING_BEAN_ANNOTATIONS)) {
-      if (packageName != "") {
-        List<ClassTree> beansInPackage = springBeansPerPackage.get(packageName);
-        if (beansInPackage == null) {
-          beansInPackage = new ArrayList<>();
-        }
-        beansInPackage.add(classTree);
-      }
-    } else if (isClassTreeAnnotatedWith(classTree, SPRING_BOOT_APP)) {
-      componentScanPackageNames.add(packageName);
-    } else if (isClassTreeAnnotatedWith(classTree, COMPONENT_SCAN)) {
-      componentScanPackageNames.add(packageName);
+    Optional<AnnotationTree> componentScanAnnotation = classTree.modifiers().annotations().stream().filter(a -> a.annotationType().symbolType().isSubtypeOf(COMPONENT_SCAN)).findFirst();
+    if (componentScanAnnotation.isPresent()) {
+      componentScanAnnotation.get().arguments().forEach(this::storePackageNames);
+    } else if (classHasAnnotation(classTree, SPRING_BEAN_ANNOTATIONS)) {
+      addBeanToPackageList(classPackageName, classTree);
+    } else if (classHasAnnotation(classTree, SPRING_BOOT_APP)) {
+      springBootApplicationPackageName = classPackageName;
     }
   }
 
-  private static boolean isClassTreeAnnotatedWith(ClassTree classTree, String... annotationName) {
+  private void addBeanToPackageList(String classPackageName, ClassTree classTree) {
+    List<ClassTree> beansInPackage = springBeansPerPackage.get(classPackageName);
+    if (beansInPackage == null) {
+      beansInPackage = new ArrayList<>();
+      springBeansPerPackage.put(classPackageName, beansInPackage);
+    }
+    beansInPackage.add(classTree);
+  }
+
+  private String packageName(ClassTree classTree) {
+    if (classTree.parent().is(Tree.Kind.COMPILATION_UNIT)) {
+      CompilationUnitTree cTree = (CompilationUnitTree) classTree.parent();
+      if (cTree.packageDeclaration() != null) {
+        return PackageUtils.packageName(cTree.packageDeclaration(), ".");
+      }
+    }
+    return "";
+  }
+
+  private static boolean classHasAnnotation(ClassTree classTree, String... annotationName) {
+    List<SymbolMetadata.AnnotationInstance> a = classTree.symbol().metadata().annotations();
     return Arrays.stream(annotationName).anyMatch(annotation -> classTree.symbol().metadata().isAnnotatedWith(annotation));
+  }
+
+  private boolean packageIsNotAccessible(String packageName) {
+    return !componentScanPackageNames.contains(packageName)
+      && !(springBootApplicationPackageName != null && packageName.contains(springBootApplicationPackageName));
+  }
+
+  private void storePackageNames(ExpressionTree argsTree) {
+    if (argsTree.is(Kind.ASSIGNMENT)) {
+      AssignmentExpressionTree assignment = (AssignmentExpressionTree) argsTree;
+      ExpressionTree variableTree = assignment.variable();
+      if (variableTree.is(Kind.IDENTIFIER) && COMPONENT_SCAN_CONFIG.contains(((IdentifierTree) variableTree).name())) {
+        addLiteralValues(assignment.expression());
+      }
+    } else {
+      addLiteralValues(argsTree);
+    }
+  }
+
+  private void addLiteralValues(ExpressionTree expressionTree) {
+    if (expressionTree.is(Kind.STRING_LITERAL)) {
+      String name = ConstantUtils.resolveAsStringConstant(expressionTree);
+      componentScanPackageNames.add(name);
+    } else if (expressionTree.is(Kind.NEW_ARRAY)) {
+      for (ExpressionTree p : ((NewArrayTree) expressionTree).initializers()) {
+        String name = ConstantUtils.resolveAsStringConstant(p);
+        componentScanPackageNames.add(name);
+      }
+    }
   }
 }

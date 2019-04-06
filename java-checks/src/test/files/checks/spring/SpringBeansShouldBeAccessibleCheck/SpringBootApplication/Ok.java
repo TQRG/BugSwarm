@@ -1,8 +1,6 @@
 package src.test.files.checks.spring.SpringBootApplication.Ok;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RestController;
 
 // Sub-package of the root package.
@@ -16,5 +14,8 @@ class Ok2 {} // Compliant
 @Controller
 class Ok3 {} // Compliant
 
-@RestController
+@Repository
 class Ok4 {} // Compliant
+
+@RestController
+class Ok5 {} // Compliant

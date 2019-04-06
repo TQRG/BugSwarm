@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @Component
 class A1 { // Compliant
   A1() {}

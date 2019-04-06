@@ -1,4 +1,4 @@
-package src.test.files.checks.B;
+package src.test.files.checks.spring.B;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;

@@ -20,111 +20,108 @@
 package org.sonar.java.checks.spring;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.sonar.sslr.api.typed.ActionParser;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
+import org.assertj.core.api.Fail;
 import org.junit.Test;
-import org.sonar.java.SonarComponents;
+import org.sonar.java.AnalyzerMessage;
 import org.sonar.java.ast.JavaAstScanner;
 import org.sonar.java.ast.parser.JavaParser;
+import org.sonar.java.ast.visitors.SubscriptionVisitor;
 import org.sonar.java.checks.verifier.CheckVerifier;
-import org.sonar.java.checks.verifier.JavaCheckVerifier;
 import org.sonar.java.model.JavaVersionImpl;
-import org.sonar.java.model.VisitorsBridge;
 import org.sonar.java.model.VisitorsBridgeForTests;
-import org.sonar.java.se.SymbolicExecutionMode;
-import org.sonar.plugins.java.api.JavaCheck;
-import org.sonar.plugins.java.api.JavaVersion;
+import org.sonar.plugins.java.api.tree.SyntaxTrivia;
 import org.sonar.plugins.java.api.tree.Tree;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class SpringBeansShouldBeAccessibleCheckTest {
 
   private static final String DEFAULT_TEST_JARS_DIRECTORY = "target/test-jars";
 
   @Test
-  public void classicTest() {
-    //JavaCheckVerifier.verify("src/test/files/checks/spring/SpringComponentWithNonAutowiredMembersCheck.java", new SpringBeansShouldBeAccessibleCheck());
-    JavaCheckVerifier.verify("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/ComponentScan.java", new SpringBeansShouldBeAccessibleCheck());
+  public void testComponentScan() {
+    LocalVerifier localVerifier = new LocalVerifier();
+    List<File> filesToScan = Arrays.asList(
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/A.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/B.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/C.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/Y1.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/Y2.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/Z2.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/ComponentScan.java"));
+
+    Set<AnalyzerMessage> analysisResult = scanFiles(localVerifier, filesToScan);
+
+    localVerifier.checkIssues(analysisResult, false);
   }
 
   @Test
-  public void testComponentScan() {
-    List<File> classPath = new ArrayList<>();
+  public void testSpringBootApplication() {
+    LocalVerifier localVerifier = new LocalVerifier();
+    List<File> filesToScan = Arrays.asList(
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/Ko.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/SpringBoot.java"),
+        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/Ok.java")
+    );
 
-    classPath =  getFilesRecursively(Paths.get(DEFAULT_TEST_JARS_DIRECTORY), new String[] {"jar", "zip"});
+    Set<AnalyzerMessage> analysisResult = scanFiles(localVerifier, filesToScan);
 
-    classPath.add(new File("target/test-classes"));
-    SpringBeansShouldBeAccessibleCheck check = new SpringBeansShouldBeAccessibleCheck();
+    localVerifier.checkIssues(analysisResult, false);
+  }
 
-    List<File> filesToScan = Arrays.asList(new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/A.java"),
-        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/B.java"),
-        new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/ComponentScan/ComponentScan.java"));
-    SonarComponents sonarComponents = CheckVerifier.sonarComponents(filesToScan.get(0));
-    VisitorsBridge vb = new VisitorsBridge(ImmutableList.of(check), classPath, sonarComponents, SymbolicExecutionMode.DISABLED);
+  private Set<AnalyzerMessage> scanFiles(LocalVerifier localVerifier, List<File> filesToScan) {
+    List<File> classPath = Arrays.asList(
+        Paths.get("target/test-jars/spring-web-4.3.7.RELEASE.jar").toFile(),
+        Paths.get("target/test-jars/spring-boot-autoconfigure-2.0.2.RELEASE.jar").toFile(),
+        Paths.get("target/test-jars/spring-context-4.3.7.RELEASE.jar").toFile());
+    VisitorsBridgeForTests vb = new VisitorsBridgeForTests(
+        ImmutableList.of(new SpringBeansShouldBeAccessibleCheck(), new ExpectedIssueCollector(localVerifier)),
+        classPath,
+        null);
     vb.setJavaVersion(new JavaVersionImpl());
+
     JavaAstScanner astScanner = new JavaAstScanner(JavaParser.createParser(), null);
     astScanner.setVisitorBridge(vb);
     astScanner.scan(filesToScan);
 
-    assertThat(check.componentScanPackageNames).isNotEmpty();
-    assertThat(check.springBeansPerPackage).isNotEmpty();
-  }
-//
-//  @Test
-//  public void testSpringBootApplication() {
-//    SpringBeansShouldBeAccessibleCheck check = new SpringBeansShouldBeAccessibleCheck();
-//    JavaAstScanner.scanSingleFileForTests(new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/Ko.java"), new VisitorsBridge(check));
-//    JavaAstScanner.scanSingleFileForTests(new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/Ok.java"), new VisitorsBridge(check));
-//    JavaAstScanner.scanSingleFileForTests(new File("src/test/files/checks/spring/SpringBeansShouldBeAccessibleCheck/SpringBootApplication/SpringBoot.java"), new VisitorsBridge(check));
-//
-//    assertThat(check.springBeansPerPackage).isNotEmpty();
-//    assertThat(check.componentScanPackageNames).isNotEmpty();
-
-//  }
-
-  static List<File> getFilesRecursively(Path root, final String[] extensions) {
-    final List<File> files = new ArrayList<>();
-
-    FileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
-      @Override
-      public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
-        for (String extension : extensions) {
-          if (filePath.toString().endsWith("." + extension)) {
-            files.add(filePath.toFile());
-            break;
-          }
-        }
-        return FileVisitResult.CONTINUE;
-      }
-
-      @Override
-      public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-        return FileVisitResult.CONTINUE;
-      }
-    };
-
-    try {
-      Files.walkFileTree(root, visitor);
-    } catch (IOException e) {
-      // we already ignore errors in the visitor
+    VisitorsBridgeForTests.TestJavaFileScannerContext testJavaFileScannerContext = vb.lastCreatedTestContext();
+    if (testJavaFileScannerContext == null) {
+      Fail.fail("Semantic was required but it was not possible to create it. Please checks the logs to find out the reason.");
     }
 
-    return files;
+    return testJavaFileScannerContext.getIssues();
+  }
+
+  private static class LocalVerifier extends CheckVerifier {
+    @Override
+    public String getExpectedIssueTrigger() {
+      return "// " + ISSUE_MARKER;
+    }
+    @Override
+    protected void collectExpectedIssues(String comment, int line) {
+      super.collectExpectedIssues(comment, line);
+    }
+  }
+
+  private static class ExpectedIssueCollector extends SubscriptionVisitor {
+
+    private final LocalVerifier verifier;
+
+    public ExpectedIssueCollector(LocalVerifier verifier) {
+      this.verifier = verifier;
+    }
+
+    @Override
+    public List<Tree.Kind> nodesToVisit() {
+      return ImmutableList.of(Tree.Kind.TRIVIA);
+    }
+
+    @Override
+    public void visitTrivia(SyntaxTrivia syntaxTrivia) {
+      verifier.collectExpectedIssues(syntaxTrivia.comment(), syntaxTrivia.startLine());
+    }
   }
 }
