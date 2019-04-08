@@ -1,0 +1,16 @@
+after_success: [coveralls]
+install: [pip install -e ., pip install coveralls==1.1, pip install -r dev-requirements.txt]
+language: python
+notifications:
+  email: false
+  irc:
+    channels: irc.freenode.org#paramiko
+    on_failure: change
+    on_success: change
+    template: ['%{repository}@%{branch}: %{message} (%{build_url})']
+os: linux
+python: '3.2'
+script: ['[[ $TRAVIS_PYTHON_VERSION != 3.2 ]] && inv test --coverage || inv test',
+  '[[ $TRAVIS_PYTHON_VERSION != 3.2 ]] && invoke docs -o -W || true', '[[ $TRAVIS_PYTHON_VERSION
+    != 3.2 ]] && invoke www -o -W || true']
+sudo: false
