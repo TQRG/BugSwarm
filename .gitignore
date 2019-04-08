@@ -1,0 +1,11 @@
+/hy/version.py
+*.pyc
+*swp
+*hy*egg*
+*pyreadline*egg*
+.tox
+*pycache*
+dist
+.coverage
+build/
+/.cache
