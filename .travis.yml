@@ -1,0 +1,8 @@
+cache:
+  directories: [$HOME/.cache/pip]
+env: [TOXENV=py27-1.8.X]
+install: [pip install tox==2.1.1]
+language: python
+os: linux
+script: [tox]
+sudo: false
