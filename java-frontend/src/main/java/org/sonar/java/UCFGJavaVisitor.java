@@ -366,7 +366,7 @@ public class UCFGJavaVisitor extends BaseTreeVisitor implements JavaFileScanner 
       List<Symbol> parameters = methodTree.parameters().stream().map(VariableTree::symbol).collect(Collectors.toList());
       VariableReadExtractor variableReadExtractor = new VariableReadExtractor(methodTree.symbol(), false);
       methodTree.accept(variableReadExtractor);
-      Set<Symbol> locals = variableReadExtractor.usedVariables().stream().filter(s -> s.type().is("java.lang.Object")).collect(Collectors.toSet());
+      Set<Symbol> locals = variableReadExtractor.usedVariables().stream().filter(s -> s.type().is("java.lang.String")).collect(Collectors.toSet());
       vars = Sets.union(new HashSet<>(parameters), locals).stream().collect(Collectors.toMap(s -> s, Symbol::name));
       temps = new HashMap<>();
       counter = 0;
