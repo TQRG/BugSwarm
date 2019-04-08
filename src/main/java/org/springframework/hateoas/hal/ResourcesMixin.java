@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.springframework.hateoas.Resources;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,7 +29,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonPropertyOrder({ "content", "links" })
-@JsonIgnoreProperties({"embeddedResources"})
 public abstract class ResourcesMixin<T> extends Resources<T> {
 
 	@Override
