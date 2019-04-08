@@ -1,0 +1,19 @@
+after_success: [codecov]
+cache:
+  directories: [$HOME/.cache/pip]
+dist: trusty
+group: stable
+install: [pip install pip==9.0.1 setuptools==36.6.0, pip install -e ., pip install
+    codecov==2.0.13, pip install -r dev-requirements.txt]
+language: python
+notifications:
+  email: false
+  irc:
+    channels: irc.freenode.org#paramiko
+    on_failure: change
+    on_success: change
+    template: ['%{repository}@%{branch}: %{message} (%{build_url})']
+os: linux
+python: '3.5'
+script: [inv coverage, inv sites, flake8]
+sudo: false
