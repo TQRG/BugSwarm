@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<bean id="componentConfigurationExportHelper"
+		  class="org.ikasan.configurationService.util.ComponentConfigurationExportHelper">
+	</bean>
+
+	<bean id="componentConfigurationImportHelper"
+		  class="org.ikasan.configurationService.util.ComponentConfigurationImportHelper">
+	</bean>
+
+	<bean id="flowConfigurationExportHelper"
+		  class="org.ikasan.configurationService.util.FlowConfigurationExportHelper">
+		<constructor-arg ref="configurationService"/>
+		<constructor-arg ref="configurationCreationHelper"/>
+	</bean>
+
+	<bean id="flowConfigurationImportHelper"
+		  class="org.ikasan.configurationService.util.FlowConfigurationImportHelper">
+		<constructor-arg ref="configurationService"/>
+		<constructor-arg ref="configurationCreationHelper"/>
+	</bean>
+
+	<bean id="moduleConfigurationExportHelper"
+		  class="org.ikasan.configurationService.util.ModuleConfigurationExportHelper">
+		<constructor-arg ref="configurationService"/>
+		<constructor-arg ref="configurationCreationHelper"/>
+	</bean>
+
+	<bean id="moduleConfigurationImportHelper"
+		  class="org.ikasan.configurationService.util.ModuleConfigurationImportHelper">
+		<constructor-arg ref="configurationService"/>
+		<constructor-arg ref="configurationCreationHelper"/>
+	</bean>
+
+
+	<bean id="configurationCreationHelper"
+		  class="org.ikasan.configurationService.util.ConfigurationCreationHelper">
+		<constructor-arg ref="configurationService"/>
+		<constructor-arg ref="platformConfigurationService"/>
+	</bean>
+
+	<bean id="platformConfigurationService"
+		class="org.ikasan.configurationService.service.PlatformConfigurationServiceImpl">
+		<constructor-arg ref="configurationService"/>
+	</bean>
+	
+	<bean id="configurationService"
+		class="org.ikasan.configurationService.service.ConfiguredResourceConfigurationService">
+		<constructor-arg name="staticConfigurationDao" ref="configurationServiceDao"/>
+		<constructor-arg name="dynamicConfigurationDao" ref="xaConfigurationServiceDao"/>
+	</bean>
+
+	<bean id="xaConfigurationServiceDao" class="org.ikasan.configurationService.dao.ConfigurationHibernateImpl">
+		<property name="sessionFactory" ref="xaConfigurationServiceSessionFactory"/>
+	</bean>
+
+	<bean id="xaConfigurationServiceSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ikasan.xads" />
+		<property name="mappingResources">
+			<list>
+				<value>org/ikasan/configurationService/model/Configuration.hbm.xml
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="platformHibernateProperties" />
+	</bean>
+
+	<bean id="configurationServiceDao" class="org.ikasan.configurationService.dao.ConfigurationHibernateImpl">
+		<property name="sessionFactory" ref="configurationServiceSessionFactory"/>
+	</bean>
+
+	<bean id="configurationServiceSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ikasan.ds" />
+		<property name="mappingResources">
+			<list>
+				<value>org/ikasan/configurationService/model/Configuration.hbm.xml
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="platformHibernateProperties" />
+	</bean>
+
+</beans>
