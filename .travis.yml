@@ -1,0 +1,11 @@
+after_success: ['if [ "$TRAVIS_BRANCH" = "master" ]; then pip install pycurl==7.43.0.1
+    requests==2.18.4 && contrib/make_locale; fi', coveralls]
+cache: [pip]
+dist: trusty
+group: stable
+install: [pip install -r contrib/requirements/requirements-travis.txt]
+language: python
+os: linux
+python: 3.6
+script: [tox]
+sudo: false
