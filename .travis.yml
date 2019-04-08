@@ -1,0 +1,14 @@
+addons:
+  apt:
+    packages: [python2.4]
+    sources: [deadsnakes]
+after_success: [coveralls]
+env: [TOXENV=py34]
+install: [pip install tox==2.1.1 PyYAML==3.11 Jinja2==2.8 sphinx==1.3.1]
+language: python
+os: linux
+script: [if test x"$TOKENV" != x'py24' ; then  tox ; fi, if test x"$TOKENV" = x'py24'
+    ; then python2.4 -V && python2.4 -m compileall -fq -x 'module_utils/(a10|rax|openstack|ec2|gce).py'
+    lib/ansible/module_utils ; fi, source ./hacking/env-setup && cd test/integration/
+    && make test_var_precedence]
+sudo: false
