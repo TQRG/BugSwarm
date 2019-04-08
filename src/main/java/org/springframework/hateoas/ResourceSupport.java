@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlElement;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author Oliver Gierke
  */
-@JsonIgnoreProperties({"embeddedResources"})
 public class ResourceSupport implements Identifiable<Link> {
 
 	private final List<Link> links;
