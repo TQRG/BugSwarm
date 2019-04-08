@@ -1,0 +1,4 @@
+pytest==3.5.0
+# code quality
+flake8==3.5.0
+coverage==4.5.1
