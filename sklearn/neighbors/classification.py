@@ -24,6 +24,8 @@ class KNeighborsClassifier(NeighborsBase, KNeighborsMixin,
                            SupervisedIntegerMixin, ClassifierMixin):
     """Classifier implementing the k-nearest neighbors vote.
 
+    Read more in the :ref:`User Guide <classification>`.
+
     Parameters
     ----------
     n_neighbors : int, optional (default = 5)
@@ -221,6 +223,8 @@ class KNeighborsClassifier(NeighborsBase, KNeighborsMixin,
 class RadiusNeighborsClassifier(NeighborsBase, RadiusNeighborsMixin,
                                 SupervisedIntegerMixin, ClassifierMixin):
     """Classifier implementing a vote among neighbors within a given radius
+
+    Read more in the :ref:`User Guide <classification>`.
 
     Parameters
     ----------

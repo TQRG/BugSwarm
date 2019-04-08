@@ -164,6 +164,8 @@ def euclidean_distances(X, Y=None, Y_norm_squared=None, squared=False):
     the distance matrix returned by this function may not be exactly
     symmetric as required by, e.g., ``scipy.spatial.distance`` functions.
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     X : {array-like, sparse matrix}, shape (n_samples_1, n_features)
@@ -373,7 +375,7 @@ def pairwise_distances_argmin(X, Y, axis=1, metric="euclidean",
     This function works with dense 2D arrays only.
 
     Parameters
-    ==========
+    ----------
     X : array-like
         Arrays containing points. Respective shapes (n_samples1, n_features)
         and (n_samples2, n_features)
@@ -422,12 +424,12 @@ def pairwise_distances_argmin(X, Y, axis=1, metric="euclidean",
         Axis along which the argmin and distances are to be computed.
 
     Returns
-    =======
+    -------
     argmin : numpy.ndarray
         Y[argmin[i], :] is the row in Y that is closest to X[i, :].
 
     See also
-    ========
+    --------
     sklearn.metrics.pairwise_distances
     sklearn.metrics.pairwise_distances_argmin_min
     """
@@ -444,6 +446,8 @@ def manhattan_distances(X, Y=None, sum_over_features=True,
 
     With sum_over_features equal to False it returns the componentwise
     distances.
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
@@ -519,6 +523,8 @@ def cosine_distances(X, Y=None):
 
     Cosine distance is defined as 1.0 minus the cosine similarity.
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     X : array_like, sparse matrix
@@ -549,6 +555,8 @@ def paired_euclidean_distances(X, Y):
     """
     Computes the paired euclidean distances between X and Y
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     X : array-like, shape (n_samples, n_features)
@@ -565,6 +573,8 @@ def paired_euclidean_distances(X, Y):
 
 def paired_manhattan_distances(X, Y):
     """Compute the L1 distances between the vectors in X and Y.
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
@@ -588,6 +598,8 @@ def paired_manhattan_distances(X, Y):
 def paired_cosine_distances(X, Y):
     """
     Computes the paired cosine distances between X and Y
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
@@ -622,6 +634,8 @@ def paired_distances(X, Y, metric="euclidean", **kwds):
     Computes the paired distances between X and Y.
 
     Computes the distances between (X[0], Y[0]), (X[1], Y[1]), etc...
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
@@ -677,6 +691,8 @@ def linear_kernel(X, Y=None):
     """
     Compute the linear kernel between X and Y.
 
+    Read more in the :ref:`User Guide <linear_kernel>`.
+
     Parameters
     ----------
     X : array of shape (n_samples_1, n_features)
@@ -696,6 +712,8 @@ def polynomial_kernel(X, Y=None, degree=3, gamma=None, coef0=1):
     Compute the polynomial kernel between X and Y::
 
         K(X, Y) = (gamma <X, Y> + coef0)^degree
+
+    Read more in the :ref:`User Guide <polynomial_kernel>`.
 
     Parameters
     ----------
@@ -728,6 +746,8 @@ def sigmoid_kernel(X, Y=None, gamma=None, coef0=1):
 
         K(X, Y) = tanh(gamma <X, Y> + coef0)
 
+    Read more in the :ref:`User Guide <sigmoid_kernel>`.
+
     Parameters
     ----------
     X : ndarray of shape (n_samples_1, n_features)
@@ -758,6 +778,8 @@ def rbf_kernel(X, Y=None, gamma=None):
         K(x, y) = exp(-gamma ||x-y||^2)
 
     for each pair of rows x in X and y in Y.
+
+    Read more in the :ref:`User Guide <rbf_kernel>`.
 
     Parameters
     ----------
@@ -790,6 +812,8 @@ def cosine_similarity(X, Y=None):
         K(X, Y) = <X, Y> / (||X||*||Y||)
 
     On L2-normalized data, this function is equivalent to linear_kernel.
+
+    Read more in the :ref:`User Guide <cosine_similarity>`.
 
     Parameters
     ----------
@@ -831,6 +855,8 @@ def additive_chi2_kernel(X, Y=None):
         k(x, y) = -Sum [(x - y)^2 / (x + y)]
 
     It can be interpreted as a weighted difference per entry.
+
+    Read more in the :ref:`User Guide <chi2_kernel>`.
 
     Notes
     -----
@@ -890,6 +916,8 @@ def chi2_kernel(X, Y=None, gamma=1.):
         k(x, y) = exp(-gamma Sum [(x - y)^2 / (x + y)])
 
     It can be interpreted as a weighted difference per entry.
+
+    Read more in the :ref:`User Guide <chi2_kernel>`.
 
     Parameters
     ----------
@@ -957,6 +985,8 @@ def distance_metrics():
     'l2'             metrics.pairwise.euclidean_distances
     'manhattan'      metrics.pairwise.manhattan_distances
     ============     ====================================
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     """
     return PAIRWISE_DISTANCE_FUNCTIONS
@@ -1056,6 +1086,8 @@ def pairwise_distances(X, Y=None, metric="euclidean", n_jobs=1, **kwds):
     for 'cityblock'). For a verbose description of the metrics from
     scikit-learn, see the __doc__ of the sklearn.pairwise.distance_metrics
     function.
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
@@ -1161,6 +1193,8 @@ def kernel_metrics():
       'sigmoid'         sklearn.pairwise.sigmoid_kernel
       'cosine'          sklearn.pairwise.cosine_similarity
       ===============   ========================================
+
+    Read more in the :ref:`User Guide <metrics>`.
     """
     return PAIRWISE_KERNEL_FUNCTIONS
 
@@ -1195,6 +1229,8 @@ def pairwise_kernels(X, Y=None, metric="linear", filter_params=False,
 
     Valid values for metric are::
         ['rbf', 'sigmoid', 'polynomial', 'poly', 'linear', 'cosine']
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------
