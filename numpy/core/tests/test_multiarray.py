@@ -7087,7 +7087,7 @@ class TestFormat(object):
         # until gh-5543, ensure that the behaviour matches what it used to be
         a = np.array([np.pi])
         if sys.version_info[:2] >= (3, 4):
-            assert_raises(TypeError, '{:30)'.format, a)
+            assert_raises(TypeError, '{:30}'.format, a)
         else:
             with suppress_warnings() as sup:
                 sup.filter(PendingDeprecationWarning)
