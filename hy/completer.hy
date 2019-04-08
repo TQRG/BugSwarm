@@ -8,7 +8,9 @@
 (import [hy.lex.parser [mangle unmangle]])
 (import [hy.-compat [builtins string-types]])
 
-(import [builtins [eval]])
+(if-python2
+  (import [--builtin-- [eval]])
+  (import [builtins [eval]]))
 
 (setv docomplete True)
 
@@ -21,13 +23,6 @@
       (import readline)
       (except [ImportError]
         (setv docomplete False)))))
-
-(when docomplete
-  (setv readline-bind
-        (if (and (= sys.platform "darwin")
-                 (in "libedit" readline.--doc--))
-            "bind ^I rl_complete"
-            "tab: complete")))
 
 (defclass Completer []
   (defn --init-- [self &optional [namespace {}]]
@@ -82,12 +77,12 @@
           (yield (.format "#{}" key))))))
 
   (defn complete [self text state]
-    (setv matches
-          (cond [(.startswith text "#") (self.tag-matches text)]
-                [(in "." text) (self.attr-matches text)]
-                [True (self.global-matches text)]))
+    (setv sub-completer
+          (cond [(.startswith text "#") self.tag-matches]
+                [(in "." text) self.attr-matches]
+                [True self.global-matches]))
     (try
-      (return (get (list matches) state))
+      (return (get (list (sub-completer text)) state))
       (except [IndexError]
         (return None)))))
 
@@ -101,7 +96,10 @@
         (readline.set-completer completer.complete)
         (readline.set-completer-delims delims)
         (readline.parse-and-bind "set blink-matching-paren on")
-        (readline.parse-and-bind readline-bind)
+        (readline.parse-and-bind (if (and (= sys.platform "darwin")
+                                          (in "libedit" readline.--doc--))
+                                     "bind ^I rl_complete"
+                                     "tab: complete"))
 
         (setv history (os.path.expanduser "~/.hy-history"))
         (try
