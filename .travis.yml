@@ -1,0 +1,15 @@
+addons:
+  apt:
+    packages: [gfortran, libatlas-dev, libatlas-base-dev, eatmydata]
+after_success: [./tools/travis-upload-wheel.sh]
+before_install: [./tools/travis-before-install.sh]
+cache:
+  directories: [$HOME/.cache/pip]
+dist: trusty
+global_env: WHEELHOUSE_UPLOADER_USERNAME=travis.numpy
+group: stable
+language: python
+os: linux
+python: 3.5
+script: [./tools/travis-test.sh]
+sudo: false
