@@ -1,0 +1,22 @@
+addons:
+  apt:
+    packages: [ghostscript, graphviz, imagemagick, lmodern, pgf, texlive, texlive-extra-utils,
+      texlive-fonts-recommended, texlive-latex-extra, texlive-latex-recommended, texlive-pictures,
+      texlive-xetex]
+after_success: [coveralls]
+before_install: ['wget -q http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-$LILYPOND_VERSION-1.linux-64.sh',
+  sh lilypond-$LILYPOND_VERSION-1.linux-64.sh --batch, 'export PATH=/home/travis/bin:$PATH',
+  pip install -U pip==9.0.1, pip install coveralls==1.2.0, pip install coverage==4.4.2]
+dist: trusty
+env: ACCELERATED=true
+global_env: LILYPOND_VERSION=2.19.65
+group: stable
+install: [pip install -e ., 'if [[ $TRAVIS_READ_ONLY == ''true'' ]]; then mkdir ~/.abjad;
+    chmod 000 ~/.abjad; fi', python -c "import abjad; print(abjad.abjad_configuration.configuration_file_path)",
+  rm -Rif ~/.abjad, abjad/scr/devel/prime-parser-tables, 'pip install -e .[development,ipython]',
+  'if [[ $ACCELERATED == true ]]; then pip install -e .[accelerated]; fi']
+language: python
+os: linux
+python: '3.6'
+script: [coverage run -a `which py.test`, coverage run -a abjad/scr/ajv api -R]
+sudo: false
