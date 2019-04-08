@@ -173,7 +173,7 @@ class BaseDecisionTree(six.with_metaclass(ABCMeta, BaseEstimator)):
         max_leaf_nodes = (-1 if self.max_leaf_nodes is None
                           else self.max_leaf_nodes)
 
-        if self.min_samples_leaf is not 'deprecated':
+        if self.min_samples_leaf != 'deprecated':
             warnings.warn("'min_samples_leaf' is deprecated in 0.20 and "
                           "will be fixed to a value of 1 in 0.22.",
                           DeprecationWarning)
