@@ -1,0 +1,18 @@
+after_success: make coveralls
+cache: pip
+dist: trusty
+group: stable
+install: [pip install -r requirements-travis.txt, pip install --process-dependency-links
+    -e .]
+language: python
+notifications:
+  email: [paultag@gmail.com]
+  irc:
+    channels: [irc.freenode.net#woo-city-commits, irc.freenode.net#hy]
+    on_failure: change
+    on_success: change
+    use_notice: false
+os: linux
+python: '2.7'
+script: pytest
+sudo: false
