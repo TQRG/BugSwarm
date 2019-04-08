@@ -1,0 +1,3 @@
+{dist: precise, group: stable, install: pip install -r Python/requirements.txt, language: python,
+  os: linux, python: 3.5-dev, script: cd Python/tests && PYTHONPATH=.. python -m unittest
+    discover}
