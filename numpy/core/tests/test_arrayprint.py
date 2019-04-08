@@ -235,7 +235,7 @@ class TestArray2String(object):
         arr = np.zeros(3, int)
         assert_equal(
             np.array2string(arr, edgeitems=1, threshold=0),
-            "[0, ..., 0]"
+            "[0 ... 0]"
         )
 
 
