@@ -33,7 +33,7 @@ def test_registers_on_none(restore_plugins_on_cleanup, checkpoint):
 def test_registers_on_kwargs(class_level_needs, class_level_provides):
 
     needs_decorator = plugins.needs('other_requirement')
-     provides_decorator = plugins.provides('another_provided_requirement')
+    provides_decorator = plugins.provides('another_provided_requirement')
 
     @slash.plugins.active  # pylint: disable=unused-variable
     @maybe_decorate(needs_decorator, class_level_needs)
