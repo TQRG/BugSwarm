@@ -600,11 +600,12 @@ def _rand_bool(low, high, size, rngstate):
                 rk_random_bool(off, rng, cnt, out, state)
             return array
     else:
+        i = 0
         lo = <ndarray>low
         hi = <ndarray>high
 
         if size is None:
-            multi = <broadcast>np.broadcast(lo, hi)
+            multi = <broadcast>np.broadcast(lo, hi, [0])
             array = <ndarray>np.empty(multi.shape, dtype=np.bool_)
         else:
             array = <ndarray>np.empty(size, dtype=np.bool_)
@@ -614,16 +615,13 @@ def _rand_bool(low, high, size, rngstate):
 
         array_data = <npy_bool *>PyArray_DATA(array)
 
-        with nogil:
-            for i in range(multi.size):
-                low_data = <int *>PyArray_MultiIter_DATA(multi, 0)
-                high_data = <int *>PyArray_MultiIter_DATA(multi, 1)
-                rng = <npy_uint8>(high_data[0] - low_data[0])
-                off = <npy_uint8>(<npy_int8>low_data[0])
-                rk_random_bool(off, rng, 1, &buf, state)
-                array_data[i] = buf
+        for low_data, high_data, array_elt in multi:
+            rng = <npy_bool>(int(high_data) - int(low_data))
+            off = <npy_bool>(<npy_bool>low_data)
 
-                PyArray_MultiIter_NEXT(multi)
+            rk_random_bool(off, rng, 1, &buf, state)
+            array_data[i] = buf
+            i += 1
 
         return array
 
@@ -877,11 +875,12 @@ def _rand_int64(low, high, size, rngstate):
                 rk_random_uint64(off, rng, cnt, out, state)
             return array
     else:
+        i = 0
         lo = <ndarray>low
         hi = <ndarray>high
 
         if size is None:
-            multi = <broadcast>np.broadcast(lo, hi)
+            multi = <broadcast>np.broadcast(lo, hi, [0])
             array = <ndarray>np.empty(multi.shape, dtype=np.int64)
         else:
             array = <ndarray>np.empty(size, dtype=np.int64)
@@ -891,16 +890,13 @@ def _rand_int64(low, high, size, rngstate):
 
         array_data = <npy_uint64 *>PyArray_DATA(array)
 
-        with nogil:
-            for i in range(multi.size):
-                low_data = <int *>PyArray_MultiIter_DATA(multi, 0)
-                high_data = <int *>PyArray_MultiIter_DATA(multi, 1)
-                rng = <npy_uint64>(high_data[0] - low_data[0])
-                off = <npy_uint64>(<npy_int64>low_data[0])
-                rk_random_uint64(off, rng, 1, &buf, state)
-                array_data[i] = buf
+        for low_data, high_data, array_elt in multi:
+            rng = <npy_uint64>(int(high_data) - int(low_data))
+            off = <npy_uint64>(<npy_int64>low_data)
 
-                PyArray_MultiIter_NEXT(multi)
+            rk_random_uint64(off, rng, 1, &buf, state)
+            array_data[i] = buf
+            i += 1
 
         return array
 
