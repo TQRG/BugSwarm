@@ -616,7 +616,7 @@ def array2string(a, max_line_width=None, precision=None,
 
 
 def _extendLine(s, line, word, max_line_len, next_line_prefix):
-    if len(line.rstrip()) + len(word.rstrip()) >= max_line_len:
+    if len((line + word).rstrip()) > max_line_len:
         s += line.rstrip() + "\n"
         line = next_line_prefix
     line += word
@@ -663,7 +663,7 @@ def _formatArray(a, format_function, max_line_len, next_line_prefix,
         if axes_left == 1:
             line = hanging_indent
             for i in range(leading_items):
-                val = recurser(index + (i,), next_hanging_indent) + separator
+                word = recurser(index + (i,), next_hanging_indent) + separator
                 s, line = _extendLine(s, line, word, max_line_len, hanging_indent)
 
             if show_summary:
