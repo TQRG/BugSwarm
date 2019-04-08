@@ -37,7 +37,7 @@ def post_search(request, search):
         return True
 
     function, string = m.groups()
-    function = str(function.decode('UTF-8')) # convert to string for python3
+    function = str(function.decode('UTF-8'))  # convert to string for python3
     if string.strip().__len__() == 0:
         # end if the string is empty
         return True
