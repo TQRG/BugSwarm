@@ -1,0 +1,18 @@
+addons:
+  apt:
+    packages: [make, gcc, qemu-utils, xorriso, zlib1g-dev]
+after_success: if [ -z "$TRAVIS_TAG" ]; then codecov; else echo "Tag build ($TRAVIS_TAG).
+  Not uploading coverage."; fi
+before_script: ['export PATH=$PATH:$PWD/bin', export PREFIX=$PWD]
+cache:
+  apt: true
+  directories: [$HOME/.cache/pip]
+dist: precise
+group: stable
+install: [pip install --upgrade pip==9.0.1 setuptools==34.3.2, pip install tox-travis==0.8,
+  pip install codecov==2.0.5]
+language: python
+os: linux
+python: 3.6
+script: tox
+sudo: false
