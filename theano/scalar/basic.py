@@ -21,7 +21,7 @@ import numpy
 from six.moves import xrange
 
 import theano
-from theano.compat import PY3, imap, izip
+from theano.compat import imap, izip
 from theano import gof, printing
 from theano.gof import (Op, utils, Variable, Constant, Type, Apply,
                         FunctionGraph)
