@@ -1,6 +1,5 @@
 package net.bytebuddy.implementation;
 
-import net.bytebuddy.description.modifier.Visibility;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.test.utility.CallTraceable;
 import org.hamcrest.CoreMatchers;
@@ -21,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(Parameterized.class)
 public class MethodDelegationTest<T extends CallTraceable> extends AbstractImplementationTest {
 
-    private static final String FOO = "foo", BAR = "bar", FIELD_NAME = "qux", PREDEFINED_FIELD_NAME = "baz", PREDEFINED_FIELD_NAME_STATIC = "foobar";
+    private static final String FOO = "foo", BAR = "bar", FIELD_NAME = "qux";
 
     private static final byte BYTE_MULTIPLICATOR = 3;
 
@@ -121,8 +120,8 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testFieldInstanceBindingAndDefined() throws Exception {
-        DynamicType.Loaded<T> loaded = implement(sourceType, MethodDelegation.toField(FIELD_NAME).defineAs(targetType, Visibility.PUBLIC).filter(isDeclaredBy(targetType)));
+    public void testInstanceFieldBinding() throws Exception {
+        DynamicType.Loaded<T> loaded = implement(sourceType, MethodDelegation.toInstanceField(targetType, FIELD_NAME).filter(isDeclaredBy(targetType)));
         assertThat(loaded.getLoadedAuxiliaryTypes().size(), is(0));
         assertThat(loaded.getLoaded().getDeclaredMethods().length, is(1));
         assertThat(loaded.getLoaded().getDeclaredFields().length, is(1));
@@ -138,43 +137,7 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
         instance.assertZeroCalls();
     }
 
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testFieldStaticBinding() throws Exception {
-        DynamicType.Loaded<T> loaded = implement(sourceType, MethodDelegation.toField(PREDEFINED_FIELD_NAME_STATIC).filter(isDeclaredBy(targetType)));
-        assertThat(loaded.getLoadedAuxiliaryTypes().size(), is(0));
-        assertThat(loaded.getLoaded().getDeclaredMethods().length, is(1));
-        assertThat(loaded.getLoaded().getDeclaredFields().length, is(0));
-        T instance = loaded.getLoaded().getDeclaredConstructor().newInstance();
-        Field field = loaded.getLoaded().getField(PREDEFINED_FIELD_NAME_STATIC);
-        field.set(null, targetType.getDeclaredConstructor().newInstance());
-        assertThat(instance.getClass(), not(CoreMatchers.<Class<?>>is(sourceType)));
-        assertThat(instance, instanceOf(sourceType));
-        assertThat(loaded.getLoaded().getDeclaredMethod(FOO, parameterTypes).invoke(instance, arguments), (Matcher) matcher);
-        instance.assertZeroCalls();
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void testFieldInstanceBinding() throws Exception {
-        DynamicType.Loaded<T> loaded = implement(sourceType, MethodDelegation.toField(PREDEFINED_FIELD_NAME).filter(isDeclaredBy(targetType)));
-        assertThat(loaded.getLoadedAuxiliaryTypes().size(), is(0));
-        assertThat(loaded.getLoaded().getDeclaredMethods().length, is(1));
-        assertThat(loaded.getLoaded().getDeclaredFields().length, is(0));
-        T instance = loaded.getLoaded().getDeclaredConstructor().newInstance();
-        Field field = loaded.getLoaded().getField(PREDEFINED_FIELD_NAME);
-        field.set(instance, targetType.getDeclaredConstructor().newInstance());
-        assertThat(instance.getClass(), not(CoreMatchers.<Class<?>>is(sourceType)));
-        assertThat(instance, instanceOf(sourceType));
-        assertThat(loaded.getLoaded().getDeclaredMethod(FOO, parameterTypes).invoke(instance, arguments), (Matcher) matcher);
-        instance.assertZeroCalls();
-    }
-
     public static class BooleanSource extends CallTraceable {
-
-        public BooleanTarget baz;
-
-        public static BooleanTarget foobar;
 
         public boolean foo(boolean b) {
             register(FOO);
@@ -195,10 +158,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     public static class ByteSource extends CallTraceable {
 
-        public ByteTarget baz;
-
-        public static ByteTarget foobar;
-
         public byte foo(byte b) {
             register(FOO);
             return b;
@@ -217,10 +176,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
     }
 
     public static class ShortSource extends CallTraceable {
-
-        public ShortTarget baz;
-
-        public static ShortTarget foobar;
 
         public short foo(short s) {
             register(FOO);
@@ -241,10 +196,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     public static class CharSource extends CallTraceable {
 
-        public CharTarget baz;
-
-        public static CharTarget foobar;
-
         public char foo(char s) {
             register(FOO);
             return s;
@@ -263,10 +214,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
     }
 
     public static class IntSource extends CallTraceable {
-
-        public IntTarget baz;
-
-        public static IntTarget foobar;
 
         public int foo(int i) {
             register(FOO);
@@ -287,10 +234,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     public static class LongSource extends CallTraceable {
 
-        public LongTarget baz;
-
-        public static LongTarget foobar;
-
         public long foo(long l) {
             register(FOO);
             return l;
@@ -309,10 +252,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
     }
 
     public static class FloatSource extends CallTraceable {
-
-        public FloatTarget baz;
-
-        public static FloatTarget foobar;
 
         public float foo(float f) {
             register(FOO);
@@ -333,10 +272,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     public static class DoubleSource extends CallTraceable {
 
-        public DoubleTarget baz;
-
-        public static DoubleTarget foobar;
-
         public double foo(double d) {
             register(FOO);
             return d;
@@ -356,10 +291,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
 
     public static class VoidSource extends CallTraceable {
 
-        public VoidTarget baz;
-
-        public static VoidTarget foobar;
-
         public void foo() {
             register(FOO);
         }
@@ -377,10 +308,6 @@ public class MethodDelegationTest<T extends CallTraceable> extends AbstractImple
     }
 
     public static class StringSource extends CallTraceable {
-
-        public StringTarget baz;
-
-        public static StringTarget foobar;
 
         public String foo(String s) {
             register(FOO);

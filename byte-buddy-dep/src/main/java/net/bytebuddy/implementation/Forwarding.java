@@ -135,8 +135,18 @@ public class Forwarding implements Implementation {
 
     @Override
     public ByteCodeAppender appender(Target implementationTarget) {
-        return new Appender(new StackManipulation.Compound(preparationHandler.loadFieldOwner(),
-                FieldAccess.forField(implementationTarget.getInstrumentedType().getDeclaredFields().filter((named(fieldName))).getOnly()).getter()));
+        return new Appender(loadDelegate(implementationTarget.getInstrumentedType()));
+    }
+
+    /**
+     * Loads the field onto the operand stack.
+     *
+     * @param instrumentedType The instrumented type that declares the field.
+     * @return A stack manipulation for loading the field value onto the operand stack.
+     */
+    private StackManipulation loadDelegate(TypeDescription instrumentedType) {
+        return new StackManipulation.Compound(preparationHandler.loadFieldOwner(),
+                FieldAccess.forField(instrumentedType.getDeclaredFields().filter((named(fieldName))).getOnly()).getter());
     }
 
     @Override

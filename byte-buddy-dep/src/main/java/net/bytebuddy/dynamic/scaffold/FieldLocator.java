@@ -335,54 +335,6 @@ public interface FieldLocator {
     }
 
     /**
-     * Attempts to only locate fields declared by the accessing type.
-     */
-    class ForAccessingType extends AbstractBase {
-
-        /**
-         * Creates a new field locator for the accessing type.
-         *
-         * @param accessingType The accessing type.
-         */
-        protected ForAccessingType(TypeDescription accessingType) {
-            super(accessingType);
-        }
-
-        @Override
-        protected FieldList<?> locate(ElementMatcher<? super FieldDescription> matcher) {
-            return accessingType.getDeclaredFields().filter(matcher);
-        }
-
-        @Override
-        public String toString() {
-            return "FieldLocator.ForAccessingType{" +
-                    "accessingType=" + accessingType +
-                    "}";
-        }
-
-        /**
-         * A factory for locating fields from the accessing type.
-         */
-        public enum Factory implements FieldLocator.Factory {
-
-            /**
-             * The singleton instance.
-             */
-            INSTANCE;
-
-            @Override
-            public FieldLocator make(TypeDescription typeDescription) {
-                return new ForAccessingType(typeDescription);
-            }
-
-            @Override
-            public String toString() {
-                return "FieldLocator.ForAccessingType.Factory." + name();
-            }
-        }
-    }
-
-    /**
      * A field locator that looks up fields that are declared within a class's class hierarchy.
      */
     class ForClassHierarchy extends AbstractBase {
