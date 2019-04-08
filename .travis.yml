@@ -1,0 +1,10 @@
+addons: {}
+after_success: [coveralls]
+install: [pip install -e ., pip install coveralls==1.0b1, pip install pyflakes==0.9.2,
+  pip install pep8==1.6.2]
+language: python
+os: linux
+python: '3.4'
+script: [coverage run --source=verktyg setup.py test, pep8 verktyg setup.py, pyflakes
+    verktyg setup.py]
+sudo: false
