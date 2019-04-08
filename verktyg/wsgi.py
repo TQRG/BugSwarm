@@ -22,7 +22,7 @@ from functools import partial, update_wrapper
 from urllib.parse import urlsplit, quote as urlquote, urljoin
 
 from werkzeug._compat import (
-    make_literal_wrapper, to_unicode, to_bytes, wsgi_get_bytes,
+    make_literal_wrapper, to_unicode, wsgi_get_bytes,
 )
 from werkzeug._internal import _empty_stream, _encode_idna
 
