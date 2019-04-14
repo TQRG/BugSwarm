@@ -5,7 +5,7 @@ import static org.sonar.java.checks.security.EmptyDatabasePasswordCheckTest.NON_
 
 class S2115 {
   void foo(Properties connectionProps, String unknown) throws SQLException {
-    DriverManager.getConnection("jdbc:derby:memory:myDB;create=true", "AppLogin", ""); // Noncompliant [[sc=5;ec=87]] {{Add password protection to this database.}}
+    DriverManager.getConnection("jdbc:derby:memory:myDB;create=true", "AppLogin", ""); // Noncompliant [[sc=5;ec=86]] {{Add password protection to this database.}}
     DriverManager.getConnection("jdbc:derby:memory:myDB;create=true", "AppLogin", "Foo");
 
     String pwd = "";
