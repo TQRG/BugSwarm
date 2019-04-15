@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1234543251" phpunit="3.3.1">
+  <project name="AllTests" timestamp="1234543251">
+    <file name="src/App.php">
+      <line num="3" type="stmt" count="1"/>
+      <line num="4" type="stmt" count="1"/>
+      <line num="6" type="stmt" count="1"/>
+      <line num="7" type="stmt" count="0"/>
+    </file>
+  </project>
+</coverage>

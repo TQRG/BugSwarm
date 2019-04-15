@@ -19,22 +19,35 @@
  */
 package org.sonar.plugins.php.phpunit;
 
-import org.sonar.api.batch.sensor.coverage.CoverageType;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mock;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.plugins.php.PhpPlugin;
 
-public class PhpUnitOverallCoverageResultImporter extends PhpUnitCoverageResultImporter {
+import static org.assertj.core.api.Assertions.assertThat;
 
-  public PhpUnitOverallCoverageResultImporter() {
-    super(PhpPlugin.PHPUNIT_OVERALL_COVERAGE_REPORT_PATH_KEY, "overall coverage");
-    linesToCoverMetric = CoreMetrics.OVERALL_LINES_TO_COVER;
-    uncoveredLinesMetric = CoreMetrics.OVERALL_UNCOVERED_LINES;
-    coverageType = CoverageType.OVERALL;
+public class ItCoverageResultImporterTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  @Mock
+  private SensorContext context;
+
+  private CoverageResultImporter importer;
+
+  @Before
+  public void setUp() throws Exception {
+    importer = new ItCoverageResultImporter();
   }
 
-  @Override
-  public String toString() {
-    return "PHPUnit Overall Coverage Result Parser";
+  @Test
+  public void shouldSetMetrics() {
+    assertThat(importer.linesToCoverMetric).isEqualTo(CoreMetrics.IT_LINES_TO_COVER);
+    assertThat(importer.uncoveredLinesMetric).isEqualTo(CoreMetrics.IT_UNCOVERED_LINES);
   }
 
 }

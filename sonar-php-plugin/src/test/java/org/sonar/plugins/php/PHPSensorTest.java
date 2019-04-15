@@ -20,15 +20,20 @@
 package org.sonar.plugins.php;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Files;
 import com.sonar.sslr.api.RecognitionException;
 import java.io.File;
 import java.io.InterruptedIOException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sonar.api.SonarQubeSide;
@@ -87,6 +92,8 @@ public class PHPSensorTest {
   private static final SonarRuntime SONARLINT_RUNTIME = SonarRuntimeImpl.forSonarLint(SONARLINT_DETECTABLE_VERSION);
   private static final SonarRuntime NOT_SONARLINT_RUNTIME = SonarRuntimeImpl.forSonarQube(SONARLINT_DETECTABLE_VERSION, SonarQubeSide.SERVER);
   private static final SonarRuntime SONARQUBE_6_2 = SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SCANNER);
+
+  private Set<File> tempReportFiles = new HashSet<>();
 
   @org.junit.Rule
   public final ExpectedException thrown = ExpectedException.none();
@@ -431,23 +438,53 @@ public class PHPSensorTest {
   @Test
   public void should_use_multi_path_coverage() throws Exception {
     context.settings().setProperty(PhpPlugin.PHPUNIT_COVERAGE_REPORT_PATHS_KEY,
-      String.join(",", PhpTestUtils.PHPUNIT_COVERAGE_REPORT, PhpTestUtils.PHPUNIT_IT_COVERAGE_REPORT, PhpTestUtils.PHPUNIT_OVERALL_COVERAGE_REPORT));
+      String.join(",", PhpTestUtils.GENERATED_UT_COVERAGE_REPORT_RELATIVE_PATH, PhpTestUtils.GENERATED_IT_COVERAGE_REPORT_RELATIVE_PATH/*, PhpTestUtils.OVERALL_COVERAGE_REPORT_RELATIVE_PATH*/));
 
-    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", PhpTestUtils.PHPUNIT_REPORT_DIR + "src/Monkey.php")
+    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", "src/App.php")
       .setModuleBaseDir(context.fileSystem().baseDirPath())
       .setType(Type.MAIN)
       .setCharset(Charset.defaultCharset())
       .setLanguage(Php.KEY);
     inputFile.initMetadata(new FileMetadata().readMetadata(inputFile.file(), Charsets.UTF_8));
 
+    createReportWithAbsolutePath(PhpTestUtils.GENERATED_UT_COVERAGE_REPORT_RELATIVE_PATH, PhpTestUtils.UT_COVERAGE_REPORT_RELATIVE_PATH, inputFile);
+    createReportWithAbsolutePath(PhpTestUtils.GENERATED_IT_COVERAGE_REPORT_RELATIVE_PATH, PhpTestUtils.IT_COVERAGE_REPORT_RELATIVE_PATH, inputFile);
+//    createReportWithAbsolutePath("it-coverage", PhpTestUtils.IT_COVERAGE_REPORT_RELATIVE_PATH, inputFile);
+//    createReportWithAbsolutePath("overall-coverage", PhpTestUtils.OVERALL_COVERAGE_REPORT_RELATIVE_PATH, inputFile);
+
     String mainFileKey = inputFile.key();
-
     context.fileSystem().add(inputFile);
-
     context.setRuntime(SONARQUBE_6_2);
-    createSensor().execute(context);
-    assertThat(context.lineHits(mainFileKey, 46)).isEqualTo(1);
 
+    createSensor().execute(context);
+
+    assertThat(context.lineHits(mainFileKey, 3)).isEqualTo(2);
+    assertThat(context.lineHits(mainFileKey, 7)).isEqualTo(1);
+
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    tempReportFiles.forEach(File::delete);
+  }
+
+  /**
+   * Creates a file name with absolute path in coverage report.
+   *
+   * This hack allow to have this unit test, as only absolute path
+   * in report is supported.
+   * */
+  private void createReportWithAbsolutePath(String generatedReportRelativePath, String relativeReportPath, InputFile inputFile) throws Exception {
+    File tempReport = new File(context.fileSystem().baseDir(), generatedReportRelativePath);
+    tempReport.createNewFile();
+    File originalReport = new File(context.fileSystem().baseDir(), relativeReportPath);
+
+    Files.write(
+      Files.toString(originalReport, StandardCharsets.UTF_8)
+        .replace(inputFile.relativePath(), inputFile.absolutePath()),
+      tempReport, StandardCharsets.UTF_8);
+
+    tempReportFiles.add(tempReport);
   }
 
   private void analyseFileWithException(PHPCheck check, InputFile inputFile, String expectedMessageSubstring) {

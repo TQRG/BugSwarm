@@ -40,7 +40,7 @@ public class CompatibilityImportersFactory {
 
   public List<PhpUnitImporter> createImporters() {
     final ArrayList<PhpUnitImporter> importers = new ArrayList<>();
-    importers.add(new PhpUnitTestResultImporter());
+    importers.add(new TestResultImporter());
     if (supportsMultiPathCoverage() && multiPathCoverageUsed()) {
       addMultiCoverageImporter(importers);
     } else {
@@ -58,13 +58,13 @@ public class CompatibilityImportersFactory {
   }
 
   private void addMultiCoverageImporter(ArrayList<PhpUnitImporter> importers) {
-    importers.add(new MultiPathImporter(new PhpUnitCoverageResultImporter(), PhpPlugin.PHPUNIT_COVERAGE_REPORT_PATHS_KEY, "coverage"));
+    importers.add(new MultiPathImporter(new CoverageResultImporter(), PhpPlugin.PHPUNIT_COVERAGE_REPORT_PATHS_KEY, "coverage"));
   }
 
   private void addLegacyImporters(ArrayList<PhpUnitImporter> importers) {
-    importers.add(new PhpUnitCoverageResultImporter());
-    importers.add(new PhpUnitItCoverageResultImporter());
-    importers.add(new PhpUnitOverallCoverageResultImporter());
+    importers.add(new CoverageResultImporter());
+    importers.add(new ItCoverageResultImporter());
+    importers.add(new OverallCoverageResultImporter());
   }
 
   public List<String> deprecationWarnings() {

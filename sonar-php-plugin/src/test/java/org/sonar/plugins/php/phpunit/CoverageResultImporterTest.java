@@ -45,7 +45,7 @@ import org.sonar.test.TestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PhpUnitCoverageResultImporterTest {
+public class CoverageResultImporterTest {
 
   private static final String BASE_DIR = "/org/sonar/plugins/php/phpunit/sensor/src/";
   private static final String MONKEY_FILE_NAME = "Monkey.php";
@@ -59,7 +59,7 @@ public class PhpUnitCoverageResultImporterTest {
   @Rule
   public TemporaryFolder folder = new TemporaryFolder();
 
-  private PhpUnitCoverageResultImporter importer;
+  private CoverageResultImporter importer;
 
   private Map<String, Integer> numberOfLinesOfCode;
   private SensorContextTester context;
@@ -80,7 +80,7 @@ public class PhpUnitCoverageResultImporterTest {
 
     numberOfLinesOfCode = new HashMap<>();
 
-    importer = new PhpUnitCoverageResultImporter();
+    importer = new CoverageResultImporter();
   }
 
   @Test
