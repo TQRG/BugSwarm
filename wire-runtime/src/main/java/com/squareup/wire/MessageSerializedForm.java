@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.io.StreamCorruptedException;
 
 final class MessageSerializedForm implements Serializable {
+  private static final long serialVersionUID = 0L;
+
   private final byte[] bytes;
   private final Class<? extends Message> messageClass;
 
