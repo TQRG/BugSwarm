@@ -269,7 +269,7 @@ public abstract class Message implements Serializable {
     return WIRE.messageAdapter((Class<Message>) getClass()).toString(this);
   }
 
-  protected final Object writeReplace() throws ObjectStreamException {
+  private Object writeReplace() throws ObjectStreamException {
     return new MessageSerializedForm(this, getClass());
   }
 
