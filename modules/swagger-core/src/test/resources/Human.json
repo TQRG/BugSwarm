@@ -1,0 +1,19 @@
+{
+    "io.swagger.models.composition.Human": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "type": {
+                "type": "string"
+            },
+            "firstName": {
+                "type": "string"
+            },
+            "lastName": {
+                "type": "string"
+            }
+        }
+    }
+}
