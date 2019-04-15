@@ -47,9 +47,9 @@ import org.sonar.plugins.php.phpunit.xml.MetricsNode;
 import org.sonar.plugins.php.phpunit.xml.PackageNode;
 import org.sonar.plugins.php.phpunit.xml.ProjectNode;
 
-public class PhpUnitCoverageResultImporter extends SingleFilePhpUnitImporter {
+public class CoverageResultImporter extends SingleFilePhpUnitImporter {
 
-  private static final Logger LOG = LoggerFactory.getLogger(PhpUnitCoverageResultImporter.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverageResultImporter.class);
 
   protected Metric<Integer> linesToCoverMetric = CoreMetrics.LINES_TO_COVER;
 
@@ -59,11 +59,11 @@ public class PhpUnitCoverageResultImporter extends SingleFilePhpUnitImporter {
 
   private static final String WRONG_LINE_EXCEPTION_MESSAGE = "Line with number %s doesn't belong to file %s";
 
-  public PhpUnitCoverageResultImporter() {
+  public CoverageResultImporter() {
     super(PhpPlugin.PHPUNIT_COVERAGE_REPORT_PATH_KEY, "unit test coverage");
   }
 
-  protected PhpUnitCoverageResultImporter(String reportPathKey, String msg) {
+  protected CoverageResultImporter(String reportPathKey, String msg) {
     super(reportPathKey, msg);
   }
 

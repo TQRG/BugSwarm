@@ -29,7 +29,7 @@ import org.sonar.api.measures.CoreMetrics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PhpUnitItCoverageResultImporterTest {
+public class OverallCoverageResultImporterTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -37,17 +37,17 @@ public class PhpUnitItCoverageResultImporterTest {
   @Mock
   private SensorContext context;
 
-  private PhpUnitCoverageResultImporter importer;
+  private CoverageResultImporter importer;
 
   @Before
   public void setUp() throws Exception {
-    importer = new PhpUnitItCoverageResultImporter();
+    importer = new OverallCoverageResultImporter();
   }
 
   @Test
   public void shouldSetMetrics() {
-    assertThat(importer.linesToCoverMetric).isEqualTo(CoreMetrics.IT_LINES_TO_COVER);
-    assertThat(importer.uncoveredLinesMetric).isEqualTo(CoreMetrics.IT_UNCOVERED_LINES);
+    assertThat(importer.linesToCoverMetric).isEqualTo(CoreMetrics.OVERALL_LINES_TO_COVER);
+    assertThat(importer.uncoveredLinesMetric).isEqualTo(CoreMetrics.OVERALL_UNCOVERED_LINES);
   }
 
 }

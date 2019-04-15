@@ -39,10 +39,10 @@ public class CompatibilityImportersFactoryTest {
 
   private static final String BASE_DIR = "/org/sonar/plugins/php/phpunit/sensor/src/";
   private static final Class[] LEGACY_IMPORTER_CLASSES = {
-    PhpUnitTestResultImporter.class,
-    PhpUnitCoverageResultImporter.class,
-    PhpUnitItCoverageResultImporter.class,
-    PhpUnitOverallCoverageResultImporter.class
+    TestResultImporter.class,
+    CoverageResultImporter.class,
+    ItCoverageResultImporter.class,
+    OverallCoverageResultImporter.class
   };
   private static final SonarRuntime SONAR_QUBE_6_2 = SonarRuntimeImpl.forSonarQube(Version.create(6, 2), SonarQubeSide.SCANNER);
   private static final SonarRuntime SONAR_QUBE_6_1 = SonarRuntimeImpl.forSonarQube(Version.create(6, 1), SonarQubeSide.SCANNER);
@@ -72,7 +72,7 @@ public class CompatibilityImportersFactoryTest {
     context.setRuntime(SONAR_QUBE_6_2);
     context.settings().setProperty(COVERAGES_KEY, "coverage report");
     final List<Class> importerClasses = importerClasses(importersFactory.createImporters());
-    assertThat(importerClasses).containsExactly(PhpUnitTestResultImporter.class, MultiPathImporter.class);
+    assertThat(importerClasses).containsExactly(TestResultImporter.class, MultiPathImporter.class);
   }
 
   @Test
