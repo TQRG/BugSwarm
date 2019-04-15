@@ -19,13 +19,13 @@
  */
 package org.sonar.java.checks.security;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Predicate;
 import javax.annotation.CheckForNull;
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLInputFactory;
 import org.sonar.check.Rule;
@@ -38,29 +38,40 @@ import org.sonar.plugins.java.api.tree.MethodInvocationTree;
 import org.sonar.plugins.java.api.tree.MethodTree;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import static org.sonar.java.checks.helpers.ConstantUtils.resolveAsBooleanConstant;
 import static org.sonar.java.checks.helpers.ConstantUtils.resolveAsStringConstant;
 import static org.sonar.java.matcher.TypeCriteria.subtypeOf;
 
-@Rule(key = "S2756")
+@Rule(key = "S2755")
 public class XmlExternalEntityProcessingCheck extends IssuableSubscriptionVisitor {
 
-  private static final String STAX_FACTORY_CLASS_NAME = XMLInputFactory.class.getName();
+  private static final String XML_INPUT_FACTORY_CLASS_NAME = XMLInputFactory.class.getName();
   private static final String SAX_PARSER_FACTORY_CLASS_NAME = SAXParserFactory.class.getName();
+  private static final String XML_READER_FACTORY_CLASS_NAME = XMLReaderFactory.class.getName();
+  private static final String XML_READER_CLASS_NAME = XMLReader.class.getName();
+  private static final String DOCUMENT_BUILDER_FACTORY_CLASS_NAME = DocumentBuilderFactory.class.getName();
 
-  private final Map<MethodMatcher, Supplier<XxeValidator>> xxeValidatorsByMethodMatcher = xxeValidatorsByMethodMatcher();
+  private static final MethodMatcher CREATE_XML_READER_MATCHER = MethodMatcher.create()
+    .typeDefinition(XML_READER_FACTORY_CLASS_NAME)
+    .name("createXMLReader")
+    .withAnyParameters();
 
-  private static Map<MethodMatcher, Supplier<XxeValidator>> xxeValidatorsByMethodMatcher() {
-    Map<MethodMatcher, Supplier<XxeValidator>> map = new HashMap<>();
-    map.put(
-      MethodMatcher.create().typeDefinition(STAX_FACTORY_CLASS_NAME).name("newInstance").withAnyParameters(),
-      StaxXxeValidator::new);
-    map.put(
-      MethodMatcher.create().typeDefinition(SAX_PARSER_FACTORY_CLASS_NAME).name("newInstance").withAnyParameters(),
-      SaxParserXxeValidator::new);
-    return map;
+  private static MethodMatcher newInstanceMethod(String className) {
+    return MethodMatcher.create()
+      .typeDefinition(className)
+      .name("newInstance")
+      .withAnyParameters();
   }
+
+  private final List<XxeCheck> xxeChecks = Arrays.asList(
+    new XxeCheck(newInstanceMethod(XML_INPUT_FACTORY_CLASS_NAME), new XMLInputFactorySecuringPredicate()),
+    new XxeCheck(newInstanceMethod(SAX_PARSER_FACTORY_CLASS_NAME), new SecureProcessingFeaturePredicate(SAX_PARSER_FACTORY_CLASS_NAME)),
+    new XxeCheck(newInstanceMethod(DOCUMENT_BUILDER_FACTORY_CLASS_NAME), new SecureProcessingFeaturePredicate(DOCUMENT_BUILDER_FACTORY_CLASS_NAME)),
+    new XxeCheck(CREATE_XML_READER_MATCHER, new SecureProcessingFeaturePredicate(XML_READER_CLASS_NAME))
+  );
 
   @Override
   public List<Tree.Kind> nodesToVisit() {
@@ -69,98 +80,110 @@ public class XmlExternalEntityProcessingCheck extends IssuableSubscriptionVisito
 
   @Override
   public void visitNode(Tree tree) {
-    MethodInvocationTree methodInvocation = (MethodInvocationTree) tree;
-    xxeValidatorsByMethodMatcher.forEach((matcher, validatorSupplier) -> {
-      if (matcher.matches(methodInvocation)) {
+    xxeChecks.forEach(check -> check.checkMethodInvocation((MethodInvocationTree) tree));
+  }
+
+  private class XxeCheck {
+
+    private final MethodMatcher triggeringInvocationMatcher;
+    private final Predicate<MethodInvocationTree> securingInvocationPredicate;
+
+    private XxeCheck(MethodMatcher triggeringInvocationMatcher, Predicate<MethodInvocationTree> securingInvocationPredicate) {
+      this.triggeringInvocationMatcher = triggeringInvocationMatcher;
+      this.securingInvocationPredicate = securingInvocationPredicate;
+    }
+
+    private void checkMethodInvocation(MethodInvocationTree methodInvocation) {
+      if (triggeringInvocationMatcher.matches(methodInvocation)) {
         MethodTree enclosingMethod = enclosingMethod(methodInvocation);
         if (enclosingMethod != null) {
-          XxeValidator xxeValidator = validatorSupplier.get();
-          enclosingMethod.accept(xxeValidator);
-          if (!xxeValidator.isExternalEntityProcessingDisabled()) {
+          MethodVisitor methodVisitor = new MethodVisitor(securingInvocationPredicate);
+          enclosingMethod.accept(methodVisitor);
+          if (!methodVisitor.isExternalEntityProcessingDisabled) {
             reportIssue(methodInvocation.methodSelect(), "Disable external entity (XXE) processing.");
           }
         }
       }
-    });
-  }
-
-  @CheckForNull
-  private static MethodTree enclosingMethod(Tree tree) {
-    Tree parent = tree.parent();
-    while (!parent.is(Kind.CLASS, Kind.METHOD)) {
-      parent = parent.parent();
     }
-    if (parent.is(Kind.CLASS)) {
-      return null;
+
+    @CheckForNull
+    private MethodTree enclosingMethod(Tree tree) {
+      Tree parent = tree.parent();
+      while (!parent.is(Kind.CLASS, Kind.METHOD)) {
+        parent = parent.parent();
+      }
+      if (parent.is(Kind.CLASS)) {
+        return null;
+      }
+      return (MethodTree) parent;
     }
-    return (MethodTree) parent;
   }
 
-  private abstract static class XxeValidator extends BaseTreeVisitor {
+  private static class MethodVisitor extends BaseTreeVisitor {
 
-    abstract boolean isExternalEntityProcessingDisabled();
-
-  }
-
-  private static class StaxXxeValidator extends XxeValidator {
-
-    private static final MethodMatcher SET_PROPERTY =
-      MethodMatcher.create()
-        .typeDefinition(subtypeOf(STAX_FACTORY_CLASS_NAME))
-        .name("setProperty")
-        .parameters("java.lang.String", "java.lang.Object");
-
+    private final Predicate<MethodInvocationTree> securingInvocationPredicate;
     private boolean isExternalEntityProcessingDisabled = false;
 
-    @Override
-    boolean isExternalEntityProcessingDisabled() {
-      return isExternalEntityProcessingDisabled;
+    private MethodVisitor(Predicate<MethodInvocationTree> securingInvocationPredicate) {
+      this.securingInvocationPredicate = securingInvocationPredicate;
     }
 
     @Override
     public void visitMethodInvocation(MethodInvocationTree methodInvocation) {
+      if (securingInvocationPredicate.test(methodInvocation)) {
+        isExternalEntityProcessingDisabled = true;
+      }
+      super.visitMethodInvocation(methodInvocation);
+    }
+  }
+
+  private static class XMLInputFactorySecuringPredicate implements Predicate<MethodInvocationTree> {
+
+    private static final MethodMatcher SET_PROPERTY =
+      MethodMatcher.create()
+        .typeDefinition(subtypeOf(XML_INPUT_FACTORY_CLASS_NAME))
+        .name("setProperty")
+        .parameters("java.lang.String", "java.lang.Object");
+
+    @Override
+    public boolean test(MethodInvocationTree methodInvocation) {
       Arguments arguments = methodInvocation.arguments();
       if (SET_PROPERTY.matches(methodInvocation)) {
         String propertyName = resolveAsStringConstant(arguments.get(0));
         if (XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES.equals(propertyName) || XMLInputFactory.SUPPORT_DTD.equals(propertyName)) {
           ExpressionTree propertyValue = arguments.get(1);
-          if (Boolean.FALSE.equals(resolveAsBooleanConstant(propertyValue))) {
-            isExternalEntityProcessingDisabled = true;
-          }
+          return Boolean.FALSE.equals(resolveAsBooleanConstant(propertyValue));
         }
       }
-      super.visitMethodInvocation(methodInvocation);
+      return false;
     }
   }
 
-  private static class SaxParserXxeValidator extends XxeValidator {
+  private static class SecureProcessingFeaturePredicate implements Predicate<MethodInvocationTree> {
 
-    private static final MethodMatcher SET_FEATURE =
-      MethodMatcher.create()
-        .typeDefinition(subtypeOf(SAX_PARSER_FACTORY_CLASS_NAME))
-        .name("setFeature")
-        .parameters("java.lang.String", "boolean");
+    private final MethodMatcher methodMatcher;
 
-    private boolean isExternalEntityProcessingDisabled = false;
-
-    @Override
-    boolean isExternalEntityProcessingDisabled() {
-      return isExternalEntityProcessingDisabled;
+    private SecureProcessingFeaturePredicate(String className) {
+      this.methodMatcher = setFeatureMethodMatcher(className);
     }
 
     @Override
-    public void visitMethodInvocation(MethodInvocationTree methodInvocation) {
-      Arguments arguments = methodInvocation.arguments();
-      if (SET_FEATURE.matches(methodInvocation)) {
+    public boolean test(MethodInvocationTree methodInvocation) {
+      if (methodMatcher.matches(methodInvocation)) {
+        Arguments arguments = methodInvocation.arguments();
         String featureName = resolveAsStringConstant(arguments.get(0));
-        if (XMLConstants.FEATURE_SECURE_PROCESSING.equals(featureName)) {
-          ExpressionTree propertyValue = arguments.get(1);
-          if (Boolean.TRUE.equals(resolveAsBooleanConstant(propertyValue))) {
-            isExternalEntityProcessingDisabled = true;
-          }
-        }
+        return Boolean.TRUE.equals(resolveAsBooleanConstant(arguments.get(1)))
+          && (XMLConstants.FEATURE_SECURE_PROCESSING.equals(featureName)
+          || "http://apache.org/xml/features/disallow-doctype-decl".equals(featureName));
       }
-      super.visitMethodInvocation(methodInvocation);
+      return false;
+    }
+
+    private static MethodMatcher setFeatureMethodMatcher(String className) {
+      return MethodMatcher.create()
+        .typeDefinition(subtypeOf(className))
+        .name("setFeature")
+        .parameters("java.lang.String", "boolean");
     }
   }
 

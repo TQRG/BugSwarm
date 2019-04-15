@@ -1,8 +1,11 @@
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.XMLConstants;
 
-class Stax {
+class StaxTest {
 
   XMLInputFactory no_property() {
     XMLInputFactory factory = XMLInputFactory.newInstance(); // Noncompliant
@@ -53,34 +56,82 @@ class Stax {
 
 }
 
-class SAXParser {
+class SAXParserTest {
 
   SAXParserFactory no_property() {
     SAXParserFactory factory = SAXParserFactory.newInstance(); // Noncompliant
     return factory;
   }
 
-  SAXParserFactory secure_processing_true() {
+  SAXParserFactory secure_processing_set_to_true() {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     return factory;
   }
 
-  SAXParserFactory secure_processing_false() {
+  SAXParserFactory secure_processing_set_to_false() {
     SAXParserFactory factory = SAXParserFactory.newInstance(); // Noncompliant
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, false);
     return factory;
   }
 
-  SAXParserFactory other_feature_set_to_true() {
+  SAXParserFactory secure_processing_with_literal_string_set_to_true() {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
+    return factory;
+  }
+
+  SAXParserFactory apache_feature_set_to_true() {
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
     return factory;
   }
 
   SAXParserFactory other_feature_set_to_true() {
     SAXParserFactory factory = SAXParserFactory.newInstance(); // Noncompliant
     factory.setFeature("xxx", true);
+    return factory;
+  }
+
+}
+
+class XMLReaderTest {
+
+  XMLReader no_property(XMLReaderFactory factory) {
+    XMLReader xmlReader = factory.createXMLReader(); // Noncompliant
+    return xmlReader;
+  }
+
+  XMLReader no_property(XMLReaderFactory factory) {
+    XMLReader xmlReader = factory.createXMLReader();
+    xmlReader.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    return xmlReader;
+  }
+
+  XMLReader no_property(XMLReaderFactory factory) {
+    XMLReader xmlReader = factory.createXMLReader(); // Noncompliant
+    xmlReader.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, false);
+    return xmlReader;
+  }
+
+}
+
+class DocumentBuilderFactoryTest {
+
+  DocumentBuilderFactory no_property() {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // Noncompliant
+    return factory;
+  }
+
+  DocumentBuilderFactory no_property() {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    return factory;
+  }
+
+  DocumentBuilderFactory no_property() {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // Noncompliant
+    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, false);
     return factory;
   }
 

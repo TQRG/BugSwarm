@@ -40,4 +40,15 @@ try (FileInputStream fis = new FileInputStream(malicousSample)) {
     // Load XML stream
     XMLStreamReader xmlStreamReader = factory.createXMLStreamReader(fis);
 </pre>
+<h2>See</h2>
+<ul>
+  <li> <a href="http://cwe.mitre.org/data/definitions/611.html">MITRE, CWE-611</a> - Information Exposure Through XML External Entity Reference </li>
+  <li> <a href="http://cwe.mitre.org/data/definitions/827.html">MITRE, CWE-827</a> - Improper Control of Document Type Definition </li>
+  <li> OWASP Top 10 2017 Category A1 - Injection </li>
+  <li> OWASP Top 10 2017 Category A4 - XML External Entities (XXE) </li>
+  <li> Derived from FindSecBugs rule <a href="https://find-sec-bugs.github.io/bugs.htm#XXE_XMLSTREAMREADER">XXE_XMLSTREAMREADER</a> </li>
+  <li> Derived from FindSecBugs rule <a href="https://find-sec-bugs.github.io/bugs.htm#XXE_SAXPARSER">XXE_SAXPARSER</a> </li>
+  <li> Derived from FindSecBugs rule <a href="https://find-sec-bugs.github.io/bugs.htm#XXE_XMLREADER">XXE_XMLREADER</a> </li>
+  <li> Derived from FindSecBugs rule <a href="https://find-sec-bugs.github.io/bugs.htm#XXE_DOCUMENT">XXE_DOCUMENT</a> </li>
+</ul>
 
