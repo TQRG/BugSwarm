@@ -43,10 +43,13 @@ import org.sonar.java.checks.naming.MethodNameSameAsClassCheck;
 import org.sonar.java.checks.naming.MethodNamedEqualsCheck;
 import org.sonar.java.checks.naming.MethodNamedHashcodeOrEqualCheck;
 import org.sonar.java.checks.security.AESAlgorithmCheck;
+import org.sonar.java.checks.security.CipherBlockChainingCheck;
 import org.sonar.java.checks.security.CookieShouldNotContainSensitiveDataCheck;
+import org.sonar.java.checks.security.CryptographicKeySizeCheck;
 import org.sonar.java.checks.security.HostnameVerifierImplementationCheck;
 import org.sonar.java.checks.security.IntegerToHexStringCheck;
 import org.sonar.java.checks.security.LDAPDeserializationCheck;
+import org.sonar.java.checks.security.SecureXmlTransformerCheck;
 import org.sonar.java.checks.security.TrustManagerCertificateCheck;
 import org.sonar.java.checks.security.LDAPAuthenticatedConnectionCheck;
 import org.sonar.java.checks.security.XmlExternalEntityProcessingCheck;
@@ -341,6 +344,7 @@ public final class CheckList {
       .add(XmlExternalEntityProcessingCheck.class)
       .add(LDAPAuthenticatedConnectionCheck.class)
       .add(LDAPDeserializationCheck.class)
+      .add(SecureXmlTransformerCheck.class)
       .add(NonShortCircuitLogicCheck.class)
       .add(ArrayHashCodeAndToStringCheck.class)
       .add(DefaultEncodingUsageCheck.class)
@@ -555,6 +559,8 @@ public final class CheckList {
       .add(RegexPatternsNeedlesslyCheck.class)
       .add(SpecializedFunctionalInterfacesCheck.class)
       .add(IndentationAfterConditionalCheck.class)
+      .add(CipherBlockChainingCheck.class)
+      .add(CryptographicKeySizeCheck.class)
       .build();
   }
 
