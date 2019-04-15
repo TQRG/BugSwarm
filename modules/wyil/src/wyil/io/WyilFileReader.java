@@ -29,8 +29,8 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 
-import wybs.lang.Attribute;
-import wybs.lang.NameID;
+import wycc.lang.Attribute;
+import wycc.lang.NameID;
 import wyfs.io.BinaryInputStream;
 import wyfs.lang.Path;
 import wyfs.util.Trie;

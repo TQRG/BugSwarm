@@ -27,9 +27,10 @@ package wyil.checks;
 
 import java.util.*;
 
-import wybs.lang.Build;
-import wybs.lang.SyntaxError;
-import wycommon.util.Pair;
+import wybs.lang.Builder;
+import wycc.lang.SyntaxError;
+import wycc.lang.Transform;
+import wycc.util.Pair;
 import wyil.lang.*;
 import wyil.lang.Bytecode.*;
 import wyil.lang.SyntaxTree.Location;
@@ -55,10 +56,10 @@ import static wyil.util.ErrorMessages.*;
  * @author David J. Pearce
  *
  */
-public class ModuleCheck {
+public class ModuleCheck implements Transform<WyilFile> {
 	private WyilFile file;
 
-	public ModuleCheck(Build.Task builder) {
+	public ModuleCheck(Builder builder) {
 
 	}
 

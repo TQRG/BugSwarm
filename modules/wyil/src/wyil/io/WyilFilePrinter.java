@@ -28,7 +28,7 @@ package wyil.io;
 import java.io.*;
 import java.util.*;
 
-import wybs.lang.Build;
+import wycc.lang.Transform;
 import wyil.lang.*;
 import wyil.lang.Constant;
 import wyil.lang.Bytecode.AliasDeclaration;
@@ -49,11 +49,11 @@ import wyil.lang.WyilFile.*;
  * @author David J. Pearce
  *
  */
-public final class WyilFilePrinter {
+public final class WyilFilePrinter implements Transform<WyilFile> {
 	private PrintWriter out;
 	private boolean verbose = getVerbose();
 	
-	public WyilFilePrinter(Build.Task builder) {
+	public WyilFilePrinter(wybs.lang.Builder builder) {
 
 	}
 
@@ -244,6 +244,7 @@ public final class WyilFilePrinter {
 	}
 	
 	private void writeAliasDeclaration(int indent, Location<AliasDeclaration> loc, PrintWriter out) {
+		Location<?>[] operands = loc.getOperands();
 		out.print("alias ");
 		out.print(loc.getType());
 		out.print(" ");
@@ -450,10 +451,23 @@ public final class WyilFilePrinter {
 	}
 
 	private void writeExpressions(Location<?>[] exprs, PrintWriter out) {
+		Bytecode last = null;
 		for (int i = 0; i != exprs.length; ++i) {
 			if (i != 0) {
 				out.print(", ");
 			}
+			Location<?> e = exprs[i];
+
+			// FIXME: support position operators
+			
+//			if (e instanceof SyntaxTree.PositionalLocation<?>) {
+//				SyntaxTree.PositionalLocation<?> p = (SyntaxTree.PositionalLocation<?>) e;
+//				if (p.getBytecode() == last) {
+//					continue;
+//				} else {
+//					last = p.getBytecode();
+//				}
+//			}
 			writeExpression(exprs[i], out);
 		}
 	}
@@ -800,7 +814,6 @@ public final class WyilFilePrinter {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Location<VariableDeclaration> getVariableDeclaration(Location<?> loc) {
 		switch (loc.getOpcode()) {
 		case Bytecode.OPCODE_vardecl:

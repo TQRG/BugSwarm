@@ -11,8 +11,9 @@ import wyautl_old.lang.Automata;
 import wyautl_old.lang.Automaton;
 import wyautl_old.lang.Automaton.State;
 import wybs.lang.Build;
-import wybs.lang.NameID;
-import wybs.util.ResolveError;
+import wycc.lang.NameID;
+import wycc.util.ResolveError;
+import wyfs.lang.Path;
 import wyil.lang.Type;
 import wyil.lang.WyilFile;
 
@@ -142,6 +143,7 @@ public class TypeSystem {
 			if (type instanceof Type.Nominal) {
 				Type.Nominal nt = (Type.Nominal) type;
 				NameID nid = nt.name();
+				Path.ID mid = nid.module();
 				WyilFile m = project.get(nid.module(), WyilFile.ContentType).read();
 				WyilFile.Type td = m.type(nid.name());
 				return expandOneLevel(td.type());

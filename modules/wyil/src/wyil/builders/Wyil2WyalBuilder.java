@@ -29,10 +29,12 @@ import java.io.IOException;
 import java.util.*;
 
 import wybs.lang.Build;
-import wycommon.util.Logger;
-import wycommon.util.Pair;
+import wybs.lang.Builder;
 import wyfs.lang.Path;
 import wyil.lang.*;
+import wycc.util.Logger;
+import wycc.util.Pair;
+import wycs.syntax.Expr;
 import wycs.syntax.WyalFile;
 
 /**
@@ -42,7 +44,7 @@ import wycs.syntax.WyalFile;
  * @author David J. Pearce
  *
  */
-public class Wyil2WyalBuilder implements Build.Task {
+public class Wyil2WyalBuilder implements Builder {
 
 	/**
 	 * The master namespace for identifying all resources available to the
@@ -56,6 +58,8 @@ public class Wyil2WyalBuilder implements Build.Task {
 	 */
 	protected Logger logger = Logger.NULL;
 
+	private String filename;
+
 	public Wyil2WyalBuilder(Build.Project project) {
 		this.project = project;
 	}
@@ -68,12 +72,7 @@ public class Wyil2WyalBuilder implements Build.Task {
 		this.logger = logger;
 	}
 
-	public String id() {
-		return null;
-	}
-	
 	@Override
-	@SuppressWarnings("unchecked")
 	public Set<Path.Entry<?>> build(Collection<Pair<Path.Entry<?>, Path.Root>> delta, Build.Graph graph)
 			throws IOException {
 		Runtime runtime = Runtime.getRuntime();

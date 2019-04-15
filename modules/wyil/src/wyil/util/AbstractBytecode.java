@@ -2,7 +2,7 @@ package wyil.util;
 
 import java.util.Arrays;
 
-import wybs.lang.NameID;
+import wycc.lang.NameID;
 import wyil.lang.Bytecode;
 import wyil.lang.Constant;
 import wyil.lang.Type;

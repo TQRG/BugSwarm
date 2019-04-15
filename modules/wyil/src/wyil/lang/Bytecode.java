@@ -27,8 +27,13 @@ package wyil.lang;
 
 import java.util.*;
 
+import wycc.lang.Attribute;
+import wycc.lang.SyntacticElement;
+import wyil.lang.Bytecode.Extras;
+import wyil.lang.Bytecode.Operands;
+import wyil.lang.Bytecode.Schema;
 import wyil.util.AbstractBytecode;
-import wybs.lang.NameID;
+import wycc.lang.NameID;
 
 /**
  * <p>

@@ -28,11 +28,12 @@ package wyil.checks;
 import java.util.*;
 
 import static wyil.util.ErrorMessages.*;
-import wybs.lang.Attribute;
-import wybs.lang.Build;
-import wybs.lang.SyntacticElement;
-import wybs.lang.SyntaxError;
-import wycommon.util.Pair;
+import wybs.lang.Builder;
+import wycc.lang.Attribute;
+import wycc.lang.SyntacticElement;
+import wycc.lang.SyntaxError;
+import wycc.lang.Transform;
+import wycc.util.Pair;
 import wyil.lang.*;
 
 /**
@@ -72,10 +73,10 @@ import wyil.lang.*;
  *
  * @author David J. Pearce
  */
-public class CoercionCheck {
+public class CoercionCheck implements Transform<WyilFile> {
 	private WyilFile file;
 
-	public CoercionCheck(Build.Task builder) {
+	public CoercionCheck(Builder builder) {
 
 	}
 

@@ -25,10 +25,13 @@
 
 package wyil.util.type;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
-import wybs.lang.NameID;
+import wycc.lang.NameID;
+import wyfs.lang.Path;
 import wyfs.util.Trie;
 import wyil.lang.Type;
 import static wyil.lang.Type.*;
