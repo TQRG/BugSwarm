@@ -230,7 +230,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testProcessNonJavaFilesWithoutException() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
@@ -239,8 +238,7 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         final File file = new File(getPath("InputTreeWalkerNotJava.xml"));
         final FileText fileText = new FileText(file, StandardCharsets.ISO_8859_1.name());
         treeWalker.processFiltered(file, fileText);
-        final Collection<Checks> checks =
-                (Collection<Checks>) Whitebox.getInternalState(treeWalker, "ordinaryChecks");
+        final Collection<Checks> checks = Whitebox.getInternalState(treeWalker, "ordinaryChecks");
         assertTrue("No checks -> No parsing", checks.isEmpty());
     }
 
@@ -336,7 +334,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testBehaviourWithZeroChecks() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
@@ -348,8 +345,7 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         final FileText fileText = new FileText(file, new ArrayList<>());
 
         treeWalker.processFiltered(file, fileText);
-        final Collection<Checks> checks =
-                (Collection<Checks>) Whitebox.getInternalState(treeWalker, "ordinaryChecks");
+        final Collection<Checks> checks = Whitebox.getInternalState(treeWalker, "ordinaryChecks");
         assertTrue("No checks -> No parsing", checks.isEmpty());
     }
 
@@ -506,7 +502,7 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         treeWalker.setTabWidth(100);
         treeWalker.finishLocalSetup();
 
-        final Context context = (Context) Whitebox.getInternalState(treeWalker, "childContext");
+        final Context context = Whitebox.getInternalState(treeWalker, "childContext");
         assertEquals("Classloader object differs from expected",
                 contextClassLoader, context.get("classLoader"));
         assertEquals("Severity differs from expected",
@@ -555,12 +551,12 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
      */
     @Test
     public void testIsPositionGreater() throws Exception {
-        DetailAST ast1 = createAst(1, 3);
-        DetailAST ast2 = createAst(1, 2);
-        DetailAST ast3 = createAst(2, 2);
+        final DetailAST ast1 = createAst(1, 3);
+        final DetailAST ast2 = createAst(1, 2);
+        final DetailAST ast3 = createAst(2, 2);
 
         final TreeWalker treeWalker = new TreeWalker();
-        Method isPositionGreater = Whitebox.getMethod(TreeWalker.class,
+        final Method isPositionGreater = Whitebox.getMethod(TreeWalker.class,
                 "isPositionGreater", DetailAST.class, DetailAST.class);
 
         assertTrue("Should return true when lines are equal and column is greater",
@@ -572,7 +568,7 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
     }
 
     private static DetailAST createAst(int line, int column) {
-        DetailAST ast = new DetailAST();
+        final DetailAST ast = new DetailAST();
         ast.setLineNo(line);
         ast.setColumnNo(column);
         return ast;
