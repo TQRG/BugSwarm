@@ -1,0 +1,11 @@
+{
+  "title": "Java",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "tags": [
+    
+  ],
+  "ruleSpecification": "RSPEC-2756",
+  "sqKey": "S2756",
+  "scope": "Main"
+}
