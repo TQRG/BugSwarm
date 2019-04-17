@@ -46,10 +46,10 @@ def _check_inputs_dtype(X, missing_values):
     missing_values."""
     if (X.dtype.kind in ("f", "i", "u") and
             not isinstance(missing_values, numbers.Real)):
-        raise TypeError("The data type of 'missing_values' and 'X' are "
-                        "not compatible. 'missing_values' data type is "
-                        "{} and 'X' is {}."
-                        .format(type(missing_values), X.dtype))
+        raise ValueError("The data type of 'missing_values' and 'X' are "
+                         "not compatible. 'missing_values' data type is "
+                         "{} and 'X' is {}."
+                         .format(type(missing_values), X.dtype))
 
 
 def _get_mask(X, value_to_mask):
@@ -1030,7 +1030,7 @@ class MissingIndicator(BaseEstimator, TransformerMixin):
     >>> indicator = MissingIndicator()
     >>> indicator.fit(X1)
     MissingIndicator(error_on_new=True, features='missing-only',
-             missing_values='NaN', sparse='auto')
+             missing_values=nan, sparse='auto')
     >>> X2_tr = indicator.transform(X2)
     >>> X2_tr
     array([[False,  True],
