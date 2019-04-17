@@ -1,0 +1,23 @@
+before_install: ['wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh
+    -O miniconda.sh', chmod +x miniconda.sh, ./miniconda.sh -b, 'export PATH=/home/travis/miniconda2/bin:$PATH',
+  conda update --yes --quiet conda, 'export DISPLAY=:99.0', sh -e /etc/init.d/xvfb
+    start, 'PKGS="python=${PYTHON}"', 'PKGS="${PKGS} numpy"; if [ ${NUMPY} ]; then
+    PKGS="${PKGS}=${NUMPY}"; fi', 'PKGS="${PKGS} scipy"; if [ ${SCIPY} ]; then PKGS="${PKGS}=${SCIPY}";
+    fi', 'PKGS="${PKGS} patsy"; if [ ${PATSY} ]; then PKGS="${PKGS}=${PATSY}"; fi',
+  'PKGS="${PKGS} pandas"; if [ ${PANDAS} ]; then PKGS="${PKGS}=${PANDAS}"; fi', 'PKGS="${PKGS}
+    Cython"; if [ ${CYTHON} ]; then PKGS="${PKGS}=${CYTHON}"; fi', 'PKGS="${PKGS}
+    pip";']
+dist: precise
+global_env: CYTHON=0.20 PATSY=0.2 PANDAS=0.12 OPTIONAL= COVERAGE=false PYTHON=2.7
+group: stable
+install: ['conda create --yes --quiet -n pychron-test ${PKGS} ${OPTIONAL}', source
+    activate pychron-test, conda install --yes statsmodels PyYAML traits pyface traitsui
+    enable chaco xlrd xlwt lxml sqlalchemy apptools, pip install uncertainties==3.0.1
+    pint==0.7.2]
+language: python
+notifications:
+  email: {on_failure: change}
+os: linux
+python: '2.7'
+script: python setup.py test
+sudo: false
