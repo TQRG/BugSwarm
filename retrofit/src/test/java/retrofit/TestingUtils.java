@@ -4,11 +4,8 @@ package retrofit;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Map;
-import okio.Buffer;
-import okio.Okio;
 import retrofit.mime.MimeHelper;
 import retrofit.mime.MultipartTypedOutput;
-import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,26 +29,5 @@ public final class TestingUtils {
 
   public static void assertBytes(byte[] bytes, String expected) throws IOException {
     assertThat(new String(bytes, "UTF-8")).isEqualTo(expected);
-  }
-
-  public static void assertTypedBytes(TypedOutput bytes, String expected) {
-    assertThat(bytes).isNotNull();
-    try {
-      Buffer buffer = new Buffer();
-      bytes.writeTo(buffer.outputStream());
-      assertThat(buffer.readUtf8()).isEqualTo(expected);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public static void assertTypedBytes(TypedInput bytes, String expected) {
-    assertThat(bytes).isNotNull();
-    try {
-      String actual = Okio.buffer(Okio.source(bytes.in())).readUtf8();
-      assertThat(actual).isEqualTo(expected);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

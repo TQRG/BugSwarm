@@ -2,6 +2,8 @@
 package retrofit;
 
 import com.google.gson.Gson;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -40,6 +42,7 @@ import retrofit.http.Streaming;
 import retrofit.mime.MimeHelper;
 import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedInput;
+import retrofit.mime.TypedOutput;
 import retrofit.mime.TypedString;
 import rx.Observable;
 
@@ -48,7 +51,6 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
-import static retrofit.TestingUtils.assertTypedBytes;
 
 @SuppressWarnings("UnusedParameters") // Parameters inspected reflectively.
 public class RequestBuilderTest {
@@ -1816,6 +1818,17 @@ public class RequestBuilderTest {
     }
     Request request = buildRequest(Example.class, "text/not-plain", new TypedString("Plain"));
     assertThat(request.getBody().mimeType()).isEqualTo("text/not-plain");
+  }
+
+  private static void assertTypedBytes(TypedOutput bytes, String expected) {
+    try {
+      assertThat(bytes).isNotNull();
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      bytes.writeTo(baos);
+      assertThat(new String(baos.toByteArray(), "UTF-8")).isEqualTo(expected);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private static final Converter GSON = new GsonConverter(new Gson());
