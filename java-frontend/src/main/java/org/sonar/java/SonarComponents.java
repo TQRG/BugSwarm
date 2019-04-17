@@ -27,17 +27,23 @@ import com.sonar.sslr.api.RecognitionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.sonar.api.SonarProduct;
 import org.sonar.api.batch.ScannerSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputPath;
+import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -46,18 +52,25 @@ import org.sonar.api.batch.sensor.symbol.NewSymbolTable;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.platform.Server;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.java.api.CheckRegistrar;
 import org.sonar.plugins.java.api.JavaCheck;
-import org.sonar.squidbridge.api.AnalysisException;
-import org.sonar.squidbridge.api.CodeVisitor;
 import org.sonarsource.api.sonarlint.SonarLintSide;
 
 @ScannerSide
 @SonarLintSide
 public class SonarComponents {
 
+  private static final Logger LOG = Loggers.get(SonarComponents.class);
+
+  /**
+   * Metric to collect
+   */
+  public static final Metric<String> FEEDBACK_METRIC = new Metric.Builder("sonarjava_feedback", "SonarJava feedback", Metric.ValueType.DATA).setHidden(true).create();
+  public static final String COLLECT_ANALYSIS_ERRORS_KEY = "sonar.java.collectAnalysisErrors";
+  public static final String FAIL_ON_EXCEPTION_KEY = "sonar.java.failOnException";
   /**
    * Approximate limit of feedback of 200ko to roughly 100_000 characters of useful feedback.
    * This does not take into account eventual overhead of serialization.
@@ -67,38 +80,29 @@ public class SonarComponents {
   private final FileLinesContextFactory fileLinesContextFactory;
   private final JavaTestClasspath javaTestClasspath;
   private final CheckFactory checkFactory;
-  @Nullable
-  private final Server server;
   private final FileSystem fs;
   private final JavaClasspath javaClasspath;
   private final List<Checks<JavaCheck>> checks;
   private final List<Checks<JavaCheck>> testChecks;
   private final List<Checks<JavaCheck>> allChecks;
   private SensorContext context;
+  private String ruleRepositoryKey;
   @VisibleForTesting
   public List<AnalysisError> analysisErrors;
   private int errorsSize = 0;
   public SonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs,
                          JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath,
                          CheckFactory checkFactory) {
-    this(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory, null, null);
-
-  }
-  public SonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs,
-                         JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath,
-                         CheckFactory checkFactory, Server server) {
-    this(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory, server, null);
+    this(fileLinesContextFactory, fs, javaClasspath, javaTestClasspath, checkFactory, null);
   }
 
   public SonarComponents(FileLinesContextFactory fileLinesContextFactory, FileSystem fs,
-                         JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory,
-                         @Nullable Server server, @Nullable CheckRegistrar[] checkRegistrars) {
+                         JavaClasspath javaClasspath, JavaTestClasspath javaTestClasspath, CheckFactory checkFactory, @Nullable CheckRegistrar[] checkRegistrars) {
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fs = fs;
     this.javaClasspath = javaClasspath;
     this.javaTestClasspath = javaTestClasspath;
     this.checkFactory = checkFactory;
-    this.server = server;
     this.checks = new ArrayList<>();
     this.testChecks = new ArrayList<>();
     this.allChecks = new ArrayList<>();
@@ -117,6 +121,10 @@ public class SonarComponents {
 
   public void setSensorContext(SensorContext context) {
     this.context = context;
+  }
+
+  public void setRuleRepositoryKey(String ruleRepositoryKey) {
+    this.ruleRepositoryKey = ruleRepositoryKey;
   }
 
   public InputFile inputFromIOFile(File file) {
@@ -165,8 +173,8 @@ public class SonarComponents {
     allChecks.add(createdChecks);
   }
 
-  public CodeVisitor[] checkClasses() {
-    return checks.stream().flatMap(ce -> ce.all().stream()).toArray(CodeVisitor[]::new);
+  public JavaCheck[] checkClasses() {
+    return checks.stream().flatMap(ce -> ce.all().stream()).toArray(JavaCheck[]::new);
   }
 
   public Iterable<Checks<JavaCheck>> checks() {
@@ -243,11 +251,15 @@ public class SonarComponents {
   }
 
   public boolean reportAnalysisError(RecognitionException re, File file) {
+    reportAnalysisError(file, re.getMessage());
+    return isSonarLintContext();
+  }
+
+  public void reportAnalysisError(File file, String message) {
     context.newAnalysisError()
       .onFile(inputFromIOFile(file))
-      .message(re.getMessage())
+      .message(message)
       .save();
-    return isSonarLintContext();
   }
 
   public boolean isSonarLintContext() {
@@ -294,16 +306,51 @@ public class SonarComponents {
   }
 
   public void saveAnalysisErrors() {
-    if (!isSonarLintContext() && !analysisErrors.isEmpty() && server.getPublicRootUrl().equals("https://sonarcloud.io")) {
-      Metric.Builder metricBuilder = new Metric.Builder("sonarjava_feedback", "SonarJava feedback", Metric.ValueType.DATA);
-      metricBuilder.setHidden(true);
+    if (!isSonarLintContext() && !analysisErrors.isEmpty() && shouldCollectAnalysisErrors()) {
       Gson gson = new Gson();
       String metricValue = gson.toJson(analysisErrors);
-      context.<String>newMeasure().forMetric(metricBuilder.create()).on(context.module()).withValue(metricValue).save();
+      context.<String>newMeasure().forMetric(FEEDBACK_METRIC).on(context.module()).withValue(metricValue).save();
     }
   }
 
   public boolean shouldFailAnalysisOnException() {
-    return context.config().getBoolean("sonar.java.failOnException").orElse(false);
+    return context.config().getBoolean(FAIL_ON_EXCEPTION_KEY).orElse(false);
   }
+
+  private boolean shouldCollectAnalysisErrors() {
+    return context.config().getBoolean(COLLECT_ANALYSIS_ERRORS_KEY).orElse(false);
+  }
+
+  public File workDir() {
+    return context.fileSystem().workDir();
+  }
+
+  public boolean shouldGenerateUCFG() {
+    Set<String> activeRuleKeys = context.activeRules().findByRepository(this.ruleRepositoryKey).stream()
+      .map(ActiveRule::ruleKey)
+      .map(RuleKey::rule)
+      .collect(Collectors.toSet());
+    Set<String> securityRuleKeys = getSecurityRuleKeys();
+    activeRuleKeys.retainAll(securityRuleKeys);
+    return !activeRuleKeys.isEmpty();
+  }
+
+  public static Set<String> getSecurityRuleKeys() {
+    try {
+      Class<?> javaRulesClass = Class.forName("com.sonar.plugins.security.api.JavaRules");
+      Method getRuleKeysMethod = javaRulesClass.getMethod("getRuleKeys");
+      return (Set<String>) getRuleKeysMethod.invoke(null);
+    } catch (ClassNotFoundException e) {
+      LOG.debug("com.sonar.plugins.security.api.JavaRules is not found, no security rules added to Sonar way java profile: " + e.getMessage());
+    } catch (NoSuchMethodException e) {
+      LOG.debug("com.sonar.plugins.security.api.JavaRules#getRuleKeys is not found, no security rules added to Sonar way java profile: " + e.getMessage());
+    } catch (IllegalAccessException e) {
+      LOG.debug("[IllegalAccessException] no security rules added to Sonar way java profile: " + e.getMessage());
+    } catch (InvocationTargetException e) {
+      LOG.debug("[InvocationTargetException] no security rules added to Sonar way java profile: " + e.getMessage());
+    }
+
+    return new HashSet<>();
+  }
+
 }

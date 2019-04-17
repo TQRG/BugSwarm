@@ -20,8 +20,13 @@
 package org.sonar.java.xml;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.java.SonarComponents;
@@ -30,16 +35,9 @@ import org.sonar.java.xml.maven.PomCheckContext;
 import org.sonar.java.xml.maven.PomCheckContextImpl;
 import org.sonar.java.xml.maven.PomParser;
 import org.sonar.maven.model.maven2.MavenProject;
+import org.sonar.plugins.java.api.JavaCheck;
 import org.sonar.squidbridge.ProgressReport;
-import org.sonar.squidbridge.api.CodeVisitor;
 import org.w3c.dom.Document;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-
-import java.io.File;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class XmlAnalyzer {
 
@@ -49,10 +47,10 @@ public class XmlAnalyzer {
   private final List<PomCheck> pomChecks;
   private final XPath xPath;
 
-  public XmlAnalyzer(SonarComponents sonarComponents, CodeVisitor... visitors) {
+  public XmlAnalyzer(SonarComponents sonarComponents, JavaCheck... visitors) {
     ImmutableList.Builder<XmlCheck> xmlChecksBuilder = ImmutableList.builder();
     ImmutableList.Builder<PomCheck> pomChecksBuilder = ImmutableList.builder();
-    for (CodeVisitor visitor : visitors) {
+    for (JavaCheck visitor : visitors) {
       if (visitor instanceof XmlCheck) {
         xmlChecksBuilder.add((XmlCheck) visitor);
       } else if (visitor instanceof PomCheck) {
@@ -65,15 +63,15 @@ public class XmlAnalyzer {
     this.xPath = XPathFactory.newInstance().newXPath();
   }
 
-  public void scan(Iterable<File> files) {
+  public void scan(Collection<File> files) {
     boolean hasChecks = !xmlChecks.isEmpty() || !pomChecks.isEmpty();
-    if (hasChecks && Iterables.isEmpty(files)) {
+    if (hasChecks && files.isEmpty()) {
       LOG.warn("No 'xml' file have been indexed.");
       return;
     }
 
     ProgressReport progressReport = new ProgressReport("Report about progress of Xml analyzer", TimeUnit.SECONDS.toMillis(10));
-    progressReport.start(Lists.newArrayList(files));
+    progressReport.start(files.stream().map(File::getAbsolutePath).collect(Collectors.toList()));
 
     boolean successfulyCompleted = false;
     try {

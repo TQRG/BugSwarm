@@ -20,16 +20,6 @@
 package org.sonar.plugins.jacoco;
 
 import com.google.common.base.Preconditions;
-import org.jacoco.core.analysis.Analyzer;
-import org.jacoco.core.analysis.CoverageBuilder;
-import org.jacoco.core.data.ExecutionDataReader;
-import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.ExecutionDataWriter;
-import org.jacoco.core.data.IExecutionDataVisitor;
-import org.jacoco.core.data.ISessionInfoVisitor;
-import org.sonar.squidbridge.api.AnalysisException;
-
-import javax.annotation.Nullable;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -37,6 +27,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import javax.annotation.Nullable;
+import org.jacoco.core.analysis.Analyzer;
+import org.jacoco.core.analysis.CoverageBuilder;
+import org.jacoco.core.analysis.IClassCoverage;
+import org.jacoco.core.data.ExecutionDataReader;
+import org.jacoco.core.data.ExecutionDataStore;
+import org.jacoco.core.data.ExecutionDataWriter;
+import org.jacoco.core.data.IExecutionDataVisitor;
+import org.jacoco.core.data.ISessionInfoVisitor;
+import org.sonar.java.AnalysisException;
+
+import static org.sonar.plugins.jacoco.JaCoCoExtensions.LOG;
 
 public class JacocoReportReader {
 
@@ -61,7 +63,7 @@ public class JacocoReportReader {
       return this;
     }
 
-    JaCoCoExtensions.LOG.info("Analysing {}", jacocoExecutionData);
+    LOG.info("Analysing {}", jacocoExecutionData);
     try (InputStream inputStream = new BufferedInputStream(new FileInputStream(jacocoExecutionData))) {
       if (useCurrentBinaryFormat) {
         ExecutionDataReader reader = new ExecutionDataReader(inputStream);
@@ -91,7 +93,7 @@ public class JacocoReportReader {
       char version = dis.readChar();
       boolean isCurrentFormat = version == ExecutionDataWriter.FORMAT_VERSION;
       if (!isCurrentFormat) {
-        JaCoCoExtensions.LOG.warn("You are not using the latest JaCoCo binary format version, please consider upgrading to latest JaCoCo version.");
+        LOG.warn("You are not using the latest JaCoCo binary format version, please consider upgrading to latest JaCoCo version.");
       }
       return isCurrentFormat;
     } catch (IOException | IllegalStateException e) {
@@ -119,7 +121,19 @@ public class JacocoReportReader {
         analyzeClassFile(analyzer, classFile);
       }
     }
+    logNoMatchClasses(coverageBuilder.getNoMatchClasses());
     return coverageBuilder;
+  }
+
+  private static void logNoMatchClasses(Collection<IClassCoverage> noMatchClasses) {
+    if (noMatchClasses.isEmpty()) {
+      return;
+    }
+    LOG.warn("The following class(es) did not match with execution data:");
+    for (IClassCoverage iClassCoverage : noMatchClasses) {
+      LOG.warn(String.format("> '%s'", iClassCoverage.getName()));
+    }
+    LOG.warn("In order to have accurate coverage measures, the same class files must be used as at runtime for report generation.");
   }
 
   /**
@@ -130,7 +144,7 @@ public class JacocoReportReader {
       analyzer.analyzeClass(inputStream, classFile.getPath());
     } catch (IOException e) {
       // (Godin): in fact JaCoCo includes name into exception
-      JaCoCoExtensions.LOG.warn("Exception during analysis of file " + classFile.getAbsolutePath(), e);
+      LOG.warn("Exception during analysis of file " + classFile.getAbsolutePath(), e);
     }
   }
 
@@ -139,7 +153,7 @@ public class JacocoReportReader {
       analyzer.analyzeClass(inputStream, classFile.getPath());
     } catch (IOException e) {
       // (Godin): in fact JaCoCo includes name into exception
-      JaCoCoExtensions.LOG.warn("Exception during analysis of file " + classFile.getAbsolutePath(), e);
+      LOG.warn("Exception during analysis of file " + classFile.getAbsolutePath(), e);
     }
   }
 

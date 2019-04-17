@@ -10,7 +10,7 @@ SonarJava is a code analyzer for Java projects. Information about the SonarJava 
 Features
 --------
 
-* 390+ rules (including 140+ bug detection)
+* 430+ rules (including 140+ bug detection)
 * Metrics (complexity, number of lines etc.)
 * Import of [test coverage reports](https://docs.sonarqube.org/display/PLUG/Code+Coverage+by+Unit+Tests+for+Java+Project)
 * [Custom rules](https://docs.sonarqube.org/display/PLUG/Custom+Rules+for+Java)
@@ -20,9 +20,9 @@ Useful links
 
 * [Project homepage](https://redirect.sonarsource.com/plugins/java.html)
 * [Issue tracking](https://jira.sonarsource.com/browse/SONARJAVA/)
-* [Available rules](https://nemo.sonarqube.org/coding_rules#languages=java|repositories=squid)
+* [Available rules](https://rules.sonarsource.com/java)
 * [Google Group for feedback](https://groups.google.com/forum/#!forum/sonarqube)
-* [Demo project analysis](https://nemo.sonarqube.org/overview?id=org.sonarsource.sonarqube%3Asonarqube)
+* [Demo project analysis](https://next.sonarqube.com/sonarqube/dashboard?id=org.sonarsource.sonarqube%3Asonarqube)
 
 Have question or feedback?
 --------------------------
@@ -97,12 +97,15 @@ Launch ruling test:
     cd its/ruling
     mvn clean install -DskipTests=false
 
-This test gives you the opportunity to examine the issues created by each rule and make sure they're what you expect. You can inspect new/lost issues checking web-pages mentioned in the logs at the end of analysis:
+This test gives you the opportunity to examine the issues created by each rule and make sure they're what you expect. Any implemented rule is highly likely to raise issues on the multiple projects we use as ruling code base.
 
-    INFO  - HTML Issues Report generated: /path/to/project/sonar-java/its/sources/src/.sonar/issues-report/issues-report.html
-    INFO  - Light HTML Issues Report generated: /path/to/project/sonar-java/its/sources/src/.sonar/issues-report/issues-report-light.html
+* For newly implemented rule, it means that a first build will most probably fail, caused by differences between expected results (without any values for the new rule) and the new results. You can inspect these new issues by searching for files named after your rule (`squid-SXXXX.json`) in the following folder:
 
-If everything looks good to you, you can copy the file with the actual issues located at:
+        /path/to/project/sonar-java/its/ruling/target/actual/...
+
+* For existing rules which are modified, you may expect some differences between "actual" (from new analysis) and expected results. Review carefully the changes which are shown and update the expected resources accordingly.
+
+All the  `json` files contain a list of lines, indexed by file, expliciting where the issues raised by a specific rule are located. If/When everything looks good to you, you can copy the file with the actual issues located at:
 
     its/ruling/target/actual/
 

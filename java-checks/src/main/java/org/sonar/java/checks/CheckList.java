@@ -42,6 +42,7 @@ import org.sonar.java.checks.naming.KeywordAsIdentifierCheck;
 import org.sonar.java.checks.naming.MethodNameSameAsClassCheck;
 import org.sonar.java.checks.naming.MethodNamedEqualsCheck;
 import org.sonar.java.checks.naming.MethodNamedHashcodeOrEqualCheck;
+import org.sonar.java.checks.security.HostnameVerifierImplementationCheck;
 import org.sonar.java.checks.serialization.CustomSerializationMethodCheck;
 import org.sonar.java.checks.serialization.ExternalizableClassConstructorCheck;
 import org.sonar.java.checks.serialization.PrivateReadResolveCheck;
@@ -92,6 +93,7 @@ import org.sonar.java.se.checks.NoWayOutLoopCheck;
 import org.sonar.java.se.checks.NonNullSetToNullCheck;
 import org.sonar.java.se.checks.NullDereferenceCheck;
 import org.sonar.java.se.checks.OptionalGetBeforeIsPresentCheck;
+import org.sonar.java.se.checks.ParameterNullnessCheck;
 import org.sonar.java.se.checks.RedundantAssignmentsCheck;
 import org.sonar.java.se.checks.StreamConsumedCheck;
 import org.sonar.java.se.checks.StreamNotConsumedCheck;
@@ -379,7 +381,8 @@ public final class CheckList {
       .add(PrimitiveWrappersInTernaryOperatorCheck.class)
       .add(SynchronizedLockCheck.class)
       .add(SymmetricEqualsCheck.class)
-      .add(UnconditionalJumpStatementCheck.class)
+      .add(LoopExecutingAtMostOnceCheck.class)
+      .add(RedundantJumpCheck.class)
       .add(CallSuperMethodFromInnerClassCheck.class)
       .add(SelectorMethodArgumentCheck.class)
       .add(ThreadAsRunnableArgumentCheck.class)
@@ -455,6 +458,7 @@ public final class CheckList {
       .add(ChangeMethodContractCheck.class)
       .add(CatchRethrowingCheck.class)
       .add(InappropriateRegexpCheck.class)
+      .add(WeakSSLContextCheck.class)
       .add(CallOuterPrivateMethodCheck.class)
       .add(SubClassStaticReferenceCheck.class)
       .add(InterruptedExceptionCheck.class)
@@ -525,6 +529,19 @@ public final class CheckList {
       .add(PredictableSeedCheck.class)
       .add(RedundantStreamCollectCheck.class)
       .add(GettersSettersOnRightFieldCheck.class)
+      .add(ParameterNullnessCheck.class)
+      .add(DoublePrefixOperatorCheck.class)
+      .add(CompareToNotOverloadedCheck.class)
+      .add(EqualsParametersMarkedNonNullCheck.class)
+      .add(NestedSwitchStatementCheck.class)
+      .add(ThisExposedFromConstructorCheck.class)
+      .add(IfElseIfStatementEndsWithElseCheck.class)
+      .add(MethodParametersOrderCheck.class)
+      .add(AssertsOnParametersOfPublicMethodCheck.class)
+      .add(NullCheckWithInstanceofCheck.class)
+      .add(HostnameVerifierImplementationCheck.class)
+      .add(SwitchDefaultLastCaseCheck.class)
+      .add(RegexPatternsNeedlesslyCheck.class)
       .build();
   }
 

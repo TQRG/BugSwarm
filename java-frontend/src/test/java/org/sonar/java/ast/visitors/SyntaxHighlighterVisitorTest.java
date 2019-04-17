@@ -37,13 +37,12 @@ import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.measures.FileLinesContextFactory;
-import org.sonar.api.platform.Server;
 import org.sonar.java.JavaClasspath;
 import org.sonar.java.JavaSquid;
 import org.sonar.java.JavaTestClasspath;
 import org.sonar.java.SonarComponents;
 import org.sonar.java.model.JavaVersionImpl;
-import org.sonar.squidbridge.api.CodeVisitor;
+import org.sonar.plugins.java.api.JavaCheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -70,7 +69,7 @@ public class SyntaxHighlighterVisitorTest {
     context = SensorContextTester.create(temp.getRoot());
     fs = context.fileSystem();
     sonarComponents = new SonarComponents(mock(FileLinesContextFactory.class), fs,
-      mock(JavaClasspath.class), mock(JavaTestClasspath.class), mock(CheckFactory.class), mock(Server.class));
+      mock(JavaClasspath.class), mock(JavaTestClasspath.class), mock(CheckFactory.class));
     sonarComponents.setSensorContext(context);
     syntaxHighlighterVisitor = new SyntaxHighlighterVisitor(sonarComponents);
   }
@@ -184,8 +183,24 @@ public class SyntaxHighlighterVisitorTest {
     assertThatHasNotBeenHighlighted(componentKey, 20, 17, 20, 25); // provides
   }
 
+  @Test
+  public void test_java10_var() throws Exception {
+    this.eol = "\n";
+    File file = generateTestFile("src/test/files/highlighter/Java10Var.java");
+    scan(file);
+
+    String componentKey = ":" + file.getName();
+    assertThatHasBeenHighlighted(componentKey, 10, 5, 10, 8, TypeOfText.KEYWORD); // var a = ...
+    assertThatHasBeenHighlighted(componentKey, 12, 5, 12, 8, TypeOfText.KEYWORD); // var list = ...
+    assertThatHasBeenHighlighted(componentKey, 17, 10, 17, 13, TypeOfText.KEYWORD); // for (var counter = ...
+    assertThatHasBeenHighlighted(componentKey, 21, 10, 21, 13, TypeOfText.KEYWORD); // for (var value : ...
+    assertThatHasBeenHighlighted(componentKey, 27, 10, 27, 13, TypeOfText.KEYWORD); // try (var reader = ...
+    assertThatHasBeenHighlighted(componentKey, 32, 5, 32, 8, TypeOfText.KEYWORD); // var myA = new A() { ...
+    assertThatHasNotBeenHighlighted(componentKey, 51, 12, 51, 15); // Object var;
+  }
+
   private void scan(File file) {
-    JavaSquid squid = new JavaSquid(new JavaVersionImpl(), null, null, null, null, new CodeVisitor[] {syntaxHighlighterVisitor});
+    JavaSquid squid = new JavaSquid(new JavaVersionImpl(), null, null, null, null, new JavaCheck[] {syntaxHighlighterVisitor});
     squid.scan(Lists.newArrayList(file), Collections.<File>emptyList());
   }
 

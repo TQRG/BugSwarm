@@ -20,19 +20,16 @@
 package org.sonar.java.checks;
 
 import com.google.common.collect.ImmutableList;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.java.checks.helpers.MethodsHelper;
 import org.sonar.java.checks.methods.AbstractMethodDetection;
 import org.sonar.java.matcher.MethodMatcher;
+import org.sonar.java.model.ExpressionUtils;
 import org.sonar.plugins.java.api.tree.MethodInvocationTree;
-import org.sonar.squidbridge.annotations.RuleTemplate;
-
-import java.util.List;
 
 @Rule(key = "S2253")
-@RuleTemplate
 public class DisallowedMethodCheck extends AbstractMethodDetection {
 
   @RuleProperty(key = "className", description = "Name of the class whose method is forbidden")
@@ -73,7 +70,7 @@ public class DisallowedMethodCheck extends AbstractMethodDetection {
 
   @Override
   protected void onMethodInvocationFound(MethodInvocationTree mit) {
-    reportIssue(MethodsHelper.methodName(mit), "Remove this forbidden call");
+    reportIssue(ExpressionUtils.methodName(mit), "Remove this forbidden call");
   }
 
   public void setClassName(String className) {

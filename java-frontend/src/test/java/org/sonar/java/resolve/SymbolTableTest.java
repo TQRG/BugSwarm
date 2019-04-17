@@ -20,6 +20,12 @@
 package org.sonar.java.resolve;
 
 import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,13 +47,6 @@ import org.sonar.plugins.java.api.tree.ReturnStatementTree;
 import org.sonar.plugins.java.api.tree.SyntaxToken;
 import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.VariableTree;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -510,6 +509,8 @@ public class SymbolTableTest {
     assertThat(valuesMethod.declaration).isNull();
     assertThat(valuesMethod.isStatic()).isTrue();
     assertThat(valuesMethod.parameterTypes()).isEmpty();
+    assertThat(valuesMethod.getParameters()).isNotNull();
+    assertThat(valuesMethod.getParameters().scopeSymbols()).isEmpty();
     assertThat(((MethodJavaType) valuesMethod.type).resultType).isInstanceOf(ArrayJavaType.class);
     assertThat(((ArrayJavaType) (((MethodJavaType) valuesMethod.type).resultType)).elementType).isSameAs(enumSymbol.type);
     assertThat(result.reference(9, 19)).isSameAs(valuesMethod);
@@ -520,6 +521,8 @@ public class SymbolTableTest {
     assertThat(valueOfMethod.isStatic()).isTrue();
     assertThat(valueOfMethod.parameterTypes()).hasSize(1);
     assertThat(valueOfMethod.parameterTypes().get(0).is("java.lang.String")).isTrue();
+    assertThat(valueOfMethod.getParameters()).isNotNull();
+    assertThat(valueOfMethod.getParameters().scopeSymbols()).hasSize(1);
     assertThat(((MethodJavaType) valueOfMethod.type).resultType).isSameAs(enumSymbol.type);
     assertThat(result.reference(10, 20)).isSameAs(valueOfMethod);
     assertThat(result.reference(10, 5)).isSameAs(result.symbol("useValueOf", 14));
@@ -633,7 +636,8 @@ public class SymbolTableTest {
     assertThat(defaultConstructor.owner).isSameAs(result.symbol("ParameterType"));
     defaultConstructor = result.reference(28, 7);
     assertThat(defaultConstructor.isAbstract()).isFalse();
-
+    assertThat(((JavaSymbol.MethodJavaSymbol) defaultConstructor).getParameters()).isNotNull();
+    assertThat(((JavaSymbol.MethodJavaSymbol) defaultConstructor).getParameters().scopeSymbols()).isEmpty();
   }
 
   @Test
@@ -1601,5 +1605,18 @@ public class SymbolTableTest {
     softly.assertThat(res.referenceTree(10, 9).symbolType().fullyQualifiedName()).isEqualTo("java.lang.Integer");
     softly.assertThat(res.referenceTree(17, 9).symbolType().fullyQualifiedName()).isEqualTo("java.lang.Integer");
     softly.assertAll();
+  }
+
+  @Test
+  public void conditional_operator_expression_type() {
+    Result res = Result.createFor("ConditionalOperator");
+    ExpressionTree conditional = ((ReturnStatementTree) ((MethodTree) res.symbol("fun").declaration()).block().body().get(0)).expression();
+    Type conditionalExpressionType = conditional.symbolType();
+    assertThat(conditionalExpressionType.is("App$Foo")).isTrue();
+    assertThat(((JavaType) conditionalExpressionType).isParameterized()).isTrue();
+    List<JavaType> substitutedTypes = ((ParametrizedTypeJavaType) conditionalExpressionType).typeSubstitution.substitutedTypes();
+    assertThat(substitutedTypes).hasSize(1);
+    assertThat(substitutedTypes.get(0).isTagged(JavaType.WILDCARD)).isTrue();
+    assertThat(((WildCardType) substitutedTypes.get(0)).bound.is("java.util.List")).isTrue();
   }
 }

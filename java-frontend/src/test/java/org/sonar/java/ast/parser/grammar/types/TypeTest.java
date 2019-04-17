@@ -30,6 +30,7 @@ public class TypeTest {
   public void ok() {
     assertThat(JavaLexer.TYPE)
       .matches("int")
+      .matches("var")
       .matches("classType")
       .matches("int []")
       .matches("classType []")
