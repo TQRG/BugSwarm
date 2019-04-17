@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package okhttp3.ws;
+package okhttp3;
 
 import java.io.IOException;
 import java.net.ProtocolException;
 import java.security.SecureRandom;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.internal.Internal;
 import okhttp3.internal.Util;
 import okhttp3.internal.connection.StreamAllocation;
 import okhttp3.internal.ws.RealWebSocket;
@@ -38,23 +32,20 @@ import okio.ByteString;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public final class WebSocketCall {
-  /**
-   * Prepares the {@code request} to create a web socket at some point in the future.
-   */
-  public static WebSocketCall create(OkHttpClient client, Request request) {
-    return new WebSocketCall(client, request);
-  }
+final class RealWebSocketCall implements WebSocketCall {
+  private static final List<Protocol> ONLY_HTTP1 = Collections.singletonList(Protocol.HTTP_1_1);
 
-  private final Call call;
+  /** The application's original request unadulterated by web socket headers. */
+  private final Request originalRequest;
+  private final RealCall call;
   private final Random random;
   private final String key;
 
-  WebSocketCall(OkHttpClient client, Request request) {
+  RealWebSocketCall(OkHttpClient client, Request request) {
     this(client, request, new SecureRandom());
   }
 
-  WebSocketCall(OkHttpClient client, Request request, Random random) {
+  RealWebSocketCall(OkHttpClient client, Request request, Random random) {
     if (!"GET".equals(request.method())) {
       throw new IllegalArgumentException("Request must be GET: " + request.method());
     }
@@ -65,9 +56,12 @@ public final class WebSocketCall {
     key = ByteString.of(nonce).base64();
 
     client = client.newBuilder()
-        .protocols(Collections.singletonList(Protocol.HTTP_1_1))
+        .readTimeout(0, SECONDS) // i.e., no timeout because this is a long-lived connection.
+        .writeTimeout(0, SECONDS) // i.e., no timeout because this is a long-lived connection.
+        .protocols(ONLY_HTTP1)
         .build();
 
+    originalRequest = request;
     request = request.newBuilder()
         .header("Upgrade", "websocket")
         .header("Connection", "Upgrade")
@@ -75,46 +69,31 @@ public final class WebSocketCall {
         .header("Sec-WebSocket-Version", "13")
         .build();
 
-    call = client.newCall(request);
+    call = new RealCall(client, request, true /* for web socket */);
   }
 
-  /**
-   * Schedules the request to be executed at some point in the future.
-   *
-   * <p>The {@link OkHttpClient#dispatcher dispatcher} defines when the request will run: usually
-   * immediately unless there are several other requests currently being executed.
-   *
-   * <p>This client will later call back {@code responseCallback} with either an HTTP response or a
-   * failure exception. If you {@link #cancel} a request before it completes the callback will not
-   * be invoked.
-   *
-   * @throws IllegalStateException when the call has already been executed.
-   */
-  public void enqueue(final WebSocketListener listener) {
+  @Override public void enqueue(final WebSocketListener listener) {
     Callback responseCallback = new Callback() {
-      @Override public void onResponse(Call call, Response response) throws IOException {
+      @Override public void onResponse(Call call, Response response) {
+        StreamWebSocket webSocket;
         try {
-          createWebSocket(response, listener);
+          webSocket = create(response, listener);
         } catch (IOException e) {
           listener.onFailure(e, response);
+          return;
         }
+
+        webSocket.loopReader();
       }
 
       @Override public void onFailure(Call call, IOException e) {
         listener.onFailure(e, null);
       }
     };
-    // TODO call.enqueue(responseCallback, true);
-    Internal.instance.setCallWebSocket(call);
     call.enqueue(responseCallback);
   }
 
-  /** Cancels the request, if possible. Requests that are already complete cannot be canceled. */
-  public void cancel() {
-    call.cancel();
-  }
-
-  private void createWebSocket(Response response, WebSocketListener listener) throws IOException {
+  StreamWebSocket create(Response response, WebSocketListener listener) throws IOException {
     if (response.code() != 101) {
       throw new ProtocolException("Expected HTTP 101 response but was '"
           + response.code()
@@ -143,43 +122,52 @@ public final class WebSocketCall {
           + "'");
     }
 
-    StreamAllocation streamAllocation = Internal.instance.callEngineGetStreamAllocation(call);
-    RealWebSocket webSocket = StreamWebSocket.create(
-        streamAllocation, response, random, listener);
+    String name = response.request().url().redact().toString();
+    ThreadPoolExecutor replyExecutor =
+        new ThreadPoolExecutor(1, 1, 1, SECONDS, new LinkedBlockingDeque<Runnable>(),
+            Util.threadFactory(Util.format("OkHttp %s WebSocket Replier", name), true));
+    replyExecutor.allowCoreThreadTimeOut(true);
 
-    listener.onOpen(webSocket, response);
+    StreamAllocation streamAllocation = call.streamAllocation();
+    streamAllocation.noNewStreams(); // Web socket connections can't be re-used.
+    return new StreamWebSocket(streamAllocation, random, replyExecutor, listener, response, name);
+  }
 
-    while (webSocket.readMessage()) {
-    }
+  @Override public Request request() {
+    return originalRequest;
+  }
+
+  @Override public void cancel() {
+    call.cancel();
+  }
+
+  @Override public boolean isExecuted() {
+    return call.isExecuted();
+  }
+
+  @Override public boolean isCanceled() {
+    return call.isCanceled();
+  }
+
+  @Override public WebSocketCall clone() {
+    return new RealWebSocketCall(call.client, originalRequest, random);
   }
 
   // Keep static so that the WebSocketCall instance can be garbage collected.
-  private static class StreamWebSocket extends RealWebSocket {
-    static RealWebSocket create(StreamAllocation streamAllocation, Response response,
-        Random random, WebSocketListener listener) {
-      String url = response.request().url().redact().toString();
-      ThreadPoolExecutor replyExecutor =
-          new ThreadPoolExecutor(1, 1, 1, SECONDS, new LinkedBlockingDeque<Runnable>(),
-              Util.threadFactory(Util.format("OkHttp %s WebSocket", url), true));
-      replyExecutor.allowCoreThreadTimeOut(true);
-
-      return new StreamWebSocket(streamAllocation, random, replyExecutor, listener, url);
-    }
-
+  static final class StreamWebSocket extends RealWebSocket {
     private final StreamAllocation streamAllocation;
-    private final ExecutorService replyExecutor;
+    private final ExecutorService executor;
 
-    private StreamWebSocket(StreamAllocation streamAllocation,
-        Random random, ExecutorService replyExecutor, WebSocketListener listener, String url) {
+    StreamWebSocket(StreamAllocation streamAllocation, Random random, ExecutorService executor,
+        WebSocketListener listener, Response response, String name) {
       super(true /* is client */, streamAllocation.connection().source,
-          streamAllocation.connection().sink, random, replyExecutor, listener, url);
+          streamAllocation.connection().sink, random, executor, listener, response, name);
       this.streamAllocation = streamAllocation;
-      this.replyExecutor = replyExecutor;
+      this.executor = executor;
     }
 
-    @Override protected void close() throws IOException {
-      replyExecutor.shutdown();
-      streamAllocation.noNewStreams();
+    @Override protected void shutdown() {
+      executor.shutdown();
       streamAllocation.streamFinished(true, streamAllocation.codec());
     }
   }
