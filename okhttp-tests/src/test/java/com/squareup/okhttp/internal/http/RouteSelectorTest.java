@@ -52,14 +52,14 @@ public final class RouteSelectorTest {
       ConnectionSpec.CLEARTEXT);
 
   private static final int proxyAPort = 1001;
-  private static final String proxyAHost = "proxyA";
+  private static final String proxyAHost = "proxya";
   private static final Proxy proxyA =
-      new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAHost, proxyAPort));
+      new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyAHost, proxyAPort));
   private static final int proxyBPort = 1002;
-  private static final String proxyBHost = "proxyB";
+  private static final String proxyBHost = "proxyb";
   private static final Proxy proxyB =
-      new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyBHost, proxyBPort));
-  private String uriHost = "hostA";
+      new Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(proxyBHost, proxyBPort));
+  private String uriHost = "hosta";
   private int uriPort = 1003;
 
   private SocketFactory socketFactory;
@@ -71,12 +71,11 @@ public final class RouteSelectorTest {
   private final List<Protocol> protocols = Arrays.asList(Protocol.HTTP_1_1);
   private final FakeDns dns = new FakeDns();
   private final RecordingProxySelector proxySelector = new RecordingProxySelector();
-  private RouteDatabase routeDatabase;
+  private RouteDatabase routeDatabase = new RouteDatabase();
 
   @Before public void setUp() throws Exception {
     socketFactory = SocketFactory.getDefault();
     hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
-    routeDatabase = new RouteDatabase();
   }
 
   @Test public void singleRoute() throws Exception {

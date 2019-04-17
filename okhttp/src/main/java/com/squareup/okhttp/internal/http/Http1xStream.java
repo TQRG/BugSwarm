@@ -22,6 +22,7 @@ import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.okhttp.internal.Internal;
 import com.squareup.okhttp.internal.Util;
+import com.squareup.okhttp.internal.io.RealConnection;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.ProtocolException;
@@ -66,6 +67,7 @@ public final class Http1xStream implements HttpStream {
   private static final int STATE_READING_RESPONSE_BODY = 5;
   private static final int STATE_CLOSED = 6;
 
+  /** The stream allocation that owns this stream. May be null for HTTPS proxy tunnels. */
   private final StreamAllocation streamAllocation;
   private final BufferedSource source;
   private final BufferedSink sink;
@@ -98,8 +100,8 @@ public final class Http1xStream implements HttpStream {
   }
 
   @Override public void cancel() {
-    // TODO.
-    throw new UnsupportedOperationException("TODO");
+    RealConnection connection = streamAllocation.connection();
+    if (connection != null) connection.cancel();
   }
 
   /**
@@ -244,6 +246,7 @@ public final class Http1xStream implements HttpStream {
 
   public Source newUnknownLengthSource() throws IOException {
     if (state != STATE_OPEN_RESPONSE_BODY) throw new IllegalStateException("state: " + state);
+    if (streamAllocation == null) throw new IllegalStateException("streamAllocation == null");
     state = STATE_READING_RESPONSE_BODY;
     streamAllocation.noNewStreamsOnConnection();
     return new UnknownLengthSource();
@@ -355,13 +358,19 @@ public final class Http1xStream implements HttpStream {
       detachTimeout(timeout);
 
       state = STATE_CLOSED;
-      streamAllocation.streamFinished(Http1xStream.this);
+      if (streamAllocation != null) {
+        streamAllocation.streamFinished(Http1xStream.this);
+      }
     }
 
     protected final void unexpectedEndOfInput() {
+      if (state == STATE_CLOSED) return;
+
       state = STATE_CLOSED;
-      streamAllocation.noNewStreamsOnConnection();
-      streamAllocation.streamFinished(Http1xStream.this);
+      if (streamAllocation != null) {
+        streamAllocation.noNewStreamsOnConnection();
+        streamAllocation.streamFinished(Http1xStream.this);
+      }
     }
   }
 

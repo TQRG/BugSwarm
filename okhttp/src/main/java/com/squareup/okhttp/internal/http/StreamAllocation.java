@@ -20,6 +20,7 @@ import com.squareup.okhttp.ConnectionPool;
 import com.squareup.okhttp.Route;
 import com.squareup.okhttp.internal.Internal;
 import com.squareup.okhttp.internal.RouteDatabase;
+import com.squareup.okhttp.internal.Util;
 import com.squareup.okhttp.internal.io.RealConnection;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -33,6 +34,41 @@ import okio.Sink;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
+ * This class coordinates the relationship between three entities:
+ *
+ * <ul>
+ *   <li><strong>Connections:</strong> physical socket connections to remote servers. These are
+ *       potentially slow to establish so it is necessary to be able to cancel a connection
+ *       currently being connected.
+ *   <li><strong>Streams:</strong> logical HTTP request/response pairs that are layered on
+ *       connections. Each connection has its own allocation limit, which defines how many
+ *       concurrent streams that connection can carry. HTTP/1.x connections can carry 1 stream
+ *       at a time, SPDY and HTTP/2 typically carry multiple.
+ *   <li><strong>Calls:</strong> a logical sequence of streams, typically an initial request and
+ *       its follow up requests. We prefer to keep all streams of a single call on the same
+ *       connection for better behavior and locality.
+ * </ul>
+ *
+ * <p>Instances of this class act on behalf of the call, using one or more streams over one or
+ * more connections. This class has APIs to release each of the above resources:
+ *
+ * <ul>
+ *   <li>{@linkplain #noNewStreams() noNewStreams()} prevents the connection from being used for
+ *       new streams in the future. Use this after a {@code Connection: close} header, or when the
+ *       connection may be inconsistent.
+ *   <li>{@linkplain #streamFinished streamFinished()} releases the active stream from this
+ *       allocation. Note that only one stream may be active at a given time, so it is necessary to
+ *       call {@linkplain #streamFinished streamFinished()} before creating a subsequent stream with
+ *       {@linkplain #newStream newStream()}.
+ *   <li>{@linkplain #release() release()} removes the call's hold on the connection. Note that this
+ *       won't immediately free the connection if there is a stream still lingering. That happens
+ *       when a call is complete but its response body has yet to be fully consumed.
+ * </ul>
+ *
+ * <p>This class supports {@linkplain #cancel asynchronous canceling}. This is intended to have
+ * the smallest blast radius possible. If an HTTP/2 stream is active, canceling will cancel that
+ * stream but not the other streams sharing its connection. But if the TLS handshake is still in
+ * progress then canceling may break the entire connection.
  */
 public final class StreamAllocation {
   public final Address address;
@@ -59,7 +95,7 @@ public final class StreamAllocation {
 
       HttpStream resultStream;
       if (resultConnection.framedConnection != null) {
-        resultStream = new Http2xStream(resultConnection.framedConnection);
+        resultStream = new Http2xStream(this, resultConnection.framedConnection);
       } else {
         resultConnection.getSocket().setSoTimeout(readTimeout);
         resultConnection.source.timeout().timeout(readTimeout, MILLISECONDS);
@@ -90,11 +126,7 @@ public final class StreamAllocation {
       if (connection.isHealthy(doExtensiveHealthChecks)) {
         return candidate;
       }
-      synchronized (connectionPool) {
-        connection.noNewStreams = true;
-        connection.allocationCount--;
-        connection = null;
-      }
+      deallocate(true, false, true);
     }
   }
 
@@ -157,12 +189,8 @@ public final class StreamAllocation {
       if (stream == null || stream != this.stream) {
         throw new IllegalStateException("expected " + this.stream + " but was " + stream);
       }
-      this.stream = null;
-      if (released) {
-        connection.allocationCount--;
-        connection = null;
-      }
     }
+    deallocate(false, false, true);
   }
 
   public HttpStream stream() {
@@ -175,36 +203,57 @@ public final class StreamAllocation {
     return Internal.instance.routeDatabase(connectionPool);
   }
 
-  public RealConnection connection() {
+  public synchronized RealConnection connection() {
     return connection;
   }
 
   public void release() {
-    synchronized (connectionPool) {
-      if (this.released) {
-        throw new IllegalStateException("already released");
-      }
-      released = true;
-      if (this.stream == null) {
-        connection.allocationCount--;
-        connection = null;
-      }
-    }
+    deallocate(false, true, false);
   }
 
   /** Forbid new streams from being created on the connection that hosts this allocation. */
   public void noNewStreamsOnConnection() {
-    synchronized (connectionPool) {
-      connection.noNewStreams = true;
-    }
+    deallocate(true, false, false);
   }
 
   /** Forbid new streams from being created on this allocation. */
   public void noNewStreams() {
+    // TODO(jwilson): fix this for HTTP/2 to not nuke the socket connection.
+    deallocate(true, false, false);
+  }
+
+  /**
+   * Releases resources held by this allocation. If sufficient resources are allocated, the
+   * connection will be detached or closed.
+   */
+  private void deallocate(boolean noNewStreams, boolean released, boolean streamFinished) {
+    RealConnection connectionToClose = null;
     synchronized (connectionPool) {
-      if (connection != null) {
-        connection.noNewStreams = true;
+      if (streamFinished) {
+        this.stream = null;
       }
+      if (released) {
+        this.released = true;
+      }
+      if (connection != null) {
+        if (noNewStreams) {
+          connection.noNewStreams = true;
+        }
+        if (this.stream == null && (this.released || connection.noNewStreams)) {
+          connection.allocationCount--;
+          if (connection.streamCount > 0) {
+            routeSelector = null;
+          }
+          if (connection.noNewStreams && connection.allocationCount == 0) {
+            connectionPool.remove(connection);
+            connectionToClose = connection;
+          }
+          connection = null;
+        }
+      }
+    }
+    if (connectionToClose != null) {
+      Util.closeQuietly(connectionToClose.getSocket());
     }
   }
 
@@ -225,19 +274,18 @@ public final class StreamAllocation {
 
   private void connectionFailed(IOException e) {
     synchronized (connectionPool) {
-      if (connection.streamCount == 0 && routeSelector != null) {
-        Route failedRoute = connection.getRoute();
-        routeSelector.connectFailed(failedRoute, e);
+      if (routeSelector != null) {
+        if (connection.streamCount == 0) {
+          // Record the failure on a fresh route.
+          Route failedRoute = connection.getRoute();
+          routeSelector.connectFailed(failedRoute, e);
+        } else {
+          // We saw a failure on a recycled connection, reset this allocation with a fresh route.
+          routeSelector = null;
+        }
       }
-      connection.noNewStreams = true;
-      connection.allocationCount--;
-      connection = null;
-      stream = null;
-
-      // If we saw a failure on a recycled connection, start with a fresh route.
-      // TODO(jwilson): confirm that this helps tests to pass!
-      routeSelector = null;
     }
+    deallocate(true, false, true);
   }
 
   public boolean recover(RouteException e) {
@@ -255,7 +303,14 @@ public final class StreamAllocation {
 
   public boolean recover(IOException e, Sink requestBodyOut) {
     if (connection != null) {
+      int streamCount = connection.streamCount;
       connectionFailed(e);
+
+      if (streamCount == 1) {
+        // This isn't a recycled connection.
+        // TODO(jwilson): find a better way for this.
+        return false;
+      }
     }
 
     boolean canRetryRequestBody = requestBodyOut == null || requestBodyOut instanceof RetryableSink;

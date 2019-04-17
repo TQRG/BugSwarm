@@ -35,8 +35,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import okio.ByteString;
+import okio.ForwardingSource;
 import okio.Okio;
 import okio.Sink;
+import okio.Source;
 
 import static com.squareup.okhttp.internal.framed.Header.RESPONSE_STATUS;
 import static com.squareup.okhttp.internal.framed.Header.TARGET_AUTHORITY;
@@ -103,11 +105,13 @@ public final class Http2xStream implements HttpStream {
       ENCODING,
       UPGRADE);
 
+  private final StreamAllocation streamAllocation;
   private final FramedConnection framedConnection;
   private HttpEngine httpEngine;
   private FramedStream stream;
 
-  public Http2xStream(FramedConnection framedConnection) {
+  public Http2xStream(StreamAllocation streamAllocation, FramedConnection framedConnection) {
+    this.streamAllocation = streamAllocation;
     this.framedConnection = framedConnection;
   }
 
@@ -271,10 +275,22 @@ public final class Http2xStream implements HttpStream {
   }
 
   @Override public ResponseBody openResponseBody(Response response) throws IOException {
-    return new RealResponseBody(response.headers(), Okio.buffer(stream.getSource()));
+    Source source = new StreamFinishingSource(stream.getSource());
+    return new RealResponseBody(response.headers(), Okio.buffer(source));
   }
 
   @Override public void cancel() {
     if (stream != null) stream.closeLater(ErrorCode.CANCEL);
+  }
+
+  class StreamFinishingSource extends ForwardingSource {
+    public StreamFinishingSource(Source delegate) {
+      super(delegate);
+    }
+
+    @Override public void close() throws IOException {
+      streamAllocation.streamFinished(Http2xStream.this);
+      super.close();
+    }
   }
 }
