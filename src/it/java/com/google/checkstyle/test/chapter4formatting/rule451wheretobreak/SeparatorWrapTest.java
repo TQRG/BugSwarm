@@ -83,9 +83,9 @@ public class SeparatorWrapTest extends BaseCheckTestSupport {
     @Test
     public void testEllipsis() throws Exception {
         final String[] expected = {
-            "11:13: " + getCheckMessage(SeparatorWrapCheck.class, "line.previous", ","),
+            "11:13: " + getCheckMessage(SeparatorWrapCheck.class, "line.previous", "..."),
         };
-        
+
         final Configuration checkConfig = getCheckConfig("SeparatorWrap", "SeparatorWrapEllipsis");
         final String filePath = getPath("InputSeparatorWrapEllipsis.java");
 
@@ -96,9 +96,10 @@ public class SeparatorWrapTest extends BaseCheckTestSupport {
     @Test
     public void testArrayDeclarator() throws Exception {
         final String[] expected = {
-            "9:13: " + getCheckMessage(SeparatorWrapCheck.class, "line.previous", ","),
+            "9:13: " + getCheckMessage(SeparatorWrapCheck.class, "line.previous", "["),
         };
-        final Configuration checkConfig = getCheckConfig("SeparatorWrap", "SeparatorWrapArrayDeclarator");
+        final Configuration checkConfig = getCheckConfig("SeparatorWrap",
+                "SeparatorWrapArrayDeclarator");
         final String filePath = getPath("InputSeparatorWrapArrayDeclarator.java");
 
         final Integer[] warnList = getLinesWithWarn(filePath);
