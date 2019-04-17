@@ -17,6 +17,7 @@ package okhttp3;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.net.Authenticator;
 import java.net.ConnectException;
@@ -2472,7 +2473,7 @@ public final class URLConnectionTest {
       byte[] data = new byte[2 * 1024 * 1024]; // 2 MiB.
       out.write(data);
       fail();
-    } catch (SocketTimeoutException expected) {
+    } catch (InterruptedIOException expected) {
     }
   }
 
