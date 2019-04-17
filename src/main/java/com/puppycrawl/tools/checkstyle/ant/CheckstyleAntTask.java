@@ -229,13 +229,13 @@ public class CheckstyleAntTask extends Task {
 
     /**
      * Sets configuration file.
-     * @param config the configuration file, URL, or resource to use
+     * @param configuration the configuration file, URL, or resource to use
      */
-    public void setConfig(String config) {
-        if (this.config != null) {
+    public void setConfig(String configuration) {
+        if (config != null) {
             throw new BuildException("Attribute 'config' has already been set");
         }
-        this.config = config;
+        config = configuration;
     }
 
     /**
@@ -391,9 +391,9 @@ public class CheckstyleAntTask extends Task {
         final RootModule rootModule;
         try {
             final Properties props = createOverridingProperties();
-            final Configuration config =
+            final Configuration configuration =
                 ConfigurationLoader.loadConfiguration(
-                    this.config,
+                    config,
                     new PropertiesExpander(props),
                     !executeIgnoredModules);
 
@@ -403,7 +403,7 @@ public class CheckstyleAntTask extends Task {
             final ModuleFactory factory = new PackageObjectFactory(
                     Checker.class.getPackage().getName() + ".", moduleClassLoader);
 
-            rootModule = (RootModule) factory.createModule(config.getName());
+            rootModule = (RootModule) factory.createModule(configuration.getName());
             rootModule.setModuleClassLoader(moduleClassLoader);
 
             if (rootModule instanceof Checker) {
@@ -413,7 +413,7 @@ public class CheckstyleAntTask extends Task {
                 ((Checker) rootModule).setClassLoader(loader);
             }
 
-            rootModule.configure(config);
+            rootModule.configure(configuration);
         }
         catch (final CheckstyleException ex) {
             throw new BuildException(String.format(Locale.ROOT, "Unable to create Root Module: "
