@@ -76,6 +76,11 @@ public final class OneStatementPerLineCheck extends Check {
     public static final String MSG_KEY = "multiple.statements.line";
 
     /**
+     * Counts number of semicolons in nested lambdas.
+     */
+    private final Deque<Integer> countOfSemiInLambda = new ArrayDeque<>();
+
+    /**
      * Hold the line-number where the last statement ended.
      */
     private int lastStatementEnd = -1;
@@ -99,11 +104,6 @@ public final class OneStatementPerLineCheck extends Check {
      * Hold the line-number where the last lambda statement ended.
      */
     private int lambdaStatementEnd = -1;
-
-    /**
-     * Counts number of semicolons in nested lambdas.
-     */
-    private final Deque<Integer> countOfSemiInLambda = new ArrayDeque<>();
 
     @Override
     public int[] getDefaultTokens() {
@@ -137,28 +137,7 @@ public final class OneStatementPerLineCheck extends Check {
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.SEMI:
-                DetailAST currentStatement = ast;
-                final boolean hasResourcesPrevSibling =
-                        currentStatement.getPreviousSibling() != null
-                        && currentStatement.getPreviousSibling().getType() == TokenTypes.RESOURCES;
-                if (!hasResourcesPrevSibling && isMultilineStatement(currentStatement)) {
-                    currentStatement = ast.getPreviousSibling();
-                }
-                if (isInLambda) {
-                    int countOfSemiInCurrentLambda = countOfSemiInLambda.pop();
-                    countOfSemiInCurrentLambda++;
-                    countOfSemiInLambda.push(countOfSemiInCurrentLambda);
-                    if (!inForHeader && countOfSemiInCurrentLambda > 1
-                            && isOnTheSameLine(currentStatement,
-                                lastStatementEnd, forStatementEnd,
-                                lambdaStatementEnd) ) {
-                        log(ast, MSG_KEY);
-                    }
-                }
-                else if (!inForHeader  && isOnTheSameLine(currentStatement, lastStatementEnd,
-                        forStatementEnd, lambdaStatementEnd)) {
-                    log(ast, MSG_KEY);
-                }
+                checkIfSemicolonIsInDifferentLineThanPrevious(ast);
                 break;
             case TokenTypes.FOR_ITERATOR:
                 forStatementEnd = ast.getLineNo();
@@ -193,6 +172,35 @@ public final class OneStatementPerLineCheck extends Check {
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * Checks if given semicolon is in different line than previous.
+     * @param ast semicolon to check
+     */
+    private void checkIfSemicolonIsInDifferentLineThanPrevious(DetailAST ast) {
+        DetailAST currentStatement = ast;
+        final boolean hasResourcesPrevSibling =
+                currentStatement.getPreviousSibling() != null
+                        && currentStatement.getPreviousSibling().getType() == TokenTypes.RESOURCES;
+        if (!hasResourcesPrevSibling && isMultilineStatement(currentStatement)) {
+            currentStatement = ast.getPreviousSibling();
+        }
+        if (isInLambda) {
+            int countOfSemiInCurrentLambda = countOfSemiInLambda.pop();
+            countOfSemiInCurrentLambda++;
+            countOfSemiInLambda.push(countOfSemiInCurrentLambda);
+            if (!inForHeader && countOfSemiInCurrentLambda > 1
+                    && isOnTheSameLine(currentStatement,
+                    lastStatementEnd, forStatementEnd,
+                    lambdaStatementEnd)) {
+                log(ast, MSG_KEY);
+            }
+        }
+        else if (!inForHeader && isOnTheSameLine(currentStatement, lastStatementEnd,
+                forStatementEnd, lambdaStatementEnd)) {
+            log(ast, MSG_KEY);
         }
     }
 
