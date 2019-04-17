@@ -1246,8 +1246,8 @@ As a result of above settings, when characters other than M, F are stored in ``g
 
     ``@ExistInCodeList`` input validation supports only the implementation class (\ ``String``\  etc) of \ ``CharSequence``\  interface or \ ``Character``\  type.
     Therefore, even if the fields with \ ``@ExistInCodeList``\ may contain integer values, they should be defined as \ ``String``\ data type. (such as Year/Month/Day)
-    
-    Also, because \ ``@ExistInCodeList``\ does not correspond to the values in the collection,it is necessary to device the implementation in order to correspond \ ``@ExistInCodeList``\ annotation to multiple selectable screen items (check boxes, multiple selection drop down, etc.)  
+
+    Also, because \ ``@ExistInCodeList``\ does not correspond to the values in the collection,it is necessary to device the implementation in order to correspond \ ``@ExistInCodeList``\ annotation to multiple selectable screen items (check boxes, multiple selection drop down, etc.)
     For details, please refer :ref:`Validation_for_parameter_object_in_collection_corresponding_annotation`. 
 
 |
