@@ -18,12 +18,54 @@ Change Log
 
     * -
       - General
-      - Modified to fix the version of \ ``maven-archetype-plugin``\  which is used while creating following projects to 2.4 (\ `guideline#2523 <https://github.com/terasolunaorg/guideline/issues/2523>`_\ )
+      - Clerical errors of guideline(typing mistake, simple descriptive error etc ).
+      
+        * For details of update,please refer,\ `5.2.1's Issue list(clerical error) <https://github.com/terasolunaorg/guideline/issues?utf8=%E2%9C%93&q=%20label%3A5.2.1%20is%3Aclosed%20label%3A%22clerical%20error%22%20>`_\.
 
-        * :doc:`../ImplementationAtEachLayer/CreateWebApplicationProject`  
+        * Please refer, \ `5.3.0's Issue list(clerical error) <https://github.com/terasolunaorg/guideline/issues?utf8=%E2%9C%93&q=%20label%3A5.3.0%20is%3Aclosed%20label%3A%22clerical%20error%22%20>`_\ for details of correction contents.
+        
+        Description details modified
+        
+        * For details of update、please refer \ `5.2.1's Issue list(improvement) <https://github.com/terasolunaorg/guideline/issues?utf8=%E2%9C%93&q=label%3A5.2.1%20label%3Aimprovement%20is%3Aclosed%20>`_\.
+        
+         Change to fix the version of \ ``maven-archetype-plugin``\ used while creating following project to 2.4(\ `guideline#2523 <https://github.com/terasolunaorg/guideline/issues/2523>`_\ ) 
+
         * :doc:`../Overview/FirstApplication`  
-        * :doc:`../Tutorial/TutorialSecurity`  
+        * :doc:`../ImplementationAtEachLayer/CreateWebApplicationProject`  
         * :doc:`../Tutorial/TutorialTodo`  
+        * :doc:`../Tutorial/TutorialSecurity`
+        
+	* -   
+	  - :doc:`../ImplementationAtEachLayer/DomainLayer`  
+	  - Description details modified
+	  
+	  * Modified signature-limiting interface and base class implementation sample(\ `guideline#2219 <https://github.com/terasolunaorg/guideline/issues/2219>`_\ ) 
+	  
+	* -  
+	  - :doc:`../ArchitectureInDetail/WebApplicationDetail/Validation`  
+	  - Description details modified
+	  
+	  * Add explanation on how to include input check target in message(\ `guideline#2002 <https://github.com/terasolunaorg/guideline/issues/2002>`_\ )  
+ 	  
+ 	  * Modified check contents description  of input check by @URL(\ `guideline#2260 <https://github.com/terasolunaorg/guideline/issues/2260>`_\ )  
+ 	  
+ 	* -  
+	  - :doc:`../ArchitectureInDetail/WebApplicationDetail/SessionManagement`    
+	  - Description details added    
+
+	  * Added how to prevent binding of request parameters when receiving object stored in session scope(\ `guideline#1293 <https://github.com/terasolunaorg/guideline/issues/1293>`_\ ) 
+	  
+	* -
+	  - :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessMyBatis3`
+	  - Description details added
+	  
+	  * (\ `guideline#2375 <https://github.com/terasolunaorg/guideline/issues/2375>`_\ ) Added description of setting related to calling rollback processing when an error occurs at the time of commit.
+	  
+	* -  
+	  - :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessJpa`  
+	  - Description details added  
+	  
+	  * Added warning and measures(\ `guideline#2439 <https://github.com/terasolunaorg/guideline/issues/2439>`_\ )  related to \ `CVE-2016-6652 <https://pivotal.io/security/cve-2016-6652>`_\ (Vulnerability that may be subject to blind SQL injection attack).
 
     * - 
       - :doc:`../ImplementationAtEachLayer/ApplicationLayer`
@@ -101,12 +143,6 @@ Change Log
         Modifications related to Spring Framework 4.3
         
         * Precautions while using \ ``@DateTimeFormat`` \  for JSR-310 Date and Time API class deleted (\ `guideline#2505 <https://github.com/terasolunaorg/guideline/issues/2505>`_\ )
-    
-    * -
-      - :doc:`../ArchitectureInDetail/WebApplicationDetail/SessionManagement`
-      - Description details added
-      
-        * Added about how to prevent binding of request parameters when receiving object stored in session scope (\ `guideline#1293 <https://github.com/terasolunaorg/guideline/issues/1293>`_\ )
         
     * -
       - | :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessJpa`
