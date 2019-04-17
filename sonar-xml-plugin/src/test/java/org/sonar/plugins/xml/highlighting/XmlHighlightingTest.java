@@ -24,7 +24,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class XMLHighlightingTest {
+public class XmlHighlightingTest {
 
   @Test
   public void testCDATAWithTagsInside() throws Exception {

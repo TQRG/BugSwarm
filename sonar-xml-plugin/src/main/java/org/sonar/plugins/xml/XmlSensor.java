@@ -18,6 +18,7 @@
 package org.sonar.plugins.xml;
 
 import com.google.common.annotations.VisibleForTesting;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -51,12 +52,11 @@ import java.util.List;
  */
 public class XmlSensor implements Sensor {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XmlSensor.class);
-
   private final Checks<Object> checks;
   private final FileSystem fileSystem;
   private final ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilesPredicate;
+  private static final Logger LOG = LoggerFactory.getLogger(XmlSensor.class);
 
   public XmlSensor(FileSystem fileSystem, ResourcePerspectives resourcePerspectives, CheckFactory checkFactory) {
     this.checks = checkFactory.create(CheckRepository.REPOSITORY_KEY).addAnnotatedChecks(CheckRepository.getCheckClasses());
@@ -88,7 +88,7 @@ public class XmlSensor implements Sensor {
           saveSyntaxHighlighting(XMLHighlighting.getHighlightingData(inputFile.file(), fileSystem.encoding()), inputFile);
         }
       } catch (Exception e) {
-        LOG.error("Could not analyze the file " + inputFile.file().getAbsolutePath(), e);
+        throw new IllegalStateException("Could not analyze the file " + inputFile.file().getAbsolutePath(), e);
       }
     }
   }
