@@ -26,6 +26,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -469,6 +471,27 @@ public class ConfigurationLoaderTest {
         catch (CheckstyleException ex) {
             assertTrue(ex.getCause() instanceof  URISyntaxException);
             assertEquals("unable to find config_with_ignore.xml", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testLoadConfiguration_Deprecated() throws CheckstyleException {
+        try {
+            final DefaultConfiguration config =
+                    (DefaultConfiguration) ConfigurationLoader.loadConfiguration(
+                            new FileInputStream(
+                                    "src/test/resources/com/puppycrawl/tools/checkstyle/configs/"
+                                    + "config_with_ignore.xml"),
+                            new PropertiesExpander(new Properties()), true);
+
+            final Configuration[] children = config.getChildren();
+            assertTrue(children[0].getChildren().length == 0);
+        }
+        catch (CheckstyleException ex) {
+            fail("unexpected exception");
+        }
+        catch (FileNotFoundException e) {
+            fail("unexpected exception");
         }
     }
 

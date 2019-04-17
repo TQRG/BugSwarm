@@ -19,6 +19,8 @@
 
 package com.puppycrawl.tools.checkstyle.api;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,20 @@ public final class FileContents implements CommentListener {
      * of comments on that line
      */
     private final Map<Integer, List<TextBlock>> clangComments = Maps.newHashMap();
+
+    /**
+     * Creates a new <code>FileContents</code> instance.
+     *
+     * @param filename name of the file
+     * @param lines the contents of the file
+     * @deprecated Use {@link #FileContents(FileText)} instead
+     *   in order to preserve the original line breaks where possible.
+     */
+    @Deprecated
+    public FileContents(String filename, String... lines) {
+        fileName = filename;
+        text = FileText.fromLines(new File(filename), Arrays.asList(lines));
+    }
 
     /**
      * Creates a new <code>FileContents</code> instance.
@@ -214,7 +230,7 @@ public final class FileContents implements CommentListener {
      * @return an object containing the full text of the file
      */
     public FileText getText() {
-        return text;
+        return new FileText(text);
     }
 
     /** @return the lines in the file */
@@ -234,6 +250,16 @@ public final class FileContents implements CommentListener {
     /** @return the name of the file */
     public String getFileName() {
         return fileName;
+    }
+
+    /**
+     * Getter.
+     * @return the name of the file
+     * @deprecated use {@link #getFileName} instead
+     */
+    @Deprecated
+    public String getFilename() {
+        return getFileName();
     }
 
     /**
