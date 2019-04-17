@@ -120,6 +120,11 @@ public class OkHttpClient implements Cloneable {
         connection.connectAndSetOwner(client, owner, request);
       }
 
+      @Override
+      public void callEnqueue(Call call, Callback responseCallback, boolean forWebSocket) {
+        call.enqueue(responseCallback, forWebSocket);
+      }
+
       @Override public void callEngineReleaseConnection(Call call) throws IOException {
         call.engine.releaseConnection();
       }

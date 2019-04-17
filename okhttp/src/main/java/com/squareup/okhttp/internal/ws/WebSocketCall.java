@@ -108,7 +108,7 @@ public class WebSocketCall {
    * @throws IllegalStateException when the call has already been executed.
    */
   public void enqueue(final WebSocketListener listener) {
-    call.enqueue(new Callback() {
+    Callback responseCallback = new Callback() {
       @Override public void onResponse(Response response) throws IOException {
         // Exceptions thrown by this method will be propagated to onFailure below.
         createWebSocket(response, listener);
@@ -117,7 +117,9 @@ public class WebSocketCall {
       @Override public void onFailure(Request request, IOException e) {
         listener.onFailure(e);
       }
-    });
+    };
+    // TODO call.enqueue(responseCallback, true);
+    Internal.instance.callEnqueue(call, responseCallback, true);
   }
 
   /** Cancels the request, if possible. Requests that are already complete cannot be canceled. */
