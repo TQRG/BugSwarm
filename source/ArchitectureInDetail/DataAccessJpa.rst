@@ -1810,11 +1810,11 @@ Entityの検索方法について、目的別に説明する。
 
     @RequestMapping("list")
     public String list(@RequestParam("targetDate") Date targetDate,
-                       @PageableDefaults(
-                           pageNumber = 0,
+                       @PageableDefault(
+                           page = 0,
                            value = 5,
                            sort = { "createdDate" },
-                           sortDir = Direction.DESC)
+                           direction = Direction.DESC)
                            Pageable pageable, // (2)
                        Model model) {
         Page<Order> accountPage = accountService.getAccounts(targetDate, pageable);
@@ -1979,7 +1979,7 @@ Entityの動的条件による検索処理の実装
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils
+                bindParameters.put("itemName", QueryEscapeUtils
                         .toLikeCondition(criteria.getItemName()));
             }
 
@@ -2331,7 +2331,7 @@ Entityの動的条件による検索処理の実装
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils.toLikeCondition(criteria
+                bindParameters.put("itemName", QueryEscapeUtils.toLikeCondition(criteria
                         .getItemName()));
             }
 
@@ -4199,7 +4199,7 @@ Repositoryインタフェースのメソッド呼び出し時に実行されるJ
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = false") // (1)
+    @Where(clause = "is_logical_delete = 'false'") // (1)
     public class Order implements Serializable {
         // ...
         @Id
@@ -4256,7 +4256,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = false")
+    @Where(clause = "is_logical_delete = 'false'")
     public class Order implements Serializable {
         // ...
         @Id
@@ -4264,7 +4264,7 @@ Repositoryインタフェースのメソッド呼び出して取得したEntity�
 
         @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
         @OrderBy
-        @Where(clause="is_logical_delete = false") // (1)
+        @Where(clause="is_logical_delete = 'false'") // (1)
         private Set<OrderItem> orderItems;
         // ...
 

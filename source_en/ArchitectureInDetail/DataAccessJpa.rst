@@ -1807,11 +1807,11 @@ Amongst the entities matching the conditions, call a query method to fetch the e
 
     @RequestMapping("list")
     public String list(@RequestParam("targetDate") Date targetDate,
-                       @PageableDefaults(
-                           pageNumber = 0,
+                       @PageableDefault(
+                           page = 0,
                            value = 5,
                            sort = { "createdDate" },
-                           sortDir = Direction.DESC)
+                           direction = Direction.DESC)
                            Pageable pageable, // (2)
                        Model model) {
         Page<Order> accountPage = accountService.getAccounts(targetDate, pageable);
@@ -1976,7 +1976,7 @@ If no condition is specified, a blank list will be returned.
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils
+                bindParameters.put("itemName", QueryEscapeUtils
                         .toLikeCondition(criteria.getItemName()));
             }
 
@@ -2328,7 +2328,7 @@ Further, the description for fetching all records is omitted.
                 joinConditions.add("o.orderItems oi");
                 joinConditions.add("oi.item i");
                 andConditions.add("i.name LIKE :itemName ESCAPE '~'");
-                bindParameters.put("itemName", SqlUtils.toLikeCondition(criteria
+                bindParameters.put("itemName", QueryEscapeUtils.toLikeCondition(criteria
                         .getItemName()));
             }
 
@@ -4280,7 +4280,7 @@ The method to add common conditions for JPQL which is executed at the time of ca
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = false") // (1)
+    @Where(clause = "is_logical_delete = 'false'") // (1)
     public class Order implements Serializable {
         // ...
         @Id
@@ -4337,7 +4337,7 @@ The method for adding common conditions for JPQL is shown below. JPQL is used fo
 
     @Entity
     @Table(name = "t_order")
-    @Where(clause = "is_logical_delete = false")
+    @Where(clause = "is_logical_delete = 'false'")
     public class Order implements Serializable {
         // ...
         @Id
@@ -4345,7 +4345,7 @@ The method for adding common conditions for JPQL is shown below. JPQL is used fo
 
         @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
         @OrderBy
-        @Where(clause="is_logical_delete = false") // (1)
+        @Where(clause="is_logical_delete = 'false'") // (1)
         private Set<OrderItem> orderItems;
         // ...
 
