@@ -35,14 +35,14 @@ import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
  * The check can be specified by option tagImmediatelyBeforeFirstWord,
  * which says whether the &lt;p&gt; tag should be placed immediately before
  * the first word.
- * 
+ *
  * <p>
  * Default configuration:
  * </p>
  * <pre>
  * &lt;module name=&quot;JavadocParagraph&quot;/&gt;
  * </pre>
- * 
+ *
  * <p>
  * To allow newlines and spaces immediately after the &lt;p&gt; tag:
  * <pre>
@@ -51,7 +51,7 @@ import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
  *                   value==&quot;false&quot;/&gt;
  * &lt;/module&quot;&gt;
  * </pre>
- * 
+ *
  * <p>
  * In case of tagImmediatelyBeforeFirstWord set to false
  * the following example will not have any violations:
