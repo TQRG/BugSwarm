@@ -5,7 +5,7 @@
 
 	<groupId>com.peterphi.std.guice</groupId>
 	<artifactId>stdlib-guice-webapp</artifactId>
-	<version>9.2.2-SNAPSHOT</version>
+	<version>9.4.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>stdlib guice webapp</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>com.peterphi.std.guice</groupId>
 		<artifactId>stdlib-guice-parent</artifactId>
-		<version>9.2.2-SNAPSHOT</version>
+		<version>9.4.11-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -68,6 +68,11 @@
 					<artifactId>jaxb-impl</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.3.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

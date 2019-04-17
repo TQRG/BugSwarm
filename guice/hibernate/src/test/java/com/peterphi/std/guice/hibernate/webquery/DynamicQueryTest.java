@@ -1,17 +1,23 @@
 package com.peterphi.std.guice.hibernate.webquery;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.peterphi.std.guice.database.annotation.Transactional;
 import com.peterphi.std.guice.hibernate.dao.HibernateDao;
 import com.peterphi.std.guice.hibernate.webquery.impl.QEntityFactory;
 import com.peterphi.std.guice.restclient.jaxb.webquery.WebQuery;
 import com.peterphi.std.guice.testing.GuiceUnit;
 import com.peterphi.std.guice.testing.com.peterphi.std.guice.testing.annotations.GuiceConfig;
+import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.ManagedType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,11 +25,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(GuiceUnit.class)
-@GuiceConfig(config = "hibernate-tests-in-memory-hsqldb.properties",
-		classPackages = ParentEntity.class)
+@GuiceConfig(config = "hibernate-tests-in-memory-hsqldb.properties", classPackages = ParentEntity.class)
 public class DynamicQueryTest
 {
 	@Inject
@@ -38,11 +44,46 @@ public class DynamicQueryTest
 	@Inject
 	QEntityFactory entityFactory;
 
+	@Inject
+	Provider<SessionFactory> sessionFactoryProvider;
+
+	@Test
+	public void testMetaModel()
+	{
+		Metamodel model = sessionFactoryProvider.get().getMetamodel();
+
+		System.out.println(model.toString());
+
+		for (ManagedType<?> type : model.getManagedTypes())
+		{
+			System.out.println();
+			System.out.println();
+			System.out.println(type.getJavaType());
+			System.out.println("----------------------------");
+			for (Attribute<?, ?> attribute : type.getAttributes())
+			{
+				System.out.println(attribute.getName() +
+				                   " - " +
+				                   attribute.getPersistentAttributeType() +
+				                   " - " +
+				                   attribute.getJavaType());
+				System.out.println("\t" + attribute);
+			}
+
+			if (type instanceof EntityType) {
+				EntityType<?> entity = (EntityType<?>) type;
+				System.out.println(entity.getIdType().getPersistenceType());
+			}
+		}
+	}
 
 	@Transactional
 	@Before
 	public void clearDatabaseBeforeTest()
 	{
+		for (ChildEntity obj : childDao.getAll())
+			childDao.delete(obj);
+
 		for (ParentEntity obj : dao.getAll())
 			dao.delete(obj);
 
@@ -76,6 +117,19 @@ public class DynamicQueryTest
 	}
 
 
+	/**
+	 * This does not work natively with HSQLDB because HSQLDB cannot perform an ORDER BY on a column that isn't SELECTed, so this
+	 * test confirms that WebQuery is able to implement it
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testOrderingByLazyAssociatedRelationThatIsNotSelectedWorks() throws Exception
+	{
+		dao.findByUriQuery(new WebQuery().orderAsc("otherObject.name"));
+	}
+
+
 	@Test
 	public void testAliasedNestedAssociatorConstraintWorks() throws Exception
 	{
@@ -100,6 +154,21 @@ public class DynamicQueryTest
 
 		// We'd get a org.hibernate.QueryException if Hibernate doesn't understand
 		dao.findByUriQuery(new WebQuery().leRef("otherObject.parent.name", "otherObject.parent.name"));
+	}
+
+
+	@Test
+	public void testDbFetchWorks() throws Exception
+	{
+		ParentEntity obj = new ParentEntity();
+		obj.setName("Name");
+		obj.setOtherObject(new ChildEntity());
+		obj.getOtherObject().setName("Name");
+
+		childDao.save(obj.getOtherObject());
+		dao.save(obj);
+
+		dao.findByUriQuery(new WebQuery().logSQL(true).dbfetch("otherObject.parent").eq("otherObject.parent.name", "x"));
 	}
 
 
@@ -146,6 +215,25 @@ public class DynamicQueryTest
 
 
 	@Test
+	public void testGetByUniquePropertyWithAliasOnCollection() throws Exception
+	{
+		dao.getByUniqueProperty("children[r0].id", 1L);
+	}
+
+
+	@Test
+	public void testGetUsingPropertiesOfEmbeddedCollection() throws Exception
+	{
+		// Hibernate will throw if the property doesn't work
+		WebQuery q = new WebQuery();
+		q.eq("friends[r0].firstName", "Firstname");
+		q.eq("friends[r0].lastName", "Surname");
+
+		dao.findByUriQuery(q);
+	}
+
+
+	@Test
 	public void testNestedAssociatorConstraintWorksInGetByUniqueProperty() throws Exception
 	{
 		// Hibernate will throw if the join doesn't get automatically set up
@@ -175,7 +263,7 @@ public class DynamicQueryTest
 	public void testDynamicQuerySeesManyToOneRelation() throws IllegalArgumentException
 	{
 		// Will throw an IllegalArgumentException if the "children" field is not parsed from the entity
-		dao.findByUriQuery(new WebQuery().eq("children.id", null));
+		dao.findByUriQuery(new WebQuery().isNull("children.id"));
 	}
 
 
@@ -194,13 +282,13 @@ public class DynamicQueryTest
 			dao.save(obj2);
 		}
 
-		assertEquals("deprecated=true matches 2 rows", 2, dao.findByUriQuery(new WebQuery().eq("deprecated", true))
-		                                                     .getList()
-		                                                     .size());
+		assertEquals("deprecated=true matches 2 rows",
+		             2,
+		             dao.findByUriQuery(new WebQuery().eq("deprecated", true)).getList().size());
 
-		assertEquals("deprecated=false matches nothing", 0, dao.findByUriQuery(new WebQuery().eq("deprecated", false))
-		                                                       .getList()
-		                                                       .size());
+		assertEquals("deprecated=false matches nothing",
+		             0,
+		             dao.findByUriQuery(new WebQuery().eq("deprecated", false)).getList().size());
 	}
 
 
@@ -220,6 +308,40 @@ public class DynamicQueryTest
 
 
 	@Test
+	public void testGetIdList() throws Exception
+	{
+		ParentEntity obj1 = new ParentEntity();
+		obj1.setName("Name1");
+		dao.save(obj1);
+
+		ParentEntity obj2 = new ParentEntity();
+		obj2.setName("Name2");
+		dao.save(obj2);
+
+		assertEquals(getIds(Arrays.asList(obj1, obj2)), dao.getIdList(new WebQuery().orderAsc("id").fetch("id")));
+	}
+
+
+	@Test
+	public void testLogSQL() throws Exception
+	{
+		ParentEntity obj1 = new ParentEntity();
+		obj1.setName("Name1");
+		dao.save(obj1);
+
+		ParentEntity obj2 = new ParentEntity();
+		obj2.setName("Name2");
+		dao.save(obj2);
+
+		final ConstrainedResultSet<ParentEntity> resultset = dao.findByUriQuery(new WebQuery().orderAsc("id").logSQL(true));
+
+		assertEquals(getIds(Arrays.asList(obj1, obj2)), getIds(resultset.getList())); // must have the right answer
+		assertNotNull(resultset.getSql());
+		assertEquals("Number of SQL statements executed", 3, resultset.getSql().size());
+	}
+
+
+	@Test
 	public void testOrderDesc() throws Exception
 	{
 		ParentEntity obj1 = new ParentEntity();
@@ -234,8 +356,13 @@ public class DynamicQueryTest
 	}
 
 
+	/**
+	 * Tests that computing size while applying ordering and limiting to the resultset still works
+	 *
+	 * @throws Exception
+	 */
 	@Test
-	public void testComputeSize() throws Exception
+	public void testComputeSizeWithOrder() throws Exception
 	{
 		{
 			ParentEntity obj1 = new ParentEntity();
@@ -245,13 +372,25 @@ public class DynamicQueryTest
 			ParentEntity obj2 = new ParentEntity();
 			obj2.setName("Name2");
 			dao.save(obj2);
+
+			ParentEntity obj3 = new ParentEntity();
+			obj3.setName("Name3");
+			dao.save(obj3);
 		}
 
 
-		ConstrainedResultSet<ParentEntity> results = dao.findByUriQuery(new WebQuery().limit(1).computeSize(true));
+		ConstrainedResultSet<ParentEntity> results = dao.findByUriQuery(new WebQuery()
+				                                                                .computeSize(true)
+				                                                                .orderDesc("name")
+				                                                                .limit(2));
 
-		assertEquals(1, results.getList().size());
-		assertEquals(Long.valueOf(2), results.getTotal());
+		// Must have correct total size
+		assertEquals("must have computed total size", Long.valueOf(3), results.getTotal());
+
+		// Must still honour limit
+		assertEquals(2, results.getList().size());
+		assertEquals(Arrays.asList("Name3", "Name2"),
+		             results.getList().stream().map(e -> e.getName()).collect(Collectors.toList()));
 	}
 
 
