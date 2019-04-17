@@ -25,13 +25,32 @@ Change Log
         * :doc:`../Tutorial/TutorialSecurity`  
         * :doc:`../Tutorial/TutorialTodo`  
 
-    * - 
+        * Description for how to use path variable and precautions for use added (\ `guideline#2406 <https://github.com/terasolunaorg/guideline/issues/2406>`_\ )
+
+    * -
+      - :doc:`../ArchitectureInDetail/WebApplicationDetail/ExceptionHandling`
+      - Modifications associated with Spring Framework 4.3 support
+
+        * Added description of how to handle a fatal error (\ `guideline#2368 <https://github.com/terasolunaorg/guideline/issues/2368>`_\ )
+        
+    * -
       - :doc:`../ImplementationAtEachLayer/ApplicationLayer`
       - Description details added
 
         * Added "\ ``<mvc:view-controller>`` \  is used when a simple view controller is to be created" (\ `guideline#2371 <https://github.com/terasolunaorg/guideline/issues/2371>`_\ )
 
         * Precautions while using \ ``<mvc:view-controller>`` \  added (\ `guideline#2371 <https://github.com/terasolunaorg/guideline/issues/2371>`_\ )
+
+    * -
+      - | :doc:`../ArchitectureInDetail/DataAccessDetail/DataAccessJpa`
+        | :doc:`../ArchitectureInDetail/DataAccessDetail/ExclusionControl`
+      - Description details added
+      
+    * -
+      - :doc:`../Security/LinkageWithBrowser`
+      - Modifications associated with Spring Security 4.1.4 support
+      
+        * Description added for HTTP Public Key Pinning (HPKP) (\ `guideline#2401 <https://github.com/terasolunaorg/guideline/issues/2401>`_\ )
 
     * -
       - :doc:`../Tutorial/TutorialTodo`
@@ -46,11 +65,11 @@ Change Log
         * Description related to configuration method while using JSR-310 Date and Time API changed (\ `guideline#2365 <https://github.com/terasolunaorg/guideline/issues/2365>`_\ )
 
         * Added "TypeHandler of JSR310 can be used by default in `blank project for MyBatis3 <https://github.com/terasolunaorg/terasoluna-gfw-web-multi-blank#multi-blank-project-with-mybatis3>`_ \ (\ `guideline#2365 <https://github.com/terasolunaorg/guideline/issues/2365>`_\ )
-        
+
         Description details added
-         
+
         * Description added for settings for calling a rollback process when an error occurs at the time of commit (\ `guideline#2375 <https://github.com/terasolunaorg/guideline/issues/2375>`_\ )
-        
+  
     * - 2016-08-31
       - \-
       - 5.2.0 RELEASE version published

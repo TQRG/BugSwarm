@@ -32,13 +32,15 @@ Spring Security provides a system to enhance security of Web application by offe
 Security headers supported by default
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The following 5 response headers are supported by Spring Security by default.
+The following 7 response headers are supported by Spring Security by default.
 
 * Cache-Control (Pragma, Expires)
 * X-Frame-Options
 * X-Content-Type-Options
 * X-XSS-Protection
 * Strict-Transport-Security
+* Content-Security-Policy(Content-Security-Policy-Report-Only)
+* Public-Key-Pins(Public-Key-Pins-Report-Only)
 
 .. tip:: **Support status of browser**
 
@@ -46,7 +48,7 @@ The following 5 response headers are supported by Spring Security by default.
 
     * https://www.owasp.org/index.php/HTTP_Strict_Transport_Security (Strict-Transport-Security)
     * https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet (X-Frame-Options)
-    * https://www.owasp.org/index.php/List_of_useful_HTTP_headers (X-Content-Type-Options, X-XSS-Protection)
+    * https://www.owasp.org/index.php/List_of_useful_HTTP_headers (X-Content-Type-Options, X-XSS-Protection, Content-Security-Policy, Public-Key-Pins)
 
 
 Cache-Control
@@ -142,6 +144,32 @@ Following header is output to disable the use of HTTP after accessing browser us
     Strict-Transport-Security header is output only when the application server is accessed using HTTPS in the default implementation of Spring Security.
     Note that, Strict-Transport-Security header value can be changed by specifying the option.
 
+Public-Key-Pins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Public-Key-Pins header presents the public key of the certificate associated with the site, to the browser in order to ensure authenticity of the certificate of the site.
+Even when the user visits the site again and is directed to a malicious site by using an attack technique called "man-in-the-middle" attack,
+a mismatch between public key of authentic site certificate retained by browser and public key of certificate presented by malicious site is detected
+and the access to the site can be blocked.
+
+Following header is output in order to block access to a site when a certificate which does not match the information retained by browser, is detected.
+
+* Output example of response header
+
+.. code-block:: text
+
+    Public-Key-Pins: max-age=5184000 ; pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=" ; pin-sha256="E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g="
+
+.. note:: **Regarding sending a violation report**
+
+    A report-uri directive is specified similar to Content-Security-Policy in order to send a violation report to browser when the access is blocked.
+
+    Further, a Public-Key-Pins-Report-Only header is used instead of Public-Key-Pins header to send a violation report to the browser without blocking the access.
+
+.. note:: **Regarding settings of Public-Key-Pins header**
+
+    If an error occurs in settings of Public-Key-Pins header, it is likely that user will not be able to access the site for a long period of time.
+    Hence, it is recommended to switch to Public-Key-Pins header after conducting a thorough testing by using Public-Key-Pins-Report-Only header.
 
 How to use
 --------------------------------------------------------------------------------
@@ -152,6 +180,10 @@ Applying security header output function
 A method is executed to apply the security header output function described earlier.
 
 Security header output function is added by Spring 3.2 and applied by default from Spring Security 4.0.
+
+* Content-Security-Policy
+* Public-Key-Pins
+
 Therefore, a specific definition is not required to enable the security header output function.
 Further, when the security header output function is not to be applied, it must be disabled explicitly.
 
@@ -184,6 +216,13 @@ Here, the example denotes output of all security headers provided by Spring Secu
         <sec:content-type-options/> <!-- (4) -->
         <sec:xss-protection/> <!-- (5) -->
         <sec:hsts/> <!-- (6) -->
+        <sec:content-security-policy policy-directives="default-src 'self'" /> <!-- (7) -->
+        <sec:hpkp report-uri="https://www.example.net/hpkp-report"> <!-- (8) -->
+            <sec:pins>
+                <sec:pin algorithm="sha256">d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM=</sec:pin>
+                <sec:pin algorithm="sha256">E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g=</sec:pin>
+            </sec:pins>
+        </sec:hpkp>
     </sec:headers>
 
 .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
@@ -205,6 +244,20 @@ Here, the example denotes output of all security headers provided by Spring Secu
       - | Register the component which outputs X-XSS-Protection header.
     * - | (6)
       - | Register the component which outputs Strict-Transport-Security header.
+    * - | (7)
+      - | Register the component which outputs Content-Security-Policy header and Content-Security-Policy-Report-Only header.
+    * - | (8)
+      - | Register the component which outputs Public-Key-Pins header and Public-Key-Pins-Report-Only header.
+
+        * When the public key of the certificate presented by the site does not match, a violation report is sent to \ ``https://www.example.net/hpkp-report``\  without blocking the access.
+        * Public key information for the backup is set to prevent inconsistencies of public key when the certificate is updated for the reasons such as compromise in the certificate and expiry of the certificate etc
+
+
+.. note:: **Regarding output of Public-Key-Pins header**
+
+    Default setting of Spring Security outputs Public-Key-Pins-Report-Only header rather than Public-Key-Pins header.
+
+    Further, in the default setting of Spring Security, Public-Key-Pins header is output only when the application server is accessed using HTTPS.
 
 
 Further, a method is also provided which disables security headers which are not required.
@@ -230,6 +283,8 @@ Contents which are output by Spring Security by default, can be changed in the f
 * X-Frame-Options
 * X-XSS-Protection
 * Strict-Transport-Security
+* Content-Security-Policy(Content-Security-Policy-Report-Only)
+* Public-Key-Pins(Public-Key-Pins-Report-Only)
 
 An option \ [#fSpringSecurityLinkageWithBrowser2]_\  can be specified in the attribute of each element by changing the bean definition of Spring Security.
 
