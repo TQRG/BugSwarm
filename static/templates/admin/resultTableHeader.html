@@ -1,0 +1,46 @@
+<% var containerDeleted = container ? container.isDeleted : false; %>
+<div class="result_header">
+	<div class="result_header_top">
+		<% if (containerPath) { %>
+			<div class="results_header_hierarchy_path">
+				<%= containerPath %>
+			</div>
+		<% } %>
+		<div class="container_header">
+			<span class="container_entry">
+				<h2 class="container_title">
+					<% if (queryMethod == "search") { %>
+						<span>Searching<% if (container) { %> in<% } %></span>
+					<% } %>
+					<% if (container) { %>
+						<div class="resource_icon <%= container.type.toLowerCase() %>"></div>
+						<span <%= containerDeleted? "class='deleted'" : "" %>><%= container.title %></span>
+						<img class="action_gear container_menu" src="/static/images/admin/gear.png">
+					
+					<% } %>
+				</h2>
+			</span>
+
+			<%
+			if (container && !containerDeleted && container.type !== "File" && (_.indexOf(container.permissions, "ingest") != -1
+					|| _.indexOf(container.permissions, "editDescription") != -1)) {
+
+				%><span id="add_menu" class="container_action">+ Add</span><%
+			}
+			%>
+			<img id="result_loading_icon" class="hidden" src="/static/images/admin/loading_small.gif"/>
+		</div>
+		<div class="result_table_action_menu">
+		</div>
+	</div>
+	<div class="result_header_bottom">
+		<div class="left batch_actions">
+			<p class="select_all">
+				<input type="checkbox">
+			</p>
+		</div>
+		<div class="right">
+			<%= navigationBar %>
+		</div>
+	</div>
+</div>
