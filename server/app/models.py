@@ -1252,9 +1252,6 @@ class FinalSubmission(Base):
     @classmethod
     def _can(cls, user, need, final, query):
         action = need.action
-        if user.is_admin:
-            return True
-        # TODO: If user is staff, allow changes
         if action in ("create", "put") and final:
             group = final.submission.get().backup.get().group
             if group:

@@ -172,7 +172,7 @@ def create_gcs_file(gcs_filename, contents, content_type):
     Creates a GCS csv file with contents CONTENTS.
     """
     try:
-        gcs_file = gcs.open(gcs_filename, 'w', content_type=content_type, options={'x-goog-acl': 'bucket-owner-full-control'})
+        gcs_file = gcs.open(gcs_filename, 'w', content_type=content_type, options={'x-goog-acl': 'project-private'})
         gcs_file.write(contents)
         gcs_file.close()
     except Exception as e:
@@ -395,7 +395,7 @@ def assign_staff_to_queues(assignment_key, staff_list):
         logging.debug(
             'assign_staff_to_queues complete with %d updates!', len(subms))
 
-def assign_submission(backup_id, submit, revision=False, user=None):
+def assign_submission(backup_id, submit, revision=False):
     """
     Create Submisson and FinalSubmission records for a submitted Backup.
 
@@ -413,9 +413,7 @@ def assign_submission(backup_id, submit, revision=False, user=None):
         subm.put()
 
         # Can only make a final submission before it's due, or if it's revision
-        if user and user.is_admin:
-            subm.mark_as_final()
-        elif datetime.datetime.now() < assign.get_result().due_date:
+        if datetime.datetime.now() < assign.get_result().due_date:
             subm.mark_as_final()
         elif revision:
             # Mark as final handles changing revision attribute.

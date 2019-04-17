@@ -947,7 +947,7 @@ class SubmitNDBImplementation(object):
                                messages=db_messages,
                                created=created)
         backup.put()
-        deferred.defer(assign_submission, backup.key.id(), submit, revision, user)
+        deferred.defer(assign_submission, backup.key.id(), submit, revision)
         return backup
 
 
