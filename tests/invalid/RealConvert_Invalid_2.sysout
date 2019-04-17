@@ -1,0 +1,3 @@
+../../tests/invalid/RealConvert_Invalid_2.whiley:3: incomparable operands: real and int
+requires x >= y:
+         ^^^^^^
