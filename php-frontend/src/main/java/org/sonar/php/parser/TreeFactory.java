@@ -525,16 +525,4 @@ public class TreeFactory {
     return newTuple(first, second);
   }
 
-  public <T, U> Tuple<T, U> newTuple8(T first, U second) {
-    return newTuple(first, second);
-  }
-
-  public <T, U> Tuple<T, U> newTuple10(T first, U second) {
-    return newTuple(first, second);
-  }
-
-  public <T, U> Tuple<T, U> newTuple12(T first, U second) {
-    return newTuple(first, second);
-  }
-
 }
