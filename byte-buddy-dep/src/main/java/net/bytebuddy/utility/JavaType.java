@@ -37,7 +37,12 @@ public enum JavaType {
     /**
      * The {@code java.lang.reflect.Executable} type.
      */
-    EXECUTABLE("java.lang.reflect.Executable", Opcodes.ACC_PUBLIC | Opcodes.ACC_ABSTRACT, AccessibleObject.class, Member.class, GenericDeclaration.class);
+    EXECUTABLE("java.lang.reflect.Executable", Opcodes.ACC_PUBLIC | Opcodes.ACC_ABSTRACT, AccessibleObject.class, Member.class, GenericDeclaration.class),
+
+    /**
+     * The {@code java.lang.reflect.Module} type.
+     */
+    MODULE("java.lang.reflect.Module", Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL, Object.class);
 
     /**
      * The type description to represent this type which is either a loaded type or a stub.

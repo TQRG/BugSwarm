@@ -12,6 +12,7 @@ import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.loading.ClassInjector;
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
 import net.bytebuddy.dynamic.loading.ClassReloadingStrategy;
 import net.bytebuddy.dynamic.scaffold.InstrumentedType;
 import net.bytebuddy.dynamic.scaffold.inline.MethodNameTransformer;
@@ -19,6 +20,7 @@ import net.bytebuddy.dynamic.scaffold.subclass.ConstructorStrategy;
 import net.bytebuddy.implementation.ExceptionMethod;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.LoadedTypeInitializer;
+import net.bytebuddy.implementation.MethodCall;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bytecode.*;
 import net.bytebuddy.implementation.bytecode.assign.Assigner;
@@ -35,6 +37,8 @@ import net.bytebuddy.implementation.bytecode.member.MethodVariableAccess;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.pool.TypePool;
 import net.bytebuddy.utility.JavaConstant;
+import net.bytebuddy.utility.JavaModule;
+import net.bytebuddy.utility.JavaType;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -45,6 +49,7 @@ import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessControlContext;
@@ -278,6 +283,41 @@ public interface AgentBuilder {
      * is also recommended, to exclude class loaders such as for example the bootstrap class loader.
      * </p>
      *
+     * @param typeMatcher        An {@link net.bytebuddy.matcher.ElementMatcher} that is applied on the type being
+     *                           loaded that decides if the entailed
+     *                           {@link net.bytebuddy.agent.builder.AgentBuilder.Transformer}s should be applied for
+     *                           that type.
+     * @param classLoaderMatcher An {@link net.bytebuddy.matcher.ElementMatcher} that is applied to the
+     *                           {@link java.lang.ClassLoader} that is loading the type being loaded. This matcher
+     *                           is always applied second where the type matcher is not applied in case that this
+     *                           matcher does not indicate a match.
+     * @param moduleMatcher      An {@link net.bytebuddy.matcher.ElementMatcher} that is applied to the {@link JavaModule}
+     *                           of the type being loaded. This matcher is always applied first where the class loader and
+     *                           type matchers are not applied in case that this matcher does not indicate a match. On a JVM
+     *                           that does not support the Java modules system, this matcher is not applied.
+     * @return A definable that represents this agent builder which allows for the definition of one or several
+     * {@link net.bytebuddy.agent.builder.AgentBuilder.Transformer}s to be applied when both the given
+     * {@code typeMatcher} and {@code classLoaderMatcher} indicate a match.
+     */
+    Identified.Narrowable type(ElementMatcher<? super TypeDescription> typeMatcher,
+                               ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                               ElementMatcher<? super JavaModule> moduleMatcher);
+
+    /**
+     * <p>
+     * Matches a type being loaded in order to apply the supplied {@link net.bytebuddy.agent.builder.AgentBuilder.Transformer}s before loading this type.
+     * If several matchers positively match a type only the latest registered matcher is considered for transformation.
+     * </p>
+     * <p>
+     * If this matcher is chained with additional subsequent matchers, this matcher is always executed first whereas the following matchers are
+     * executed in the order of their execution. If any matcher indicates that a type is to be matched, none of the following matchers is still queried.
+     * </p>
+     * <p>
+     * <b>Note</b>: When applying a matcher, regard the performance implications by {@link AgentBuilder#ignore(ElementMatcher)}. The former
+     * matcher is applied first such that it makes sense to ignore name spaces that are irrelevant to instrumentation. If possible, it
+     * is also recommended, to exclude class loaders such as for example the bootstrap class loader.
+     * </p>
+     *
      * @param matcher A matcher that decides if the entailed {@link net.bytebuddy.agent.builder.AgentBuilder.Transformer}s should be
      *                applied for a type that is being loaded.
      * @return A definable that represents this agent builder which allows for the definition of one or several
@@ -334,6 +374,35 @@ public interface AgentBuilder {
      * All previous matchers for ignored types are discarded.
      */
     Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher, ElementMatcher<? super ClassLoader> classLoaderMatcher);
+
+    /**
+     * <p>
+     * Excludes any type that is matched by the provided matcher and is loaded by a class loader matching the second matcher.
+     * By default, Byte Buddy does not instrument synthetic types or types that are loaded by the bootstrap class loader.
+     * </p>
+     * <p>
+     * When ignoring a type, any subsequently chained matcher is applied after this matcher in the order of their registration. Also, if
+     * any matcher indicates that a type is to be ignored, none of the following chained matchers is executed.
+     * </p>
+     * <p>
+     * <b>Note</b>: For performance reasons, it is recommended to always include a matcher that excludes as many namespaces
+     * as possible. Byte Buddy can determine a type's name without parsing its class file and can therefore discard such
+     * types with minimal overhead. When a different property of a type - such as for example its modifiers or its annotations
+     * is accessed - Byte Buddy parses the class file lazily in order to allow for such a matching. Therefore, any exclusion
+     * of a name should always be done as a first step and even if it does not influence the selection of what types are
+     * matched. Without changing this property, the class file of every type is being parsed!
+     * </p>
+     *
+     * @param typeMatcher        A matcher that identifies types that should not be instrumented.
+     * @param classLoaderMatcher A matcher that identifies a class loader that identifies classes that should not be instrumented.
+     * @param moduleMatcher      A matcher that identifies a module that identifies classes that should not be instrumented. On a JVM
+     *                           that does not support the Java modules system, this matcher is not applied.
+     * @return A new instance of this agent builder that ignores all types that are matched by the provided matcher.
+     * All previous matchers for ignored types are discarded.
+     */
+    Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher,
+                   ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                   ElementMatcher<? super JavaModule> moduleMatcher);
 
     /**
      * <p>
@@ -413,6 +482,18 @@ public interface AgentBuilder {
         /**
          * Defines a matching that is positive if both the previous matcher and the supplied matcher are matched.
          *
+         * @param typeMatcher        A matcher for the type being matched.
+         * @param classLoaderMatcher A matcher for the type's class loader.
+         * @param moduleMatcher      A matcher for the type's module. On a JVM that does not support modules, the Java module is represented by {@code null}.
+         * @return A chained matcher.
+         */
+        T and(ElementMatcher<? super TypeDescription> typeMatcher,
+              ElementMatcher<? super ClassLoader> classLoaderMatcher,
+              ElementMatcher<? super JavaModule> moduleMatcher);
+
+        /**
+         * Defines a matching that is positive if both the previous matcher and the supplied matcher are matched.
+         *
          * @param rawMatcher A raw matcher for the type being matched.
          * @return A chained matcher.
          */
@@ -439,6 +520,18 @@ public interface AgentBuilder {
         /**
          * Defines a matching that is positive if the previous matcher or the supplied matcher are matched.
          *
+         * @param typeMatcher        A matcher for the type being matched.
+         * @param classLoaderMatcher A matcher for the type's class loader.
+         * @param moduleMatcher      A matcher for the type's module. On a JVM that does not support modules, the Java module is represented by {@code null}.
+         * @return A chained matcher.
+         */
+        T or(ElementMatcher<? super TypeDescription> typeMatcher,
+             ElementMatcher<? super ClassLoader> classLoaderMatcher,
+             ElementMatcher<? super JavaModule> moduleMatcher);
+
+        /**
+         * Defines a matching that is positive if the previous matcher or the supplied matcher are matched.
+         *
          * @param rawMatcher A raw matcher for the type being matched.
          * @return A chained matcher.
          */
@@ -458,7 +551,14 @@ public interface AgentBuilder {
 
             @Override
             public S and(ElementMatcher<? super TypeDescription> typeMatcher, ElementMatcher<? super ClassLoader> classLoaderMatcher) {
-                return and(new RawMatcher.ForElementMatcherPair(typeMatcher, classLoaderMatcher));
+                return and(typeMatcher, classLoaderMatcher, any());
+            }
+
+            @Override
+            public S and(ElementMatcher<? super TypeDescription> typeMatcher,
+                         ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                         ElementMatcher<? super JavaModule> moduleMatcher) {
+                return and(new RawMatcher.ForElementMatchers(typeMatcher, classLoaderMatcher, moduleMatcher));
             }
 
             @Override
@@ -468,7 +568,14 @@ public interface AgentBuilder {
 
             @Override
             public S or(ElementMatcher<? super TypeDescription> typeMatcher, ElementMatcher<? super ClassLoader> classLoaderMatcher) {
-                return or(new RawMatcher.ForElementMatcherPair(typeMatcher, classLoaderMatcher));
+                return or(typeMatcher, classLoaderMatcher, any());
+            }
+
+            @Override
+            public S or(ElementMatcher<? super TypeDescription> typeMatcher,
+                        ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                        ElementMatcher<? super JavaModule> moduleMatcher) {
+                return or(new RawMatcher.ForElementMatchers(typeMatcher, classLoaderMatcher, moduleMatcher));
             }
         }
     }
@@ -542,6 +649,7 @@ public interface AgentBuilder {
          * @param typeDescription     A description of the type to be instrumented.
          * @param classLoader         The class loader of the instrumented type. Might be {@code null} if this class
          *                            loader represents the bootstrap class loader.
+         * @param module              The transformed type's module or {@code null} if the current VM does not support modules.
          * @param classBeingRedefined The class being redefined which is only not {@code null} if a retransformation
          *                            is applied.
          * @param protectionDomain    The protection domain of the type being transformed.
@@ -550,6 +658,7 @@ public interface AgentBuilder {
          */
         boolean matches(TypeDescription typeDescription,
                         ClassLoader classLoader,
+                        JavaModule module,
                         Class<?> classBeingRedefined,
                         ProtectionDomain protectionDomain);
 
@@ -580,8 +689,13 @@ public interface AgentBuilder {
             }
 
             @Override
-            public boolean matches(TypeDescription typeDescription, ClassLoader classLoader, Class<?> classBeingRedefined, ProtectionDomain protectionDomain) {
-                return left.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain) && right.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain);
+            public boolean matches(TypeDescription typeDescription,
+                                   ClassLoader classLoader,
+                                   JavaModule module,
+                                   Class<?> classBeingRedefined,
+                                   ProtectionDomain protectionDomain) {
+                return left.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain)
+                        && right.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain);
             }
 
             @Override
@@ -635,8 +749,13 @@ public interface AgentBuilder {
             }
 
             @Override
-            public boolean matches(TypeDescription typeDescription, ClassLoader classLoader, Class<?> classBeingRedefined, ProtectionDomain protectionDomain) {
-                return left.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain) || right.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain);
+            public boolean matches(TypeDescription typeDescription,
+                                   ClassLoader classLoader,
+                                   JavaModule module,
+                                   Class<?> classBeingRedefined,
+                                   ProtectionDomain protectionDomain) {
+                return left.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain)
+                        || right.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain);
             }
 
             @Override
@@ -668,7 +787,7 @@ public interface AgentBuilder {
          * and its {@link java.lang.ClassLoader} against two suitable matchers in order to determine if the matched
          * type should be instrumented.
          */
-        class ForElementMatcherPair implements RawMatcher {
+        class ForElementMatchers implements RawMatcher {
 
             /**
              * The type matcher to apply to a {@link TypeDescription}.
@@ -676,52 +795,73 @@ public interface AgentBuilder {
             private final ElementMatcher<? super TypeDescription> typeMatcher;
 
             /**
-             * The class loader to apply to a {@link java.lang.ClassLoader}.
+             * The class loader matcher to apply to a {@link java.lang.ClassLoader}.
              */
             private final ElementMatcher<? super ClassLoader> classLoaderMatcher;
+
+            /**
+             * A module matcher to apply to a {@code java.lang.reflect.Module}.
+             */
+            private final ElementMatcher<? super JavaModule> moduleMatcher;
 
             /**
              * Creates a new {@link net.bytebuddy.agent.builder.AgentBuilder.RawMatcher} that only matches the
              * supplied {@link TypeDescription} and its {@link java.lang.ClassLoader} against two matcher in order
              * to decided if an instrumentation should be conducted.
              *
-             * @param typeMatcher        The type matcher to apply to a
-             *                           {@link TypeDescription}.
-             * @param classLoaderMatcher The class loader to apply to a {@link java.lang.ClassLoader}.
+             * @param typeMatcher        The type matcher to apply to a {@link TypeDescription}.
+             * @param classLoaderMatcher The class loader matcher to apply to a {@link java.lang.ClassLoader}.
+             * @param moduleMatcher      A module matcher to apply to a {@code java.lang.reflect.Module}.
              */
-            public ForElementMatcherPair(ElementMatcher<? super TypeDescription> typeMatcher,
-                                         ElementMatcher<? super ClassLoader> classLoaderMatcher) {
+            public ForElementMatchers(ElementMatcher<? super TypeDescription> typeMatcher,
+                                      ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                                      ElementMatcher<? super JavaModule> moduleMatcher) {
                 this.typeMatcher = typeMatcher;
                 this.classLoaderMatcher = classLoaderMatcher;
+                this.moduleMatcher = moduleMatcher;
             }
 
             @Override
             public boolean matches(TypeDescription typeDescription,
                                    ClassLoader classLoader,
+                                   JavaModule module,
                                    Class<?> classBeingRedefined,
                                    ProtectionDomain protectionDomain) {
-                return classLoaderMatcher.matches(classLoader) && typeMatcher.matches(typeDescription);
+                return moduleMatcher.matches(module) && classLoaderMatcher.matches(classLoader) && typeMatcher.matches(typeDescription);
+            }
+
+            /**
+             * Represents this matcher in a disjunction together with the supplied matcher.
+             *
+             * @param other The other matcher to combine with this matcher in a disjunction.
+             * @return A disjunction matching this matcher or the other matcher.
+             */
+            protected RawMatcher or(RawMatcher other) {
+                return new Conjunction(this, other);
             }
 
             @Override
             public boolean equals(Object other) {
                 return this == other || !(other == null || getClass() != other.getClass())
-                        && classLoaderMatcher.equals(((ForElementMatcherPair) other).classLoaderMatcher)
-                        && typeMatcher.equals(((ForElementMatcherPair) other).typeMatcher);
+                        && classLoaderMatcher.equals(((ForElementMatchers) other).classLoaderMatcher)
+                        && moduleMatcher.equals(((ForElementMatchers) other).moduleMatcher)
+                        && typeMatcher.equals(((ForElementMatchers) other).typeMatcher);
             }
 
             @Override
             public int hashCode() {
                 int result = typeMatcher.hashCode();
                 result = 31 * result + classLoaderMatcher.hashCode();
+                result = 31 * result + moduleMatcher.hashCode();
                 return result;
             }
 
             @Override
             public String toString() {
-                return "AgentBuilder.RawMatcher.ForElementMatcherPair{" +
+                return "AgentBuilder.RawMatcher.ForElementMatchers{" +
                         "typeMatcher=" + typeMatcher +
                         ", classLoaderMatcher=" + classLoaderMatcher +
+                        ", moduleMatcher=" + moduleMatcher +
                         '}';
             }
         }
@@ -1152,34 +1292,38 @@ public interface AgentBuilder {
          *
          * @param typeDescription The type that is being transformed.
          * @param classLoader     The class loader which is loading this type.
+         * @param module          The transformed type's module or {@code null} if the current VM does not support modules.
          * @param dynamicType     The dynamic type that was created.
          */
-        void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, DynamicType dynamicType);
+        void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType);
 
         /**
          * Invoked when a type is not transformed but ignored.
          *
          * @param typeDescription The type being ignored for transformation.
          * @param classLoader     The class loader which is loading this type.
+         * @param module          The ignored type's module or {@code null} if the current VM does not support modules.
          */
-        void onIgnored(TypeDescription typeDescription, ClassLoader classLoader);
+        void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module);
 
         /**
          * Invoked when an error has occurred during transformation.
          *
          * @param typeName    The type name of the instrumented type.
          * @param classLoader The class loader which is loading this type.
+         * @param module      The instrumented type's module or {@code null} if the current VM does not support modules.
          * @param throwable   The occurred error.
          */
-        void onError(String typeName, ClassLoader classLoader, Throwable throwable);
+        void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable);
 
         /**
          * Invoked after a class was attempted to be loaded, independently of its treatment.
          *
          * @param typeName    The binary name of the instrumented type.
          * @param classLoader The class loader which is loading this type.
+         * @param module      The instrumented type's module or {@code null} if the current VM does not support modules.
          */
-        void onComplete(String typeName, ClassLoader classLoader);
+        void onComplete(String typeName, ClassLoader classLoader, JavaModule module);
 
         /**
          * A no-op implementation of a {@link net.bytebuddy.agent.builder.AgentBuilder.Listener}.
@@ -1192,22 +1336,22 @@ public interface AgentBuilder {
             INSTANCE;
 
             @Override
-            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, DynamicType dynamicType) {
+            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType) {
                 /* do nothing */
             }
 
             @Override
-            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader) {
+            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
                 /* do nothing */
             }
 
             @Override
-            public void onError(String typeName, ClassLoader classLoader, Throwable throwable) {
+            public void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable) {
                 /* do nothing */
             }
 
             @Override
-            public void onComplete(String typeName, ClassLoader classLoader) {
+            public void onComplete(String typeName, ClassLoader classLoader, JavaModule module) {
                 /* do nothing */
             }
 
@@ -1223,22 +1367,22 @@ public interface AgentBuilder {
         abstract class Adapter implements Listener {
 
             @Override
-            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, DynamicType dynamicType) {
+            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType) {
                 /* do nothing */
             }
 
             @Override
-            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader) {
+            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
                 /* do nothing */
             }
 
             @Override
-            public void onError(String typeName, ClassLoader classLoader, Throwable throwable) {
+            public void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable) {
                 /* do nothing */
             }
 
             @Override
-            public void onComplete(String typeName, ClassLoader classLoader) {
+            public void onComplete(String typeName, ClassLoader classLoader, JavaModule module) {
                 /* do nothing */
             }
         }
@@ -1287,24 +1431,24 @@ public interface AgentBuilder {
             }
 
             @Override
-            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, DynamicType dynamicType) {
-                printStream.println(PREFIX + " TRANSFORM " + typeDescription.getName());
+            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType) {
+                printStream.println(PREFIX + " TRANSFORM " + typeDescription.getName() + "[" + classLoader + ", " + module + "]");
             }
 
             @Override
-            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader) {
-                printStream.println(PREFIX + " IGNORE " + typeDescription.getName());
+            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
+                printStream.println(PREFIX + " IGNORE " + typeDescription.getName() + "[" + classLoader + ", " + module + "]");
             }
 
             @Override
-            public void onError(String typeName, ClassLoader classLoader, Throwable throwable) {
-                printStream.println(PREFIX + " ERROR " + typeName);
+            public void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable) {
+                printStream.println(PREFIX + " ERROR " + typeName + "[" + classLoader + ", " + module + "]");
                 throwable.printStackTrace(printStream);
             }
 
             @Override
-            public void onComplete(String typeName, ClassLoader classLoader) {
-                printStream.println(PREFIX + " COMPLETE " + typeName);
+            public void onComplete(String typeName, ClassLoader classLoader, JavaModule module) {
+                printStream.println(PREFIX + " COMPLETE " + typeName + "[" + classLoader + ", " + module + "]");
             }
 
             @Override
@@ -1355,30 +1499,30 @@ public interface AgentBuilder {
             }
 
             @Override
-            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, DynamicType dynamicType) {
+            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, DynamicType dynamicType) {
                 for (Listener listener : listeners) {
-                    listener.onTransformation(typeDescription, classLoader, dynamicType);
+                    listener.onTransformation(typeDescription, classLoader, module, dynamicType);
                 }
             }
 
             @Override
-            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader) {
+            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
                 for (Listener listener : listeners) {
-                    listener.onIgnored(typeDescription, classLoader);
+                    listener.onIgnored(typeDescription, classLoader, module);
                 }
             }
 
             @Override
-            public void onError(String typeName, ClassLoader classLoader, Throwable throwable) {
+            public void onError(String typeName, ClassLoader classLoader, JavaModule module, Throwable throwable) {
                 for (Listener listener : listeners) {
-                    listener.onError(typeName, classLoader, throwable);
+                    listener.onError(typeName, classLoader, module, throwable);
                 }
             }
 
             @Override
-            public void onComplete(String typeName, ClassLoader classLoader) {
+            public void onComplete(String typeName, ClassLoader classLoader, JavaModule module) {
                 for (Listener listener : listeners) {
-                    listener.onComplete(typeName, classLoader);
+                    listener.onComplete(typeName, classLoader, module);
                 }
             }
 
@@ -2268,6 +2412,7 @@ public interface AgentBuilder {
                 public boolean consider(Class<?> type, RawMatcher ignoredTypeMatcher) {
                     return transformation.resolve(new TypeDescription.ForLoadedType(type),
                             type.getClassLoader(),
+                            JavaModule.ofType(type),
                             type,
                             type.getProtectionDomain(),
                             ignoredTypeMatcher).getSort().isAlive() && entries.add(new Entry(type));
@@ -2278,13 +2423,14 @@ public interface AgentBuilder {
                     List<ClassDefinition> classDefinitions = new ArrayList<ClassDefinition>(entries.size());
                     for (Entry entry : entries) {
                         TypeDescription typeDescription = new TypeDescription.ForLoadedType(entry.getType());
+                        JavaModule module = JavaModule.ofType(entry.getType());
                         try {
                             classDefinitions.add(entry.resolve(ClassFileLocator.ForClassLoader.of(entry.getType().getClassLoader())));
                         } catch (Throwable throwable) {
                             try {
-                                listener.onError(typeDescription.getName(), entry.getType().getClassLoader(), throwable);
+                                listener.onError(typeDescription.getName(), entry.getType().getClassLoader(), module, throwable);
                             } finally {
-                                listener.onComplete(typeDescription.getName(), entry.getType().getClassLoader());
+                                listener.onComplete(typeDescription.getName(), entry.getType().getClassLoader(), module);
                             }
                         }
                     }
@@ -2391,6 +2537,7 @@ public interface AgentBuilder {
                 public boolean consider(Class<?> type, RawMatcher ignoredTypeMatcher) {
                     return transformation.resolve(new TypeDescription.ForLoadedType(type),
                             type.getClassLoader(),
+                            JavaModule.ofType(type),
                             type,
                             type.getProtectionDomain(),
                             ignoredTypeMatcher).getSort().isAlive() && types.add(type);
@@ -2424,7 +2571,7 @@ public interface AgentBuilder {
          * Classes representing lambda expressions that are created by Byte Buddy are fully compatible to those created by
          * the JVM and can be serialized or deserialized to one another. The classes do however show a few differences:
          * <ul>
-         * <li>Byte Buddy's classes are public with a public constructor. Doing so, it is not necessary to instantiate a
+         * <li>Byte Buddy's classes are public with a public executing transformer. Doing so, it is not necessary to instantiate a
          * non-capturing lambda expression by reflection. This is done because Byte Buddy is not necessarily capable
          * of using reflection due to an active security manager.</li>
          * <li>Byte Buddy's classes are not marked as synthetic as an agent builder does not instrument synthetic classes
@@ -2694,7 +2841,7 @@ public interface AgentBuilder {
             }
 
             /**
-             * Implements a lambda class's constructor.
+             * Implements a lambda class's executing transformer.
              */
             @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "An enumeration does not serialize fields")
             protected enum ConstructorImplementation implements Implementation {
@@ -2705,12 +2852,12 @@ public interface AgentBuilder {
                 INSTANCE;
 
                 /**
-                 * A reference to the {@link Object} class's default constructor.
+                 * A reference to the {@link Object} class's default executing transformer.
                  */
                 private final MethodDescription.InDefinedShape objectConstructor;
 
                 /**
-                 * Creates a new constructor implementation.
+                 * Creates a new executing transformer implementation.
                  */
                 ConstructorImplementation() {
                     objectConstructor = TypeDescription.OBJECT.getDeclaredMethods().filter(isConstructor()).getOnly();
@@ -2732,7 +2879,7 @@ public interface AgentBuilder {
                 }
 
                 /**
-                 * An appender to implement the constructor.
+                 * An appender to implement the executing transformer.
                  */
                 protected static class Appender implements ByteCodeAppender {
 
@@ -3879,7 +4026,7 @@ public interface AgentBuilder {
                     RedefinitionStrategy.DISABLED,
                     BootstrapInjectionStrategy.Disabled.INSTANCE,
                     LambdaInstrumentationStrategy.DISABLED,
-                    new RawMatcher.Disjunction(new RawMatcher.ForElementMatcherPair(any(), isBootstrapClassLoader()), new RawMatcher.ForElementMatcherPair(isSynthetic(), any())),
+                    new RawMatcher.ForElementMatchers(any(), isBootstrapClassLoader(), any()).or(new RawMatcher.ForElementMatchers(isSynthetic(), any(), any())),
                     Transformation.Ignored.INSTANCE);
         }
 
@@ -4130,17 +4277,31 @@ public interface AgentBuilder {
 
         @Override
         public Identified.Narrowable type(ElementMatcher<? super TypeDescription> typeMatcher, ElementMatcher<? super ClassLoader> classLoaderMatcher) {
-            return type(new RawMatcher.ForElementMatcherPair(typeMatcher, classLoaderMatcher));
+            return type(typeMatcher, classLoaderMatcher, any());
         }
 
         @Override
-        public Ignored ignore(ElementMatcher<? super TypeDescription> ignoredTypes) {
-            return ignore(ignoredTypes, any());
+        public Identified.Narrowable type(ElementMatcher<? super TypeDescription> typeMatcher,
+                                          ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                                          ElementMatcher<? super JavaModule> moduleMatcher) {
+            return type(new RawMatcher.ForElementMatchers(typeMatcher, classLoaderMatcher, not(supportsModules()).or(moduleMatcher)));
         }
 
         @Override
-        public Ignored ignore(ElementMatcher<? super TypeDescription> ignoredTypes, ElementMatcher<? super ClassLoader> ignoredClassLoaders) {
-            return ignore(new RawMatcher.ForElementMatcherPair(ignoredTypes, ignoredClassLoaders));
+        public Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher) {
+            return ignore(typeMatcher, any());
+        }
+
+        @Override
+        public Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher, ElementMatcher<? super ClassLoader> classLoaderMatcher) {
+            return ignore(typeMatcher, classLoaderMatcher, any());
+        }
+
+        @Override
+        public Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher,
+                              ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                              ElementMatcher<? super JavaModule> moduleMatcher) {
+            return ignore(new RawMatcher.ForElementMatchers(typeMatcher, classLoaderMatcher, not(supportsModules()).or(moduleMatcher)));
         }
 
         @Override
@@ -4166,7 +4327,7 @@ public interface AgentBuilder {
 
         @Override
         public ClassFileTransformer makeRaw() {
-            return new ExecutingTransformer(byteBuddy,
+            return ExecutingTransformer.FACTORY.make(byteBuddy,
                     typeLocator,
                     typeStrategy,
                     listener,
@@ -4190,13 +4351,14 @@ public interface AgentBuilder {
                 RedefinitionStrategy.Collector collector = redefinitionStrategy.makeCollector(transformation);
                 for (Class<?> type : instrumentation.getAllLoadedClasses()) {
                     TypeDescription typeDescription = new TypeDescription.ForLoadedType(type);
+                    JavaModule module = JavaModule.ofType(type);
                     try {
                         if (!instrumentation.isModifiableClass(type) || !collector.consider(type, ignoredTypeMatcher)) {
                             try {
                                 try {
-                                    listener.onIgnored(typeDescription, type.getClassLoader());
+                                    listener.onIgnored(typeDescription, type.getClassLoader(), module);
                                 } finally {
-                                    listener.onComplete(typeDescription.getName(), type.getClassLoader());
+                                    listener.onComplete(typeDescription.getName(), type.getClassLoader(), module);
                                 }
                             } catch (Throwable ignored) {
                                 // Ignore exceptions that are thrown by listeners to mimic the behavior of a transformation.
@@ -4205,9 +4367,9 @@ public interface AgentBuilder {
                     } catch (Throwable throwable) {
                         try {
                             try {
-                                listener.onError(typeDescription.getName(), type.getClassLoader(), throwable);
+                                listener.onError(typeDescription.getName(), type.getClassLoader(), module, throwable);
                             } finally {
-                                listener.onComplete(typeDescription.getName(), type.getClassLoader());
+                                listener.onComplete(typeDescription.getName(), type.getClassLoader(), module);
                             }
                         } catch (Throwable ignored) {
                             // Ignore exceptions that are thrown by listeners to mimic the behavior of a transformation.
@@ -4524,6 +4686,7 @@ public interface AgentBuilder {
              *
              * @param typeDescription     A description of the type that is to be transformed.
              * @param classLoader         The class loader of the type being transformed.
+             * @param module              The transformed type's module or {@code null} if the current VM does not support modules.
              * @param classBeingRedefined In case of a type redefinition, the loaded type being transformed or {@code null} if that is not the case.
              * @param protectionDomain    The protection domain of the type being transformed.
              * @param ignoredTypeMatcher  Identifies types that should not be instrumented.
@@ -4531,6 +4694,7 @@ public interface AgentBuilder {
              */
             Resolution resolve(TypeDescription typeDescription,
                                ClassLoader classLoader,
+                               JavaModule module,
                                Class<?> classBeingRedefined,
                                ProtectionDomain protectionDomain,
                                RawMatcher ignoredTypeMatcher);
@@ -4665,14 +4829,21 @@ public interface AgentBuilder {
                     private final ClassLoader classLoader;
 
                     /**
+                     * The non-transformed type's module or {@code null} if the current VM does not support modules.
+                     */
+                    private final JavaModule module;
+
+                    /**
                      * Creates a new unresolved resolution.
                      *
                      * @param typeDescription The type that is not transformed.
                      * @param classLoader     The unresolved type's class loader.
+                     * @param module          The non-transformed type's module or {@code null} if the current VM does not support modules.
                      */
-                    protected Unresolved(TypeDescription typeDescription, ClassLoader classLoader) {
+                    protected Unresolved(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module) {
                         this.typeDescription = typeDescription;
                         this.classLoader = classLoader;
+                        this.module = module;
                     }
 
                     @Override
@@ -4699,7 +4870,7 @@ public interface AgentBuilder {
                                         BootstrapInjectionStrategy bootstrapInjectionStrategy,
                                         AccessControlContext accessControlContext,
                                         Listener listener) {
-                        listener.onIgnored(typeDescription, classLoader);
+                        listener.onIgnored(typeDescription, classLoader, module);
                         return NO_TRANSFORMATION;
                     }
 
@@ -4709,13 +4880,15 @@ public interface AgentBuilder {
                         if (object == null || getClass() != object.getClass()) return false;
                         Unresolved that = (Unresolved) object;
                         return typeDescription.equals(that.typeDescription)
-                                && (classLoader != null ? classLoader.equals(that.classLoader) : that.classLoader == null);
+                                && (classLoader != null ? classLoader.equals(that.classLoader) : that.classLoader == null)
+                                && (module != null ? module.equals(that.module) : that.module == null);
                     }
 
                     @Override
                     public int hashCode() {
                         int result = typeDescription.hashCode();
                         result = 31 * result + (classLoader != null ? classLoader.hashCode() : 0);
+                        result = 31 * result + (module != null ? module.hashCode() : 0);
                         return result;
                     }
 
@@ -4724,6 +4897,7 @@ public interface AgentBuilder {
                         return "AgentBuilder.Default.Transformation.Resolution.Unresolved{" +
                                 "typeDescription=" + typeDescription +
                                 ", classLoader=" + classLoader +
+                                ", module=" + module +
                                 '}';
                     }
                 }
@@ -4742,10 +4916,11 @@ public interface AgentBuilder {
                 @Override
                 public Resolution resolve(TypeDescription typeDescription,
                                           ClassLoader classLoader,
+                                          JavaModule module,
                                           Class<?> classBeingRedefined,
                                           ProtectionDomain protectionDomain,
                                           RawMatcher ignoredTypeMatcher) {
-                    return new Resolution.Unresolved(typeDescription, classLoader);
+                    return new Resolution.Unresolved(typeDescription, classLoader, module);
                 }
 
                 @Override
@@ -4790,13 +4965,14 @@ public interface AgentBuilder {
                 @Override
                 public Transformation.Resolution resolve(TypeDescription typeDescription,
                                                          ClassLoader classLoader,
+                                                         JavaModule module,
                                                          Class<?> classBeingRedefined,
                                                          ProtectionDomain protectionDomain,
                                                          RawMatcher ignoredTypeMatcher) {
-                    return !ignoredTypeMatcher.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain)
-                            && rawMatcher.matches(typeDescription, classLoader, classBeingRedefined, protectionDomain)
-                            ? new Resolution(typeDescription, classLoader, protectionDomain, transformer, decorator)
-                            : new Transformation.Resolution.Unresolved(typeDescription, classLoader);
+                    return !ignoredTypeMatcher.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain)
+                            && rawMatcher.matches(typeDescription, classLoader, module, classBeingRedefined, protectionDomain)
+                            ? new Resolution(typeDescription, classLoader, module, protectionDomain, transformer, decorator)
+                            : new Transformation.Resolution.Unresolved(typeDescription, classLoader, module);
                 }
 
                 @Override
@@ -4840,6 +5016,11 @@ public interface AgentBuilder {
                     private final ClassLoader classLoader;
 
                     /**
+                     * The transformed type's module or {@code null} if the current VM does not support modules.
+                     */
+                    private final JavaModule module;
+
+                    /**
                      * The protection domain of the transformed type.
                      */
                     private final ProtectionDomain protectionDomain;
@@ -4859,17 +5040,20 @@ public interface AgentBuilder {
                      *
                      * @param typeDescription  A description of the transformed type.
                      * @param classLoader      The class loader of the transformed type.
+                     * @param module           The transformed type's module or {@code null} if the current VM does not support modules.
                      * @param protectionDomain The protection domain of the transformed type.
                      * @param transformer      The transformer to be applied.
                      * @param decorator        {@code true} if this transformer serves as a decorator.
                      */
                     protected Resolution(TypeDescription typeDescription,
                                          ClassLoader classLoader,
+                                         JavaModule module,
                                          ProtectionDomain protectionDomain,
                                          Transformer transformer,
                                          boolean decorator) {
                         this.typeDescription = typeDescription;
                         this.classLoader = classLoader;
+                        this.module = module;
                         this.protectionDomain = protectionDomain;
                         this.transformer = transformer;
                         this.decorator = decorator;
@@ -4896,6 +5080,7 @@ public interface AgentBuilder {
                     public Transformation.Resolution append(Transformer transformer) {
                         return new Resolution(typeDescription,
                                 classLoader,
+                                module,
                                 protectionDomain,
                                 new Transformer.Compound(this.transformer, transformer),
                                 decorator);
@@ -4919,7 +5104,7 @@ public interface AgentBuilder {
                                 classLoader,
                                 protectionDomain,
                                 accessControlContext));
-                        listener.onTransformation(typeDescription, classLoader, dynamicType);
+                        listener.onTransformation(typeDescription, classLoader, module, dynamicType);
                         return dynamicType.getBytes();
                     }
 
@@ -4931,6 +5116,7 @@ public interface AgentBuilder {
                         return typeDescription.equals(that.typeDescription)
                                 && decorator == that.decorator
                                 && !(classLoader != null ? !classLoader.equals(that.classLoader) : that.classLoader != null)
+                                && !(module != null ? !module.equals(that.module) : that.module != null)
                                 && !(protectionDomain != null ? !protectionDomain.equals(that.protectionDomain) : that.protectionDomain != null)
                                 && transformer.equals(that.transformer);
                     }
@@ -4940,6 +5126,7 @@ public interface AgentBuilder {
                         int result = typeDescription.hashCode();
                         result = 31 * result + (decorator ? 1 : 0);
                         result = 31 * result + (classLoader != null ? classLoader.hashCode() : 0);
+                        result = 31 * result + (module != null ? module.hashCode() : 0);
                         result = 31 * result + (protectionDomain != null ? protectionDomain.hashCode() : 0);
                         result = 31 * result + transformer.hashCode();
                         return result;
@@ -4950,6 +5137,7 @@ public interface AgentBuilder {
                         return "AgentBuilder.Default.Transformation.Simple.Resolution{" +
                                 "typeDescription=" + typeDescription +
                                 ", classLoader=" + classLoader +
+                                ", module=" + module +
                                 ", protectionDomain=" + protectionDomain +
                                 ", transformer=" + transformer +
                                 ", decorator=" + decorator +
@@ -5070,13 +5258,15 @@ public interface AgentBuilder {
                 @Override
                 public Resolution resolve(TypeDescription typeDescription,
                                           ClassLoader classLoader,
+                                          JavaModule module,
                                           Class<?> classBeingRedefined,
                                           ProtectionDomain protectionDomain,
                                           RawMatcher ignoredTypeMatcher) {
-                    Resolution current = new Resolution.Unresolved(typeDescription, classLoader);
+                    Resolution current = new Resolution.Unresolved(typeDescription, classLoader, module);
                     for (Transformation transformation : transformations) {
                         Resolution resolution = transformation.resolve(typeDescription,
                                 classLoader,
+                                module,
                                 classBeingRedefined,
                                 protectionDomain,
                                 ignoredTypeMatcher);
@@ -5120,6 +5310,47 @@ public interface AgentBuilder {
          * configuration.
          */
         protected static class ExecutingTransformer implements ClassFileTransformer {
+
+            /**
+             * A factory for creating a {@link ClassFileTransformer} that supports the features of the current VM.
+             */
+            protected static final Factory FACTORY;
+
+            /*
+             * Creates a factory for a class file transformer that supports the features of the current VM.
+             */
+            static {
+                Factory factory;
+                try {
+                    factory = new Factory.ForJava9CapableVm(new ByteBuddy()
+                            .subclass(ExecutingTransformer.class)
+                            .method(named("transform").and(takesArgument(0, JavaType.MODULE.getTypeStub())))
+                            .intercept(MethodCall.invoke(ExecutingTransformer.class.getDeclaredMethod("transform",
+                                    Object.class,
+                                    String.class,
+                                    Class.class,
+                                    ProtectionDomain.class,
+                                    byte[].class)).onSuper().withAllArguments())
+                            .make()
+                            .load(ExecutingTransformer.class.getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+                            .getLoaded()
+                            .getDeclaredConstructor(ByteBuddy.class,
+                                    TypeLocator.class,
+                                    TypeStrategy.class,
+                                    Listener.class,
+                                    NativeMethodStrategy.class,
+                                    AccessControlContext.class,
+                                    InitializationStrategy.class,
+                                    BootstrapInjectionStrategy.class,
+                                    RawMatcher.class,
+                                    Transformation.class));
+                } catch (RuntimeException exception) {
+                    throw exception;
+                } catch (Exception ignored) {
+                    factory = Factory.ForLegacyVm.INSTANCE;
+                }
+                FACTORY = factory;
+            }
 
             /**
              * The Byte Buddy instance to be used.
@@ -5213,6 +5444,50 @@ public interface AgentBuilder {
                                     Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain,
                                     byte[] binaryRepresentation) {
+                return transform(JavaModule.UNSUPPORTED, classLoader, internalTypeName, classBeingRedefined, protectionDomain, binaryRepresentation);
+            }
+
+            /**
+             * Applies a transformation for a class that was captured by this {@link ClassFileTransformer}.
+             *
+             * @param rawModule            The instrumented class's Java {@code java.lang.reflect.Module}.
+             * @param internalTypeName     The internal name of the instrumented class.
+             * @param classBeingRedefined  The loaded {@link Class} being redefined or {@code null} if no such class exists.
+             * @param protectionDomain     The instrumented type's protection domain.
+             * @param binaryRepresentation The class file of the instrumented class in its current state.
+             * @return The transformed class file or an empty byte array if this transformer does not apply an instrumentation.
+             */
+            protected byte[] transform(Object rawModule,
+                                       String internalTypeName,
+                                       Class<?> classBeingRedefined,
+                                       ProtectionDomain protectionDomain,
+                                       byte[] binaryRepresentation) {
+                JavaModule module = JavaModule.of(rawModule);
+                return transform(module,
+                        module.getClassLoader(accessControlContext),
+                        internalTypeName,
+                        classBeingRedefined,
+                        protectionDomain,
+                        binaryRepresentation);
+            }
+
+            /**
+             * Applies a transformation for a class that was captured by this {@link ClassFileTransformer}.
+             *
+             * @param module               The instrumented class's Java module in its wrapped form or {@code null} if the current VM does not support modules.
+             * @param classLoader          The instrumented class's class loader.
+             * @param internalTypeName     The internal name of the instrumented class.
+             * @param classBeingRedefined  The loaded {@link Class} being redefined or {@code null} if no such class exists.
+             * @param protectionDomain     The instrumented type's protection domain.
+             * @param binaryRepresentation The class file of the instrumented class in its current state.
+             * @return The transformed class file or an empty byte array if this transformer does not apply an instrumentation.
+             */
+            private byte[] transform(JavaModule module,
+                                     ClassLoader classLoader,
+                                     String internalTypeName,
+                                     Class<?> classBeingRedefined,
+                                     ProtectionDomain protectionDomain,
+                                     byte[] binaryRepresentation) {
                 if (internalTypeName == null) {
                     return NO_TRANSFORMATION;
                 }
@@ -5225,6 +5500,7 @@ public interface AgentBuilder {
                                     ? typeLocator.typePool(classFileLocator, classLoader).describe(binaryTypeName).resolve()
                                     : new TypeDescription.ForLoadedType(classBeingRedefined),
                             classLoader,
+                            module,
                             classBeingRedefined,
                             protectionDomain,
                             ignoredTypeMatcher).apply(initializationStrategy,
@@ -5236,10 +5512,10 @@ public interface AgentBuilder {
                             accessControlContext,
                             listener);
                 } catch (Throwable throwable) {
-                    listener.onError(binaryTypeName, classLoader, throwable);
+                    listener.onError(binaryTypeName, classLoader, module, throwable);
                     return NO_TRANSFORMATION;
                 } finally {
-                    listener.onComplete(binaryTypeName, classLoader);
+                    listener.onComplete(binaryTypeName, classLoader, module);
                 }
             }
 
@@ -5289,6 +5565,151 @@ public interface AgentBuilder {
                         ", ignoredTypeMatcher=" + ignoredTypeMatcher +
                         ", transformation=" + transformation +
                         '}';
+            }
+
+            /**
+             * A factory for creating a {@link ClassFileTransformer} for the current VM.
+             */
+            protected interface Factory {
+
+                /**
+                 * Creates a new class file transformer for the current VM.
+                 *
+                 * @param byteBuddy                  The Byte Buddy instance to be used.
+                 * @param typeLocator                The type locator to use.
+                 * @param typeStrategy               The definition handler to use.
+                 * @param listener                   The listener to notify on transformations.
+                 * @param nativeMethodStrategy       The native method strategy to apply.
+                 * @param accessControlContext       The access control context to use for loading classes.
+                 * @param initializationStrategy     The initialization strategy to use for transformed types.
+                 * @param bootstrapInjectionStrategy The injection strategy for injecting classes into the bootstrap class loader.
+                 * @param ignoredTypeMatcher         Identifies types that should not be instrumented.
+                 * @param transformation             The transformation object for handling type transformations.
+                 * @return A class file transformer for the current VM that supports the API of the current VM.
+                 */
+                ClassFileTransformer make(ByteBuddy byteBuddy,
+                                          TypeLocator typeLocator,
+                                          TypeStrategy typeStrategy,
+                                          Listener listener,
+                                          NativeMethodStrategy nativeMethodStrategy,
+                                          AccessControlContext accessControlContext,
+                                          InitializationStrategy initializationStrategy,
+                                          BootstrapInjectionStrategy bootstrapInjectionStrategy,
+                                          RawMatcher ignoredTypeMatcher,
+                                          Transformation transformation);
+
+                /**
+                 * A factory for a class file transformer on a JVM that supports the {@code java.lang.reflect.Module} API to override
+                 * the newly added method of the {@link ClassFileTransformer} to capture an instrumented class's module.
+                 */
+                class ForJava9CapableVm implements Factory {
+
+                    /**
+                     * A constructor for creating a {@link ClassFileTransformer} that overrides the newly added method for extracting
+                     * the {@code java.lang.reflect.Module} of an instrumented class.
+                     */
+                    private final Constructor<? extends ClassFileTransformer> executingTransformer;
+
+                    /**
+                     * Creates a class file transformer factory for a Java 9 capable VM.
+                     *
+                     * @param executingTransformer A constructor for creating a {@link ClassFileTransformer} that overrides the newly added
+                     *                             method for extracting the {@code java.lang.reflect.Module} of an instrumented class.
+                     */
+                    protected ForJava9CapableVm(Constructor<? extends ClassFileTransformer> executingTransformer) {
+                        this.executingTransformer = executingTransformer;
+                    }
+
+                    @Override
+                    public ClassFileTransformer make(ByteBuddy byteBuddy,
+                                                     TypeLocator typeLocator,
+                                                     TypeStrategy typeStrategy,
+                                                     Listener listener,
+                                                     NativeMethodStrategy nativeMethodStrategy,
+                                                     AccessControlContext accessControlContext,
+                                                     InitializationStrategy initializationStrategy,
+                                                     BootstrapInjectionStrategy bootstrapInjectionStrategy,
+                                                     RawMatcher ignoredTypeMatcher,
+                                                     Transformation transformation) {
+                        try {
+                            return executingTransformer.newInstance(byteBuddy,
+                                    typeLocator,
+                                    typeStrategy,
+                                    listener,
+                                    nativeMethodStrategy,
+                                    accessControlContext,
+                                    initializationStrategy,
+                                    bootstrapInjectionStrategy,
+                                    ignoredTypeMatcher,
+                                    transformation);
+                        } catch (IllegalAccessException exception) {
+                            throw new IllegalStateException("Cannot access " + executingTransformer, exception);
+                        } catch (InstantiationException exception) {
+                            throw new IllegalStateException("Cannot instantiate " + executingTransformer.getDeclaringClass(), exception);
+                        } catch (InvocationTargetException exception) {
+                            throw new IllegalStateException("Cannot invoke " + executingTransformer, exception.getCause());
+                        }
+                    }
+
+                    @Override
+                    public boolean equals(Object object) {
+                        if (this == object) return true;
+                        if (object == null || getClass() != object.getClass()) return false;
+                        ForJava9CapableVm that = (ForJava9CapableVm) object;
+                        return executingTransformer.equals(that.executingTransformer);
+                    }
+
+                    @Override
+                    public int hashCode() {
+                        return executingTransformer.hashCode();
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "AgentBuilder.Default.ExecutingTransformer.Factory.ForJava9CapableVm{" +
+                                "executingTransformer=" + executingTransformer +
+                                '}';
+                    }
+                }
+
+                /**
+                 * A factory for a {@link ClassFileTransformer} on a VM that does not support the {@code java.lang.reflect.Module} API.
+                 */
+                enum ForLegacyVm implements Factory {
+
+                    /**
+                     * The singleton instance.
+                     */
+                    INSTANCE;
+
+                    @Override
+                    public ClassFileTransformer make(ByteBuddy byteBuddy,
+                                                     TypeLocator typeLocator,
+                                                     TypeStrategy typeStrategy,
+                                                     Listener listener,
+                                                     NativeMethodStrategy nativeMethodStrategy,
+                                                     AccessControlContext accessControlContext,
+                                                     InitializationStrategy initializationStrategy,
+                                                     BootstrapInjectionStrategy bootstrapInjectionStrategy,
+                                                     RawMatcher ignoredTypeMatcher,
+                                                     Transformation transformation) {
+                        return new ExecutingTransformer(byteBuddy,
+                                typeLocator,
+                                typeStrategy,
+                                listener,
+                                nativeMethodStrategy,
+                                accessControlContext,
+                                initializationStrategy,
+                                bootstrapInjectionStrategy,
+                                ignoredTypeMatcher,
+                                transformation);
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "AgentBuilder.Default.ExecutingTransformer.Factory.ForLegacyVm." + name();
+                    }
+                }
             }
         }
 
@@ -5382,6 +5803,14 @@ public interface AgentBuilder {
             }
 
             @Override
+            public Identified.Narrowable type(ElementMatcher<? super TypeDescription> typeMatcher,
+                                              ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                                              ElementMatcher<? super JavaModule> moduleMatcher) {
+                return materialize().type(typeMatcher, classLoaderMatcher, moduleMatcher);
+            }
+
+
+            @Override
             public Identified.Narrowable type(RawMatcher matcher) {
                 return materialize().type(matcher);
             }
@@ -5394,6 +5823,13 @@ public interface AgentBuilder {
             @Override
             public Ignored ignore(ElementMatcher<? super TypeDescription> ignoredTypes, ElementMatcher<? super ClassLoader> ignoredClassLoaders) {
                 return materialize().ignore(ignoredTypes, ignoredClassLoaders);
+            }
+
+            @Override
+            public Ignored ignore(ElementMatcher<? super TypeDescription> typeMatcher,
+                                  ElementMatcher<? super ClassLoader> classLoaderMatcher,
+                                  ElementMatcher<? super JavaModule> moduleMatcher) {
+                return materialize().ignore(typeMatcher, classLoaderMatcher, moduleMatcher);
             }
 
             @Override
