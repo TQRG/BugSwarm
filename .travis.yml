@@ -1,7 +1,7 @@
 cache: pip
 dist: trusty
 group: stable
-install: [pip install -U pip==9.0.1 setuptools==38.4.0 wheel==0.30.0, pip install
+install: [pip install -U pip==9.0.1 setuptools==38.5.1 wheel==0.30.0, pip install
     -r test-requirements.txt, python2 -m pip install --user typing==3.6.4, pip install
     .]
 language: python

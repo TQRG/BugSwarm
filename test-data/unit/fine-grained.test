@@ -286,7 +286,9 @@ main:5: error: Module has no attribute "B"
 ==
 main:5: error: Module has no attribute "B"
 
-[case testContinueToReportErrorAtTopLevel]
+[case testContinueToReportErrorAtTopLevel-skip-cache]
+-- Different cache/no-cache tests because:
+-- Error message ordering differs
 import n
 import m
 m.A().f()
@@ -306,6 +308,31 @@ class A:
 ==
 main:3: error: "A" has no attribute "f"
 n.py:2: error: "A" has no attribute "g"
+==
+n.py:2: error: "A" has no attribute "g"
+
+[case testContinueToReportErrorAtTopLevel-skip-nocache]
+-- Different cache/no-cache tests because:
+-- Error message ordering differs
+import n
+import m
+m.A().f()
+[file n.py]
+import m
+m.A().g()
+[file m.py]
+class A:
+    def f(self) -> None: pass
+    def g(self) -> None: pass
+[file m.py.2]
+class A: pass
+[file m.py.3]
+class A:
+    def f(self) -> None: pass
+[out]
+==
+n.py:2: error: "A" has no attribute "g"
+main:3: error: "A" has no attribute "f"
 ==
 n.py:2: error: "A" has no attribute "g"
 
@@ -1081,9 +1108,8 @@ def f() -> Iterator[None]:
 [out]
 main:2: error: Revealed type is 'contextlib.GeneratorContextManager[builtins.None]'
 ==
-a.py:1: error: Cannot find module named 'b'
-a.py:1: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 a.py:3: error: Cannot find module named 'b'
+a.py:3: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 main:2: error: Revealed type is 'contextlib.GeneratorContextManager[builtins.None]'
 ==
 main:2: error: Revealed type is 'contextlib.GeneratorContextManager[builtins.None]'
@@ -1129,9 +1155,8 @@ def g() -> None:
 [out]
 a.py:11: error: Too many arguments for "h"
 ==
-a.py:1: error: Cannot find module named 'b'
-a.py:1: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 a.py:10: error: Cannot find module named 'b'
+a.py:10: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 ==
 a.py:11: error: Too many arguments for "h"
 ==
@@ -1164,9 +1189,8 @@ def f(x: List[int]) -> Iterator[None]:
 [builtins fixtures/list.pyi]
 [out]
 ==
-a.py:1: error: Cannot find module named 'b'
-a.py:1: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 a.py:3: error: Cannot find module named 'b'
+a.py:3: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 ==
 ==
 
@@ -1223,10 +1247,8 @@ def g() -> None: pass
 [delete n.py.2]
 [out]
 ==
-main:1: error: Cannot find module named 'm'
-main:1: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
-main:1: error: Cannot find module named 'n'
 main:2: error: Cannot find module named 'm'
+main:2: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 main:9: error: Cannot find module named 'n'
 
 [case testOverloadSpecialCase]
@@ -1253,10 +1275,8 @@ def g() -> None: pass
 [builtins fixtures/ops.pyi]
 [out]
 ==
-main:1: error: Cannot find module named 'm'
-main:1: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
-main:1: error: Cannot find module named 'n'
 main:2: error: Cannot find module named 'm'
+main:2: note: (Perhaps setting MYPYPATH or using the "--ignore-missing-imports" flag would help)
 main:14: error: Cannot find module named 'n'
 
 [case testRefreshGenericClass]
@@ -1894,7 +1914,7 @@ x: a.A = {str(): int()}
 ==
 b.py:2: error: Dict entry 0 has incompatible type "str": "int"; expected "str": "str"
 
-[case testAliasFineGenericFunc]
+[case testAliasFineGenericFunc-skip]
 import b
 [file a.py]
 from typing import Dict
@@ -1906,12 +1926,11 @@ A = Dict[str, str]
 import a
 def f(x: a.A):
     pass
-reveal_type(f)
+f({str(): int()})
 [builtins fixtures/dict.pyi]
 [out]
-b.py:4: error: Revealed type is 'def (x: builtins.dict[builtins.str, builtins.int]) -> Any'
 ==
-b.py:4: error: Revealed type is 'def (x: builtins.dict[builtins.str, builtins.str]) -> Any'
+b.py:4: error: Dict entry 0 has incompatible type "str": "int"; expected "str": "str"
 
 [case testAliasFineForwardMod]
 import b
@@ -2015,3 +2034,94 @@ def f(x: aa.B):
 [out]
 ==
 b.py:3: error: Dict entry 0 has incompatible type "str": "int"; expected "str": "str"
+
+[case testAliasFineNonGenericToGeneric]
+import b
+[file a.py]
+from typing import Dict, TypeVar
+T = TypeVar('T')
+A = Dict[T, int]
+[file a.py.2]
+A = str
+[file b.py]
+import a
+def f(x: a.A[str]):
+    pass
+[builtins fixtures/dict.pyi]
+[out]
+==
+b.py:2: error: "str" expects no type arguments, but 1 given
+
+[case testAliasFineGenericToNonGeneric]
+import b
+[file a.py]
+A = str
+[file a.py.2]
+from typing import Dict, TypeVar
+T = TypeVar('T')
+A = Dict[T, int]
+[file b.py]
+import a
+def f(x: a.A):
+    pass
+reveal_type(f)
+[builtins fixtures/dict.pyi]
+[out]
+b.py:4: error: Revealed type is 'def (x: builtins.str) -> Any'
+==
+b.py:4: error: Revealed type is 'def (x: builtins.dict[Any, builtins.int]) -> Any'
+
+[case testAliasFineChangedNumberOfTypeVars]
+import b
+[file a.py]
+from typing import Dict, TypeVar
+T = TypeVar('T')
+A = Dict[T, int]
+[file a.py.2]
+from typing import Dict, TypeVar
+T = TypeVar('T')
+S = TypeVar('S')
+A = Dict[T, S]
+[file b.py]
+import a
+def f(x: a.A[str]):
+    pass
+[builtins fixtures/dict.pyi]
+[out]
+==
+b.py:2: error: Bad number of arguments for type alias, expected: 2, given: 1
+
+[case testAliasFineComponentDeleted-skip]
+import b
+[file a.py]
+class B: pass
+[file a.py.2]
+x = 1
+[file b.py]
+import a
+from typing import Dict, TypeVar
+T = TypeVar('T')
+A = Dict[T, a.B]
+def f(x: A[int]):
+    pass
+[builtins fixtures/dict.pyi]
+[out]
+==
+b.py:4: error: Name 'a.B' is not defined
+
+[case testAliasFineTargetDeleted]
+import c
+[file a.py]
+A = int
+[file b.py]
+import a
+B = a.A
+[file b.py.2]
+x = 1
+[file c.py]
+import b
+def f(x: b.B):
+    pass
+[out]
+==
+c.py:2: error: Name 'b.B' is not defined
