@@ -796,6 +796,17 @@
 			]
 		},
 		{
+			"name": "Bonsucesso",
+			"details": "https://github.com/sergiovilar/bonsucesso",
+			"issues": "https://github.com/sergiovilar/bonsucesso/issues",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Boo",
 			"details": "https://github.com/Shammah/boo-sublime",
 			"labels": ["language syntax"],
@@ -1293,17 +1304,6 @@
 			"details": "https://github.com/PhilMarcuson/business-catalyst-sublime-plugin",
 			"issues": "https://github.com/PhilMarcuson/business-catalyst-sublime-plugin/issues",
 			"labels": ["snippets"],
-			"releases": [
-				{
-					"sublime_text": "*",
-					"tags": true
-				}
-			]
-		},
-		{
-			"name": "Bonsucesso",
-			"details": "https://github.com/sergiovilar/bonsucesso",
-			"issues": "https://github.com/sergiovilar/bonsucesso/issues",
 			"releases": [
 				{
 					"sublime_text": "*",
