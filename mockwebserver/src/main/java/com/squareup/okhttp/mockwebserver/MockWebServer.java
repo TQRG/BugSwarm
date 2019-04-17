@@ -196,8 +196,8 @@ public final class MockWebServer implements TestRule {
         .scheme(sslSocketFactory != null ? "https" : "http")
         .host(getHostName())
         .port(getPort())
-        .encodedPath(path)
-        .build();
+        .build()
+        .resolve(path);
   }
 
   /**
