@@ -213,7 +213,7 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.7</antlr4.version>
     <maven.site.plugin.version>3.6</maven.site.plugin.version>
-    <maven.findbugs.plugin.version>3.0.4</maven.findbugs.plugin.version>
+    <maven.findbugs.plugin.version>3.0.5</maven.findbugs.plugin.version>
     <maven.spotbugs.plugin.version>3.0.6</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
     <pmd.version>5.8.1</pmd.version>
@@ -1029,7 +1029,7 @@
               <excludes>
                 <exclude>java.header</exclude>
                 <exclude>java_regexp.header</exclude>
-                <exclude>eclipse.properties</exclude>
+                <exclude>org.eclipse.jdt.core.prefs</exclude>
               </excludes>
             </validationSet>
             <validationSet>
@@ -1503,7 +1503,7 @@
           <!-- Creates the binary and source distributions -->
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.0.0</version>
+            <version>3.1.0</version>
             <configuration>
               <descriptors>
                 <descriptor>config/assembly-bin.xml</descriptor>
@@ -1744,7 +1744,7 @@
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.*</param>
               </targetTests>
-              <mutationThreshold>95</mutationThreshold>
+              <mutationThreshold>96</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2018,7 +2018,7 @@
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.sizes.*</param>
               </targetTests>
-              <mutationThreshold>94</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2045,7 +2045,7 @@
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.whitespace.*</param>
               </targetTests>
-              <mutationThreshold>95</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>

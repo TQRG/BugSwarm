@@ -297,6 +297,20 @@ public class AbstractJavadocCheckTest extends AbstractModuleTestSupport {
                 expected);
     }
 
+    @Test
+    public void testWrongSingletonTagInJavadoc() throws Exception {
+        final DefaultConfiguration checkConfig = createModuleConfig(TempCheck.class);
+        final String[] expected = {
+            "5: " + getCheckMessage(MSG_JAVADOC_WRONG_SINGLETON_TAG, 9, "embed"),
+            "10: " + getCheckMessage(MSG_JAVADOC_WRONG_SINGLETON_TAG, 9, "keygen"),
+            "15: " + getCheckMessage(MSG_JAVADOC_WRONG_SINGLETON_TAG, 9, "SOURCE"),
+            "20: " + getCheckMessage(MSG_JAVADOC_WRONG_SINGLETON_TAG, 9, "TRACK"),
+            "25: " + getCheckMessage(MSG_JAVADOC_WRONG_SINGLETON_TAG, 9, "WBR"),
+        };
+        verify(checkConfig, getPath("InputAbstractJavadocWrongSingletonTagInJavadoc.java"),
+                expected);
+    }
+
     private static class TempCheck extends AbstractJavadocCheck {
 
         @Override
