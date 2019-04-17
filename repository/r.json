@@ -2,16 +2,6 @@
 	"schema_version": "3.0.0",
 	"packages": [
 		{
-			"name": "Reason",
-			"details": "https://github.com/reasonml-editor/sublime-reason",
-			"releases": [
-				{
-					"sublime_text": "*",
-					"branch": "master"
-				}
-			]
-		},
-		{
 			"name": "R Tools",
 			"details": "https://github.com/karthik/Rtools",
 			"releases": [
@@ -701,6 +691,16 @@
 				{
 					"sublime_text": ">=3000",
 					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Reason",
+			"details": "https://github.com/reasonml-editor/sublime-reason",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"branch": "master"
 				}
 			]
 		},
