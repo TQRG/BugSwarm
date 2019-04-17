@@ -20,6 +20,8 @@
 package com.google.checkstyle.test.base;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -32,7 +34,6 @@ import java.io.LineNumberReader;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -52,25 +53,22 @@ import com.puppycrawl.tools.checkstyle.api.Configuration;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtils;
 
 public class BaseCheckTestSupport {
-    private static final Pattern warnPattern = CommonUtils
+    private static final Pattern WARN_PATTERN = CommonUtils
             .createPattern(".*[ ]*//[ ]*warn[ ]*|/[*]warn[*]/");
-    
+
     private static final String XML_NAME = "/google_checks.xml";
 
-    private static Configuration configuration = null;
+    private static Configuration configuration;
 
     protected final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-    static {
-        try {
+    protected static Configuration getConfiguration() throws CheckstyleException {
+        if (configuration == null) {
             configuration = ConfigurationLoader.loadConfiguration(XML_NAME, new PropertiesExpander(
                     System.getProperties()));
         }
-        catch (final CheckstyleException e) {
-            System.out.println("Error loading configuration file");
-            e.printStackTrace(System.out);
-            System.exit(1);
-        }
+
+        return configuration;
     }
 
     protected static DefaultConfiguration createCheckConfig(Class<?> clazz) {
@@ -81,8 +79,8 @@ public class BaseCheckTestSupport {
             throws Exception {
         final DefaultConfiguration dc = createCheckerConfig(checkConfig);
         final Checker checker = new Checker();
-        // make sure the tests always run with english error messages
-        // so the tests don't fail in supported locales like german
+        // make sure the tests always run with English error messages
+        // so the tests don't fail in supported locales like German
         final Locale locale = Locale.ENGLISH;
         checker.setLocaleCountry(locale.getCountry());
         checker.setLocaleLanguage(locale.getLanguage());
@@ -108,62 +106,51 @@ public class BaseCheckTestSupport {
                 .getCanonicalPath();
     }
 
-    protected void verify(Configuration aConfig, String aFileName, String[] aExpected,
-            Integer... aWarnsExpected) throws Exception {
-        verify(createChecker(aConfig), aFileName, aFileName, aExpected, aWarnsExpected);
+    protected void verify(Configuration config, String fileName, String[] expected,
+            Integer... warnsExpected) throws Exception {
+        verify(createChecker(config),
+                new File[] {new File(fileName)},
+                fileName, expected, warnsExpected);
     }
 
-    protected void verify(Checker aC, String aFileName, String[] aExpected,
-            Integer... aWarnsExpected) throws Exception {
-        verify(aC, aFileName, aFileName, aExpected, aWarnsExpected);
-    }
-
-    private void verify(Checker aC,
-            String aProcessedFilename,
-            String aMessageFileName,
-            String[] aExpected, Integer... aWarnsExpected)
-        throws Exception {
-        verify(aC,
-            new File[] {new File(aProcessedFilename)},
-            aMessageFileName, aExpected, aWarnsExpected);
-    }
-
-    protected void verify(Checker aC,
-            File[] aProcessedFiles,
-            String aMessageFileName,
-            String[] aExpected,
-            Integer... aWarnsExpected)
+    protected void verify(Checker checker,
+            File[] processedFiles,
+            String messageFileName,
+            String[] expected,
+            Integer... warnsExpected)
         throws Exception {
         stream.flush();
         final List<File> theFiles = Lists.newArrayList();
-        Collections.addAll(theFiles, aProcessedFiles);
-        final int errs = aC.process(theFiles);
+        Collections.addAll(theFiles, processedFiles);
+        final List<Integer> theWarnings = Lists.newArrayList();
+        Collections.addAll(theWarnings, warnsExpected);
+        final int errs = checker.process(theFiles);
 
         // process each of the lines
-        final ByteArrayInputStream localStream =
-            new ByteArrayInputStream(stream.toByteArray());
+        final ByteArrayInputStream inputStream =
+                new ByteArrayInputStream(stream.toByteArray());
         try (final LineNumberReader lnr = new LineNumberReader(
-                new InputStreamReader(localStream, StandardCharsets.UTF_8))) {
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
 
-            for (int i = 0; i < aExpected.length; i++) {
-                final String expected = aMessageFileName + ":" + aExpected[i];
+            for (int i = 0; i < expected.length; i++) {
+                final String expectedResult = messageFileName + ":" + expected[i];
                 final String actual = lnr.readLine();
-                assertEquals("error message " + i, expected, actual);
+                assertEquals("error message " + i, expectedResult, actual);
+
                 String parseInt = removeDeviceFromPathOnWindows(actual);
                 parseInt = parseInt.substring(parseInt.indexOf(':') + 1);
                 parseInt = parseInt.substring(0, parseInt.indexOf(':'));
                 final int lineNumber = Integer.parseInt(parseInt);
-                Integer integer = 0;
-                if (Arrays.asList(aWarnsExpected).contains(lineNumber)) {
-                    integer = lineNumber;
-                }
-                assertEquals("error message " + i, (long) integer, lineNumber);
+                assertNotNull("expected input file to have warning comment on line number "
+                        + lineNumber, theWarnings.remove((Integer) lineNumber));
             }
 
             assertEquals("unexpected output: " + lnr.readLine(),
-                    aExpected.length, errs);
+                    expected.length, errs);
+            assertTrue("unexpected warnings " + theWarnings, theWarnings.size() == 0);
         }
-        aC.destroy();
+
+        checker.destroy();
     }
 
     /**
@@ -203,9 +190,9 @@ public class BaseCheckTestSupport {
         return null;
     }
 
-    protected static Configuration getCheckConfig(String checkName) {
+    protected static Configuration getCheckConfig(String checkName) throws CheckstyleException {
         Configuration result = null;
-        for (Configuration currentConfig : configuration.getChildren()) {
+        for (Configuration currentConfig : getConfiguration().getChildren()) {
             if ("TreeWalker".equals(currentConfig.getName())) {
                 for (Configuration checkConfig : currentConfig.getChildren()) {
                     if (checkName.equals(checkConfig.getName())) {
@@ -230,7 +217,7 @@ public class BaseCheckTestSupport {
         return path;
     }
 
-    protected static Integer[] getLinesWithWarn(String fileName) throws IOException {
+    protected Integer[] getLinesWithWarn(String fileName) throws IOException {
         final List<Integer> result = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
                 new FileInputStream(fileName), StandardCharsets.UTF_8))) {
@@ -240,7 +227,7 @@ public class BaseCheckTestSupport {
                 if (line == null) {
                     break;
                 }
-                if (warnPattern.matcher(line).find()) {
+                if (WARN_PATTERN.matcher(line).find()) {
                     result.add(lineNumber);
                 }
                 lineNumber++;

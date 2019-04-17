@@ -40,22 +40,6 @@ public class ClassTypeParameterNameCheckTest
     }
 
     @Test
-    public void testGetInterfaceRequiredTokens() {
-        final InterfaceTypeParameterNameCheck checkObj =
-            new InterfaceTypeParameterNameCheck();
-        final int[] expected = {TokenTypes.TYPE_PARAMETER};
-        assertArrayEquals(expected, checkObj.getRequiredTokens());
-    }
-
-    @Test
-    public void testGetMethodRequiredTokens() {
-        final MethodTypeParameterNameCheck checkObj =
-            new MethodTypeParameterNameCheck();
-        final int[] expected = {TokenTypes.TYPE_PARAMETER};
-        assertArrayEquals(expected, checkObj.getRequiredTokens());
-    }
-
-    @Test
     public void testGetClassRequiredTokens() {
         final ClassTypeParameterNameCheck checkObj =
             new ClassTypeParameterNameCheck();
@@ -80,38 +64,6 @@ public class ClassTypeParameterNameCheckTest
     }
 
     @Test
-    public void testMethodDefault()
-        throws Exception {
-        final DefaultConfiguration checkConfig =
-            createCheckConfig(MethodTypeParameterNameCheck.class);
-
-        final String pattern = "^[A-Z]$";
-
-        final String[] expected = {
-            "7:13: " + getCheckMessage(MSG_INVALID_PATTERN, "TT", pattern),
-            "9:6: " + getCheckMessage(MSG_INVALID_PATTERN, "e_e", pattern),
-            "19:6: " + getCheckMessage(MSG_INVALID_PATTERN, "Tfo$o2T", pattern),
-            "23:6: " + getCheckMessage(MSG_INVALID_PATTERN, "foo", pattern),
-            "28:10: " + getCheckMessage(MSG_INVALID_PATTERN, "_fo", pattern),
-        };
-        verify(checkConfig, getPath("InputTypeParameterName.java"), expected);
-    }
-
-    @Test
-    public void testInterfaceDefault()
-        throws Exception {
-        final DefaultConfiguration checkConfig =
-            createCheckConfig(InterfaceTypeParameterNameCheck.class);
-
-        final String pattern = "^[A-Z]$";
-
-        final String[] expected = {
-            "48:15: " + getCheckMessage(MSG_INVALID_PATTERN, "Input", pattern),
-        };
-        verify(checkConfig, getPath("InputTypeParameterName.java"), expected);
-    }
-
-    @Test
     public void testClassFooName()
         throws Exception {
         final DefaultConfiguration checkConfig =
@@ -123,43 +75,6 @@ public class ClassTypeParameterNameCheckTest
         final String[] expected = {
             "5:38: " + getCheckMessage(MSG_INVALID_PATTERN, "t", pattern),
             "33:18: " + getCheckMessage(MSG_INVALID_PATTERN, "T", pattern),
-        };
-        verify(checkConfig, getPath("InputTypeParameterName.java"), expected);
-    }
-
-    @Test
-    public void testMethodFooName()
-        throws Exception {
-        final DefaultConfiguration checkConfig =
-            createCheckConfig(MethodTypeParameterNameCheck.class);
-        checkConfig.addAttribute("format", "^foo$");
-
-        final String pattern = "^foo$";
-
-        final String[] expected = {
-            "7:13: " + getCheckMessage(MSG_INVALID_PATTERN, "TT", pattern),
-            "9:6: " + getCheckMessage(MSG_INVALID_PATTERN, "e_e", pattern),
-            "19:6: " + getCheckMessage(MSG_INVALID_PATTERN, "Tfo$o2T", pattern),
-            "28:10: " + getCheckMessage(MSG_INVALID_PATTERN, "_fo", pattern),
-            "35:6: " + getCheckMessage(MSG_INVALID_PATTERN, "E", pattern),
-            "37:14: " + getCheckMessage(MSG_INVALID_PATTERN, "T", pattern),
-            //"40:14: Name 'EE' must match pattern '^foo$'.",
-        };
-        verify(checkConfig, getPath("InputTypeParameterName.java"), expected);
-    }
-
-    @Test
-    public void testInterfaceFooName()
-        throws Exception {
-        final DefaultConfiguration checkConfig =
-            createCheckConfig(InterfaceTypeParameterNameCheck.class);
-        checkConfig.addAttribute("format", "^foo$");
-
-        final String pattern = "^foo$";
-
-        final String[] expected = {
-            "48:15: " + getCheckMessage(MSG_INVALID_PATTERN, "Input", pattern),
-            "52:24: " + getCheckMessage(MSG_INVALID_PATTERN, "T", pattern),
         };
         verify(checkConfig, getPath("InputTypeParameterName.java"), expected);
     }

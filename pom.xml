@@ -192,7 +192,7 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.5.1-1</antlr4.version>
     <maven.site.plugin.version>3.4</maven.site.plugin.version>
-    <maven.findbugs.plugin.version>3.0.2</maven.findbugs.plugin.version>
+    <maven.findbugs.plugin.version>3.0.3</maven.findbugs.plugin.version>
     <maven.pmd.plugin.version>3.5</maven.pmd.plugin.version>
     <maven.jacoco.plugin.version>0.7.5.201505241946</maven.jacoco.plugin.version>
     <tools.jar.version>1.7.0</tools.jar.version>
@@ -287,7 +287,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.12</version>
+      <version>1.7.13</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -888,29 +888,13 @@
           <bundledSignature>jdk-system-out</bundledSignature>
         </bundledSignatures>
         <excludes>
+          <!-- system-out is ok there, that is CLI -->
+          <exclude>**/Main.class</exclude>
+          <!-- generated classes, unfortunately use problematic api -->
           <exclude>**/GeneratedJavaLexer.class</exclude>
           <exclude>**/JavadocParser.class</exclude>
-          <exclude>**/Main.class</exclude>
           <!-- Tests related -->
           <exclude>**/Input*</exclude>
-          <exclude>**/*Input.class</exclude>
-          <exclude>**/New*</exclude>
-          <exclude>**/CompareTreesWithComments.class</exclude>
-          <exclude>**/UpdateClass.class</exclude>
-          <exclude>**/bug*</exclude>
-          <exclude>**/oneMoreClass.class</exclude>
-          <exclude>**/RightCurlyInput_Other.class</exclude>
-          <exclude>**/test_*</exclude>
-          <exclude>**/WithInner$Inner.class</exclude>
-          <exclude>**/Foo*</exclude>
-          <exclude>**/WithAnon$1.class</exclude>
-          <exclude>**/UncommentedMainTest*</exclude>
-          <exclude>**/Temp*</exclude>
-          <exclude>**/Issue*</exclude>
-          <exclude>**/Main1.class</exclude>
-          <exclude>**/ConfigurationBuilder.class</exclude>
-          <exclude>**/WithAnonymousClass$1.class</exclude>
-          <exclude>**/Test.class</exclude>
         </excludes>
       </configuration>
       <executions>
@@ -1735,6 +1719,7 @@
                   <exclude>com/puppycrawl/tools/checkstyle/checks/coding/AbstractIllegalCheck.class</exclude>
                   <exclude>com/puppycrawl/tools/checkstyle/checks/coding/AbstractIllegalMethodCheck.class</exclude>
                   <exclude>com/puppycrawl/tools/checkstyle/checks/coding/AbstractNestedDepthCheck.class</exclude>
+                  <exclude>com/puppycrawl/tools/checkstyle/checks/naming/AbstractTypeParameterNameCheck.class</exclude>
                 </excludes>
               </instrumentation>
             </configuration>
