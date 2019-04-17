@@ -36,37 +36,41 @@ public class DelegatingSocketFactory extends SocketFactory {
   @Override
   public Socket createSocket() throws IOException {
     Socket socket = delegate.createSocket();
-    return configureSocket(socket);
+    configureSocket(socket);
+    return socket;
   }
 
   @Override
   public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
     Socket socket = delegate.createSocket(host, port);
-    return configureSocket(socket);
+    configureSocket(socket);
+    return socket;
   }
 
   @Override
   public Socket createSocket(String host, int port, InetAddress localAddress, int localPort)
       throws IOException, UnknownHostException {
     Socket socket = delegate.createSocket(host, port, localAddress, localPort);
-    return configureSocket(socket);
+    configureSocket(socket);
+    return socket;
   }
 
   @Override
   public Socket createSocket(InetAddress host, int port) throws IOException {
     Socket socket = delegate.createSocket(host, port);
-    return configureSocket(socket);
+    configureSocket(socket);
+    return socket;
   }
 
   @Override
   public Socket createSocket(InetAddress host, int port, InetAddress localAddress, int localPort)
       throws IOException {
     Socket socket = delegate.createSocket(host, port, localAddress, localPort);
-    return configureSocket(socket);
+    configureSocket(socket);
+    return socket;
   }
 
-  protected Socket configureSocket(Socket socket) throws IOException {
+  protected void configureSocket(Socket socket) throws IOException {
     // No-op by default.
-    return socket;
   }
 }

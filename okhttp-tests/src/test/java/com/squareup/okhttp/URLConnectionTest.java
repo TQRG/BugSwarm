@@ -2232,18 +2232,15 @@ public final class URLConnectionTest {
     server.setServerSocketFactory(
         new DelegatingServerSocketFactory(ServerSocketFactory.getDefault()) {
           @Override
-          protected ServerSocket configureServerSocket(ServerSocket serverSocket)
-              throws IOException {
+          protected void configureServerSocket(ServerSocket serverSocket) throws IOException {
             serverSocket.setReceiveBufferSize(SOCKET_BUFFER_SIZE);
-            return serverSocket;
           }
         });
     client.client().setSocketFactory(new DelegatingSocketFactory(SocketFactory.getDefault()) {
       @Override
-      protected Socket configureSocket(Socket socket) throws IOException {
+      protected void configureSocket(Socket socket) throws IOException {
         socket.setReceiveBufferSize(SOCKET_BUFFER_SIZE);
         socket.setSendBufferSize(SOCKET_BUFFER_SIZE);
-        return socket;
       }
     });
 
@@ -3179,6 +3176,37 @@ public final class URLConnectionTest {
 
     server.enqueue(new MockResponse().setBody("abc"));
     assertContent("abc", client.open(server.getUrl("/")));
+  }
+
+  @Test public void urlWithSpaceInHost() throws Exception {
+    URLConnection urlConnection = client.open(new URL("http://and roid.com/"));
+    try {
+      urlConnection.getInputStream();
+      fail();
+    } catch (UnknownHostException expected) {
+    }
+  }
+
+  @Test public void urlWithSpaceInHostViaHttpProxy() throws Exception {
+    server.enqueue(new MockResponse());
+    URLConnection urlConnection =
+        client.open(new URL("http://and roid.com/"), server.toProxyAddress());
+
+    try {
+      // This test is to check that a NullPointerException is not thrown.
+      urlConnection.getInputStream();
+      fail(); // the RI makes a bogus proxy request for "GET http://and roid.com/ HTTP/1.1"
+    } catch (UnknownHostException expected) {
+    }
+  }
+
+  @Test public void urlHostWithNul() throws Exception {
+    URLConnection urlConnection = client.open(new URL("http://host\u0000/"));
+    try {
+      urlConnection.getInputStream();
+      fail();
+    } catch (UnknownHostException expected) {
+    }
   }
 
   /** Returns a gzipped copy of {@code bytes}. */

@@ -90,8 +90,7 @@ public class DelegatingSSLSocketFactory extends SSLSocketFactory {
     return sslSocket;
   }
 
-  protected SSLSocket configureSocket(SSLSocket sslSocket) throws IOException {
+  protected void configureSocket(SSLSocket sslSocket) throws IOException {
     // No-op by default.
-    return sslSocket;
   }
 }

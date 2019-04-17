@@ -35,7 +35,6 @@ import com.squareup.okhttp.internal.ws.RealWebSocket;
 import com.squareup.okhttp.internal.ws.WebSocketProtocol;
 import com.squareup.okhttp.ws.WebSocketListener;
 import java.io.IOException;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ProtocolException;
@@ -165,18 +164,6 @@ public final class MockWebServer implements TestRule {
 
   public String getHostName() {
     maybeStart();
-    if (inetSocketAddress.getAddress() instanceof Inet6Address) {
-      Inet6Address address = (Inet6Address) inetSocketAddress.getAddress();
-      String hostName = inetSocketAddress.getHostName();
-      if (hostName.contains(":")) {
-        int scopeSeparator = hostName.indexOf('%');
-        if (scopeSeparator != -1) {
-          // Hack around lack of scope support in HttpUrl.
-          hostName = hostName.substring(0, scopeSeparator);
-        }
-        return "[" + hostName + "]";
-      }
-    }
     return inetSocketAddress.getHostName();
   }
 
