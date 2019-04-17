@@ -501,7 +501,7 @@ def check_X_y(X, y, accept_sparse=None, dtype="numeric", order=None, copy=False,
         y = check_array(y, 'csr', copy=copy, force_all_finite=True,
                         ensure_2d=False, dtype=None)
     else:
-        y = column_or_1d(y, warn=True, copy=copy)
+        y = column_or_1d(y, warn=True, copy=copy, order=order)
         _assert_all_finite(y)
     if y_numeric and y.dtype.kind == 'O':
         y = y.astype(np.float64)
@@ -511,7 +511,7 @@ def check_X_y(X, y, accept_sparse=None, dtype="numeric", order=None, copy=False,
     return X, y
 
 
-def column_or_1d(y, warn=False, copy=False):
+def column_or_1d(y, warn=False, copy=False, order='C'):
     """ Ravel column or 1d numpy array, else raises an error
 
     Parameters
@@ -519,10 +519,13 @@ def column_or_1d(y, warn=False, copy=False):
     y : array-like
 
     warn : boolean, default False
-       To control display of warnings.
+        To control display of warnings.
 
     copy: boolean, default False
-       Whether or not to copy y.
+        Whether or not to copy y.
+
+    order: 'C' or 'F', default 'C'
+        Whether y is C or Fortran contiguous.
 
     Returns
     -------
@@ -539,7 +542,7 @@ def column_or_1d(y, warn=False, copy=False):
         y = np.ravel(y)
     elif len(shape) != 1:
         raise ValueError("bad input shape {0}".format(shape))
-    return np.array(y, copy=copy)
+    return np.array(y, copy=copy, order=order)
 
 
 def check_random_state(seed):
