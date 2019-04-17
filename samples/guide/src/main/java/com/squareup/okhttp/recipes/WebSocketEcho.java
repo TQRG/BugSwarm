@@ -30,7 +30,8 @@ public final class WebSocketEcho implements WebSocketListener {
     client.getDispatcher().getExecutorService().shutdown();
   }
 
-  @Override public void onOpen(Response response, WebSocket webSocket) throws IOException {
+  @Override public void onOpen(WebSocket webSocket, Request request, Response response)
+      throws IOException {
     webSocket.sendMessage(TEXT, new Buffer().writeUtf8("Hello..."));
     webSocket.sendMessage(TEXT, new Buffer().writeUtf8("...World!"));
     webSocket.sendMessage(BINARY, new Buffer().writeInt(0xdeadbeef));
