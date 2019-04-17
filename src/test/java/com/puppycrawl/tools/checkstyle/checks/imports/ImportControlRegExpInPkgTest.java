@@ -22,11 +22,19 @@ package com.puppycrawl.tools.checkstyle.checks.imports;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class ImportControlRegExpInPkgTest {
-    private final ImportControl icRoot = new ImportControl("com\\.[^.]+\\.courtlink", true);
-    private final ImportControl icCommon = new ImportControl(icRoot, "com+on", true);
+    private ImportControl icRoot;
+    private ImportControl icCommon;
+
+    @Before
+    public void setUp() {
+        icRoot = new ImportControl("com\\.[^.]+\\.courtlink", true);
+        icCommon = new ImportControl(icRoot, "com+on", true);
+        icRoot.addChild(icCommon);
+    }
 
     @Test
     public void testRegExpInRootIsConsidered() {
