@@ -16,6 +16,7 @@
 package com.squareup.okhttp.internal;
 
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Connection;
 import com.squareup.okhttp.ConnectionPool;
 import com.squareup.okhttp.Headers;
@@ -69,6 +70,7 @@ public abstract class Internal {
       HttpEngine owner, Request request) throws IOException;
 
   // TODO delete the following when web sockets move into the main package.
+  public abstract void callEnqueue(Call call, Callback responseCallback, boolean forWebSocket);
   public abstract void callEngineReleaseConnection(Call call) throws IOException;
   public abstract Connection callEngineGetConnection(Call call);
   public abstract void connectionSetOwner(Connection connection, Object owner);

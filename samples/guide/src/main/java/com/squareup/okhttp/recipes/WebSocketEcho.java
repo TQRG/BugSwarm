@@ -2,10 +2,10 @@ package com.squareup.okhttp.recipes;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.squareup.okhttp.internal.ws.WebSocket;
 import com.squareup.okhttp.internal.ws.WebSocketCall;
 import com.squareup.okhttp.internal.ws.WebSocketListener;
-import com.squareup.okhttp.internal.ws.WebSocketResponse;
 import java.io.IOException;
 import okio.Buffer;
 import okio.BufferedSource;
@@ -24,13 +24,13 @@ public final class WebSocketEcho implements WebSocketListener {
     Request request = new Request.Builder()
         .url("ws://echo.websocket.org")
         .build();
-    WebSocketCall call = WebSocketCall.newWebSocketCall(client, request);
-    WebSocketResponse webSocketResponse = call.execute(this);
-    if (webSocketResponse.response().code() != 101) {
-      System.err.println("Unable to connect to websocket: " + webSocketResponse.response());
-    }
+    WebSocketCall.newWebSocketCall(client, request).enqueue(this);
 
-    WebSocket webSocket = webSocketResponse.webSocket();
+    // Trigger shutdown of the dispatcher's executor so this process can exit cleanly.
+    client.getDispatcher().getExecutorService().shutdown();
+  }
+
+  @Override public void onOpen(Response response, WebSocket webSocket) throws IOException {
     webSocket.sendMessage(TEXT, new Buffer().writeUtf8("Hello..."));
     webSocket.sendMessage(TEXT, new Buffer().writeUtf8("...World!"));
     webSocket.sendMessage(BINARY, new Buffer().writeInt(0xdeadbeef));
@@ -49,6 +49,10 @@ public final class WebSocketEcho implements WebSocketListener {
         throw new IllegalStateException("Unknown payload type: " + type);
     }
     payload.close();
+  }
+
+  @Override public void onPong(Buffer payload) {
+    System.out.println("PONG: " + payload.readUtf8());
   }
 
   @Override public void onClose(int code, String reason) {

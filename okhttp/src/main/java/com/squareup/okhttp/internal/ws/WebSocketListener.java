@@ -25,7 +25,7 @@ import static com.squareup.okhttp.internal.ws.WebSocket.PayloadType;
 // TODO move to public API!
 /** Listener for server-initiated messages on a connected {@link WebSocket}. */
 public interface WebSocketListener {
-  void onOpen(Response response, WebSocket webSocket);
+  void onOpen(Response response, WebSocket webSocket) throws IOException;
 
   /**
    * Called when a server message is received. The {@code type} indicates whether the
