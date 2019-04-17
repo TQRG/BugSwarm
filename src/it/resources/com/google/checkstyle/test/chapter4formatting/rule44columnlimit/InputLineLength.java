@@ -1,8 +1,8 @@
 package com.google.checkstyle.test.chapter4formatting.rule44columnlimit; //ok
 import com.google.checkstyle.test.chapter3filestructure.toolongpackagetotestcoveragegooglesjavastylerule.*; //ok
-final class LineLengthInput
+final class InputLineLength
 {
-    // Long line ----------------------------------------------------------------------------------------
+    // Long line ---------------------------------------------------------------------------------------- //warn
     // Contains a tab ->    <-
     // Contains trailing whitespace ->
 
@@ -85,7 +85,7 @@ final class LineLengthInput
     }
 
     /** constructor that is 10 lines long **/
-    private LineLengthInput()
+    private InputLineLength()
     {
         // a line
         // a line

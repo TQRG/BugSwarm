@@ -26,7 +26,7 @@ class Catch {
                doSm();
            }
         } catch (Exception e) {} //warn
-        finally {} //warn
+        finally {}
     }
 
     class Inner {
@@ -47,7 +47,7 @@ class Catch {
                    doSm();
                }
             } catch (Exception e) {} //warn
-            finally {} //warn
+            finally {}
         }
     }
     
@@ -69,7 +69,7 @@ class Catch {
                    doSm();
                }
             } catch (Exception e) {} //warn
-            finally {} //warn
+            finally {}
         }
     };
 }

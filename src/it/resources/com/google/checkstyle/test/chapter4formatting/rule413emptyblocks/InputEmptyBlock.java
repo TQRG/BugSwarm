@@ -2,13 +2,13 @@
 // Test case file for checkstyle.
 // Created: 2001
 ////////////////////////////////////////////////////////////////////////////////
-package com.google.checkstyle.test.chapter6programpractice.rule62caughtexceptions;
+package com.google.checkstyle.test.chapter4formatting.rule413emptyblocks;
 
 import java.io.*; 
 import java.awt.Dimension;
 import java.awt.Color;
 
-class Catch {
+class Block {
     boolean flag;
     void doSm() {}
     void foo() {
@@ -25,7 +25,7 @@ class Catch {
            if (!flag) {
                doSm();
            }
-        } catch (Exception e) {} //warn
+        } catch (Exception e) {}
         finally {} //warn
     }
 
@@ -46,7 +46,7 @@ class Catch {
                if (!flag) {
                    doSm();
                }
-            } catch (Exception e) {} //warn
+            } catch (Exception e) {}
             finally {} //warn
         }
     }
@@ -68,7 +68,7 @@ class Catch {
                if (!flag) {
                    doSm();
                }
-            } catch (Exception e) {} //warn
+            } catch (Exception e) {}
             finally {} //warn
         }
     };
