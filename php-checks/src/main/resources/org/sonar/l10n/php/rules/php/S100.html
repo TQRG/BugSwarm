@@ -1,0 +1,26 @@
+<p>
+  Sharing some naming conventions is a key point to make it possible for a team to efficiently collaborate. This rule allows to check that all function names match a provided regular expression.
+</p>
+
+<h2>Noncompliant Code Example</h2>
+<p>With default provided regular expression: ^[a-z][a-zA-Z0-9]*$</p>
+<pre>
+function DoSomething(){...}
+</pre>
+
+<h2>Compliant Solution</h2>
+<pre>
+function doSomething(){...}
+</pre>
+
+<h2>Exceptions</h2>
+<p>Methods with an <code>@inheritdoc</code> annotation,  as well as magic methods <code>(__construct(), __destruct(), __call(), __callStatic(), __get(), __set(), __isset(), __unset(), __sleep(), __wakeup(), __toString(), __invoke(), __set_state(), __clone(), __debugInfo())</code> are ignored.</p>
+<pre>
+function __construct(){...}
+function __destruct(){...}
+
+/**
+ * {@inheritdoc}
+ */
+function myFunc(){...}
+</pre>
