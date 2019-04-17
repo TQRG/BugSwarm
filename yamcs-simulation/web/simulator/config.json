@@ -1,0 +1,7 @@
+{
+  "title": "YSS Dashboard",
+  "initialPlotRange": "1h",
+  "utcOnly": true,
+  "enableNotifications": true,
+  "useParameterArchive": true
+}
