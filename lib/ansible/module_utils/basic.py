@@ -1261,21 +1261,17 @@ class AnsibleModule(object):
         if found return full path; otherwise return None
         '''
         sbin_paths = ['/sbin', '/usr/sbin', '/usr/local/sbin']
-
-        # collect all paths, may include duplicates and nonexistent, order matters
-        paths = opt_dirs + os.environ.get('PATH', '').split(os.pathsep) + sbin_paths
-
-        # clean up: allow only valid, non-duplicate and existing dirs
-        clean_paths = []
-        seen = set()
-        for p in paths:
-            if p is not None and p not in seen and os.path.exists(p):
-                seen.add(p)
-                clean_paths.append(p)
-
-        # search the actual binary, arg
+        paths = []
+        for d in opt_dirs:
+            if d is not None and os.path.exists(d):
+                paths.append(d)
+        paths += os.environ.get('PATH', '').split(os.pathsep)
         bin_path = None
-        for d in clean_paths:
+        # mangle PATH to include /sbin dirs
+        for p in sbin_paths:
+            if p not in paths and os.path.exists(p):
+                paths.append(p)
+        for d in paths:
             path = os.path.join(d, arg)
             if os.path.exists(path) and self.is_executable(path):
                 bin_path = path
