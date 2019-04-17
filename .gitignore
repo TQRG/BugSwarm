@@ -1,0 +1,15 @@
+bin
+build
+target
+.classpath
+.project
+.settings
+.idea
+jgiven-reports
+*.iml
+/.gradle
+artifacts
+.*.swp
+/test-output
+phantomjsdriver.log
+.gradle
