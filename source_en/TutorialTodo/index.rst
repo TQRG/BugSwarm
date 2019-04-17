@@ -3776,6 +3776,8 @@ todo-infra.xml of blank project created for JPA
 The following settings are done in created JPA blank project.
 
 .. code-block:: xml
+    :emphasize-lines: 9-10, 12-13, 15-17, 22-24, 26-27, 30-31
+
     <?xml version="1.0" encoding="UTF-8"?>
     <beans xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
