@@ -81,7 +81,7 @@ AWS_EXPIRY = 60 * 60 * 24 * 7
 # either django-storage-redux or boto
 AWS_HEADERS = {
     'Cache-Control': str.encode('max-age=%d, s-maxage=%d, must-revalidate' % (
-            AWS_EXPIRY, AWS_EXPIRY))
+        AWS_EXPIRY, AWS_EXPIRY))
 }
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
