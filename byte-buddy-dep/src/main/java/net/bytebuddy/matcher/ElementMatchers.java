@@ -15,6 +15,7 @@ import net.bytebuddy.description.method.ParameterList;
 import net.bytebuddy.description.type.TypeDefinition;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.description.type.TypeList;
+import net.bytebuddy.utility.JavaModule;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -511,7 +512,7 @@ public final class ElementMatchers {
      * @param <T>    The type of the matched object.
      * @return A matcher that matches type variables with the given name.
      */
-    public static <T extends TypeDefinition> ElementMatcher<T> isVariable(String symbol) {
+    public static <T extends TypeDefinition> ElementMatcher.Junction<T> isVariable(String symbol) {
         return isVariable(named(symbol));
     }
 
@@ -522,7 +523,7 @@ public final class ElementMatchers {
      * @param <T>     The type of the matched object.
      * @return A matcher that matches type variables with the given name.
      */
-    public static <T extends TypeDefinition> ElementMatcher<T> isVariable(ElementMatcher<? super NamedElement> matcher) {
+    public static <T extends TypeDefinition> ElementMatcher.Junction<T> isVariable(ElementMatcher<? super NamedElement> matcher) {
         return new TypeSortMatcher<T>(anyOf(TypeDefinition.Sort.VARIABLE, TypeDefinition.Sort.VARIABLE_SYMBOLIC)).and(matcher);
     }
 
@@ -627,6 +628,16 @@ public final class ElementMatchers {
      */
     public static <T extends NamedElement> ElementMatcher.Junction<T> nameMatches(String regex) {
         return new NameMatcher<T>(new StringMatcher(regex, StringMatcher.Mode.MATCHES));
+    }
+
+    /**
+     * Matches a {@link NamedElement.WithOptionalName} for having an explicit name.
+     *
+     * @param <T> The type of the matched object.
+     * @return An element matcher that checks if the matched optionally named element has an explicit name.
+     */
+    public static <T extends NamedElement.WithOptionalName> ElementMatcher.Junction<T> isNamed() {
+        return new IsNamedMatcher<T>();
     }
 
     /**
@@ -1529,7 +1540,7 @@ public final class ElementMatchers {
      * Matches any type description that declares a super type that matches the provided matcher.
      *
      * @param matcher The type to be checked for being a super type of the matched type.
-     * @param <T>  The type of the matched object.
+     * @param <T>     The type of the matched object.
      * @return A matcher that matches any type description that declares a super type that matches the provided matcher.
      */
     public static <T extends TypeDescription> ElementMatcher.Junction<T> hasSuperType(ElementMatcher<? super TypeDescription> matcher) {
@@ -1540,7 +1551,7 @@ public final class ElementMatchers {
      * Matches any type description that declares a super type that matches the provided matcher.
      *
      * @param matcher The type to be checked for being a super type of the matched type.
-     * @param <T>  The type of the matched object.
+     * @param <T>     The type of the matched object.
      * @return A matcher that matches any type description that declares a super type that matches the provided matcher.
      */
     public static <T extends TypeDescription> ElementMatcher.Junction<T> hasGenericSuperType(ElementMatcher<? super TypeDescription.Generic> matcher) {
@@ -1745,7 +1756,7 @@ public final class ElementMatchers {
      * @param <T> The type of the matched object.
      * @return A matcher that only matches the bootstrap class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> isBootstrapClassLoader() {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> isBootstrapClassLoader() {
         return new NullMatcher<T>();
     }
 
@@ -1756,7 +1767,7 @@ public final class ElementMatchers {
      * @param <T> The type of the matched object.
      * @return A matcher that only matches the system class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> isSystemClassLoader() {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> isSystemClassLoader() {
         return new EqualityMatcher<T>(ClassLoader.getSystemClassLoader());
     }
 
@@ -1767,7 +1778,7 @@ public final class ElementMatchers {
      * @param <T> The type of the matched object.
      * @return A matcher that only matches the extension class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> isExtensionClassLoader() {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> isExtensionClassLoader() {
         return new EqualityMatcher<T>(ClassLoader.getSystemClassLoader().getParent());
     }
 
@@ -1779,7 +1790,7 @@ public final class ElementMatchers {
      * @return A matcher that matches the given class loader and any class loader that is a child of the given
      * class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> isChildOf(ClassLoader classLoader) {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> isChildOf(ClassLoader classLoader) {
         return classLoader == BOOTSTRAP_CLASSLOADER
                 ? new BooleanMatcher<T>(true)
                 : ElementMatchers.<T>hasChild(is(classLoader));
@@ -1792,7 +1803,7 @@ public final class ElementMatchers {
      * @param <T>     The type of the matched object.
      * @return A matcher that matches all class loaders in the hierarchy of the matched class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> hasChild(ElementMatcher<? super ClassLoader> matcher) {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> hasChild(ElementMatcher<? super ClassLoader> matcher) {
         return new ClassLoaderHierarchyMatcher<T>(matcher);
     }
 
@@ -1804,9 +1815,19 @@ public final class ElementMatchers {
      * @return A matcher that matches the given class loader and any class loader that is a parent of the given
      * class loader.
      */
-    public static <T extends ClassLoader> ElementMatcher<T> isParentOf(ClassLoader classLoader) {
+    public static <T extends ClassLoader> ElementMatcher.Junction<T> isParentOf(ClassLoader classLoader) {
         return classLoader == BOOTSTRAP_CLASSLOADER
                 ? ElementMatchers.<T>isBootstrapClassLoader()
                 : new ClassLoaderParentMatcher<T>(classLoader);
+    }
+
+    /**
+     * Matches a module if it exists, i.e. not {@code null}.
+     *
+     * @param <T>     The type of the matched object.
+     * @return A matcher that validates a module's existence.
+     */
+    public static <T extends JavaModule> ElementMatcher.Junction<T> supportsModules() {
+        return not(new NullMatcher<T>());
     }
 }
