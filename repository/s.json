@@ -1278,6 +1278,16 @@
 			]
 		},
 		{
+			"name": "Simple Import",
+			"details": "https://github.com/vini175pa/sublime-simple-import",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Simple MVC Framework Snippets",
 			"details": "https://github.com/simple-mvc-framework/SMVC-Snippets",
 			"labels": ["snippets"],
@@ -1971,6 +1981,20 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "SourcePawn Completions",
+			"details": "https://github.com/ppalex7/SourcePawnCompletions",
+			"description": "SourcePawn auto-completion and build-system",
+			"readme": "https://raw.githubusercontent.com/ppalex7/SourcePawnCompletions/master/README.md",
+			"issues": "https://github.com/ppalex7/SourcePawnCompletions/issues",
+			"labels": ["auto-complete", "build system"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]
