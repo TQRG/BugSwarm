@@ -94,6 +94,11 @@ def dbscan(X, eps=0.5, min_samples=5, metric='minkowski',
     the memory complexity to O(n.d) where d is the average number of neighbors,
     while original DBSCAN had memory complexity O(n).
 
+    Sparse neighborhoods can be precomputed using
+    :func:`NearestNeighbors.radius_neighbors_graph
+    <sklearn.neighbors.NearestNeighbors.radius_neighbors_graph>`
+    with ``mode='distance'``.
+
     References
     ----------
     Ester, M., H. P. Kriegel, J. Sander, and X. Xu, "A Density-Based
@@ -121,22 +126,29 @@ def dbscan(X, eps=0.5, min_samples=5, metric='minkowski',
         D = pairwise_distances(X, metric=metric)
         neighborhoods = np.empty(X.shape[0], dtype=object)
         if sparse.issparse(D):
-            D = D <= eps
-            neighborhoods[:] = np.split(D.indices.astype(np.intp),
-                                        D.indptr[1:-1])
+            D_mask = D.data <= eps
+            masked_indices = D.indices.astype(np.intp)[D_mask]
+            masked_indptr = np.cumsum(D_mask)[D.indptr[1:] - 1]
+            # insert the diagonal
+            masked_indices = np.insert(masked_indices, masked_indptr,
+                                       np.arange(D.shape[0]))
+            masked_indptr = masked_indptr[:-1] + np.arange(1, D.shape[0])
+            # split into rows
+            neighborhoods[:] = np.split(masked_indices, masked_indptr)
         else:
-            neighborhoods[:] = [np.where(x <= eps)[0] for x in D]
+            neighborhoods[:] = [np.where(x <= eps)[0] for i, x in enumerate(D)]
     else:
         neighbors_model = NearestNeighbors(radius=eps, algorithm=algorithm,
                                            leaf_size=leaf_size,
                                            metric=metric, p=p)
         neighbors_model.fit(X)
         # This has worst case O(n^2) memory complexity
-        neighborhoods = neighbors_model.radius_neighbors(X, eps,
+        neighborhoods = neighbors_model.radius_neighbors(X,
                                                          return_distance=False)
 
     if sample_weight is None:
-        n_neighbors = np.array([len(neighbors) for neighbors in neighborhoods])
+        n_neighbors = np.array([len(neighbors)
+                                for neighbors in neighborhoods])
     else:
         n_neighbors = np.array([np.sum(sample_weight[neighbors])
                                 for neighbors in neighborhoods])
@@ -207,6 +219,11 @@ class DBSCAN(BaseEstimator, ClusterMixin):
     This implementation bulk-computes all neighborhood queries, which increases
     the memory complexity to O(n.d) where d is the average number of neighbors,
     while original DBSCAN had memory complexity O(n).
+
+    Sparse neighborhoods can be precomputed using
+    :func:`NearestNeighbors.radius_neighbors_graph
+    <sklearn.neighbors.NearestNeighbors.radius_neighbors_graph>`
+    with ``mode='distance'``.
 
     References
     ----------
