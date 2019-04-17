@@ -3700,16 +3700,6 @@ Bean Validationの制約アノテーションを指定する方法について�
 
     \ ``@ControllerAdvice``\ アノテーションの詳細については「:ref:`application_layer_controller_advice`」を参照されたい。
 
-.. warning::
-
-    \ ``ConstraintViolation#getMessage``\ メソッドを使用することでエラーメッセージを取得することができるが、Springの機能によるメッセージ補完は行われないため、エラーメッセージに \ ``{0}``\ でフィールド名を埋め込むことはできない。
-    
-    代わりに、フィールド名は\ ``ConstraintViolation#getPropertyPath``\メソッドで取得することが可能である。
-    
-    Springの機能によるメッセージ補完については、:ref:`Validation_message_in_validationmessages` のNoteを参照されたい。
-    
-    \ ``ConstraintViolation``\ の詳細については、\ `Hibernate Validatorのリファレンス <http://docs.jboss.org/hibernate/validator/5.2/reference/en-US/html_single/#section-constraint-violation-methods>`_\ を参照されたい。
-    
 
 Appendix
 --------------------------------------------------------------------------------

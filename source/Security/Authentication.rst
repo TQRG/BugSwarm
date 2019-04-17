@@ -387,7 +387,7 @@ Spring Securityは、認証失敗時のレスポンスを制御するための�
     * - 実装クラス
       - 説明
     * - | \ ``SimpleUrlAuthenticationFailureHandler``\
-      - | 指定したパス(\ ``defaultFailureUrl``\ )にリダイレクト又はフォワードを行う実装クラス。
+      - | 指定したパス(\ ``defaultTargetUrl``\ )にリダイレクト又はフォワードを行う実装クラス。
     * - | \ ``ExceptionMappingAuthenticationFailureHandler``\
       - | 認証例外と遷移先のURLをマッピングすることができる実装クラス。
         | Spring Securityはエラー原因毎に発生する例外クラスが異なるため、この実装クラスを使用するとエラーの種類毎に遷移先を切り替えることが可能である。
