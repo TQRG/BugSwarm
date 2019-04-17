@@ -207,6 +207,31 @@ public final class ConfigurationLoader {
     }
 
     /**
+     * Returns the module configurations from a specified input stream.
+     * Note that clients are required to close the given stream by themselves
+     *
+     * @param configStream the input stream to the Checkstyle configuration
+     * @param overridePropsResolver overriding properties
+     * @param omitIgnoredModules <code>true</code> if modules with severity
+     *            'ignore' should be omitted, <code>false</code> otherwise
+     * @return the check configurations
+     * @throws CheckstyleException if an error occurs
+     *
+     * @deprecated As this method does not provide a valid system ID,
+     *   preventing resolution of external entities, a
+     *   {@link #loadConfiguration(InputSource,PropertyResolver,boolean)
+     *          version using an InputSource}
+     *   should be used instead
+     */
+    @Deprecated
+    public static Configuration loadConfiguration(InputStream configStream,
+        PropertyResolver overridePropsResolver, boolean omitIgnoredModules)
+        throws CheckstyleException {
+        return loadConfiguration(new InputSource(configStream),
+                                 overridePropsResolver, omitIgnoredModules);
+    }
+
+    /**
      * Returns the module configurations from a specified input source.
      * Note that if the source does wrap an open byte or character
      * stream, clients are required to close that stream by themselves
