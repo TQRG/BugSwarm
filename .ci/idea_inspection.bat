@@ -13,7 +13,7 @@ SET INSPECTIONS_PATH=%CD%\config\intellij-idea-inspections.xml
 SET RESULTS_DIR=%CD%\target\inspection-results
 SET NOISE_LVL=v1
 SET IDEA_LOCATION=
-SET IDEA_PROPERTIES=%CD%\config\idea.properties
+SET IDEA_PROPERTIES=%CD%\config\intellij-idea-inspections.properties
 
 ::Check IDEA_PATH env variable
 IF EXIST %IDEA_PATH% SET (
@@ -26,14 +26,21 @@ IF EXIST %IDEA_PATH% SET (
 ::Try to search in path
 FOR /f "delims=" %%i IN ('"where idea.bat"') DO SET IDEA_LOCATION="%%i"
 if [%IDEA_LOCATION%] NEQ [] (
-    goto run 
+    goto run
 ) ELSE (
     echo IntelliJ IDEA was not found in path.
     exit /b
 )
 
 :run
+mkdir %RESULTS_DIR%
+del %RESULTS_DIR%\*.* /s /q
+
 mkdir .idea\scopes
 copy config\intellij-idea-inspection-scope.xml .idea\scopes
 
+::Execute compilation of Checkstyle to generate all source files
+mvn compile
+
+::Launch inspections
 "%IDEA_LOCATION%" inspect %PROJECT_DIR% %INSPECTIONS_PATH% %RESULTS_DIR% -%NOISE_LVL%
