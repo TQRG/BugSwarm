@@ -376,7 +376,7 @@ class FileFormat(metaclass=FileFormatMeta):
         if isinstance(filename, str) and hasattr(data, 'attributes'):
             if all(isinstance(key, str) and isinstance(value, str)
                    for key, value in data.attributes.items()):
-                with open(filename + '.metadata', 'w') as f:
+                with open(filename + '.metadata', 'w', encoding='utf-8') as f:
                     f.write("\n".join("{}: {}".format(*kv)
                                       for kv in data.attributes.items()))
             else:
