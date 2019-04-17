@@ -15,7 +15,6 @@ from .utils import check_array, check_X_y
 from .utils.validation import check_is_fitted
 from .preprocessing import LabelBinarizer
 from .externals import six
-from .preprocessing import StandardScaler
 
 
 class _BaseKernelRidge(six.with_metaclass(ABCMeta, BaseEstimator)):
@@ -146,9 +145,7 @@ class _BaseKernelRidge(six.with_metaclass(ABCMeta, BaseEstimator)):
             raise ValueError('_BaseKernelRidge cannot be used as'
                              ' a estimator')
 
-        self.scaler_ = StandardScaler()
-        X_ = self.scaler_.fit_transform(X)
-        K = self._get_kernel(X_)
+        K = self._get_kernel(X)
         self.dual_coef_ = _solve_cholesky_kernel(K, y_, alpha,
                                                  sample_weight,
                                                  copy)
@@ -156,7 +153,7 @@ class _BaseKernelRidge(six.with_metaclass(ABCMeta, BaseEstimator)):
         if ravel:
             self.dual_coef_ = self.dual_coef_.ravel()
 
-        self.X_fit_ = X_
+        self.X_fit_ = X
 
         return self
 
@@ -174,7 +171,7 @@ class _BaseKernelRidge(six.with_metaclass(ABCMeta, BaseEstimator)):
             Returns predicted values.
         """
         check_is_fitted(self, ["X_fit_", "dual_coef_"])
-        K = self._get_kernel(self.scaler_.transform(X), self.X_fit_)
+        K = self._get_kernel(X, self.X_fit_)
         return np.dot(K, self.dual_coef_)
 
 
@@ -361,6 +358,16 @@ class KernelRidgeClassifier(ClassifierMixin, _BaseKernelRidge):
                           gamma=None, kernel='rbf',
                           kernel_params=None)
     """
+    def __init__(self, alpha=0.1, kernel="rbf", gamma=None, degree=3, coef0=1,
+                 kernel_params=None):
+        super(KernelRidgeClassifier,
+              self).__init__(alpha=alpha,
+                             kernel=kernel,
+                             gamma=gamma,
+                             degree=degree,
+                             coef0=coef0,
+                             kernel_params=kernel_params)
+
     def decision_function(self, X):
         """Predict confidence scores for samples.
 
