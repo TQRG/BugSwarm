@@ -186,6 +186,7 @@ public class CheckerTest {
         // all  that is set by reflection, so just make code coverage be happy
         final Checker c = new Checker();
         c.setClassLoader(this.getClass().getClassLoader());
+        c.setClassloader(this.getClass().getClassLoader());
         c.setBasedir("some");
         c.setSeverity("ignore");
 

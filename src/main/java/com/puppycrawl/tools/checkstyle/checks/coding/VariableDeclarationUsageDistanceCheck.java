@@ -332,8 +332,7 @@ public class VariableDeclarationUsageDistanceCheck extends Check {
                 case TokenTypes.EXPR:
                     final DetailAST methodCallAst = currentSiblingAst.getFirstChild();
 
-                    if (methodCallAst != null
-                        && methodCallAst.getType() == TokenTypes.METHOD_CALL) {
+                    if (methodCallAst.getType() == TokenTypes.METHOD_CALL) {
                         final String instanceName =
                             getInstanceName(methodCallAst);
                         // method is called without instance
@@ -342,11 +341,11 @@ public class VariableDeclarationUsageDistanceCheck extends Check {
                         }
                         // differs from previous instance
                         else if (!instanceName.equals(initInstanceName)) {
-                            if (!initInstanceName.isEmpty()) {
-                                result = false;
+                            if (initInstanceName.isEmpty()) {
+                                initInstanceName = instanceName;
                             }
                             else {
-                                initInstanceName = instanceName;
+                                result = false;
                             }
                         }
                     }
@@ -558,22 +557,16 @@ public class VariableDeclarationUsageDistanceCheck extends Check {
             else {
                 // Looking for RPAREN ( ')' ) token to mark the end of operator
                 // expression.
-                currentNode = block.findFirstToken(TokenTypes.RPAREN);
-                if (currentNode != null) {
-                    currentNode = currentNode.getNextSibling();
-                }
+                currentNode = block.findFirstToken(TokenTypes.RPAREN).getNextSibling();
             }
 
-            if (currentNode != null) {
-                final int currentNodeType = currentNode.getType();
+            final int currentNodeType = currentNode.getType();
 
-                if (currentNodeType == TokenTypes.SLIST) {
-                    firstNodeInsideBlock = currentNode.getFirstChild();
-                }
-                else if (currentNodeType != TokenTypes.VARIABLE_DEF
-                        && currentNodeType != TokenTypes.EXPR) {
-                    firstNodeInsideBlock = currentNode;
-                }
+            if (currentNodeType == TokenTypes.SLIST) {
+                firstNodeInsideBlock = currentNode.getFirstChild();
+            }
+            else if (currentNodeType != TokenTypes.EXPR) {
+                firstNodeInsideBlock = currentNode;
             }
         }
 
@@ -656,31 +649,28 @@ public class VariableDeclarationUsageDistanceCheck extends Check {
             DetailAST block, DetailAST variable) {
         DetailAST firstNodeInsideBlock = null;
 
-        if (!isVariableInOperatorExpr(block, variable)) {
-            DetailAST currentNode = block
-                    .findFirstToken(TokenTypes.CASE_GROUP);
-            final List<DetailAST> variableUsageExpressions =
-                    new ArrayList<>();
+        DetailAST currentNode = block
+                .findFirstToken(TokenTypes.CASE_GROUP);
+        final List<DetailAST> variableUsageExpressions =
+                new ArrayList<>();
 
-            // Checking variable usage inside all CASE blocks.
-            while (currentNode != null
-                    && currentNode.getType() == TokenTypes.CASE_GROUP) {
-                final DetailAST lastNodeInCaseGroup =
-                        currentNode.getLastChild();
+        // Checking variable usage inside all CASE blocks.
+        while (currentNode.getType() == TokenTypes.CASE_GROUP) {
+            final DetailAST lastNodeInCaseGroup =
+                    currentNode.getLastChild();
 
-                if (isChild(lastNodeInCaseGroup, variable)) {
-                    variableUsageExpressions.add(lastNodeInCaseGroup);
-                }
-                currentNode = currentNode.getNextSibling();
+            if (isChild(lastNodeInCaseGroup, variable)) {
+                variableUsageExpressions.add(lastNodeInCaseGroup);
             }
+            currentNode = currentNode.getNextSibling();
+        }
 
-            // If variable usage exists in several related blocks, then
-            // firstNodeInsideBlock = null, otherwise if variable usage exists
-            // only inside one block, then get node from
-            // variableUsageExpressions.
-            if (variableUsageExpressions.size() == 1) {
-                firstNodeInsideBlock = variableUsageExpressions.get(0);
-            }
+        // If variable usage exists in several related blocks, then
+        // firstNodeInsideBlock = null, otherwise if variable usage exists
+        // only inside one block, then get node from
+        // variableUsageExpressions.
+        if (variableUsageExpressions.size() == 1) {
+            firstNodeInsideBlock = variableUsageExpressions.get(0);
         }
 
         return firstNodeInsideBlock;
@@ -764,62 +754,33 @@ public class VariableDeclarationUsageDistanceCheck extends Check {
         final DetailAST openingBracket =
                 operator.findFirstToken(TokenTypes.LPAREN);
 
-        if (openingBracket != null) {
-            // Get EXPR between brackets
-            DetailAST exprBetweenBrackets = openingBracket
-                    .getNextSibling();
+        // Get EXPR between brackets
+        DetailAST exprBetweenBrackets = openingBracket.getNextSibling();
 
-            // Look if variable is in operator expression
-            while (exprBetweenBrackets.getType() != TokenTypes.RPAREN) {
+        // Look if variable is in operator expression
+        while (exprBetweenBrackets.getType() != TokenTypes.RPAREN) {
 
-                if (isChild(exprBetweenBrackets, variable)) {
-                    isVarInOperatorDeclr = true;
-                    break;
-                }
-                exprBetweenBrackets = exprBetweenBrackets.getNextSibling();
+            if (isChild(exprBetweenBrackets, variable)) {
+                isVarInOperatorDeclr = true;
+                break;
             }
+            exprBetweenBrackets = exprBetweenBrackets.getNextSibling();
+        }
 
-            // Variable may be met in ELSE declaration or in CASE declaration.
-            // So, check variable usage in these declarations.
-            if (!isVarInOperatorDeclr) {
-                switch (operator.getType()) {
-                    case TokenTypes.LITERAL_IF:
-                        final DetailAST elseBlock = operator.getLastChild();
+        // Variable may be met in ELSE declaration
+        // So, check variable usage in these declarations.
+        if (!isVarInOperatorDeclr && operator.getType() == TokenTypes.LITERAL_IF) {
+            final DetailAST elseBlock = operator.getLastChild();
 
-                        if (elseBlock.getType() == TokenTypes.LITERAL_ELSE) {
-                            // Get IF followed by ELSE
-                            final DetailAST firstNodeInsideElseBlock = elseBlock
-                                .getFirstChild();
+            if (elseBlock.getType() == TokenTypes.LITERAL_ELSE) {
+                // Get IF followed by ELSE
+                final DetailAST firstNodeInsideElseBlock = elseBlock.getFirstChild();
 
-                            if (firstNodeInsideElseBlock.getType() == TokenTypes.LITERAL_IF) {
-                                isVarInOperatorDeclr |=
-                                    isVariableInOperatorExpr(
-                                        firstNodeInsideElseBlock,
-                                            variable);
-                            }
-                        }
-                        break;
-
-                    case TokenTypes.LITERAL_SWITCH:
-                        DetailAST currentCaseBlock = operator
-                            .findFirstToken(TokenTypes.CASE_GROUP);
-
-                        while (currentCaseBlock != null
-                            && currentCaseBlock.getType() == TokenTypes.CASE_GROUP) {
-                            final DetailAST firstNodeInsideCaseBlock =
-                                currentCaseBlock.getFirstChild();
-
-                            if (isChild(firstNodeInsideCaseBlock,
-                                variable)) {
-                                isVarInOperatorDeclr = true;
-                                break;
-                            }
-                            currentCaseBlock = currentCaseBlock.getNextSibling();
-                        }
-                        break;
-
-                    default:
-                        // no code
+                if (firstNodeInsideElseBlock.getType() == TokenTypes.LITERAL_IF) {
+                    isVarInOperatorDeclr |=
+                            isVariableInOperatorExpr(
+                                firstNodeInsideElseBlock,
+                                    variable);
                 }
             }
         }
