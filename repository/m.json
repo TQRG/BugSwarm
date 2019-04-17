@@ -957,18 +957,6 @@
 			]
 		},
 		{
-			"name": "MBXTools",
-			"details": "https://github.com/daverosoff/mbxtools",
-			"author": "Dave Rosoff",
-			"labels": ["mbx", "mathbook xml", "language syntax", "auto-complete"],
-			"releases": [
-				{
-					"sublime_text": "*",
-					"tags": true
-				}
-			]
-		},
-		{
 			"name": "MCA Language",
 			"details": "https://github.com/toxic-spanner/MCA.tmLanguage",
 			"author": "mrfishie",
@@ -2311,6 +2299,16 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "MThuy Local Sync",
+			"details": "https://github.com/hoanglan87/mthuy-local-sync",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]

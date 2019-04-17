@@ -106,7 +106,7 @@
 				}
 			]
 		},
-                {
+		{
 			"name": "ConcurrentLogHandler",
 			"author": "evandroforks",
 			"load_order": "09",
@@ -574,6 +574,20 @@
 				{
 					"sublime_text": ">=3000",
 					"base": "https://github.com/varp/sublime-pexpect",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "PlantUmlConnection",
+			"author": "evandrocoan",
+			"load_order": "50",
+			"description": "Python interface to a plantuml web service instead of having to run Java locally",
+			"issues": "https://github.com/evandrocoan/PlantUmlConnection/issues",
+			"releases": [
+				{
+					"base": "https://github.com/evandrocoan/PlantUmlConnection",
+					"sublime_text": ">=3114",
 					"tags": true
 				}
 			]
