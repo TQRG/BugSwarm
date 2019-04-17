@@ -17,9 +17,13 @@
 package com.squareup.okhttp;
 
 import com.squareup.okhttp.internal.RouteDatabase;
+import com.squareup.okhttp.internal.Util;
 import com.squareup.okhttp.internal.io.RealConnection;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Manages reuse of HTTP and SPDY connections for reduced network latency. HTTP
@@ -80,7 +84,21 @@ public final class ConnectionPool {
     return systemDefault;
   }
 
-  /** Returns total number of connections in the pool. */
+  /** Returns the number of idle connections in the pool. */
+  public synchronized int getIdleConnectionCount() {
+    int total = 0;
+    for (RealConnection connection : connections) {
+      if (connection.allocationCount == 0) total++;
+    }
+    return total;
+  }
+
+  /**
+   * Returns total number of connections in the pool. Note that prior to OkHttp 2.7 this included
+   * only idle connections and SPDY connections. In OkHttp 2.7 this includes all connections, both
+   * active and inactive. Use {@link #getIdleConnectionCount()} to count connections not currently
+   * in use.
+   */
   public synchronized int getConnectionCount() {
     return connections.size();
   }
@@ -123,8 +141,27 @@ public final class ConnectionPool {
     connections.add(connection);
   }
 
-  /** Close and remove all connections in the pool. */
+  // TODO(jwilson): reduce visibility.
+  public synchronized void remove(RealConnection connection) {
+    connections.remove(connection);
+  }
+
+  /** Close and remove all idle connections in the pool. */
   public void evictAll() {
-    throw new UnsupportedOperationException("TODO");
+    List<RealConnection> evictedConnections = new ArrayList<>();
+    synchronized (this) {
+      for (Iterator<RealConnection> i = connections.iterator(); i.hasNext(); ) {
+        RealConnection connection = i.next();
+        if (connection.allocationCount == 0) {
+          connection.noNewStreams = true;
+          evictedConnections.add(connection);
+          i.remove();
+        }
+      }
+    }
+
+    for (RealConnection connection : evictedConnections) {
+      Util.closeQuietly(connection.getSocket());
+    }
   }
 }
