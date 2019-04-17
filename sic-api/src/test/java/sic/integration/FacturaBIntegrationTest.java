@@ -50,6 +50,7 @@ import sic.modelo.Producto;
 import sic.modelo.Proveedor;
 import sic.modelo.Provincia;
 import sic.modelo.RenglonFactura;
+import sic.modelo.Rol;
 import sic.modelo.Rubro;
 import sic.modelo.Transportista;
 import sic.modelo.Usuario;
@@ -118,11 +119,31 @@ public class FacturaBIntegrationTest {
                 .withNombre("Efectivo")
                 .build();
         restTemplate.postForObject(apiPrefix + "/formas-de-pago", formaDePago, FormaDePago.class);
+        Usuario credencial = new UsuarioBuilder()
+                .withId_Usuario(1)
+                .withEliminado(false)
+                .withPermisosAdministrador(true)
+                .withNombre("Marcelo Cruz")
+                .withPassword("marce")
+                .withToken("yJhbGci1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJjZWNpbGlvIn0.MCfaorSC7Wdc8rSW7BJizasfzsa")
+                .withRol(new ArrayList<>())
+                .build();
+        Usuario viajante = new UsuarioBuilder()
+                .withId_Usuario(1)
+                .withEliminado(false)
+                .withPermisosAdministrador(true)
+                .withNombre("Fernando Aguirre")
+                .withPassword("fernando")
+                .withToken("yJhbGci1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJjZWNpbGlvIn0.MCfaorSC7Wdc8rSW7BJizasfzsb")
+                .withRol(new ArrayList<>())
+                .build();
         Cliente cliente = new ClienteBuilder()
                 .withEmpresa(empresa)
                 .withCondicionIVA(empresa.getCondicionIVA())
                 .withLocalidad(empresa.getLocalidad())
                 .withPredeterminado(true)
+                .withCredencial(credencial)
+                .withViajante(viajante)
                 .build();
         cliente = restTemplate.postForObject(apiPrefix + "/clientes", cliente, Cliente.class);
         Transportista transportista = new TransportistaBuilder()
