@@ -16,10 +16,10 @@
 package retrofit;
 
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import retrofit.converter.Converter;
-import retrofit.mime.TypedInput;
 
 public class RetrofitError extends RuntimeException {
   public static RetrofitError networkError(String url, IOException exception) {
@@ -117,7 +117,7 @@ public class RetrofitError extends RuntimeException {
     if (response == null) {
       return null;
     }
-    TypedInput body = Utils.typedInputFromBody(response.body());
+    ResponseBody body = response.body();
     if (body == null) {
       return null;
     }

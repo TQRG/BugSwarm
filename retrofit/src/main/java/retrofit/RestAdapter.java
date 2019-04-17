@@ -31,8 +31,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 import retrofit.converter.Converter;
 import retrofit.http.Header;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 
 /**
  * Adapts a Java interface to a REST API.
@@ -293,8 +291,7 @@ public class RestAdapter {
         return;
       }
 
-      TypedInput bodyInput = Utils.typedInputFromBody(body);
-      ExceptionCatchingTypedInput wrapped = new ExceptionCatchingTypedInput(bodyInput);
+      ExceptionCatchingRequestBody wrapped = new ExceptionCatchingRequestBody(body);
       try {
         Object convert = converter.fromBody(wrapped, type);
         callResponse(callback, convert, response);
