@@ -288,14 +288,6 @@ public class TreeFactory {
     return new SeparatedList(elements.build(), separators.build());
   }
 
-  /**
-   * [ END ] Statement
-   */
-
-  public ExpressionTree expression(InternalSyntaxToken token) {
-    return new VariableIdentifierTreeImpl(new IdentifierTreeImpl(token));
-  }
-
   public ElseClauseTree elseClause(InternalSyntaxToken elseToken, StatementTree statement) {
     return new ElseClauseTreeImpl(elseToken, statement);
   }
@@ -309,6 +301,51 @@ public class TreeFactory {
 
   public ElseifClauseTree elseifClause(InternalSyntaxToken elseifToken, ExpressionTree condition, StatementTree statement) {
     return new ElseifClauseTreeImpl(elseifToken, condition, statement);
+  }
+
+  public IfStatementTree alternativeIfStatement(
+      InternalSyntaxToken ifToken, ExpressionTree condition, InternalSyntaxToken colonToken,
+      Optional<List<StatementTree>> statements, Optional<List<ElseifClauseTree>> elseifClauses, Optional<ElseClauseTree> elseClause,
+      InternalSyntaxToken endIfToken, InternalSyntaxToken eosToken
+  ) {
+    return new IfStatementTreeImpl(
+        ifToken,
+        condition,
+        colonToken,
+        optionalList(statements),
+        optionalList(elseifClauses),
+        elseClause.orNull(),
+        endIfToken,
+        eosToken
+    );
+  }
+
+  public ElseClauseTree alternativeElseClause(InternalSyntaxToken elseToken, InternalSyntaxToken colonToken, Optional<List<StatementTree>> statements) {
+    return new ElseClauseTreeImpl(
+        elseToken,
+        colonToken,
+        optionalList(statements)
+    );
+  }
+
+  public ElseifClauseTree alternativeElseifClause(
+      InternalSyntaxToken elseifToken, ExpressionTree condition, InternalSyntaxToken colonToken,
+      Optional<List<StatementTree>> statements
+  ) {
+    return new ElseifClauseTreeImpl(
+        elseifToken,
+        condition,
+        colonToken,
+        optionalList(statements)
+    );
+  }
+
+  /**
+   * [ END ] Statement
+   */
+
+  public ExpressionTree expression(InternalSyntaxToken token) {
+    return new VariableIdentifierTreeImpl(new IdentifierTreeImpl(token));
   }
 
   /**
