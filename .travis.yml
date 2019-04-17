@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+
+script:
+  - ./gradlew clean test jacoco --stacktrace --debug
+  - ./travis.sh
+after_success: test "${TRAVIS_PULL_REQUEST}" == "false" && test "${TRAVIS_JDK_VERSION}" == "oraclejdk7" && test "${TRAVIS_BRANCH}" == "master" && ./gradlew uploadArchives sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace --debug
+
