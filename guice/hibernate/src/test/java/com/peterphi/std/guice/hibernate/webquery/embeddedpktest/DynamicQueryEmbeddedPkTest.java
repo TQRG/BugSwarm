@@ -12,13 +12,11 @@ import org.junit.runner.RunWith;
  * Tests searching for entities with Embedded primary keys
  */
 @RunWith(GuiceUnit.class)
-@GuiceConfig(config = "hibernate-tests-in-memory-hsqldb.properties",
-		            classPackages = EmbeddedPkEntity.class)
+@GuiceConfig(config = "hibernate-tests-in-memory-hsqldb.properties", classPackages = EmbeddedPkEntity.class)
 public class DynamicQueryEmbeddedPkTest
 {
 	@Inject
 	EmbeddedPkDaoImpl dao;
-
 
 	/**
 	 * Test that searching by timestamp alone works
@@ -29,7 +27,7 @@ public class DynamicQueryEmbeddedPkTest
 	public void testSearchByTimestamp()
 	{
 		// We'll get an exception if the property isn't understood
-		dao.findByUriQuery(new WebQuery().eq("timestamp", 123));
+		dao.findByUriQuery(new WebQuery().eq("id:timestamp", 123));
 	}
 
 
@@ -44,7 +42,7 @@ public class DynamicQueryEmbeddedPkTest
 	public void testSearchByIdAndTimestamp()
 	{
 		// We'll get an exception if the property isn't understood
-		dao.findByUriQuery(new WebQuery().eq("id", 123).eq("timestamp", 123));
+		dao.findByUriQuery(new WebQuery().eq("id:id", 123).eq("id:timestamp", 123));
 	}
 
 

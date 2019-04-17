@@ -1,23 +1,26 @@
 package com.peterphi.std.guice.hibernate.webquery.impl;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.peterphi.std.guice.database.annotation.SearchFieldAlias;
 import com.peterphi.std.guice.restclient.jaxb.webqueryschema.WQEntitySchema;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.type.CollectionType;
-import org.hibernate.type.CompositeType;
-import org.hibernate.type.Type;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.EmbeddableType;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.PluralAttribute;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.Type;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +28,8 @@ import java.util.stream.Collectors;
 
 public class QEntity
 {
+	private static final Logger log = Logger.getLogger(QEntity.class);
+
 	private final Class<?> clazz;
 	private String name;
 
@@ -33,12 +38,6 @@ public class QEntity
 	private Map<String, QRelation> relations = new HashMap<>();
 
 	private List<QEntity> descendants = Collections.emptyList();
-
-	private final Cache<String, QPropertyPathBuilder> builderCache = CacheBuilder.newBuilder()
-	                                                                             .weakKeys()
-	                                                                             .weakValues()
-	                                                                             .initialCapacity(0)
-	                                                                             .build();
 
 
 	public QEntity(Class<?> clazz)
@@ -53,33 +52,55 @@ public class QEntity
 	}
 
 
-	void parse(QEntityFactory entityFactory, ClassMetadata metadata, SessionFactoryImplementor sessionFactory)
+	void parse(QEntityFactory entityFactory, EntityType<?> metadata, SessionFactoryImplementor sessionFactory)
 	{
-		this.name = metadata.getEntityName();
+		this.name = metadata.getName();
 
-		final boolean[] nullability = metadata.getPropertyNullability();
-		final String[] names = metadata.getPropertyNames();
-		final Type[] types = metadata.getPropertyTypes();
+		for (Attribute<?, ?> attribute : metadata.getAttributes())
+		{
+			parseFields(entityFactory, sessionFactory, null, attribute);
+		}
 
 		// Parse top-level properties
-		parseFields(entityFactory, sessionFactory, null, nullability, names, types);
 
 		// Add identifier property
 		{
+			if (!metadata.hasSingleIdAttribute())
+				throw new IllegalArgumentException("@IdClass Entity not supported! " + metadata.getJavaType());
+
+			Type idType = metadata.getIdType();
+
+			switch (idType.getPersistenceType())
+			{
+				case BASIC:
+					break; // No action necessary, will be processed like a normal field
+				case EMBEDDABLE:
+				{
+					EmbeddableType<?> emb = (EmbeddableType<?>) idType;
+
+					parseEmbeddable(entityFactory, sessionFactory, "id", emb);
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Cannot handle id type: " + idType.getPersistenceType() + ": " + idType);
+			}
+/*
 			final String name = metadata.getIdentifierPropertyName();
 			final Type type = metadata.getIdentifierType();
 			final Class<?> clazz = type.getReturnedClass();
 
-			// Add an id property (N.B. may not work for embedded ids)
-			properties.put(name, new QProperty(this, null, name, clazz, false));
-
-			// If the identifier is a composite primary key then we should also add the composite fields
+			// If the identifier is a composite primary key then we should add the composite fields
 			if (type.isComponentType())
 			{
 				CompositeType composite = (CompositeType) type;
 
 				parseFields(entityFactory, sessionFactory, name, composite);
 			}
+			else
+			{
+				// The identifier is not a composite type, so just add the field directly
+				properties.put(name, new QProperty(this, null, name, clazz, false));
+			}*/
 		}
 
 		// Add field aliases defined on the class
@@ -98,77 +119,153 @@ public class QEntity
 	}
 
 
-	private void parseFields(final QEntityFactory entityFactory,
-	                         final SessionFactoryImplementor sessionFactory,
-	                         final String prefix,
-	                         final CompositeType composite)
+	public void parseEmbeddable(final QEntityFactory entityFactory,
+	                            final SessionFactoryImplementor sessionFactory,
+	                            final String prefix,
+	                            final EmbeddableType<?> type)
 	{
-		parseFields(entityFactory,
-		            sessionFactory,
-		            prefix,
-		            composite.getPropertyNullability(),
-		            composite.getPropertyNames(),
-		            composite.getSubtypes());
+		// Make sure the entity factory sees this embeddable
+		entityFactory.getEmbeddable(type.getJavaType(), type);
+
+		for (Attribute<?, ?> attribute : type.getAttributes())
+		{
+			parseFields(entityFactory, sessionFactory, prefix, attribute);
+		}
 	}
 
 
 	private void parseFields(final QEntityFactory entityFactory,
 	                         final SessionFactoryImplementor sessionFactory,
 	                         final String prefix,
-	                         final boolean[] nullability,
-	                         final String[] names,
-	                         final Type[] types)
+	                         final Attribute<?, ?> attribute)
 	{
-		for (int i = 0; i < names.length; i++)
+		final String name = attribute.getName();
+		//final javax.persistence.metamodel.Type<?> type;
+		final Class<?> clazz;
+		final boolean isCollection;
+		final boolean nullable;
+
+		// Transparently unwrap collections
+		if (attribute.isCollection())
 		{
-			final Type type;
-			final boolean isCollection;
+			isCollection = true;
+			nullable = false;
 
-			// Transparently unwrap collections
-			if (types[i].isCollectionType())
+			//type = ((PluralAttribute<?, ?, ?>) attribute).getElementType();
+			clazz = ((PluralAttribute<?, ?, ?>) attribute).getElementType().getJavaType();
+		}
+		else
+		{
+			isCollection = false;
+			//type = attribute.getDeclaringType();
+			nullable = (attribute instanceof SingularAttribute) ? ((SingularAttribute) attribute).isOptional() : false;
+			clazz = attribute.getJavaType();
+		}
+
+		// TODO is it also meaningful to add the parent composite type as a field too?
+		// TODO if not we should have this as a separate if condition
+		if (attribute.getPersistentAttributeType() == Attribute.PersistentAttributeType.EMBEDDED && !isCollection)
+		{
+			final String newPrefix;
+
+			if (prefix != null)
+				newPrefix = prefix + ":" + name;
+			else
+				newPrefix = name;
+
+			SingularAttribute<?, ?> attr = (SingularAttribute<?, ?>) attribute;
+			EmbeddableType<?> ct = (EmbeddableType<?>) attr.getType();
+
+			parseEmbeddable(entityFactory, sessionFactory, prefix, ct);
+		}
+		else if (isCollection || attribute.isAssociation())
+		{
+			final QRelation relation;
+			if (attribute.getPersistentAttributeType() != Attribute.PersistentAttributeType.EMBEDDED &&
+			    attribute.getPersistentAttributeType() != Attribute.PersistentAttributeType.BASIC)
 			{
-				final CollectionType collectionType = (CollectionType) types[i];
-				type = collectionType.getElementType(sessionFactory);
+				if (attribute.getPersistentAttributeType() != Attribute.PersistentAttributeType.ELEMENT_COLLECTION)
+				{
+					relation = new QRelation(this, prefix, name, entityFactory.get(clazz), nullable, isCollection);
+				}
+				else
+				{
+					PluralAttribute<?, ?, ?> plural = (PluralAttribute<?, ?, ?>) attribute;
 
-				isCollection = true;
+					if (plural.getElementType().getPersistenceType() == Type.PersistenceType.EMBEDDABLE)
+					{
+						final EmbeddableType<?> ct = (EmbeddableType<?>) plural.getElementType();
+
+						relation = new QRelation(this,
+						                         prefix,
+						                         name,
+						                         entityFactory.getEmbeddable(ct.getJavaType(), ct),
+						                         nullable,
+						                         isCollection);
+					}
+					else if (plural.getElementType().getPersistenceType() == Type.PersistenceType.BASIC)
+					{
+						// Ignore this altogether. We should probably come up with a way of querying this relationship in the future
+						relation = null;
+
+						log.debug("Ignoring BASIC ElementCollection " +
+						          plural.getCollectionType() +
+						          " of " +
+						          plural.getElementType().getJavaType() +
+						          " " +
+						          plural.getName());
+					}
+					else
+					{
+
+						throw new IllegalArgumentException("Cannot handle ElementCollection of " +
+						                                   plural.getElementType().getJavaType() +
+						                                   " - type " +
+						                                   plural.getElementType().getPersistenceType());
+					}
+				}
+			}
+			else if (isCollection && attribute.getPersistentAttributeType() == Attribute.PersistentAttributeType.EMBEDDED)
+			{
+				SingularAttribute<?, ?> attr = (SingularAttribute<?, ?>) attribute;
+				EmbeddableType<?> ct = (EmbeddableType<?>) attr.getType();
+
+				relation = new QRelation(this, prefix, name, entityFactory.getEmbeddable(clazz, ct), nullable, isCollection);
 			}
 			else
 			{
-				type = types[i];
-				isCollection = false;
+				log.warn("Unknown Collection type: " +
+				         attribute.getPersistentAttributeType() +
+				         " " +
+				         attribute +
+				         " with name " +
+				         name +
+				         " within " +
+				         clazz +
+				         " - ignoring");
+				relation = null;
 			}
 
-			final String name = names[i];
-			final Class<?> clazz = type.getReturnedClass();
-			final boolean nullable = nullability[i];
-
-			// TODO is it also meaningful to add the parent composite type as a field too?
-			// TODO if not we should have this as a separate if condition
-			if (types[i].isComponentType())
+			if (relation != null)
 			{
-				CompositeType composite = (CompositeType) types[i];
-
-				final String newPrefix;
-
-				if (prefix != null)
-					newPrefix = prefix + "." + name;
-				else
-					newPrefix = name;
-
-				// This is a composite type, so add the composite types instead
-				parseFields(entityFactory, sessionFactory, newPrefix, composite);
-			}
-			else if (type.isEntityType())
-			{
-				relations.put(name, new QRelation(this, prefix, name, entityFactory.get(clazz), nullable));
+				relations.put(name, relation);
 
 				// Set up a special property to allow constraining the collection size
-				properties.put(name + ":size", new QSizeProperty(relations.get(name)));
+				if (isCollection)
+					properties.put(name + ":size", new QSizeProperty(relations.get(name)));
 			}
+		}
+		else
+		{
+			final String newPrefix;
+
+			if (prefix != null)
+				newPrefix = prefix + ":" + name;
 			else
-			{
-				properties.put(name, new QProperty(this, prefix, name, clazz, nullable));
-			}
+				newPrefix = name;
+
+
+			properties.put(newPrefix, new QProperty(this, prefix, name, clazz, nullable));
 		}
 	}
 
@@ -222,9 +319,38 @@ public class QEntity
 	}
 
 
-	public boolean hasAlias(String name)
+	/**
+	 * Modify a list of segments by replacing any defined alias on this entity. If there is no such destination alias then does
+	 * nothing<br />
+	 * This is designed to allow underlying database schema changes without changing the query API exposed to users
+	 *
+	 * @param segments
+	 * 		some path optionally including an aliased name (e.g. "asset.parentId")
+	 *
+	 * @return some new path (e.g. "asset.parent.id")
+	 */
+	public void fixupPathUsingAliases(final LinkedList<String> segments)
 	{
-		return aliases.containsKey(name);
+		if (aliases.isEmpty())
+			return; // No transformation necessary or possible
+
+		final String remainingPath = segments.stream().collect(Collectors.joining("."));
+
+		for (Map.Entry<String, String> entry : aliases.entrySet())
+		{
+			final String from = entry.getKey();
+			final String to = entry.getValue();
+
+			if (StringUtils.equals(remainingPath, from) || StringUtils.startsWith(remainingPath, from + "."))
+			{
+				final String newPath = to + remainingPath.substring(from.length());
+
+				segments.clear();
+				segments.addAll(Arrays.asList(StringUtils.split(newPath, '.')));
+
+				return;
+			}
+		}
 	}
 
 
@@ -247,88 +373,6 @@ public class QEntity
 			                                   this.clazz.getSimpleName() +
 			                                   ", expected one of " +
 			                                   properties.keySet());
-	}
-
-
-	public QPropertyPathBuilder getPath(final String path)
-	{
-		QPropertyPathBuilder cached = builderCache.getIfPresent(path);
-
-		if (cached == null)
-		{
-			final QPropertyPathBuilder builder = new QPropertyPathBuilder();
-
-			cached = getPath(builder, path);
-
-			builderCache.put(path, cached);
-		}
-
-		return cached;
-	}
-
-
-	public QPropertyPathBuilder getPath(final QPropertyPathBuilder builder, String path)
-	{
-		final int firstDot = path.indexOf('.');
-
-		final boolean terminal = (firstDot == -1);
-
-		final String head = terminal ? path : path.substring(0, firstDot);
-		final String tail = terminal ? null : path.substring(firstDot + 1);
-
-		if (hasAlias(head))
-		{
-			final String newPath;
-
-			if (terminal)
-				newPath = getAlias(head);
-			else
-				newPath = getAlias(head) + "." + tail;
-
-			return getPath(builder, newPath);
-		}
-		else if (hasProperty(head))
-		{
-			if (tail != null)
-				throw new IllegalArgumentException("Found property " + head + " but there are other path components: " + tail);
-
-			builder.append(getProperty(head));
-
-			return builder;
-		}
-		else if (hasRelation(head))
-		{
-			final QRelation relation = getRelation(head);
-
-			builder.append(getRelation(head));
-
-			return relation.getEntity().getPath(builder, tail);
-		}
-		else
-		{
-			final Set<String> expected = new HashSet<>(getPropertyNames());
-			expected.addAll(getRelationNames());
-			expected.addAll(getAliasNames());
-
-			throw new IllegalArgumentException("Relationship path error: got " +
-			                                   head +
-			                                   ", expected one of: " + expected);
-		}
-	}
-
-
-	/**
-	 * Retrieve the resolution of a defined alias on this entity. If there is no such destination alias then return null<br />
-	 * This is designed to allow underlying database schema changes without changing the query API exposed to users
-	 *
-	 * @param name
-	 * 		some aliased name (e.g. "assetId")
-	 *
-	 * @return some alias destination (e.g. "asset.id")
-	 */
-	public String getAlias(String name)
-	{
-		return aliases.get(name);
 	}
 
 
@@ -386,11 +430,57 @@ public class QEntity
 	public String toString()
 	{
 		return "QEntity{" +
-		       "clazz=" + clazz +
-		       ", name='" + name + '\'' +
-		       ", properties=" + properties.values() +
-		       ", relations=" + relations.values() +
-		       ", aliases=" + aliases.values() +
+		       "clazz=" +
+		       clazz +
+		       ", name='" +
+		       name +
+		       '\'' +
+		       ", properties=" +
+		       properties.values() +
+		       ", relations=" +
+		       relations.values() +
+		       ", aliases=" +
+		       aliases.values() +
 		       '}';
+	}
+
+
+	public QEntity getSubEntity(final String discriminator)
+	{
+		if (StringUtils.equals(getDiscriminatorValue(), discriminator))
+			return this;
+		else
+			for (QEntity entity : getSubEntities())
+				if (StringUtils.equals(entity.getDiscriminatorValue(), discriminator))
+					return entity;
+
+		throw new IllegalArgumentException("Unknown subclass with discriminator: " + discriminator);
+	}
+
+
+	public QEntity getCommonSubclass(final List<String> discriminators)
+	{
+		Map<Class, QEntity> entities = discriminators
+				                               .stream()
+				                               .map(this :: getSubEntity)
+				                               .collect(Collectors.toMap(e -> e.clazz, e -> e));
+
+		Collection<Class> classes = entities.keySet();
+
+		for (Class potentialSuperclass : classes)
+		{
+			boolean suitableForAll = true;
+			for (Class test : classes)
+			{
+				suitableForAll = suitableForAll && test.isAssignableFrom(potentialSuperclass);
+			}
+
+			// If this is a suitable superclass for all classes we have tested then we have a winner!
+			if (suitableForAll)
+				return entities.get(potentialSuperclass);
+		}
+
+		// Found no more specific subclass
+		return this;
 	}
 }
