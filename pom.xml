@@ -167,7 +167,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <projectVersion>${project.version}</projectVersion>
-    <antlr4.version>4.5</antlr4.version>
+    <antlr4.version>4.5.1</antlr4.version>
     <maven.site.plugin.version>3.4</maven.site.plugin.version>
     <maven.findbugs.plugin.version>3.0.1</maven.findbugs.plugin.version>
     <tools.jar.version>1.7.0</tools.jar.version>
@@ -190,13 +190,6 @@
       <groupId>org.antlr</groupId>
       <artifactId>antlr4-runtime</artifactId>
       <version>${antlr4.version}</version>
-      <exclusions>
-        <exclusion>
-	  <!-- 1.0.2 version is excluded, we will use version 1.0.1 from antlr:antlr:2.7.7 -->
-          <groupId>org.abego.treelayout</groupId>
-          <artifactId>org.abego.treelayout.core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>commons-beanutils</groupId>
@@ -243,11 +236,13 @@
     	<groupId>org.powermock</groupId>
     	<artifactId>powermock-api-mockito</artifactId>
     	<version>1.6.2</version>
+        <scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.powermock</groupId>
     	<artifactId>powermock-module-junit4</artifactId>
     	<version>1.6.2</version>
+        <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -745,6 +740,7 @@
               <dir>config</dir>
               <excludes>
                 <exclude>java.header</exclude>
+                <exclude>java_regexp.header</exclude>
               </excludes>
             </validationSet>
             <validationSet>
@@ -1136,7 +1132,6 @@
             <regex><pattern>.*.checks.coding.AbstractSuperCheck</pattern><branchRate>78</branchRate><lineRate>89</lineRate></regex>
             <regex><pattern>.*.checks.coding.DeclarationOrderCheck</pattern><branchRate>82</branchRate><lineRate>93</lineRate></regex>
             <regex><pattern>.*.checks.coding.ExplicitInitializationCheck</pattern><branchRate>91</branchRate><lineRate>97</lineRate></regex>
-            <regex><pattern>.*.checks.coding.FallThroughCheck</pattern><branchRate>90</branchRate><lineRate>97</lineRate></regex>
             <regex><pattern>.*.checks.coding.FinalLocalVariableCheck</pattern><branchRate>82</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.coding.IllegalInstantiationCheck</pattern><branchRate>81</branchRate><lineRate>97</lineRate></regex>
             <regex><pattern>.*.checks.coding.IllegalTokenCheck</pattern><branchRate>83</branchRate><lineRate>100</lineRate></regex>
@@ -1152,14 +1147,14 @@
             <regex><pattern>.*.checks.coding.VariableDeclarationUsageDistanceCheck</pattern><branchRate>90</branchRate><lineRate>98</lineRate></regex>
 
 
-            <regex><pattern>.*.checks.header.AbstractHeaderCheck</pattern><branchRate>85</branchRate><lineRate>85</lineRate></regex>
-            <regex><pattern>.*.checks.header.HeaderCheck</pattern><branchRate>18</branchRate><lineRate>45</lineRate></regex>
-            <regex><pattern>.*.checks.header.RegexpHeaderCheck</pattern><branchRate>87</branchRate><lineRate>93</lineRate></regex>
+            <regex><pattern>.*.checks.header.AbstractHeaderCheck</pattern><branchRate>90</branchRate><lineRate>87</lineRate></regex>
+            <regex><pattern>.*.checks.header.HeaderCheck</pattern><branchRate>31</branchRate><lineRate>50</lineRate></regex>
+            <regex><pattern>.*.checks.header.RegexpHeaderCheck</pattern><branchRate>88</branchRate><lineRate>94</lineRate></regex>
 
 
             <regex><pattern>.*.checks.imports.CustomImportOrderCheck</pattern><branchRate>98</branchRate><lineRate>100</lineRate></regex>
 
-            <regex><pattern>.*.checks.indentation.ArrayInitHandler</pattern><branchRate>83</branchRate><lineRate>97</lineRate></regex>
+            <regex><pattern>.*.checks.indentation.ArrayInitHandler</pattern><branchRate>87</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.indentation.BlockParentHandler</pattern><branchRate>86</branchRate><lineRate>98</lineRate></regex>
             <regex><pattern>.*.checks.indentation.ElseHandler</pattern><branchRate>75</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.indentation.AbstractExpressionHandler</pattern><branchRate>91</branchRate><lineRate>97</lineRate></regex>
@@ -1167,7 +1162,6 @@
             <regex><pattern>.*.checks.indentation.ImportHandler</pattern><branchRate>50</branchRate><lineRate>87</lineRate></regex>
             <regex><pattern>.*.checks.indentation.IndentationCheck</pattern><branchRate>100</branchRate><lineRate>93</lineRate></regex>
             <regex><pattern>.*.checks.indentation.LineWrappingHandler</pattern><branchRate>87</branchRate><lineRate>95</lineRate></regex>
-            <regex><pattern>.*.checks.indentation.MethodCallHandler</pattern><branchRate>63</branchRate><lineRate>87</lineRate></regex>
             <regex><pattern>.*.checks.indentation.MethodCallLineWrapHandler</pattern><branchRate>0</branchRate><lineRate>0</lineRate></regex>
             <regex><pattern>.*.checks.indentation.MethodDefHandler</pattern><branchRate>87</branchRate><lineRate>100</lineRate></regex>
             <regex><pattern>.*.checks.indentation.NewHandler</pattern><branchRate>83</branchRate><lineRate>77</lineRate></regex>
@@ -1217,7 +1211,7 @@
 
             <regex><pattern>.*.filters.SuppressionCommentFilter</pattern><branchRate>83</branchRate><lineRate>93</lineRate></regex>
             <regex><pattern>.*.filters.SuppressionCommentFilter\$Tag</pattern><branchRate>96</branchRate><lineRate>94</lineRate></regex>
-            <regex><pattern>.*.filters.SuppressionsLoader</pattern><branchRate>68</branchRate><lineRate>77</lineRate></regex>
+            <regex><pattern>.*.filters.SuppressionsLoader</pattern><branchRate>63</branchRate><lineRate>77</lineRate></regex>
             <regex><pattern>.*.filters.SuppressWithNearbyCommentFilter</pattern><branchRate>76</branchRate><lineRate>89</lineRate></regex>
             <regex><pattern>.*.filters.SuppressWithNearbyCommentFilter\$Tag</pattern><branchRate>88</branchRate><lineRate>78</lineRate></regex>
 
