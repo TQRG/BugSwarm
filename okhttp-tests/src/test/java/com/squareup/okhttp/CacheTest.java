@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -121,9 +122,12 @@ public final class CacheTest {
     assertCached(false, 207);
     assertCached(true, 300);
     assertCached(true, 301);
-    for (int i = 302; i <= 307; ++i) {
-      assertCached(false, i);
-    }
+    assertCached(true, 302);
+    assertCached(false, 303);
+    assertCached(false, 304);
+    assertCached(false, 305);
+    assertCached(false, 306);
+    assertCached(true, 307);
     assertCached(true, 308);
     for (int i = 400; i <= 406; ++i) {
       assertCached(false, i);
@@ -410,6 +414,14 @@ public final class CacheTest {
     temporaryRedirectCachedWithCachingHeader(307, "Cache-Control", "max-age=60");
   }
 
+  @Test public void foundNotCachedWithoutCacheHeader() throws Exception {
+    temporaryRedirectNotCachedWithoutCachingHeader(302);
+  }
+
+  @Test public void temporaryRedirectNotCachedWithoutCacheHeader() throws Exception {
+    temporaryRedirectNotCachedWithoutCachingHeader(307);
+  }
+
   private void temporaryRedirectCachedWithCachingHeader(
       int responseCode, String headerName, String headerValue) throws Exception {
     server.enqueue(new MockResponse()
@@ -427,6 +439,20 @@ public final class CacheTest {
     URL url = server.getUrl("/");
     assertEquals("a", get(url).body().string());
     assertEquals("a", get(url).body().string());
+  }
+
+  private void temporaryRedirectNotCachedWithoutCachingHeader(int responseCode) throws Exception {
+    server.enqueue(new MockResponse()
+        .setResponseCode(responseCode)
+        .addHeader("Location", "/a"));
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    server.enqueue(new MockResponse()
+        .setBody("b"));
+
+    URL url = server.getUrl("/");
+    assertEquals("a", get(url).body().string());
+    assertEquals("b", get(url).body().string());
   }
 
   @Test public void serverDisconnectsPrematurelyWithContentLengthHeader() throws IOException {
@@ -1964,6 +1990,133 @@ public final class CacheTest {
       }
     });
     assertEquals("A", get(url).body().string());
+  }
+
+  @Test public void iterateCache() throws Exception {
+    // Put some responses in the cache.
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    URL urlA = server.getUrl("/a");
+    assertEquals("a", get(urlA).body().string());
+
+    server.enqueue(new MockResponse()
+        .setBody("b"));
+    URL urlB = server.getUrl("/b");
+    assertEquals("b", get(urlB).body().string());
+
+    server.enqueue(new MockResponse()
+        .setBody("c"));
+    URL urlC = server.getUrl("/c");
+    assertEquals("c", get(urlC).body().string());
+
+    // Confirm the iterator returns those responses...
+    Iterator<String> i = cache.urls();
+    assertTrue(i.hasNext());
+    assertEquals(urlA.toString(), i.next());
+    assertTrue(i.hasNext());
+    assertEquals(urlB.toString(), i.next());
+    assertTrue(i.hasNext());
+    assertEquals(urlC.toString(), i.next());
+
+    // ... and nothing else.
+    assertFalse(i.hasNext());
+    try {
+      i.next();
+      fail();
+    } catch (NoSuchElementException expected) {
+    }
+  }
+
+  @Test public void iteratorRemoveFromCache() throws Exception {
+    // Put a response in the cache.
+    server.enqueue(new MockResponse()
+        .addHeader("Cache-Control: max-age=60")
+        .setBody("a"));
+    URL url = server.getUrl("/a");
+    assertEquals("a", get(url).body().string());
+
+    // Remove it with iteration.
+    Iterator<String> i = cache.urls();
+    assertEquals(url.toString(), i.next());
+    i.remove();
+
+    // Confirm that subsequent requests suffer a cache miss.
+    server.enqueue(new MockResponse()
+        .setBody("b"));
+    assertEquals("b", get(url).body().string());
+  }
+
+  @Test public void iteratorRemoveWithoutNextThrows() throws Exception {
+    // Put a response in the cache.
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    URL url = server.getUrl("/a");
+    assertEquals("a", get(url).body().string());
+
+    Iterator<String> i = cache.urls();
+    assertTrue(i.hasNext());
+    try {
+      i.remove();
+      fail();
+    } catch (IllegalStateException expected) {
+    }
+  }
+
+  @Test public void iteratorRemoveOncePerCallToNext() throws Exception {
+    // Put a response in the cache.
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    URL url = server.getUrl("/a");
+    assertEquals("a", get(url).body().string());
+
+    Iterator<String> i = cache.urls();
+    assertEquals(url.toString(), i.next());
+    i.remove();
+
+    // Too many calls to remove().
+    try {
+      i.remove();
+      fail();
+    } catch (IllegalStateException expected) {
+    }
+  }
+
+  @Test public void elementEvictedBetweenHasNextAndNext() throws Exception {
+    // Put a response in the cache.
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    URL url = server.getUrl("/a");
+    assertEquals("a", get(url).body().string());
+
+    // The URL will remain available if hasNext() returned true...
+    Iterator<String> i = cache.urls();
+    assertTrue(i.hasNext());
+
+    // ...so even when we evict the element, we still get something back.
+    cache.evictAll();
+    assertEquals(url.toString(), i.next());
+
+    // Remove does nothing. But most importantly, it doesn't throw!
+    i.remove();
+  }
+
+  @Test public void elementEvictedBeforeHasNextIsOmitted() throws Exception {
+    // Put a response in the cache.
+    server.enqueue(new MockResponse()
+        .setBody("a"));
+    URL url = server.getUrl("/a");
+    assertEquals("a", get(url).body().string());
+
+    Iterator<String> i = cache.urls();
+    cache.evictAll();
+
+    // The URL was evicted before hasNext() made any promises.
+    assertFalse(i.hasNext());
+    try {
+      i.next();
+      fail();
+    } catch (NoSuchElementException expected) {
+    }
   }
 
   private Response get(URL url) throws IOException {
