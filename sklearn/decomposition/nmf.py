@@ -231,7 +231,7 @@ def _beta_divergence(X, W, H, beta, square_root=False):
         return res
 
 
-def _special_dot_X(W, H, X):
+def _special_dot_X(W, H, X, out=None):
     """Computes np.dot(W, H) in a special way:
 
     - If X is sparse, np.dot(W, H) is computed only where X is non zero,
@@ -247,11 +247,11 @@ def _special_dot_X(W, H, X):
         WH = sp.coo_matrix((dot_vals, (ii, jj)), shape=X.shape)
         return WH.tocsr()
     elif isinstance(X, np.ma.masked_array):
-        WH = np.ma.masked_array(np.dot(W, H), mask=X.mask)
-        WH.unshare_mask()
+        WH = np.ma.masked_array(np.dot(W, H, out=out), mask=X.mask)
+        WH._sharedmask = False
         return WH
     else:
-        return np.dot(W, H)
+        return np.dot(W, H, out=out)
 
 
 def _safe_dot(X, Ht):
@@ -608,7 +608,8 @@ def _fit_coordinate_descent(X, W, H, tol=1e-4, max_iter=200, l1_reg_W=0,
 
 
 def _multiplicative_update_w(X, W, H, beta_loss, l1_reg_W, l2_reg_W, gamma,
-                             H_sum=None, HHt=None, XHt=None, update_H=True):
+                             WH, H_sum=None, HHt=None, XHt=None,
+                             update_H=True):
     """update W in Multiplicative Update NMF"""
     X_mask = X.mask if isinstance(X, np.ma.masked_array) else False
 
@@ -629,13 +630,13 @@ def _multiplicative_update_w(X, W, H, beta_loss, l1_reg_W, l2_reg_W, gamma,
                 HHt = np.dot(H, H.T)
             denominator = np.dot(W, HHt)
         else:
-            WH = _special_dot_X(W, H, X)
+            WH = _special_dot_X(W, H, X, out=WH)
             denominator = _safe_dot(WH, H.T)
 
     else:
         # Numerator
         # if X is sparse, compute WH only where X is non zero
-        WH_safe_X = _special_dot_X(W, H, X)
+        WH_safe_X = _special_dot_X(W, H, X, out=WH)
         if sp.issparse(X):
             WH_safe_X_data = WH_safe_X.data
             X_data = X.data
@@ -718,7 +719,8 @@ def _multiplicative_update_w(X, W, H, beta_loss, l1_reg_W, l2_reg_W, gamma,
     return delta_W, H_sum, HHt, XHt
 
 
-def _multiplicative_update_h(X, W, H, beta_loss, l1_reg_H, l2_reg_H, gamma):
+def _multiplicative_update_h(X, W, H, beta_loss, l1_reg_H, l2_reg_H, gamma,
+                             WH):
     """update H in Multiplicative Update NMF"""
     X_mask = X.mask if isinstance(X, np.ma.masked_array) else False
 
@@ -728,12 +730,12 @@ def _multiplicative_update_h(X, W, H, beta_loss, l1_reg_H, l2_reg_H, gamma):
             denominator = np.dot(np.dot(W.T, W), H)
         else:
             numerator = _safe_dot(W.T, X)
-            WH = _special_dot_X(W, H, X)
+            WH = _special_dot_X(W, H, X, out=WH)
             denominator = _safe_dot(W.T, WH)
 
     else:
         # Numerator
-        WH_safe_X = _special_dot_X(W, H, X)
+        WH_safe_X = _special_dot_X(W, H, X, out=WH)
         if sp.issparse(X):
             WH_safe_X_data = WH_safe_X.data
             X_data = X.data
@@ -895,6 +897,9 @@ def _fit_multiplicative_update(X, W, H, beta_loss='frobenius',
     else:
         gamma = 1.
 
+    # allocate memory for the product np.dot(W, H)
+    WH = np.empty(X.shape) if not sp.issparse(X) else None
+
     # transform in a numpy masked array if X contains missing (NaN) values
     if not sp.issparse(X):
         X_mask = np.isnan(X)
@@ -910,7 +915,7 @@ def _fit_multiplicative_update(X, W, H, beta_loss='frobenius',
         # update W
         # H_sum, HHt and XHt are saved and reused if not update_H
         delta_W, H_sum, HHt, XHt = _multiplicative_update_w(
-            X, W, H, beta_loss, l1_reg_W, l2_reg_W, gamma,
+            X, W, H, beta_loss, l1_reg_W, l2_reg_W, gamma, WH,
             H_sum, HHt, XHt, update_H)
         W *= delta_W
 
@@ -921,7 +926,7 @@ def _fit_multiplicative_update(X, W, H, beta_loss='frobenius',
         # update H
         if update_H:
             delta_H = _multiplicative_update_h(X, W, H, beta_loss, l1_reg_H,
-                                               l2_reg_H, gamma)
+                                               l2_reg_H, gamma, WH)
             H *= delta_H
 
             # These values will be recomputed since H changed
@@ -1449,203 +1454,3 @@ class NMF(BaseEstimator, TransformerMixin):
         """
         check_is_fitted(self, 'n_components_')
         return np.dot(W, self.components_)
-
-
-def _get_mask(X, value_to_mask):
-    """Compute the boolean mask X == missing_values."""
-    if value_to_mask == "NaN" or np.isnan(value_to_mask):
-        return np.isnan(X)
-    else:
-        return X == value_to_mask
-
-
-class ImputerNMF(BaseEstimator, TransformerMixin):
-    """Imputation transformer for completing missing values, using NMF
-
-    Parameters
-    ----------
-    missing_values : integer or "NaN", optional (default="NaN")
-        The placeholder for the missing values. All occurrences of
-        `missing_values` will be imputed. For missing values encoded as np.nan,
-        use the string value "NaN".
-
-    n_components : int or None
-        Number of components, if n_components is not set all features
-        are kept.
-
-    init :  'random' | 'custom', default 'random'
-        Method used to initialize the procedure.
-        Valid options:
-
-        - 'random': non-negative random matrices, scaled with:
-            sqrt(X.mean() / n_components)
-
-        - 'custom': use custom matrices W and H
-
-    beta_loss : float or string, default 'frobenius'
-        String must be in {'frobenius', 'kullback-leibler', 'itakura-saito'}.
-        Beta divergence to be minimized, measuring the distance between X
-        and the dot product WH. Note that values different from 'frobenius'
-        (or 2) and 'kullback-leibler' (or 1) lead to significantly slower
-        fits. Note that for beta_loss <= 0 (or 'itakura-saito'), the input
-        matrix X cannot contain zeros.
-
-    tol : float, default: 1e-4
-        Tolerance of the stopping condition.
-
-    max_iter : integer, default: 200
-        Maximum number of iterations before timing out.
-
-    random_state : int, RandomState instance or None, optional, default: None
-        If int, random_state is the seed used by the random number generator;
-        If RandomState instance, random_state is the random number generator;
-        If None, the random number generator is the RandomState instance used
-        by `np.random`.
-
-    alpha : double, default: 0.
-        Constant that multiplies the regularization terms. Set it to zero to
-        have no regularization.
-
-    l1_ratio : double, default: 0.
-        The regularization mixing parameter, with 0 <= l1_ratio <= 1.
-        For l1_ratio = 0 the penalty is an elementwise L2 penalty
-        (aka Frobenius Norm).
-        For l1_ratio = 1 it is an elementwise L1 penalty.
-        For 0 < l1_ratio < 1, the penalty is a combination of L1 and L2.
-
-    verbose : bool, default=False
-        Whether to be verbose.
-
-    Attributes
-    ----------
-    components_ : array, [n_components, n_features]
-        Factorization matrix, sometimes called 'dictionary'.
-
-    activations_ : array, [n_samples, n_components]
-        Factorization matrix.
-
-    reconstruction_err_ : number
-        Frobenius norm of the matrix difference, or beta-divergence, between
-        the training data ``X`` and the reconstructed data ``WH`` from
-        the fitted model.
-
-    mask_ : array, [n_samples, n_features]
-        Boolean array of masked values in the last transformed array.
-
-    n_iter_ : int
-        Actual number of iterations.
-
-    """
-
-    def __init__(self, missing_values="NaN", n_components=None, init='random',
-                 beta_loss='frobenius', tol=1e-4, max_iter=200,
-                 random_state=None, alpha=0., l1_ratio=0., verbose=0):
-        self.missing_values = missing_values
-        self.n_components = n_components
-        self.init = init
-        self.beta_loss = beta_loss
-        self.tol = tol
-        self.max_iter = max_iter
-        self.random_state = random_state
-        self.alpha = alpha
-        self.l1_ratio = l1_ratio
-        self.verbose = verbose
-
-    def fit_transform(self, X, y=None, W=None, H=None):
-        """Learn a NMF model for the data X and returns the transformed data.
-
-        This is more efficient than calling fit followed by transform.
-
-        Parameters
-        ----------
-        X : {array-like, sparse matrix}, shape (n_samples, n_features)
-            Data matrix to be decomposed
-
-        y : Ignored
-
-        W : array-like, shape (n_samples, n_components)
-            If init='custom', it is used as initial guess for the solution.
-
-        H : array-like, shape (n_components, n_features)
-            If init='custom', it is used as initial guess for the solution.
-
-        Returns
-        -------
-        X : array, shape (n_samples, n_features)
-            Transformed data, computed through np.dot(W, H)
-        """
-        # XXX: copy=False and pass a masked array to non_negative_factorization
-        X = check_array(X, dtype=float, force_all_finite=False, copy=True)
-        mask = _get_mask(X, self.missing_values)
-        X[mask] = np.nan
-
-        W, H, n_iter_ = non_negative_factorization(
-            X=X, W=W, H=H, n_components=self.n_components,
-            init=self.init, update_H=True, solver='mu',
-            beta_loss=self.beta_loss, tol=self.tol, max_iter=self.max_iter,
-            alpha=self.alpha, l1_ratio=self.l1_ratio, regularization='both',
-            random_state=self.random_state, verbose=self.verbose,
-            shuffle=False)
-
-        self.reconstruction_err_ = _beta_divergence(X, W, H, self.beta_loss,
-                                                    square_root=True)
-        self.mask_ = mask
-        self.n_components_ = H.shape[0]
-        self.components_ = H
-        self.activations_ = W
-        self.n_iter_ = n_iter_
-
-        X[mask] = np.dot(W, H)[mask]
-        return X
-
-    def fit(self, X, y=None, **params):
-        """Learn a NMF model for the data X.
-
-        Parameters
-        ----------
-        X : {array-like, sparse matrix}, shape (n_samples, n_features)
-            Data matrix to be decomposed
-
-        y : Ignored
-
-        Returns
-        -------
-        self
-        """
-        self.fit_transform(X, **params)
-        return self
-
-    def transform(self, X):
-        """Transform the data X according to the fitted NMF model
-
-        Parameters
-        ----------
-        X : array-like, shape (n_samples, n_features)
-            Data matrix to be transformed by the model
-
-        Returns
-        -------
-        X : array, shape (n_samples, n_features)
-            Transformed data
-        """
-        check_is_fitted(self, 'n_components_')
-
-        # XXX: copy=False and pass a masked array to non_negative_factorization
-        X = check_array(X, dtype=float, force_all_finite=False, copy=True)
-        mask = _get_mask(X, self.missing_values)
-        X[mask] = np.nan
-
-        W, _, n_iter_ = non_negative_factorization(
-            X=X, W=None, H=self.components_, n_components=self.n_components_,
-            init=self.init, update_H=False, solver='mu',
-            beta_loss=self.beta_loss, tol=self.tol, max_iter=self.max_iter,
-            alpha=self.alpha, l1_ratio=self.l1_ratio, regularization='both',
-            random_state=self.random_state, verbose=self.verbose,
-            shuffle=False)
-
-        self.activations_ = W
-        self.mask_ = mask
-        self.n_iter_ = n_iter_
-
-        X[mask] = np.dot(W, self.components_)[mask]
-        return X
