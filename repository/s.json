@@ -3782,18 +3782,6 @@
 			]
 		},
 		{
-			"name": "SublimeFcitx",
-			"details": "https://github.com/ubuntugege/SublimeFcitx",
-			"labels": ["input", "fcitx", "chinese"],
-			"releases": [
-				{
-					"sublime_text": "*",
-					"platforms": "linux",
-					"tags": true
-				}
-			]
-		},
-		{
 			"name": "Sublime Files",
 			"details": "https://github.com/al63/SublimeFiles",
 			"labels": ["open file", "file navigation"],
@@ -4126,6 +4114,18 @@
 				{
 					"sublime_text": "<3000",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "SublimeFcitx",
+			"details": "https://github.com/ubuntugege/SublimeFcitx",
+			"labels": ["input", "fcitx", "chinese"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"platforms": "linux",
+					"tags": true
 				}
 			]
 		},
