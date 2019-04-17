@@ -70,6 +70,8 @@ class ParameterGrid(object):
     ...                               {'kernel': 'rbf', 'gamma': 1},
     ...                               {'kernel': 'rbf', 'gamma': 10}]
     True
+    >>> ParameterGrid(grid)[1] == {'kernel': 'rbf', 'gamma': 1}
+    True
 
     See also
     --------
@@ -112,24 +114,42 @@ class ParameterGrid(object):
                    for p in self.param_grid)
 
     def __getitem__(self, ind):
-        """
-        >>> grid = ParameterGrid([{'kernel': ['linear']},
-        ...                       {'kernel': ['rbf'], 'gamma': [1, 10]}])
-        >>> [grid[i] for i in range(len(grid))] == list(grid)
-        True
+        """Get the parameters that would be ``ind``th in iteration
+
+        Parameters
+        ----------
+        ind : int
+            The iteration index
+
+        Returns
+        -------
+        params : dict of string to any
+            Equal to list(self)[ind]
         """
         for sub_grid in self.param_grid:
             # XXX: could memoize information used here
-            keys, values = zip(*sorted(sub_grid.items()))
-            sizes = [len(v) for v in values]
+            if not sub_grid:
+                if ind == 0:
+                    return {}
+                else:
+                    ind -= 1
+                    continue
+            keys, values_lists = zip(*sorted(sub_grid.items()))
+            sizes = [len(v_list) for v_list in values_lists]
+            # For sizes = [5, 3, 2], modulo = [30,  6,  2,  1]
+            # The grid has size 30;
+            # the first param changes every 6, the second every 2, etc.
             modulo = np.cumprod(np.hstack([1, sizes[::-1]]))[::-1]
             if ind >= modulo[0]:
+                # Try the next grid
                 ind -= modulo[0]
             else:
                 offsets = ind // modulo[1:] % sizes
-                return {k: v[o] for k, v, o in zip(keys, values, offsets)}
+                return dict((key, v_list[offset])
+                            for key, v_list, offset
+                            in zip(keys, values_lists, offsets))
 
-        raise ValueError
+        raise IndexError('ParameterGrid index out of range')
 
 
 class ParameterSampler(object):
@@ -201,7 +221,7 @@ class ParameterSampler(object):
         rnd = check_random_state(self.random_state)
 
         if all_lists:
-            # get complete grid and yield from it
+            # look up sampled parameter settings in parameter grid
             param_grid = ParameterGrid(self.param_distributions)
             grid_size = len(param_grid)
 
