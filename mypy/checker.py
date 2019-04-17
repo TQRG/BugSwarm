@@ -28,7 +28,7 @@ from mypy.nodes import (
     AwaitExpr, PromoteExpr, Node, EnumCallExpr,
     ARG_POS, MDEF,
     CONTRAVARIANT, COVARIANT)
-from mypy import nodes, checkexpr
+from mypy import nodes
 from mypy.typeanal import has_any_from_unimported_type
 from mypy.types import (
     Type, AnyType, CallableType, FunctionLike, Overloaded, TupleType, TypedDictType,
@@ -2297,11 +2297,8 @@ class TypeChecker(NodeVisitor[None]):
     def check_untyped_after_decorator(self, typ: Type, func: FuncDef) -> None:
         if 'decorated' not in self.options.disallow_any or self.is_stub:
             return
-        if not isinstance(typ, CallableType):
-            self.msg.untyped_decorated_function(typ, func)
-            return
 
-        if checkexpr.has_any_type(typ):
+        if mypy.checkexpr.has_any_type(typ):
             self.msg.untyped_decorated_function(typ, func)
 
     def check_async_with_item(self, expr: Expression, target: Expression,
