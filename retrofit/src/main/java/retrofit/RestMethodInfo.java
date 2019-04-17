@@ -142,12 +142,14 @@ final class RestMethodInfo {
         if (requestType != RequestType.SIMPLE) {
           throw methodError("Only one encoding annotation is allowed.");
         }
-        requestType = RequestType.MULTIPART;
+        throw new UnsupportedOperationException("Multipart shall return!");
+        //requestType = RequestType.MULTIPART;
       } else if (annotationType == FormUrlEncoded.class) {
         if (requestType != RequestType.SIMPLE) {
           throw methodError("Only one encoding annotation is allowed.");
         }
-        requestType = RequestType.FORM_URL_ENCODED;
+        throw new UnsupportedOperationException("Form URL encoding shall return!");
+        //requestType = RequestType.FORM_URL_ENCODED;
       } else if (annotationType == Streaming.class) {
         if (responseObjectType != Response.class) {
           throw methodError(

@@ -17,18 +17,13 @@
 package retrofit;
 
 import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.Executor;
 import okio.Buffer;
-import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Source;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 
 final class Utils {
   static <T> T checkNotNull(T object, String message, Object... args) {
@@ -77,40 +72,6 @@ final class Utils {
     if (service.getInterfaces().length > 0) {
       throw new IllegalArgumentException("Interface definitions must not extend other interfaces.");
     }
-  }
-
-  static RequestBody typedOutputToBody(final TypedOutput body) {
-    if (body == null) return null;
-    return new RequestBody() {
-      @Override public MediaType contentType() {
-        return body.mediaType();
-      }
-
-      @Override public long contentLength() throws IOException {
-        return body.length();
-      }
-
-      @Override public void writeTo(BufferedSink sink) throws IOException {
-        body.writeTo(sink.outputStream());
-      }
-    };
-  }
-
-  static TypedInput typedInputFromBody(final ResponseBody body) {
-    if (body == null) return null;
-    return new TypedInput() {
-      @Override public MediaType mediaType() {
-        return body.contentType();
-      }
-
-      @Override public long length() {
-        return body.contentLength();
-      }
-
-      @Override public InputStream in() throws IOException {
-        return body.byteStream();
-      }
-    };
   }
 
   static class SynchronousExecutor implements Executor {

@@ -17,13 +17,13 @@ package retrofit.converter;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 
 /**
  * A {@link Converter} which uses GSON for serialization and deserialization of entities.
@@ -31,6 +31,7 @@ import retrofit.mime.TypedOutput;
 public class GsonConverter implements Converter {
   private final Gson gson;
   private final Charset charset;
+  private final MediaType mediaType;
 
   /**
    * Create an instance using a default {@link Gson} instance for conversion. Encoding to JSON and
@@ -55,55 +56,28 @@ public class GsonConverter implements Converter {
   public GsonConverter(Gson gson, Charset charset) {
     this.gson = gson;
     this.charset = charset;
+    this.mediaType = MediaType.parse("application/json; charset=" + charset.name());
   }
 
-  @Override public Object fromBody(TypedInput body, Type type) throws IOException {
+  @Override public Object fromBody(ResponseBody body, Type type) throws IOException {
     Charset charset = this.charset;
-    if (body.mediaType() != null) {
-      charset = body.mediaType().charset(charset);
+    if (body.contentType() != null) {
+      charset = body.contentType().charset(charset);
     }
-    InputStreamReader isr = null;
+
+    InputStream is = body.byteStream();
     try {
-      isr = new InputStreamReader(body.in(), charset);
-      return gson.fromJson(isr, type);
+      return gson.fromJson(new InputStreamReader(is, charset), type);
     } finally {
-      if (isr != null) {
-        try {
-          isr.close();
-        } catch (IOException ignored) {
-        }
+      try {
+        is.close();
+      } catch (IOException ignored) {
       }
     }
   }
 
-  @Override public TypedOutput toBody(Object object, Type type) {
+  @Override public RequestBody toBody(Object object, Type type) {
     String json = gson.toJson(object, type);
-    return new JsonTypedOutput(json.getBytes(charset), charset);
-  }
-
-  private static class JsonTypedOutput implements TypedOutput {
-    private final byte[] jsonBytes;
-    private final MediaType mediaType;
-
-    JsonTypedOutput(byte[] jsonBytes, Charset charset) {
-      this.jsonBytes = jsonBytes;
-      this.mediaType = MediaType.parse("application/json; charset=" + charset.name());
-    }
-
-    @Override public String fileName() {
-      return null;
-    }
-
-    @Override public MediaType mediaType() {
-      return mediaType;
-    }
-
-    @Override public long length() {
-      return jsonBytes.length;
-    }
-
-    @Override public void writeTo(OutputStream out) throws IOException {
-      out.write(jsonBytes);
-    }
+    return RequestBody.create(mediaType, json);
   }
 }

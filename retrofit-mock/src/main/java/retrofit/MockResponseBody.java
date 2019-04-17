@@ -3,7 +3,6 @@ package retrofit;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.ResponseBody;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import okio.Buffer;
 import okio.BufferedSource;
@@ -39,9 +38,9 @@ class MockResponseBody extends ResponseBody {
 
   private synchronized void initBytes() throws IOException {
     if (bytes == null) {
-      ByteArrayOutputStream out = new ByteArrayOutputStream();
-      converter.toBody(body, body.getClass()).writeTo(out);
-      bytes = out.toByteArray();
+      Buffer buffer = new Buffer();
+      converter.toBody(body, body.getClass()).writeTo(buffer);
+      bytes = buffer.readByteArray();
     }
   }
 }
