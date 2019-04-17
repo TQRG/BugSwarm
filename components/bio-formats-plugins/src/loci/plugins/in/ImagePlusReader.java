@@ -303,8 +303,11 @@ public class ImagePlusReader implements StatusReporter {
     // configure image
 
     // place metadata key/value pairs in ImageJ's info field
-    final String metadata = process.getOriginalMetadata().toString();
-    imp.setProperty("Info", metadata);
+    // if concatenating images only store metadata on first series
+    if (!options.isConcatenate() || s == 0) {
+      final String metadata = process.getOriginalMetadata().toString();
+      imp.setProperty("Info", metadata);
+    }
     imp.setProperty(PROP_SERIES, s);
 
     // retrieve the spatial calibration information, if available
@@ -589,11 +592,11 @@ public class ImagePlusReader implements StatusReporter {
     if (imageName == null) imageName = "Series" + series;
     filename = filename.replaceAll(FormatTools.SERIES_NAME, imageName);
 
-    DimensionOrder order = retrieve.getPixelsDimensionOrder(series);
+    String order = r.getDimensionOrder();
     int sizeC = r.getEffectiveSizeC();
     int sizeT = r.getSizeT();
     int sizeZ = r.getSizeZ();
-    int[] coordinates = FormatTools.getZCTCoords(order.getValue(), sizeZ, sizeC, sizeT, sizeZ*sizeC*sizeT, ndx);
+    int[] coordinates = FormatTools.getZCTCoords(order, sizeZ, sizeC, sizeT, sizeZ*sizeC*sizeT, ndx);
 
     if (sizeC > 1) {
       filename = filename.replaceAll(FormatTools.CHANNEL_NUM, "c:" + String.format("%d", coordinates[1] + 1) + "/" + String.format("%d", sizeC) + " ");
