@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package okhttp3.ws;
+package okhttp3;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -22,17 +22,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.internal.Version;
-import okio.Buffer;
 import okio.BufferedSource;
+import okio.ByteString;
 
-import static okhttp3.ws.WebSocket.BINARY;
-import static okhttp3.ws.WebSocket.TEXT;
+import static okhttp3.WebSocket.BINARY;
+import static okhttp3.WebSocket.TEXT;
 
 /**
  * Exercises the web socket implementation against the <a
@@ -49,7 +44,7 @@ public final class AutobahnTester {
 
   private WebSocketCall newWebSocket(String path) {
     Request request = new Request.Builder().url(HOST + path).build();
-    return WebSocketCall.create(client, request);
+    return client.newWebSocketCall(request);
   }
 
   public void run() throws IOException {
@@ -67,7 +62,7 @@ public final class AutobahnTester {
     }
   }
 
-  private void runTest(final long number, final long count) throws IOException {
+  private void runTest(final long number, final long count) {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicLong startNanos = new AtomicLong();
     newWebSocket("/runCase?case=" + number + "&agent=okhttp") //
@@ -102,7 +97,7 @@ public final class AutobahnTester {
             });
           }
 
-          @Override public void onPong(Buffer payload) {
+          @Override public void onPong(ByteString payload) {
           }
 
           @Override public void onClose(int code, String reason) {
@@ -110,8 +105,8 @@ public final class AutobahnTester {
             latch.countDown();
           }
 
-          @Override public void onFailure(IOException e, Response response) {
-            e.printStackTrace(System.out);
+          @Override public void onFailure(Throwable t, Response response) {
+            t.printStackTrace(System.out);
             latch.countDown();
           }
         });
@@ -131,7 +126,7 @@ public final class AutobahnTester {
   private long getTestCount() throws IOException {
     final CountDownLatch latch = new CountDownLatch(1);
     final AtomicLong countRef = new AtomicLong();
-    final AtomicReference<IOException> failureRef = new AtomicReference<>();
+    final AtomicReference<Throwable> failureRef = new AtomicReference<>();
     newWebSocket("/getCaseCount").enqueue(new WebSocketListener() {
       @Override public void onOpen(WebSocket webSocket, Response response) {
       }
@@ -141,15 +136,15 @@ public final class AutobahnTester {
         message.close();
       }
 
-      @Override public void onPong(Buffer payload) {
+      @Override public void onPong(ByteString payload) {
       }
 
       @Override public void onClose(int code, String reason) {
         latch.countDown();
       }
 
-      @Override public void onFailure(IOException e, Response response) {
-        failureRef.set(e);
+      @Override public void onFailure(Throwable t, Response response) {
+        failureRef.set(t);
         latch.countDown();
       }
     });
@@ -160,9 +155,9 @@ public final class AutobahnTester {
     } catch (InterruptedException e) {
       throw new AssertionError();
     }
-    IOException failure = failureRef.get();
+    Throwable failure = failureRef.get();
     if (failure != null) {
-      throw failure;
+      throw new RuntimeException(failure);
     }
     return countRef.get();
   }
@@ -176,14 +171,14 @@ public final class AutobahnTester {
       @Override public void onMessage(ResponseBody message) throws IOException {
       }
 
-      @Override public void onPong(Buffer payload) {
+      @Override public void onPong(ByteString payload) {
       }
 
       @Override public void onClose(int code, String reason) {
         latch.countDown();
       }
 
-      @Override public void onFailure(IOException e, Response response) {
+      @Override public void onFailure(Throwable t, Response response) {
         latch.countDown();
       }
     });

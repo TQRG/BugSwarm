@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Random;
 import okio.Buffer;
 import okio.BufferedSink;
-import okio.BufferedSource;
+import okio.ByteString;
 import okio.Sink;
 import okio.Timeout;
 
@@ -44,24 +44,24 @@ import static okhttp3.internal.ws.WebSocketProtocol.validateCloseCode;
  * may call {@link #writePing}, {@link #writePong}, or {@link #writeClose} which will interleave on
  * the wire with frames from the "main" sending thread.
  */
-public final class WebSocketWriter {
-  private final boolean isClient;
-  private final Random random;
+final class WebSocketWriter {
+  final boolean isClient;
+  final Random random;
 
   /** Writes must be guarded by synchronizing on 'this'. */
-  private final BufferedSink sink;
+  final BufferedSink sink;
   /** Access must be guarded by synchronizing on 'this'. */
-  private boolean writerClosed;
+  boolean writerClosed;
 
-  private final Buffer buffer = new Buffer();
-  private final FrameSink frameSink = new FrameSink();
+  final Buffer buffer = new Buffer();
+  final FrameSink frameSink = new FrameSink();
 
-  private boolean activeWriter;
+  boolean activeWriter;
 
-  private final byte[] maskKey;
-  private final byte[] maskBuffer;
+  final byte[] maskKey;
+  final byte[] maskBuffer;
 
-  public WebSocketWriter(boolean isClient, BufferedSink sink, Random random) {
+  WebSocketWriter(boolean isClient, BufferedSink sink, Random random) {
     if (sink == null) throw new NullPointerException("sink == null");
     if (random == null) throw new NullPointerException("random == null");
     this.isClient = isClient;
@@ -73,15 +73,15 @@ public final class WebSocketWriter {
     maskBuffer = isClient ? new byte[8192] : null;
   }
 
-  /** Send a ping with the supplied {@code payload}. Payload may be {@code null} */
-  public void writePing(Buffer payload) throws IOException {
+  /** Send a ping with the supplied {@code payload}. */
+  void writePing(ByteString payload) throws IOException {
     synchronized (this) {
       writeControlFrameSynchronized(OPCODE_CONTROL_PING, payload);
     }
   }
 
-  /** Send a pong with the supplied {@code payload}. Payload may be {@code null} */
-  public void writePong(Buffer payload) throws IOException {
+  /** Send a pong with the supplied {@code payload}. */
+  void writePong(ByteString payload) throws IOException {
     synchronized (this) {
       writeControlFrameSynchronized(OPCODE_CONTROL_PONG, payload);
     }
@@ -94,37 +94,38 @@ public final class WebSocketWriter {
    * href="http://tools.ietf.org/html/rfc6455#section-7.4">Section 7.4 of RFC 6455</a> or {@code 0}.
    * @param reason Reason for shutting down or {@code null}.
    */
-  public void writeClose(int code, String reason) throws IOException {
-    Buffer payload = null;
+  void writeClose(int code, String reason) throws IOException {
+    ByteString payload = ByteString.EMPTY;
     if (code != 0 || reason != null) {
       if (code != 0) {
         validateCloseCode(code, true);
       }
-      payload = new Buffer();
-      payload.writeShort(code);
+      Buffer buffer = new Buffer();
+      buffer.writeShort(code);
       if (reason != null) {
-        payload.writeUtf8(reason);
+        buffer.writeUtf8(reason);
       }
+      payload = buffer.readByteString();
     }
 
     synchronized (this) {
-      writeControlFrameSynchronized(OPCODE_CONTROL_CLOSE, payload);
-      writerClosed = true;
+      try {
+        writeControlFrameSynchronized(OPCODE_CONTROL_CLOSE, payload);
+      } finally {
+        writerClosed = true;
+      }
     }
   }
 
-  private void writeControlFrameSynchronized(int opcode, Buffer payload) throws IOException {
+  private void writeControlFrameSynchronized(int opcode, ByteString payload) throws IOException {
     assert Thread.holdsLock(this);
 
     if (writerClosed) throw new IOException("closed");
 
-    int length = 0;
-    if (payload != null) {
-      length = (int) payload.size();
-      if (length > PAYLOAD_BYTE_MAX) {
-        throw new IllegalArgumentException(
-            "Payload size must be less than or equal to " + PAYLOAD_BYTE_MAX);
-      }
+    int length = payload.size();
+    if (length > PAYLOAD_BYTE_MAX) {
+      throw new IllegalArgumentException(
+          "Payload size must be less than or equal to " + PAYLOAD_BYTE_MAX);
     }
 
     int b0 = B0_FLAG_FIN | opcode;
@@ -138,25 +139,22 @@ public final class WebSocketWriter {
       random.nextBytes(maskKey);
       sink.write(maskKey);
 
-      if (payload != null) {
-        writeMaskedSynchronized(payload, length);
-      }
+      byte[] bytes = payload.toByteArray();
+      toggleMask(bytes, bytes.length, maskKey, 0);
+      sink.write(bytes);
     } else {
       sink.writeByte(b1);
-
-      if (payload != null) {
-        sink.writeAll(payload);
-      }
+      sink.write(payload);
     }
 
-    sink.emit();
+    sink.flush();
   }
 
   /**
    * Stream a message payload as a series of frames. This allows control frames to be interleaved
    * between parts of the message.
    */
-  public Sink newMessageSink(int formatOpcode, long contentLength) {
+  Sink newMessageSink(int formatOpcode, long contentLength) {
     if (activeWriter) {
       throw new IllegalStateException("Another message writer is active. Did you call close()?");
     }
@@ -171,7 +169,7 @@ public final class WebSocketWriter {
     return frameSink;
   }
 
-  private void writeMessageFrameSynchronized(int formatOpcode, long byteCount, boolean isFirstFrame,
+  void writeMessageFrameSynchronized(int formatOpcode, long byteCount, boolean isFirstFrame,
       boolean isFinal) throws IOException {
     assert Thread.holdsLock(this);
 
@@ -186,7 +184,6 @@ public final class WebSocketWriter {
     int b1 = 0;
     if (isClient) {
       b1 |= B1_FLAG_MASK;
-      random.nextBytes(maskKey);
     }
     if (byteCount <= PAYLOAD_BYTE_MAX) {
       b1 |= (int) byteCount;
@@ -202,8 +199,17 @@ public final class WebSocketWriter {
     }
 
     if (isClient) {
+      random.nextBytes(maskKey);
       sink.write(maskKey);
-      writeMaskedSynchronized(buffer, byteCount);
+
+      for (long written = 0; written < byteCount; ) {
+        int toRead = (int) Math.min(byteCount, maskBuffer.length);
+        int read = buffer.read(maskBuffer, 0, toRead);
+        if (read == -1) throw new AssertionError();
+        toggleMask(maskBuffer, read, maskKey, written);
+        sink.write(maskBuffer, 0, read);
+        written += read;
+      }
     } else {
       sink.write(buffer, byteCount);
     }
@@ -211,25 +217,11 @@ public final class WebSocketWriter {
     sink.emit();
   }
 
-  private void writeMaskedSynchronized(BufferedSource source, long byteCount) throws IOException {
-    assert Thread.holdsLock(this);
-
-    long written = 0;
-    while (written < byteCount) {
-      int toRead = (int) Math.min(byteCount, maskBuffer.length);
-      int read = source.read(maskBuffer, 0, toRead);
-      if (read == -1) throw new AssertionError();
-      toggleMask(maskBuffer, read, maskKey, written);
-      sink.write(maskBuffer, 0, read);
-      written += read;
-    }
-  }
-
-  private final class FrameSink implements Sink {
-    private int formatOpcode;
-    private long contentLength;
-    private boolean isFirstFrame;
-    private boolean closed;
+  final class FrameSink implements Sink {
+    int formatOpcode;
+    long contentLength;
+    boolean isFirstFrame;
+    boolean closed;
 
     @Override public void write(Buffer source, long byteCount) throws IOException {
       if (closed) throw new IOException("closed");
