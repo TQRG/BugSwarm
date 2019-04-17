@@ -33,7 +33,6 @@ from sklearn.metrics.pairwise import PAIRWISE_DISTANCE_FUNCTIONS
 from sklearn.metrics.pairwise import PAIRED_DISTANCES
 from sklearn.metrics.pairwise import check_pairwise_arrays
 from sklearn.metrics.pairwise import check_paired_arrays
-from sklearn.metrics.pairwise import _parallel_pairwise
 from sklearn.metrics.pairwise import paired_distances
 from sklearn.metrics.pairwise import paired_euclidean_distances
 from sklearn.metrics.pairwise import paired_manhattan_distances
@@ -115,15 +114,56 @@ def test_pairwise_distances():
     assert_raises(ValueError, pairwise_distances, X, Y, metric="blah")
 
 
-def test_constant_row_cosine():
-    # Test correct handling of costant columns
+def test_constant_row():
+    # Test correct handling of costant columns for cosine and correlation
     np.random.seed(42)
     X1 = np.random.rand(10, 3)
+
     for const in [0, 1]:
         X1[-1, :] = const
         for X2 in [X1, -X1, X1 + np.arange(3)]:
             dist = pairwise_distances(X1, X2, metric='cosine')
             assert_true(dist.all() >= 0.0)
+
+            dist = pairwise_distances(X1, X2, metric='correlation')
+            assert_true(dist.all() >= 0.0)
+
+    # Test also that ALMOST constant do not return negative or nan
+    X1 = np.array([1, 1, 1]).reshape(-1, 1)
+    noise = np.array([.5, 0, -.01]).reshape(-1, 1)
+    X2 = np.array([2, 4, 6]).reshape(-1, 1)
+    for eps in np.linspace(-1e-15, .0, 50):
+        dist = pairwise_distances(X1 + eps * noise, X2, metric='cosine')
+        assert_true(dist.all() >= 0.0)
+
+        dist = pairwise_distances(X1 + eps * noise, X2, metric='correlation')
+        assert_true(np.all(dist >= 0))
+
+    # Test a case in which scipy's yule distance would raise ZeroDivisionError
+    np.random.seed(42)
+    X1 = np.random.rand(10, 3)
+    X1[-1, :] = np.ones([1, 1, 1])
+    try:
+        dist = pairwise_distances(X1, X1, metric='yule')
+        assert_true(np.all(dist >= 0))
+    except:
+        assert False
+
+    X1 = np.random.randint(0, 1, (10, 10))
+    X1[-1, :] = 0
+    # dice ->  ZeroDivisionError
+    try:
+        dist = pairwise_distances(X1, metric='dice')
+        assert_true(np.all(dist >= 0))
+    except:
+        assert False
+
+    # sokalsneath -> ValueError
+    try:
+        dist = pairwise_distances(X1, X1, metric='sokalsneath')
+        assert_true(np.all(dist >= 0))
+    except:
+        assert False
 
 
 def test_pairwise_precomputed():
@@ -397,7 +437,6 @@ def test_euclidean_distances():
                                   X_norm_squared=np.zeros_like(X_norm_sq),
                                   Y_norm_squared=np.zeros_like(Y_norm_sq))
     assert_greater(np.max(np.abs(wrong_D - D1)), .01)
-
 
 
 # Paired distances
