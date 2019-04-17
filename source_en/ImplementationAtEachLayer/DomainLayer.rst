@@ -824,40 +824,6 @@ Regarding interface and base classes to limit signature of method
             | In the above example, it is defined as generic type of input (I) and output (O) information having one method (execute) for executing business logic.
             | In this guideline, the above interface is called BLogic interface.
 
-    - Controller
-
-     .. code-block:: java
-
-        // (2)
-        @Inject
-        XxxBLogic<XxxInput, XxxOutput> xxxBLogic;
-
-        public String reserve(XxxForm form, RedirectAttributes redirectAttributes) {
-
-            XxxInput input = new XxxInput();
-            // omitted
-
-            // (3)
-            XxxOutput output = xxxBlogic.execute(input);
-
-            // omitted
-
-            redirectAttributes.addFlashAttribute(output.getTourReservation());
-            return "redirect:/xxx?complete";
-        }
-
-     .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
-     .. list-table::
-        :header-rows: 1
-        :widths: 10 90
-
-        * - Sr. No.
-          - Description
-        * - | (2)
-          - | Controller injects calling BLogic interface.
-        * - | (3)
-          - | Controller calls execute method of BLogic interface and executes business logic.
-
     To standardize process flow of business logic when a fixed common process is included in Service, base classes are created to limit signature of method.
 
     - Base classes to limit signature
@@ -865,6 +831,9 @@ Regarding interface and base classes to limit signature of method
      .. code-block:: java
 
 
+        // (2)
+        @Service
+        @Transactional
         public abstract class AbstractBLogic<I, O> implements BLogic<I, O> {
 
             public O execute(I input){
@@ -872,10 +841,10 @@ Regarding interface and base classes to limit signature of method
 
                   // omitted
 
-                  // (4)
+                  // (3)
                   preExecute(input);
 
-                  // (5)
+                  // (4)
                   O output = doExecute(input);
 
                   // omitted
@@ -901,10 +870,13 @@ Regarding interface and base classes to limit signature of method
 
         * - Sr. No.
           - Description
-        * - | (4)
+        * - | (2)
+          - | While creating a base class, since the method executed externally and the class which implements the method are targets of AOP in the specification of \ `@Transactional`\ , they are assigned to base class when the transaction control is necessary.
+            | Similar to \ `@Servicve`\ , it must be assigned to the base class when Service is considered as an target using AOP, as for \ `ResultMessagesLoggingInterceptor`\.
+        * - | (3)
           - | Call the method to perform pre-processing before executing business logic from base classes.
             | In the preExecute method, business rules are checked.
-        * - | (5)
+        * - | (4)
           - | Call the method executing business logic from the base classes.
 
 
@@ -915,9 +887,31 @@ Regarding interface and base classes to limit signature of method
 
      .. code-block:: java
 
-        public class XxxBLogic extends AbstractBLogic<XxxInput, XxxOutput> {
+        // (5)
+        public interface XxxBLogic extends BLogic<XxxInput, XxxOutput> {
+
+        }
+
+
+     .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+     .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+
+        * - Sr. No.
+          - Description
+        * - | (5)
+          - | Create an interface that inherits BLogic interface in order to enable type-safe injection.
+            | Implement a sub-interface which inherits BLogic in order to enable calling via a method of new interface.
+
+
+     .. code-block:: java
+
+        @Service
+        public class XxxBLogicImpl extends AbstractBLogic<XxxInput, XxxOutput> implements XxxBLogic {
 
             // (6)
+            @Override
             protected void preExecute(XxxInput input) {
 
                 // omitted
@@ -930,6 +924,7 @@ Regarding interface and base classes to limit signature of method
             }
 
             // (7)
+            @Override
             protected XxxOutput doExecute(XxxInput input) {
                 TourReservation tourReservation = new TourReservation();
 
@@ -959,6 +954,40 @@ Regarding interface and base classes to limit signature of method
         * - | (7)
           - | Implement business logic.
             | Logic is implemented to satisfy business rules.
+
+    - Controller
+
+     .. code-block:: java
+
+        // (8)
+        @Inject
+        XxxBLogic xxxBLogic;
+
+        public String reserve(XxxForm form, RedirectAttributes redirectAttributes) {
+
+            XxxInput input = new XxxInput();
+            // omitted
+
+            // (9)
+            XxxOutput output = xxxBlogic.execute(input);
+
+            // omitted
+
+            redirectAttributes.addFlashAttribute(output.getTourReservation());
+            return "redirect:/xxx?complete";
+        }
+
+     .. tabularcolumns:: |p{0.10\linewidth}|p{0.90\linewidth}|
+     .. list-table::
+        :header-rows: 1
+        :widths: 10 90
+
+        * - Sr. No.
+          - Description
+        * - | (8)
+          - | Controller injects BLogic interface to be called.
+        * - | (9)
+          - | Controller calls execute method of BLogic interface and executes business logic.
 
 
 .. _service-creation-unit-label:

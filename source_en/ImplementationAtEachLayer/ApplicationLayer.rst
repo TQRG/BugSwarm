@@ -1814,9 +1814,30 @@ Example of definition when \ ``<bean>``\  element is to be used
    * - | (6)
      - When View name ``"sample/hello"`` is the return value of handler method, ``"/WEB-INF/views/sample/hello.jsp"`` is called and HTML is sent as response.
 
+
 .. note::
     HTML output is generated using JSP in the above example, however, even if HTML is generated using other template engine such as Velocity, FreeMarker, return value of handler method will be ``"sample/hello"``. 
     ``ViewResolver`` takes care of task to determine which template engine is to be used.
+
+
+.. note::
+
+   When simply a method to return view name is to be implemented, implementation of Controller class can be substituted by using \ ``<mvc:view-controller>`` \.
+    
+    * Implementation example of Controller which uses \ ``<mvc:view-controller>``\.
+    
+      .. code-block:: xml
+      
+        <mvc:view-controller path="/hello" view-name="sample/hello" />
+      
+
+
+.. warning:: **Considerations for using <mvc:view-controller>**
+
+    Since HTTP methods authorized by \ ``<mvc:view-controller>``\  are restricted only to GET and HEAD due to version-up of Spring Framework 4.3 (`SPR-13130 <https://jira.spring.io/browse/SPR-13130>`_),
+    \ ``<mvc:view-controller>``\  cannot used for the pages which are to be accessed by HTTP methods other than GET and HEAD (POST etc).
+    This also happens when pages are forwarded by methods other than GET and HEAD (POST etc). Hence, when HTTP methods for forwarding operations such as transition to error page etc cannot be restricted, adequate care must be taken to avoid the use of \ ``<mvc:view-controller>``\.
+
 
 |
 
