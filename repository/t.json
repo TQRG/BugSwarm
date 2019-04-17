@@ -219,17 +219,6 @@
 			]
 		},
 		{
-			"name": "TaskMill",
-			"details": "https://github.com/a7medkamel/taskmill-editor-sublime",
-			"previous_names": ["Task Mill"],
-			"releases": [
-				{
-					"sublime_text": ">=3000",
-					"tags": true
-				}
-			]
-		},
-		{
 			"name": "Taskwarrior",
 			"details": "https://github.com/kostajh/sublime-taskwarrior",
 			"releases": [
@@ -396,6 +385,20 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "termX",
+			"previous_names": ["MacTerminal"],
+			"homepage": "http://malinowski.be/termX",
+			"details": "https://github.com/afterdesign/termX",
+			"labels": ["terminal"],
+			"releases" : [
+				{
+					"sublime_text": "*",
+					"platforms": ["osx", "osx-x64"],
+					"tags": true
 				}
 			]
 		},
@@ -1318,6 +1321,17 @@
 			]
 		},
 		{
+			"name": "Theme - Rainbow",
+			"details": "https://github.com/pradyunsg/Sublime-Rainbow-Theme",
+			"labels": ["theme", "adaptive"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Theme - Reeder",
 			"details": "https://github.com/hyspace/st2-reeder-theme",
 			"labels": ["theme"],
@@ -1533,6 +1547,17 @@
 			"previous_names": ["Toxin Color Scheme"],
 			"details": "https://github.com/p3lim/sublime-toxin",
 			"labels": ["theme", "color scheme"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Theme - TwoDark",
+			"details": "https://github.com/erremauro/TwoDark",
+			"labels": ["theme"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -2434,10 +2459,11 @@
 		},
 		{
 			"details": "https://github.com/jonlabelle/Trimmer",
+			"labels": ["text manipulation", "formatting"],
 			"releases": [
 				{
 					"sublime_text": "*",
-					"branch": "master"
+					"tags": true
 				}
 			]
 		},
@@ -2556,6 +2582,17 @@
 		{
 			"name": "Tup",
 			"details": "https://github.com/petervaro/tup",
+			"labels": ["language syntax"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "TurboBadger",
+			"details": "https://github.com/NimbleTools/turbobadger-sublime",
 			"labels": ["language syntax"],
 			"releases": [
 				{

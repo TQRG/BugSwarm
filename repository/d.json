@@ -155,6 +155,16 @@
 			]
 		},
 		{
+			"name": "Dataiku",
+			"details": "https://github.com/jereze/DataikuSublimeText",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Date",
 			"details": "https://github.com/paulollivier/sublimetext-date",
 			"releases": [
@@ -438,10 +448,10 @@
 			"details": "https://github.com/gepd/Deviot",
 			"issues": "https://github.com/gepd/Deviot/issues",
 			"donate": "https://gratipay.com/~gepd/",
-			"labels": ["build system", "ide", "arduino", "iot"],
+			"labels": ["build system", "ide", "arduino", "iot", "platformio"],
 			"releases": [
 				{
-					"sublime_text": "*",
+					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]
@@ -643,6 +653,18 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "distractionless",
+			"details": "https://github.com/jrappen/sublime-distractionless",
+			"donate": "https://www.paypal.me/jrappen",
+			"labels": ["automation", "distraction-free", "fullscreen"],
+			"releases": [
+				{
+					"sublime_text": ">=3116",
 					"tags": true
 				}
 			]
@@ -1204,7 +1226,7 @@
 					"tags": true
 				}
 			]
-		}
+		},
 		{
 			"name": "Duotones Colorschemes",
 			"details": "https://github.com/atelierbram/duotones-sublime-colorschemes",

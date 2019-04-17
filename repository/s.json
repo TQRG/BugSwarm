@@ -31,6 +31,16 @@
 			]
 		},
 		{
+			"name": "Sails Snippets",
+			"details": "https://github.com/odtorres/Sails-Sublime-Snippets",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Salesforce Reference",
 			"details": "https://github.com/Oblongmana/sublime-salesforce-reference",
 			"releases": [
@@ -911,6 +921,16 @@
 			]
 		},
 		{
+			"name": "SendToJsonBlob",
+			"details": "https://github.com/abhishekchavan/sendtojsonblob",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "SendToPasteBin",
 			"details": "https://github.com/Xaro/SendToPasteBin",
 			"releases": [
@@ -1489,7 +1509,7 @@
 			]
 		},
 		{
-			"details": "https://github.com/tnhu/SimpleSync",
+			"details": "https://github.com/hydralien/SimpleSync",
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -2533,6 +2553,18 @@
 			]
 		},
 		{
+			"name": "Squirrel",
+			"details": "https://github.com/iAmRoland/Sublime-Squirrel",
+			"author": ["micheg", "Roland Piirsoo"],
+			"labels": ["language", "syntax", "snippets", "completions", "squirrel"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "SRT",
 			"details": "https://github.com/SalGnt/Sublime-SRT",
 			"author": "Salvatore Gentile",
@@ -2743,7 +2775,7 @@
 			"details": "https://github.com/unphased/SublimeStatusbarPath",
 			"releases": [
 				{
-					"sublime_text": "<3000",
+					"sublime_text": "*",
 					"branch": "master"
 				}
 			]
@@ -2757,6 +2789,17 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "Steadfast Color Scheme",
+			"details": "https://github.com/serogers/steadfast_color_scheme",
+			"labels": ["color scheme"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},

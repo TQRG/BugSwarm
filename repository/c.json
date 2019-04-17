@@ -338,6 +338,17 @@
 			]
 		},
 		{
+			"name": "CCL Tools",
+			"details": "https://github.com/daftscience/ccl_tools",
+			"labels": ["Cerner", "CCL", "DVDev", "language syntax"],
+			"releases": [
+				{
+					"sublime_text": ">=3103",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "CComplete",
 			"details": "https://github.com/ibensw/CComplete",
 			"labels": ["auto-complete"],
@@ -733,6 +744,17 @@
 			]
 		},
 		{
+			"name": "Chinese-English Bilingual Dictionary",
+			"details": "https://github.com/divinites/cndict",
+			"previous_names": ["Cndict", "Youdao English-Chinese Translate"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "ChineseLocalizations",
 			"previous_names": ["ChineseLocalization"],
 			"details": "https://github.com/rexdf/ChineseLocalization",
@@ -776,6 +798,17 @@
 			"releases": [
 				{
 					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Chipper",
+			"details": "https://github.com/andymaster01/chipper_syntax_sublime_text",
+			"labels": ["chipper", "chip8"],
+			"releases": [
+				{
+					"sublime_text": ">=3084",
 					"tags": true
 				}
 			]
@@ -1004,6 +1037,17 @@
 			"details": "https://github.com/fushnisoft/SublimeClarion",
 			"labels": ["language syntax"],
 			"previous_names": ["SublimeClarion"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Class Navigator",
+			"details": "https://github.com/malexer/SublimeClassNavigator",
+			"labels": ["code navigation"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -1311,9 +1355,9 @@
 			]
 		},
 		{
-			"name": "Cndict",
-			"details": "https://github.com/divinites/cndict",
-			"previous_names": ["Youdao English-Chinese Translate"],
+			"name": "coala",
+			"details": "https://github.com/coala-analyzer/coala-sublime",
+			"labels": ["linting"],
 			"releases": [
 				{
 					"sublime_text": ">=3000",
@@ -1322,12 +1366,12 @@
 			]
 		},
 		{
-			"name": "coala",
-			"details": "https://github.com/coala-analyzer/coala-sublime",
-			"labels": ["linting"],
+			"name": "coati",
+			"details": "https://github.com/CoatiSoftware/sublime-coati",
+			"labels": ["utilities"],
 			"releases": [
 				{
-					"sublime_text": ">=3000",
+					"sublime_text": "*",
 					"tags": true
 				}
 			]
@@ -1704,6 +1748,19 @@
 			]
 		},
 		{
+			"name": "CodeTimeTracker",
+			"details": "https://github.com/victoreduardobarreto/CodeTimeTracker",
+			"author": "Victor Eduardo Barreto",
+			"labels": ["Time Tracker"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"platforms": ["linux", "windows"],
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "CodeWrapper",
 			"details": "https://github.com/erbridge/CodeWrapper",
 			"releases": [
@@ -1861,6 +1918,17 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "ColobotSyntaxHighlighting",
+			"details": "https://github.com/MrSimbax/sublime-colobot-syntax",
+			"labels": ["language syntax"],
+			"releases": [
+				{
+					"sublime_text": ">=3084",
 					"tags": true
 				}
 			]
@@ -2347,6 +2415,18 @@
 			"details": "https://github.com/DougTy/sublime-compare-side-by-side",
 			"author": "Doug Ty",
 			"labels": ["diff", "compare", "comparison"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Compass",
+			"details": "https://github.com/whatwedo/sublime-text-compass",
+			"author": "whatwedo",
+			"labels": ["compass", "scss", "sass", "css", "precompiler", "build", "watch", "css3", "build system", "minification"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -3164,6 +3244,16 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "CSS Table of Contents",
+			"details": "https://github.com/dingo-d/CSS-Table-of-Contents",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},

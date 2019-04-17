@@ -302,6 +302,17 @@
 			]
 		},
 		{
+			"name": "Felix",
+			"details": "https://github.com/fuzzthink/sublime-felix",
+			"labels": ["language syntax", "felix"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "Fenom",
 			"details": "https://github.com/pafnuty/sublime-fenom",
 			"labels": ["language syntax"],
@@ -360,6 +371,18 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "File Icons Extended",
+			"details": "https://github.com/oivva/st-file-icons-extended",
+			"author": "oivva",
+			"labels": ["theme", "addon", "icons"],
+			"releases": [
+				{
+					"sublime_text": ">=3062",
+					"tags": true
 				}
 			]
 		},
@@ -1212,6 +1235,17 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "Foundation 6 Autocomplete",
+			"details": "https://github.com/webchun/foundation-6-sublime-autocomplete",
+			"labels": ["auto-complete"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},

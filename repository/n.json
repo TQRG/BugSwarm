@@ -433,6 +433,17 @@
 			]
 		},
 		{
+			"name": "Nirum",
+			"details" : "https://github.com/spoqa/sublime-nirum",
+			"labels": ["language syntax", "nirum"],
+			"releases" : [
+				{
+					"sublime_text": ">=3084",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "NitSyntaxHighliter",
 			"details" : "https://github.com/itsWill/NitSyntaxHighlighter",
 			"releases" : [
@@ -542,6 +553,17 @@
 			"name": "Non Text Files",
 			"details": "https://github.com/bordaigorl/sublime-non-text-files",
 			"labels": ["file navigation", "preview", "file open"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Norber Theme",
+			"details": "https://github.com/mortalis13/Norber-Theme-Sublime",
+			"labels": ["theme", "color scheme"],
 			"releases": [
 				{
 					"sublime_text": "*",
