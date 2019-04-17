@@ -68,9 +68,8 @@ public class RegexpSinglelineJavaCheck extends Check {
             supressor = new CommentSuppressor(getFileContents());
         }
 
-        final DetectorOptions options = DetectorOptions.newBuilder()
+        final DetectorOptions options = new DetectorOptions.Builder(this)
             .compileFlags(0)
-            .reporter(this)
             .suppressor(supressor)
             .format(format)
             .message(message)

@@ -19,6 +19,7 @@
 
 package com.puppycrawl.tools.checkstyle.checks.naming;
 
+import com.google.common.base.Optional;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
@@ -45,7 +46,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * </p>
  * <pre>
  * &lt;module name="ParameterName"&gt;
- *    &lt;property name="format" value="^^[a-z](_?[a-zA-Z0-9]+)*$"/&gt;
+ *    &lt;property name="format" value="^[a-z][_a-zA-Z0-9]+$"/&gt;
  * &lt;/module&gt;
  * </pre>
  * <p>
@@ -117,14 +118,16 @@ public class ParameterNameCheck
      */
     private static boolean isOverriddenMethod(DetailAST ast) {
         boolean overridden = false;
+
         final DetailAST parent = ast.getParent().getParent();
-        if (parent.getFirstChild().getFirstChild() != null) {
-            final DetailAST annotation = parent.getFirstChild().getFirstChild();
-            if (annotation.getType() == TokenTypes.ANNOTATION) {
-                final DetailAST overrideToken = annotation.findFirstToken(TokenTypes.IDENT);
-                if ("Override".equals(overrideToken.getText())) {
-                    overridden = true;
-                }
+        final Optional<DetailAST> annotation =
+            Optional.fromNullable(parent.getFirstChild().getFirstChild());
+
+        if (annotation.isPresent() && annotation.get().getType() == TokenTypes.ANNOTATION) {
+            final Optional<DetailAST> overrideToken =
+                Optional.fromNullable(annotation.get().findFirstToken(TokenTypes.IDENT));
+            if (overrideToken.isPresent() && "Override".equals(overrideToken.get().getText())) {
+                overridden = true;
             }
         }
         return overridden;

@@ -29,31 +29,43 @@ import com.puppycrawl.tools.checkstyle.api.AbstractViolationReporter;
  * Options for a detector.
  * @author Oliver Burn
  */
-final class DetectorOptions {
+public final class DetectorOptions {
 
     /** Flags to compile a regular expression with. See {@link Pattern#flags()}. */
-    private int compileFlags;
+    private final int compileFlags;
     /** Used for reporting violations. */
-    private AbstractViolationReporter reporter;
+    private final AbstractViolationReporter reporter;
     /**
      * Format of the regular expression to check for.
      */
-    private String format;
+    private final String format;
     /** The message to report on detection. If blank, then use the format. */
-    private String message;
+    private final String message;
     /** Minimum number of times regular expression should occur in a file. */
-    private int minimum;
+    private final int minimum;
     /** Maximum number of times regular expression should occur in a file. */
-    private int maximum;
+    private final int maximum;
     /** Whether to ignore case when matching. */
-    private boolean ignoreCase;
+    private final boolean ignoreCase;
     /** Used to determine whether to suppress a detected match. */
-    private MatchSuppressor suppressor;
+    private final MatchSuppressor suppressor;
     /** Pattern created from format. Lazily initialized. */
     private Pattern pattern;
 
-    /** Default constructor. */
-    private DetectorOptions() { }
+    /**
+     * Constructor to create the DetectorOptions object from builder.
+     * @param builder builder.
+     */
+    private DetectorOptions(Builder builder) {
+        compileFlags = builder.compilationFlags;
+        reporter = builder.reporter;
+        format = builder.regexpFormat;
+        message = builder.reportMessage;
+        minimum = builder.min;
+        maximum = builder.max;
+        ignoreCase = builder.ignoreCaseFlag;
+        suppressor = builder.matchSuppressor;
+    }
 
     /**
      * Format of the regular expression.
@@ -120,19 +132,46 @@ final class DetectorOptions {
         return pattern;
     }
 
-    /**
-     * Creates new Builder instance.
-     * @return Builder instance.
-     */
-    public static Builder newBuilder() {
-        return new DetectorOptions().new Builder();
-    }
-
     /** Class which implements Builder pattern to build DetectorOptions instance. */
-    final class Builder {
+    public static final class Builder {
 
-        /** Default constructor. */
-        private Builder() { }
+        /** Used for reporting violations. */
+        private final AbstractViolationReporter reporter;
+        /** Flags to compile a regular expression with. See {@link Pattern#flags()}. */
+        private int compilationFlags;
+        /**
+         * Format of the regular expression to check for.
+         */
+        private String regexpFormat;
+        /** The message to report on detection. If blank, then use the format. */
+        private String reportMessage;
+        /** Minimum number of times regular expression should occur in a file. */
+        private int min;
+        /** Maximum number of times regular expression should occur in a file. */
+        private int max;
+        /** Whether to ignore case when matching. */
+        private boolean ignoreCaseFlag;
+        /** Used to determine whether to suppress a detected match. */
+        private MatchSuppressor matchSuppressor;
+
+        /**
+         * Constructor to create the Builder object with the required field.
+         * @param reporter for reporting violations.
+         */
+        public Builder(AbstractViolationReporter reporter) {
+            this.reporter = reporter;
+        }
+
+        /**
+         * Specifies the compile flags to compile a regular expression with
+         * and returns Builder object.
+         * @param val the format to use when matching lines.
+         * @return Builder object.
+         */
+        public Builder compileFlags(int val) {
+            compilationFlags = val;
+            return this;
+        }
 
         /**
          * Specifies the format to use when matching lines and returns Builder object.
@@ -140,7 +179,7 @@ final class DetectorOptions {
          * @return Builder object.
          */
         public Builder format(String val) {
-            format = val;
+            regexpFormat = val;
             return this;
         }
 
@@ -150,67 +189,47 @@ final class DetectorOptions {
          * @return Builder object.
          */
         public Builder message(String val) {
-            message = val;
+            reportMessage = val;
             return this;
         }
 
         /**
          * Specifies the minimum allowed number of detections and returns Builder object.
-         * @param min the minimum allowed number of detections.
+         * @param val the minimum allowed number of detections.
          * @return Builder object.
          */
-        public Builder minimum(int min) {
-            minimum = min;
+        public Builder minimum(int val) {
+            min = val;
             return this;
         }
 
         /**
          * Specifies the maximum allowed number of detections and returns Builder object.
-         * @param max the maximum allowed number of detections.
+         * @param val the maximum allowed number of detections.
          * @return Builder object.
          */
-        public Builder maximum(int max) {
-            maximum = max;
+        public Builder maximum(int val) {
+            max = val;
             return this;
         }
 
         /**
          * Specifies whether to ignore case when matching and returns Builder object.
-         * @param ignore whether to ignore case when matching.
+         * @param val whether to ignore case when matching.
          * @return Builder object.
          */
-        public Builder ignoreCase(boolean ignore) {
-            ignoreCase = ignore;
-            return this;
-        }
-
-        /**
-         * Specifies a reporter which is used for reporting violations and returns Builder object.
-         * @param violationReporter violation reporter.
-         * @return Builder object.
-         */
-        public Builder reporter(AbstractViolationReporter violationReporter) {
-            reporter = violationReporter;
-            return this;
-        }
-
-        /**
-         * Specifies flags to compile a regular expression with and returns Builder object.
-         * @param flags compile flags.
-         * @return Builder object.
-         */
-        public Builder compileFlags(int flags) {
-            compileFlags = flags;
+        public Builder ignoreCase(boolean val) {
+            ignoreCaseFlag = val;
             return this;
         }
 
         /**
          * Specifies the suppressor to use and returns Builder object.
-         * @param sup the suppressor to use.
+         * @param val the suppressor to use.
          * @return current instance
          */
-        public Builder suppressor(MatchSuppressor sup) {
-            suppressor = sup;
+        public Builder suppressor(MatchSuppressor val) {
+            matchSuppressor = val;
             return this;
         }
 
@@ -219,9 +238,9 @@ final class DetectorOptions {
          * @return DetectorOptions instance.
          */
         public DetectorOptions build() {
-            message = ObjectUtils.defaultIfNull(message, "");
-            suppressor = ObjectUtils.defaultIfNull(suppressor, NeverSuppress.INSTANCE);
-            return DetectorOptions.this;
+            reportMessage = ObjectUtils.defaultIfNull(reportMessage, "");
+            matchSuppressor = ObjectUtils.defaultIfNull(matchSuppressor, NeverSuppress.INSTANCE);
+            return new DetectorOptions(this);
         }
     }
 }

@@ -47,9 +47,8 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
     @Override
     public void beginProcessing(String charset) {
         super.beginProcessing(charset);
-        final DetectorOptions options = DetectorOptions.newBuilder()
+        final DetectorOptions options = new DetectorOptions.Builder(this)
             .compileFlags(0)
-            .reporter(this)
             .format(format)
             .message(message)
             .minimum(minimum)

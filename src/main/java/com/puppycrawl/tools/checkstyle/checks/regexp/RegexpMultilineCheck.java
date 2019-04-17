@@ -50,8 +50,7 @@ public class RegexpMultilineCheck extends AbstractFileSetCheck {
     @Override
     public void beginProcessing(String charset) {
         super.beginProcessing(charset);
-        final DetectorOptions options = DetectorOptions.newBuilder()
-            .reporter(this)
+        final DetectorOptions options = new DetectorOptions.Builder(this)
             .compileFlags(Pattern.MULTILINE)
             .format(format)
             .message(message)
