@@ -401,11 +401,6 @@ public class AllValidTests {
 	}
 
 	@Test
-	public void ConstrainedInt_Valid_14() throws IOException {
-		runTest("ConstrainedInt_Valid_14");
-	}
-
-	@Test
 	public void ConstrainedInt_Valid_15() throws IOException {
 		runTest("ConstrainedInt_Valid_15");
 	}
@@ -811,16 +806,6 @@ public class AllValidTests {
 	}
 
 	@Test
-	public void For_Valid_12() throws IOException {
-		runTest("For_Valid_12");
-	}
-
-	@Test
-	public void For_Valid_13() throws IOException {
-		runTest("For_Valid_13");
-	}
-
-	@Test
 	public void For_Valid_14() throws IOException {
 		runTest("For_Valid_14");
 	}
@@ -868,11 +853,6 @@ public class AllValidTests {
 	@Ignore("Issue ???") @Test
 	public void For_Valid_5() throws IOException {
 		runTest("For_Valid_5");
-	}
-
-	@Ignore("Issue ???") @Test
-	public void For_Valid_6() throws IOException {
-		runTest("For_Valid_6");
 	}
 
 	@Test
@@ -2572,11 +2552,6 @@ public class AllValidTests {
 	@Test
 	public void UnionType_Valid_9() throws IOException {
 		runTest("UnionType_Valid_9");
-	}
-
-	@Ignore("Issue ???") @Test
-	public void Update_Valid_1() throws IOException {
-		runTest("Update_Valid_1");
 	}
 
 	@Test
