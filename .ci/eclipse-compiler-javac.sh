@@ -5,7 +5,7 @@ ECJ_VERSION="4.7"
 mkdir -p target/classes
 mkdir -p target/eclipse
 
-if [ ! -e ~/.m2/repository/ecj-${ECJ_VERSION}.jar ]; then
+if [ ! -e ~/.m2/repository/ecj-$ECJ_VERSION.jar ]; then
     wget http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.7-201706120950/"ecj-$ECJ_VERSION.jar" -P ~/.m2/repository/
 fi
 
