@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block content %}
+
+<div class="form-group pull-right">
+    <a class="btn btn-xs btn-danger"
+       href="{% url 'delete-alias' object.pk %}"
+    ><span class="glyphicon glyphicon-trash"></span>
+        delete</a>
+</div>
+
+    
+<form action="." method="post">
+{{form|bootstrap}}
+<input type="submit" value="save" class="btn" />
+</form>
+
+{% endblock %}
