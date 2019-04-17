@@ -1,0 +1,19 @@
+addons:
+  apt:
+    packages: [libatlas3gf-base, libatlas-dev, python-scipy]
+after_success: ['if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed";
+    fi']
+cache: apt
+env: [DISTRIB="conda" PYTHON_VERSION="2.6" INSTALL_MKL="false" NUMPY_VERSION="1.6.2"
+    SCIPY_VERSION="0.11.0"]
+install: source continuous_integration/install.sh
+language: python
+notifications:
+  webhooks:
+    on_failure: always
+    on_start: false
+    on_success: change
+    urls: ['https://webhooks.gitter.im/e/4ffabb4df010b70cd624']
+os: linux
+script: bash continuous_integration/test_script.sh
+sudo: false
