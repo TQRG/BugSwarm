@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--@thymesVar id="coreRestPrefix" type="java.lang.String"-->
+<head>
+	<title>Service Metrics</title>
+
+	<link th:substituteby="/com/peterphi/std/guice/web/rest/service/restcore/service_list.html :: htmlhead"/>
+</head>
+
+<body id="top">
+<link th:substituteby="/com/peterphi/std/guice/web/rest/service/restcore/service_list.html :: navbar"/>
+
+<div class="container">
+	<h1>Health Data</h1>
+
+	<p>Below are the results of all the configured health checks for this service.</p>
+
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Check Type</th>
+			<th>Healthy</th>
+			<th>Message</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!--@thymesVar id="health" type="com.peterphi.std.guice.metrics.rest.types.HealthDocument"-->
+		<tr th:each="entry: ${health.results}" th:id="${entry.name}">
+			<td th:text="${entry.name}"></td>
+			<td th:text="${entry.implication}"></td>
+			<td th:text="${entry.healthy}"></td>
+			<td th:text="${entry.message}"></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
