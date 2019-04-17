@@ -911,6 +911,16 @@
 			]
 		},
 		{
+			"name": "SendToJsonBlob",
+			"details": "https://github.com/abhishekchavan/sendtojsonblob",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "SendToPasteBin",
 			"details": "https://github.com/Xaro/SendToPasteBin",
 			"releases": [
@@ -1489,7 +1499,7 @@
 			]
 		},
 		{
-			"details": "https://github.com/tnhu/SimpleSync",
+			"details": "https://github.com/hydralien/SimpleSync",
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -1598,6 +1608,17 @@
 			"releases": [
 				{
 					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Skins",
+			"details": "https://github.com/deathaxe/sublime-skins",
+			"labels": ["themes", "utilities"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]
@@ -2427,6 +2448,16 @@
 			]
 		},
 		{
+			"name": "SQF for VBS3",
+			"details": "https://github.com/zahngol/SQF-VBS3",
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "SQF Language",
 			"details": "https://github.com/jonbons/Sublime-SQF-Language",
 			"labels": ["language syntax"],
@@ -2722,7 +2753,7 @@
 			"details": "https://github.com/unphased/SublimeStatusbarPath",
 			"releases": [
 				{
-					"sublime_text": "<3000",
+					"sublime_text": "*",
 					"branch": "master"
 				}
 			]
@@ -2736,6 +2767,17 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "Steadfast Color Scheme",
+			"details": "https://github.com/serogers/steadfast_color_scheme",
+			"labels": ["color scheme"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
 				}
 			]
 		},

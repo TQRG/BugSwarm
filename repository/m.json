@@ -13,6 +13,17 @@
 			]
 		},
 		{
+			"name": "M4Expand",
+			"details": "https://github.com/alextarrell/M4Expand",
+			"labels": ["macro", "text manipulation"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "M68k Assembly",
 			"details": "https://github.com/stevenjs/M68k-Assembly",
 			"releases": [
@@ -265,6 +276,17 @@
 			"releases": [
 				{
 					"sublime_text": ">=3103",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Marc Mentat Proc Highlighting",
+			"details": "https://github.com/WesleyPeijnenburg/Marc_Syntax_Support",
+			"labels": ["language syntax"],
+			"releases": [
+				{
+					"sublime_text": ">=3084",
 					"tags": true
 				}
 			]

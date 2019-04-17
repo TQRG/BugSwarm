@@ -49,6 +49,16 @@
 			]
 		},
 		{
+			"name": "Tabletop Simulator Lua",
+			"details": "https://github.com/rolandostar/tabletopsimulator-lua-sublime",
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "tabr",
 			"details": "https://github.com/mghweb/SublimeTabr",
 			"author": "Max Hegler",
@@ -386,6 +396,20 @@
 				{
 					"sublime_text": "*",
 					"branch": "master"
+				}
+			]
+		},
+		{
+			"name": "termX",
+			"previous_names": ["MacTerminal"],
+			"homepage": "http://malinowski.be/termX",
+			"details": "https://github.com/afterdesign/termX",
+			"labels": ["terminal"],
+			"releases" : [
+				{
+					"sublime_text": "*",
+					"platforms": ["osx", "osx-x64"],
+					"tags": true
 				}
 			]
 		},
@@ -2546,6 +2570,17 @@
 		{
 			"name": "Tup",
 			"details": "https://github.com/petervaro/tup",
+			"labels": ["language syntax"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "TurboBadger",
+			"details": "https://github.com/NimbleTools/turbobadger-sublime",
 			"labels": ["language syntax"],
 			"releases": [
 				{

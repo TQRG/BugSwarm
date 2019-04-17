@@ -733,6 +733,17 @@
 			]
 		},
 		{
+			"name": "Chinese-English Bilingual Dictionary",
+			"details": "https://github.com/divinites/cndict",
+			"previous_names": ["Cndict", "Youdao English-Chinese Translate"],
+			"releases": [
+				{
+					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
 			"name": "ChineseLocalizations",
 			"previous_names": ["ChineseLocalization"],
 			"details": "https://github.com/rexdf/ChineseLocalization",
@@ -776,6 +787,17 @@
 			"releases": [
 				{
 					"sublime_text": ">=3000",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Chipper",
+			"details": "https://github.com/andymaster01/chipper_syntax_sublime_text",
+			"labels": ["chipper", "chip8"],
+			"releases": [
+				{
+					"sublime_text": ">=3084",
 					"tags": true
 				}
 			]
@@ -1004,6 +1026,17 @@
 			"details": "https://github.com/fushnisoft/SublimeClarion",
 			"labels": ["language syntax"],
 			"previous_names": ["SublimeClarion"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Class Navigator",
+			"details": "https://github.com/malexer/SublimeClassNavigator",
+			"labels": ["code navigation"],
 			"releases": [
 				{
 					"sublime_text": "*",
@@ -1306,17 +1339,6 @@
 			"releases": [
 				{
 					"sublime_text": ">=3092",
-					"tags": true
-				}
-			]
-		},
-		{
-			"name": "Cndict",
-			"details": "https://github.com/divinites/cndict",
-			"previous_names": ["Youdao English-Chinese Translate"],
-			"releases": [
-				{
-					"sublime_text": ">=3000",
 					"tags": true
 				}
 			]
@@ -2347,6 +2369,18 @@
 			"details": "https://github.com/DougTy/sublime-compare-side-by-side",
 			"author": "Doug Ty",
 			"labels": ["diff", "compare", "comparison"],
+			"releases": [
+				{
+					"sublime_text": "*",
+					"tags": true
+				}
+			]
+		},
+		{
+			"name": "Compass",
+			"details": "https://github.com/whatwedo/sublime-text-compass",
+			"author": "whatwedo",
+			"labels": ["compass", "scss", "sass", "css", "precompiler", "build", "watch", "css3", "build system", "minification"],
 			"releases": [
 				{
 					"sublime_text": "*",
