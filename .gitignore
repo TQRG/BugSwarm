@@ -1,0 +1,9 @@
+.svn
+build
+build_en
+target
+.classpath
+.project
+.settings
+.idea
+*.iml
