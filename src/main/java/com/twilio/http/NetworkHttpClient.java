@@ -48,18 +48,19 @@ public class NetworkHttpClient extends HttpClient {
         String googleAppEngineVersion = System.getProperty("com.google.appengine.runtime.version");
         boolean isGoogleAppEngine = googleAppEngineVersion != null && !googleAppEngineVersion.isEmpty();
 
-        org.apache.http.impl.client.HttpClientBuilder client = HttpClientBuilder.create();
+        org.apache.http.impl.client.HttpClientBuilder clientBuilder = HttpClientBuilder.create();
 
         if (!isGoogleAppEngine) {
-            client.useSystemProperties();
+            clientBuilder.useSystemProperties();
         }
 
-            client
-                .setConnectionManager(new PoolingHttpClientConnectionManager())
-                .setDefaultRequestConfig(config)
-                .setDefaultHeaders(headers)
-                .setMaxConnPerRoute(10)
-                .build();
+        clientBuilder
+            .setConnectionManager(new PoolingHttpClientConnectionManager())
+            .setDefaultRequestConfig(config)
+            .setDefaultHeaders(headers)
+            .setMaxConnPerRoute(10);
+
+        client = clientBuilder.build();
     }
 
     /**
