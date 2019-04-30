@@ -1,0 +1,18 @@
+after_success: ['if [[ $TRAVIS_PYTHON_VERSION == ''2.7'' ]]; then coverage combine;
+    fi', 'if [[ $TRAVIS_PYTHON_VERSION == ''2.7'' ]]; then coveralls --config_file=gluon/tests/coverage.ini;
+    fi']
+before_script: ['if [[ $TRAVIS_PYTHON_VERSION == ''2.6'' ]]; then pip install --download-cache
+    $HOME/.pip-cache unittest2==1.0.1; fi', 'if [[ $TRAVIS_PYTHON_VERSION == ''2.7''
+    ]]; then pip install --download-cache $HOME/.pip-cache coverage==4.0a5; fi;',
+  'if [[ $TRAVIS_PYTHON_VERSION == ''2.7'' ]]; then pip install --download-cache $HOME/.pip-cache
+    python-coveralls==2.5.0; fi']
+cache:
+  directories: [$HOME/.pip-cache/]
+install: [pip install -e .]
+language: python
+notifications: {email: true}
+os: linux
+python: '2.7'
+script: export COVERAGE_PROCESS_START=gluon/tests/coverage.ini; ./web2py.py --run_system_tests
+  --with_coverage
+sudo: false
