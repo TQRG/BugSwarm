@@ -1,0 +1,24 @@
+{
+  "name": "bugswarm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "category_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdurieux/BugSwarm-dissection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tdurieux/BugSwarm-dissection/issues"
+  },
+  "homepage": "https://github.com/tdurieux/BugSwarm-dissection#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "strip-ansi": "^5.2.0"
+  }
+}

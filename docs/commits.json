@@ -1,0 +1,759 @@
+[{
+	"branch": "terasolunaorg-guideline-110899913",
+	"passed": "0a9d3ff14a780b901f3d808c20466bed806a2c3c",
+	"failed": "acab14e4de3ccdd60b64ecf5fcbced859ac679d6"
+},{
+	"branch": "terasolunaorg-guideline-246038708",
+	"passed": "b31a48b1768d276339347ea76a2b7bf0b6a64e1e",
+	"failed": "ed0846e3f76122e65a1038a629e7630d4c5f1be9"
+},{
+	"branch": "terasolunaorg-guideline-204812690",
+	"passed": "bc6fe864266270c2ec5839eb51105060a70b0cbe",
+	"failed": "8c74c2d5addaf34a885c4fc0cc9859727f222086"
+},{
+	"branch": "terasolunaorg-guideline-161556855",
+	"passed": "8bf559b2ffc770ddfe7ba8c5c919104971fcf164",
+	"failed": "592e54339df3f9bf7874bad97c6457837e525b2c"
+},{
+	"branch": "terasolunaorg-guideline-159238150",
+	"passed": "2f563abb06df48e8cc65b2a05b5dd98df8207ebb",
+	"failed": "1fbb1cc5ac9af225607a4a0bcf489a060430b53a"
+},{
+	"branch": "terasolunaorg-guideline-250257091",
+	"passed": "6a1f2a66d69e696bdcbb8a645d2cddef2b6de3af",
+	"failed": "0c364644d9f1945610885dedf24c2f24649921b1"
+},{
+	"branch": "terasolunaorg-guideline-107967814",
+	"passed": "b796a60c0e595f157c96f7ea30f34f7315452024",
+	"failed": "18fc9fc354b4c3b9fe079e66eb1ea16f38cf17a3"
+},{
+	"branch": "terasolunaorg-guideline-227817446",
+	"passed": "19bebb3a11ab624025fa8b53e94defb01e81003e",
+	"failed": "5273840255d577330ee0ad0c79e839a628fa7aba"
+},{
+	"branch": "terasolunaorg-guideline-138251904",
+	"passed": "1a40d374d5cbe127a9d1116143e3578dac0a9cf6",
+	"failed": "4026fb23ae89138519d4871fa8fe29c30a6be485"
+},{
+	"branch": "terasolunaorg-guideline-109526193",
+	"passed": "fe7cb5a1ba7d97498bb18629c9a1e9f38fb67ced",
+	"failed": "6a8208f18b3f1d96301499283f5481848956695f"
+},{
+	"branch": "terasolunaorg-guideline-225041869",
+	"passed": "a0977cff3747d849d010044d220e2a059f1ddae3",
+	"failed": "7261dcaae3210033cd0888d005e308d1629c630c"
+},{
+	"branch": "terasolunaorg-guideline-167282324",
+	"passed": "afc08a2ac8c9289ec5993ff3504c7484a23db3e0",
+	"failed": "0e603d4ae2ee1ae1d47fd0fcb8607ee93776e4cd"
+},{
+	"branch": "terasolunaorg-guideline-250622726",
+	"passed": "a1e527495e7d97accdb812544e8f0d1f299a7793",
+	"failed": "0756ad8550aa45fbdf5b9b575f1ef90d4cfe8376"
+},{
+	"branch": "terasolunaorg-guideline-161530711",
+	"passed": "15f81dc76ac98d9ffe39e3f2fb29b78ed6be5a35",
+	"failed": "12ef182f82b261f9f20477286a459eaca7a8f8a4"
+},{
+	"branch": "terasolunaorg-guideline-113589617",
+	"passed": "2ccfbb5bd8889c7d0df6a39fa4a88e5d3d95cb5b",
+	"failed": "0931d317b50aa5b7eb716d8ba829b6edef2f60bb"
+},{
+	"branch": "terasolunaorg-guideline-208878089",
+	"passed": "a83e5e720b1286c753b5eb545bb454e15a01d958",
+	"failed": "089084b9850d419b5f28400066f3cf5c4580a633"
+},{
+	"branch": "master",
+	"failed": "2132d11a601f7b21ec7806813dcb82f0ea67abd6"
+},{
+	"branch": "terasolunaorg-guideline-211246476",
+	"passed": "3c1dd70d88be0187064d3fb43305de3c333dd0af",
+	"failed": "f41bc17fbb323ac64486e6d0525f9f20e47b76ca"
+},{
+	"branch": "terasolunaorg-guideline-121048882",
+	"passed": "df78f172ad572a377e1a6f9bfe5d1224a393f28c",
+	"failed": "a68b5c68033a14217e8d7e1094f1731cc0d33941"
+},{
+	"branch": "terasolunaorg-guideline-213328746",
+	"passed": "b502c187d629071d50a523557e0f9a487a99d33c",
+	"failed": "5722404ca7f31ade31ad8fb033ac9aae586163dd"
+},{
+	"branch": "terasolunaorg-guideline-248611737",
+	"passed": "3333ecf1589526db9484d3aa763cc11fbbccc277",
+	"failed": "f8764b57012582ae04699ed5d1b2976b6f818a9d"
+},{
+	"branch": "terasolunaorg-guideline-141310303",
+	"passed": "1c663f72b3c8f3b82fdb2084d73cefcad33beadb",
+	"failed": "158d950c0cfde1b2c1495c78770f7ed6d8cbd624"
+},{
+	"branch": "terasolunaorg-guideline-221969801",
+	"passed": "a77feac00953c48dc31744870c613c9033be211b",
+	"failed": "6d90108453fb2247f25f081298b6eb7f858b80ed"
+},{
+	"branch": "terasolunaorg-guideline-163305779",
+	"passed": "96c9582fb46e0519b0411dd2cab1bcccdbc60337",
+	"failed": "3a1a9c9141e53b6c18df46d4e25e77b03212bace"
+},{
+	"branch": "terasolunaorg-guideline-149659988",
+	"passed": "3ec1c53be667466a327f6c5241f212f3f11c0f08",
+	"failed": "10e2934cb778f05456ba6cde173352e0143d298c"
+},{
+	"branch": "terasolunaorg-guideline-213364342",
+	"passed": "8b8a1c74c52deb041da8e6cd98cad43bd86c3703",
+	"failed": "f2ad67d9883f066ce0c3e3ef066ede7c997376bd"
+},{
+	"branch": "terasolunaorg-guideline-165422574",
+	"passed": "99af40fa15c5c25134661557eb657f9f7ffe2c40",
+	"failed": "8f2a3fb9e335aae3089c76333867760c2069989e"
+},{
+	"branch": "terasolunaorg-guideline-225041864",
+	"passed": "85b8ffee7b7bf8bbe2d05f77e40a2685c55182c4",
+	"failed": "d610a74411519397ecaa083b08e707fa102664ed"
+},{
+	"branch": "terasolunaorg-guideline-163305772",
+	"passed": "c3734dad2cd68f58c6eedf65c9d82ebf5377b8cc",
+	"failed": "3af6408cfa1457de585c86f0caecc12097155046"
+},{
+	"branch": "terasolunaorg-guideline-221996673",
+	"passed": "bcf975c4ab356f590bf272b72c1e0f501d240c43",
+	"failed": "b65cc137676b7f3a0db25d5960538ab184d1c4d2"
+},{
+	"branch": "terasolunaorg-guideline-137416709",
+	"passed": "6bc2c6a887448f3a63f185cc118b09bc21dbf40a",
+	"failed": "389afcb40db0d20725865333b1b132cccc6f671f"
+},{
+	"branch": "terasolunaorg-guideline-162146530",
+	"passed": "8fa52928262da7cd87a81450624d6114e8c7ed4f",
+	"failed": "926b27c32e8105dea3775ba8ada4cbb36442e026"
+},{
+	"branch": "raphw-byte-buddy-169775350",
+	"passed": "9ca48ccdd598aaa2ecf9a962893e73c8595637f0",
+	"failed": "3dd4e3846e0fb7a3b94bd6908fe35d61c94b4964"
+},{
+	"branch": "terasolunaorg-guideline-165783460",
+	"passed": "f500659112f06769a44534cb0551717107842910",
+	"failed": "659b03ce9a747928f4512008df0462d855dd0bd8"
+},{
+	"branch": "terasolunaorg-guideline-201784489",
+	"passed": "88e2d1a0129c9cfe14829a15ea1d0326a9e01224",
+	"failed": "35c00a6dc5fb679a262f88d1e250346e5e85c4aa"
+},{
+	"branch": "terasolunaorg-guideline-168885440",
+	"passed": "ecef99ccb0ecd20b664b70468ac3199d8d9ab7b9",
+	"failed": "658ccbb069d12c6b5544732d753dd8fa0499a5e7"
+},{
+	"branch": "charite-jannovar-78561984",
+	"passed": "8ac6221e87d86ab7b7d234d152b226317e373622",
+	"failed": "adaa152aeb4bff4de67917541c5761255f10bd10"
+},{
+	"branch": "terasolunaorg-guideline-167348318",
+	"passed": "76f69cccc56f2b5c0552453c08ca4cc739046996",
+	"failed": "a1bd80f6e951a3aaa8b34208ed5d9afe6408e017"
+},{
+	"branch": "wbond-package_control_channel-301836084",
+	"passed": "5958a81a130c866db09aa7d801854d33a5a65317",
+	"failed": "8b901a4aea11bbf9688d5181980db8d09022e952"
+},{
+	"branch": "terasolunaorg-guideline-163924845",
+	"passed": "dc3fe5eb46d322de7ef543075464b5a383178623",
+	"failed": "ad8e3db88232cf95b0244566acea79e479cfd237"
+},{
+	"branch": "terasolunaorg-guideline-161892452",
+	"passed": "504e74141795bf52a5c4e24f3ef6858e2cd1eb8d",
+	"failed": "a0e5a99b0cfa81b6087106523b5d31c25c62fd31"
+},{
+	"branch": "terasolunaorg-guideline-251053241",
+	"passed": "b6d6b042fd2dfb096e26db9956e2221c1b4ad982",
+	"failed": "f26c344bf35d83df2bc6155ead543d3d21feeb94"
+},{
+	"branch": "terasolunaorg-guideline-246038593",
+	"passed": "f22614cffd2eceda82f1b8004c1b295c52613c67",
+	"failed": "d8b0ec3e346a9cc4ae61e2c6fa907a3a638ef78c"
+},{
+	"branch": "terasolunaorg-guideline-157879363",
+	"passed": "628d4ad153681316f6ea00c554d45946c81560da",
+	"failed": "6dd6a6bd45dac5b93faae5fac2e63085a687820c"
+},{
+	"branch": "terasolunaorg-guideline-163925598",
+	"passed": "f59d05319929f0b292f1627eb7f8265fd772d69b",
+	"failed": "275ed8e832ac959ffe93db9a7b5c1c7c3244901c"
+},{
+	"branch": "terasolunaorg-guideline-163008422",
+	"passed": "8059af9ad1b9494b0f66aa602e13581ea52d4c1f",
+	"failed": "0dcb9e79b31dd770690a0bdbdaa7ddf1d17a7db2"
+},{
+	"branch": "terasolunaorg-guideline-167349009",
+	"passed": "b6093e444191ac4d49a3b6cab88ff2386d49900a",
+	"failed": "7ac518b651acda13bdc467caa4eaec7a1059c44b"
+},{
+	"branch": "charite-jannovar-78561985",
+	"passed": "84e5b0b662d214d54267a676bc787ade3b145e7b",
+	"failed": "52c41b9c642edcb79b27c05b50f4fb8035b2428f"
+},{
+	"branch": "terasolunaorg-guideline-110292532",
+	"passed": "37ab949049446c14ef22ebd23879fddcd4f2fb0c",
+	"failed": "b18f526497c2bf8f8dfa0ad1852c5329659e2b94"
+},{
+	"branch": "terasolunaorg-guideline-213364253",
+	"passed": "4375feecc5b1b2c533474cc862f163473ef2507d",
+	"failed": "389029234dabbcbffc87b8535c16d88ca332c66f"
+},{
+	"branch": "ProjectKorra-ProjectKorra-165108370",
+	"passed": "31c8e2691c64ffa1918bdc830b61e4e4874c2553",
+	"failed": "1756cd4ff6e1ab52817e4640f8e42af6adc4c9c7"
+},{
+	"branch": "terasolunaorg-guideline-208123600",
+	"passed": "d8d86367eedd8ba272a6e7eb790de7e1c4215670",
+	"failed": "90bd0d6331eae4400db8f4343377ef6e787bd56f"
+},{
+	"branch": "terasolunaorg-guideline-113589678",
+	"passed": "19c0eadd73a59727d53310f204b3f51f3a76ebb4",
+	"failed": "ce6ce2018ce2d0915594ce336136d2ad952760ab"
+},{
+	"branch": "terasolunaorg-guideline-105345331",
+	"passed": "83bb3cde8c8516ac393fac8d3234faec47e512fc",
+	"failed": "ecf9ba29a204eedc5564c94bd44a194dc34d1a40"
+},{
+	"branch": "terasolunaorg-guideline-204494854",
+	"passed": "cdc5895ae75f4f57c8bb59848c669d920e70aa75",
+	"failed": "f99c933eb6aa3959b532bb5039f77ee2d2dd0ce9"
+},{
+	"branch": "terasolunaorg-guideline-193014198",
+	"passed": "3b882ba0a0ccc5058cd1611858153969d18afd70",
+	"failed": "14fabf12b7ceba44e04af7bc661350e57abfd09a"
+},{
+	"branch": "terasolunaorg-guideline-107946215",
+	"passed": "b53b2b02fde0a9905ccf535a02ec858aa9ca2ed7",
+	"failed": "1aebf59f73dc96a9074c6f2c9edfc9dc4bb4943e"
+},{
+	"branch": "terasolunaorg-guideline-121048878",
+	"passed": "4841f6e59540d81400325eda952455c8b11d2887",
+	"failed": "97be19f368b5413b8a9c5c45cb8e589fe82dec87"
+},{
+	"branch": "terasolunaorg-guideline-96201195",
+	"passed": "4cb4a9a4ee41d84f0238092d6a528a6a7fbde354",
+	"failed": "f1273e327b831dbff3521e20a084ed5ec72ecca2"
+},{
+	"branch": "terasolunaorg-guideline-206984180",
+	"passed": "73bbc2fb4152c24593d4ef316cc72d702a59a50a",
+	"failed": "d56d5e134caea74fd9bef5501a331c868b92632d"
+},{
+	"branch": "terasolunaorg-guideline-101022024",
+	"passed": "a33246afab3573f9efdadb51dce949cc25a45744",
+	"failed": "4416f8a180d0fb103ae486b24166cd37f84e92f0"
+},{
+	"branch": "terasolunaorg-guideline-109783653",
+	"passed": "1e3b5d5defd6836066b6f2a50072f0e9a1abab3c",
+	"failed": "69630338081183a469b5a51149ede02084700974"
+},{
+	"branch": "terasolunaorg-guideline-206984405",
+	"passed": "c5912f16d103e434db2a8580b02b70d52d9e547f",
+	"failed": "1f6d1b87fb328c267701e354cdc9c4512fc8adc7"
+},{
+	"branch": "terasolunaorg-guideline-113589746",
+	"passed": "0c3665c6a273b34afe2f77582a7fc47005d31a2b",
+	"failed": "ea03b75b3dbe56b6bf8aab27f66cc85fd0443fa9"
+},{
+	"branch": "terasolunaorg-guideline-150592252",
+	"passed": "0af198cf54a5cd5481dc4b8bddb61d7ed817f5d4",
+	"failed": "d2606bce29af93e7e99ae16afa13b3b828d7edf0"
+},{
+	"branch": "ansible-ansible-79500861",
+	"passed": "2af26de9427d5f048dabb637dc7428bc686ca295",
+	"failed": "848dc9f061799d116c8be8727ddffd2220b7c75b"
+},{
+	"branch": "terasolunaorg-guideline-110045068",
+	"passed": "2c0546d4a42986d6ae3463051dcb0c09410bb214",
+	"failed": "36b88dfa37385eb0aa4930dcdd818af9478a8b5b"
+},{
+	"branch": "terasolunaorg-guideline-222717857",
+	"passed": "027ba04cdf723993625b7f9bcb4005c2b9a4a575",
+	"failed": "ed4a72be11ac410e406a9f0fc284d72be622905e"
+},{
+	"branch": "terasolunaorg-guideline-113588495",
+	"passed": "95cf27497b9fb4bef213414cc61834c99f398381",
+	"failed": "5bdc67b8116ccceb274ad78b92dd3ab22219a2be"
+},{
+	"branch": "terasolunaorg-guideline-163596026",
+	"passed": "b3638a82085df9cb74bc278a97129974774829b3",
+	"failed": "bed3ff2e3a279388df06be35bbb3c3c7cfb95b00"
+},{
+	"branch": "terasolunaorg-guideline-154688313",
+	"passed": "e311c050f2e48acbd9b3028242fbd36830dadca1",
+	"failed": "60ae7f223a104af56f76e0c4298723dcd788fb54"
+},{
+	"branch": "terasolunaorg-guideline-211246487",
+	"passed": "8f31b682b341549e714648227939de63cff916c2",
+	"failed": "692902ad33c9f01121c5b9f01af3e8a4d861c224"
+},{
+	"branch": "terasolunaorg-guideline-213706630",
+	"passed": "9f02ea0f2687c3acb30e1d5a30dc2025c8dbd0e8",
+	"failed": "4c5e0dcd61ac1600780c4c00eb8b801ea07fef41"
+},{
+	"branch": "terasolunaorg-guideline-137416484",
+	"passed": "1632fda2dad803613acce8d9982d3a3b2067fc9d",
+	"failed": "a0521f7a6d655db56f0a7f0e456d2dc9cdb1312b"
+},{
+	"branch": "terasolunaorg-guideline-168885446",
+	"passed": "fae808e6c283d3f4199ab938a65f3850340bfddf",
+	"failed": "61d73ae5a39495eca3cbf8406b1de52a688d8ce1"
+},{
+	"branch": "terasolunaorg-guideline-149753565",
+	"passed": "b63a191fbb6dbe75a0a3cdc9a5b7d9f936296a85",
+	"failed": "d40d5dbf57c15c832693f9b3126b0bd71e712bf4"
+},{
+	"branch": "terasolunaorg-guideline-163614808",
+	"passed": "2bbcc9b1173023649858fde2bd74b10e678ac801",
+	"failed": "50ca2db4cfdb3604ea9dcbceff0210ec397ec7a6"
+},{
+	"branch": "terasolunaorg-guideline-204812074",
+	"passed": "82c82f947c76f8a36b25825559aa860067b4d02b",
+	"failed": "8f51f33857e38de85a74f88a08eaddb346c7d2ce"
+},{
+	"branch": "terasolunaorg-guideline-132225023",
+	"passed": "dfd9ff719d3e155f7588692f5f92a17f4d552b78",
+	"failed": "68cffaac78218f8e201246310cb21366995b4889"
+},{
+	"branch": "terasolunaorg-guideline-227817444",
+	"passed": "29451a3ed30e9c57ce75be29653027ee9604bbc3",
+	"failed": "99abcc50a253de9798269708d11b6156cfefa77b"
+},{
+	"branch": "terasolunaorg-guideline-107946410",
+	"passed": "3e9c305ef01da4348e52f052c577e241952d45d3",
+	"failed": "ba18d371cd9a327ea284b9ff8b9b40b09b6a2a63"
+},{
+	"branch": "terasolunaorg-guideline-161882582",
+	"passed": "9888f57fbc05a5d66b5bf684879fce8f58bba0db",
+	"failed": "0064519ec0e9adeb8df195604a6d99f3269406f1"
+},{
+	"branch": "terasolunaorg-guideline-101022017",
+	"passed": "ead846ed7d05dbe812709e40dd433ee89350916a",
+	"failed": "c8838a9dd8c6c321d810377be9e4a8aa915fffb8"
+},{
+	"branch": "ProjectKorra-ProjectKorra-165108371",
+	"passed": "dc50953d2f56f5f40d0fd0e230be8bb3f32f4589",
+	"failed": "bb36efead65c2eea0dc60d919668d438bba97de2"
+},{
+	"branch": "terasolunaorg-guideline-250292473",
+	"passed": "f5bb99ab093650b3ac882b071fa322302af8f2e3",
+	"failed": "af5b1ab98c3b4fbb8a403ee988775b43e99a2871"
+},{
+	"branch": "terasolunaorg-guideline-157864918",
+	"passed": "e32f748318f5f2f9576f4389c507356cb375b8df",
+	"failed": "39a3f79fd733ea6f4b3a7476acf6953528f12696"
+},{
+	"branch": "terasolunaorg-guideline-208929406",
+	"passed": "8626aeede7cf678767ce6f810e1f5ed5646ab831",
+	"failed": "0ad5ddecefe684d66b1b71e7b1590edcc05345e4"
+},{
+	"branch": "terasolunaorg-guideline-213351843",
+	"passed": "e56f2d9a701763140d005c7be1d3b376b4b64f36",
+	"failed": "24748450cac3a283fccd8994f8aa74378f3c115a"
+},{
+	"branch": "terasolunaorg-guideline-105345098",
+	"passed": "d22554ec3aa222834cbac7513ecf6fc01bf906a4",
+	"failed": "5c69a0d704145642d100df903c1f2fe8bb1b00d8"
+},{
+	"branch": "Cal-CS-61A-Staff-ok-82263521",
+	"passed": "e37523ce9a6ef4cb167eae90bbf9ca77933084c4",
+	"failed": "9a550e863c2cd21c8e74f4f0c8322d06b2c8b893"
+},{
+	"branch": "terasolunaorg-guideline-166664541",
+	"passed": "6e7d9817ba998a895f3988764eefc9723fd6c88b",
+	"failed": "7b0c7fd6858a232258ac81a92c7670cce872a746"
+},{
+	"branch": "terasolunaorg-guideline-211193776",
+	"passed": "eb657ed36db1c55f293eed10ddac20b07569c9dc",
+	"failed": "a0cdfa8058de5cf704cfb2cfbb076425a2bfdcd4"
+},{
+	"branch": "terasolunaorg-guideline-250622708",
+	"passed": "eb3dfc9962eed4d199605e4b3c8dbc077226f813",
+	"failed": "d7c6ae506aeb687d1336ca8952762a22a081f87d"
+},{
+	"branch": "terasolunaorg-guideline-193014151",
+	"passed": "94add5ce9f875bdd85446df590a960fdea11464d",
+	"failed": "10c61b2a70bfb1762560adc9c8aa7a6bb066d848"
+},{
+	"branch": "terasolunaorg-guideline-110396462",
+	"passed": "34d8fead22296d2fa29e3cb91ae1b9dd602060f1",
+	"failed": "62076a9b23ddfda7856d1072bca0b1ffc5d2b411"
+},{
+	"branch": "terasolunaorg-guideline-165422584",
+	"passed": "2638f4344c1b4e5dc8da0619b55345f01543c557",
+	"failed": "8b9f15a805e569206323ea90e1eacd83bdb8e1a7"
+},{
+	"branch": "terasolunaorg-guideline-225101700",
+	"passed": "1614c7a1e060500c0368a8a35d15f3bc3c1cf0d7",
+	"failed": "6a54112114fca48614f82a3b540aaa6131d00791"
+},{
+	"branch": "terasolunaorg-guideline-163934845",
+	"passed": "a4bd1762c57c904afb5f6c6008aa8d2272147e48",
+	"failed": "7b75802869bb58bcaeb10ee20091a7504627eb3c"
+},{
+	"branch": "raphw-byte-buddy-169775347",
+	"passed": "0d9da54f9e5a0d20e5d37a39e71478c9262a3709",
+	"failed": "e95c3db838b4c2f99366ccbae89fd1743b8f04c8"
+},{
+	"branch": "terasolunaorg-guideline-157879068",
+	"passed": "008309ddda55bcab87cb8e5274aefdce6bef3db7",
+	"failed": "093a5e0816274fa5a6d83a204ef467a85bce2163"
+},{
+	"branch": "terasolunaorg-guideline-96178341",
+	"passed": "788f517d9b2a2e598fce744eb6208b1c140de14b",
+	"failed": "8e4445e8f5dd880ebafffd947f8a3b86f946d1ac"
+},{
+	"branch": "owlcs-owlapi-119939037",
+	"passed": "8aef2ee7259e2784353e4c057d07b7c20db93e3e",
+	"failed": "7a055aaba53997041b2ec1e7e0ae75af79795673"
+},{
+	"branch": "terasolunaorg-guideline-92210067",
+	"passed": "6aed6ed127c773c933e3d2b05b21de5e6b7b82b7",
+	"failed": "d8b3d9ced701681fd0b2a2122709d19b29c41e0c"
+},{
+	"branch": "terasolunaorg-guideline-96178345",
+	"passed": "c3af78b5fe751935b22d2f40c8f27115426f0483",
+	"failed": "110c836b68b5fe6d56dda97c92aedeb7b53f8f94"
+},{
+	"branch": "terasolunaorg-guideline-163924839",
+	"passed": "b97dbfad8bdfaf461ee2911078418286c05d93f2",
+	"failed": "c839a10d8755b2d96862f43dd9a11231278553b4"
+},{
+	"branch": "terasolunaorg-guideline-208929697",
+	"passed": "278db5a872dec29c601d7ab029ca46f3de29ada2",
+	"failed": "b1fbfd2d44528f0831d680a72d4a4fd0336b4c30"
+},{
+	"branch": "terasolunaorg-guideline-162187617",
+	"passed": "137933c34d1cc7087d039ee40db2ea3d767c9e72",
+	"failed": "b03eee39c91dfe954f463067219eb5ea2c7f84f8"
+},{
+	"branch": "terasolunaorg-guideline-142337007",
+	"passed": "74df8cf27f0eb5503215c73abeeb2d6230671f57",
+	"failed": "4c9c6be08bde532c328202c74981ab0551d841f9"
+},{
+	"branch": "terasolunaorg-guideline-214528725",
+	"passed": "da01c324ef660c71c09baf298bfc03ea9ff31ad8",
+	"failed": "10dcfb08b9876fe83c12f3867c7c5a6a4a21cbfe"
+},{
+	"branch": "terasolunaorg-guideline-86370990",
+	"passed": "6f571e2c6d1b29cc1bce5cb6062301bebe8cf299",
+	"failed": "5fc020613427669cfbd239f73b89ce686889a2e2"
+},{
+	"branch": "terasolunaorg-guideline-214117417",
+	"passed": "63ca5d89acebaab481d2690867b382955f7fd0b0",
+	"failed": "372ca05e7cacdea12b73b2612c7d9a44d0ffd291"
+},{
+	"branch": "terasolunaorg-guideline-211300132",
+	"passed": "9cf910de661204b2e575d9737694dcd4542eb5ec",
+	"failed": "0dae27c123f38907e6159cbb1656e99ff38d8154"
+},{
+	"branch": "terasolunaorg-guideline-220498491",
+	"passed": "25b86c930f43ba44ed6bcb585c606a083825660b",
+	"failed": "71096c044af6fd5e820105e20042a492942a5eb5"
+},{
+	"branch": "terasolunaorg-guideline-167349415",
+	"passed": "649adb38e6191aeec21e08f4b6d390a67fb87cb7",
+	"failed": "2938da2c16d890862cab8e93050204019f13d8c8"
+},{
+	"branch": "terasolunaorg-guideline-161530709",
+	"passed": "b5067d1f4a0c2ce842e2c53f3a4cd9445f49f710",
+	"failed": "968633a35bb13a0936161171dfb733b9dc80e790"
+},{
+	"branch": "terasolunaorg-guideline-165783191",
+	"passed": "d0703c4278c737f66a7a6b1a87612dbc6ffc75df",
+	"failed": "757c3e5843b13d4594207ebc7c48632539d8e8bc"
+},{
+	"branch": "raphw-byte-buddy-169775349",
+	"passed": "547b679e66df99648ed508ce8dcf81c946f3d468",
+	"failed": "6bead4ab6eb6a213236c0d4147ef16c9ae27e85a"
+},{
+	"branch": "terasolunaorg-guideline-161882383",
+	"passed": "e12a7617dbbdf676729595c28cd7969ec8b3e9c9",
+	"failed": "639df3caa2a373a2a75510db517ddc3909cb6778"
+},{
+	"branch": "terasolunaorg-guideline-163614729",
+	"passed": "d68e0847510a083a815b9e278edd6f6f5a020dcd",
+	"failed": "f2fb1306a349d879fecc917b5bb50ce9f24132fe"
+},{
+	"branch": "terasolunaorg-guideline-141310307",
+	"passed": "8b784a8280e07a9fec0a0fb3f1e947012dc1eb9a",
+	"failed": "77a41c8bd176467950b53f2c762a3e27d81d3c58"
+},{
+	"branch": "Whiley-WhileyCompiler-150361909",
+	"passed": "827e19ff196f73ef95f67faeb6c96a854d359ce9",
+	"failed": "7cd0b1b2d59416f4f3290811428bd559d8f4cc77"
+},{
+	"branch": "terasolunaorg-guideline-163612582",
+	"passed": "2f11259ff8944c306d17fa997a33e08c824e4709",
+	"failed": "ba2bf59d58afeabb0a50bc2c6d340d4741a9882b"
+},{
+	"branch": "terasolunaorg-guideline-161892602",
+	"passed": "1b97241d062edb5f1bfb9cfd51fdd2306f17cab8",
+	"failed": "d27c4549dce7c41445a0f65a274ad46c755681c7"
+},{
+	"branch": "terasolunaorg-guideline-250292486",
+	"passed": "0df6a32c2bee53bf78ab77a8a3869f41d8bf8afc",
+	"failed": "7cec4c438df72c38a12a9d07ca08206ef283ae30"
+},{
+	"branch": "UniversalMediaServer-UniversalMediaServer-231765167",
+	"passed": "4921d53b2bbcb40486690b371922c018a3098aa0",
+	"failed": "18dd4195322d3f8c34eb63d076ee4e91e6374048"
+},{
+	"branch": "terasolunaorg-guideline-229630776",
+	"passed": "df73c65f5dc84e0954f59b81007ccd56d1571b5a",
+	"failed": "fcf139392fc2ea877da0dabacf28a51d9c490ea2"
+},{
+	"branch": "terasolunaorg-guideline-167348273",
+	"passed": "16ee8c2e44d0c2a70e2772c7c3872b6362c320f2",
+	"failed": "bee1bb71221f34f6f900433202bbdf033bc220f6"
+},{
+	"branch": "UniversalMediaServer-UniversalMediaServer-231765165",
+	"passed": "d9221f6c9e59ea26edbee96d0e6a69e844f703ed",
+	"failed": "d3486ffdde3b98a0a25190b93671ede091758920"
+},{
+	"branch": "terasolunaorg-guideline-162188009",
+	"passed": "ecfb66a72dc2320ef186bd2aa94941a1148850a5",
+	"failed": "a142c0a32969830edd53711ba7ef64fa8e897319"
+},{
+	"branch": "terasolunaorg-guideline-246038547",
+	"passed": "8d70a89086b2c4b6d230c56190dfbc5b32b238e3",
+	"failed": "d330af31ec85734d2a6e749d87c3f7f34d7280dc"
+},{
+	"branch": "terasolunaorg-guideline-199507087",
+	"passed": "386bf4c536c8a664ca3804e4cb763e01a10e5434",
+	"failed": "36983c7912b92a1f680ae01ee51187d05b224db4"
+},{
+	"branch": "terasolunaorg-guideline-163596817",
+	"passed": "f7f237f91ad2b65019bd0df81bd2921609ddf5ae",
+	"failed": "1a61e2ba20a63378dc3116e3b1f0698d18bd42ba"
+},{
+	"branch": "terasolunaorg-guideline-132225014",
+	"passed": "e5cafe064fda04e1b8a6d2e4efb77fa2e547a92f",
+	"failed": "f5e6b95a25b5401e5a738be536c2ff5511ab5eae"
+},{
+	"branch": "terasolunaorg-guideline-213706622",
+	"passed": "be7db73dc202595173eda498a460f7a5a7a306a8",
+	"failed": "d3aa0064af8d12b045147a15122586f09e9bcb2b"
+},{
+	"branch": "ikasanEIP-ikasan-388128788",
+	"failed": "6f9cd7eea00d498c01e095cfb62951f106dc4e17"
+},{
+	"branch": "terasolunaorg-guideline-246038866",
+	"passed": "3f79d7140b06dc6bc5c168edf22e4118243239a1",
+	"failed": "5b628c1a11a0e5cbcfa24e16627c130bbcb528ab"
+},{
+	"branch": "terasolunaorg-guideline-159225848",
+	"passed": "f56d4ec969964c202855dab6f2cbcef9c79bdecb",
+	"failed": "3b1c01e402185c85eeb295096778cffb1dba7b70"
+},{
+	"branch": "terasolunaorg-guideline-110061441",
+	"passed": "e3b49c3c6bf45be87bcd759909b6bd2e95874618",
+	"failed": "c1a43749ca3d8dc8e04ce9223a9eb9be9f00b5a7"
+},{
+	"branch": "terasolunaorg-guideline-149749992",
+	"passed": "23b5c06ec4fc6bdb8914f7b50db8b34d875ffe4f",
+	"failed": "5036c311aeb400174b5fb0ba478bb8ec8425dae0"
+},{
+	"branch": "terasolunaorg-guideline-225101686",
+	"passed": "cf0df8e9108349893eb4f672d32b4c3a3811307a",
+	"failed": "9b53ec0a464f34c0cdcb004db31806e79acb9d9a"
+},{
+	"branch": "terasolunaorg-guideline-163602981",
+	"passed": "edfa1546bf44f14a390e3dde7d6ece0f587994be",
+	"failed": "5c8928490c4df616b58e254ec5e069996177b536"
+},{
+	"branch": "terasolunaorg-guideline-165707707",
+	"passed": "c9b7d7f9b376d71037f5977739d4bf2298c5bd6b",
+	"failed": "5efc19ae03c92d2552a5525422c641ab6f5bab3d"
+},{
+	"branch": "terasolunaorg-guideline-162146328",
+	"passed": "61061622dd89303a619ee56a6adf22048607fc29",
+	"failed": "36cf9e2d798af9b9c9c930a8cfb278c5a4304831"
+},{
+	"branch": "terasolunaorg-guideline-159204323",
+	"passed": "bd29436a30799033b464d799fe199acb6eebf40b",
+	"failed": "85f4d3d743049f7e0193d0326f77e6f2ea6844df"
+},{
+	"branch": "terasolunaorg-guideline-154688944",
+	"passed": "f97edb442ad3098456dfdcad3b63c3d0f5f5cf4d",
+	"failed": "d8224e754ecdfedb884dcb25a2fb1a19a5b19c53"
+},{
+	"branch": "terasolunaorg-guideline-107967812",
+	"passed": "b401b58032ca366b8f0b32883944396ca1e2a714",
+	"failed": "e13ad5f059c2575e0c11a39345892012a86049bc"
+},{
+	"branch": "terasolunaorg-guideline-206024642",
+	"passed": "8d88fa160c00e36f06ab2fdd93f1b1d390cc9779",
+	"failed": "df317c61eb8b0087d23a3f83d5a66902f941607a"
+},{
+	"branch": "terasolunaorg-guideline-121048872",
+	"passed": "dbb6a3895585dfeb7f8ac58d8d3b553e3a6fb53b",
+	"failed": "4a10568ee92eb6f9f7d0806de653125f87688eb7"
+},{
+	"branch": "terasolunaorg-guideline-149753588",
+	"passed": "9ce57a76bd4e808719f7d4c0f1fbd727222fa402",
+	"failed": "05b7bd4aa242f5b1555964e8d2f1968cbd8532a3"
+},{
+	"branch": "terasolunaorg-guideline-248611735",
+	"passed": "1a8c857d1b9a12cf0f1f9d44c6a054183c96619f",
+	"failed": "a0a85b6c5ed0ff2cb7ce12d1d4cbac37ebb208ca"
+},{
+	"branch": "terasolunaorg-guideline-221973072",
+	"passed": "6eb73e26f235e9ef3e43723cefa24e316a2dc733",
+	"failed": "b3328d1267952535e9744493761c64d12b3d258d"
+},{
+	"branch": "terasolunaorg-guideline-166664553",
+	"passed": "7464a8f9a9bc12dd4bb72df24c61a01475797420",
+	"failed": "cc4b9ad849b3de37558f2a9a89a4d38761e63caf"
+},{
+	"branch": "terasolunaorg-guideline-163934790",
+	"passed": "2d0667631b3360f16a17bc724e46355ac99781df",
+	"failed": "71e5fbe31c4dfea9575825b4bfd6052e86e9d024"
+},{
+	"branch": "terasolunaorg-guideline-250259070",
+	"passed": "422d3bc6574a7c6cd176fe63052744a3632bb5f0",
+	"failed": "661fd421417a6f12cadcdc8c46f932ab9163e743"
+},{
+	"branch": "charite-jannovar-78561983",
+	"passed": "6c881f6e9f99d58adbbe513b8fdaa2119bf5c73a",
+	"failed": "b20fb6df24e5152b956903362c01c3608cf0ed72"
+},{
+	"branch": "terasolunaorg-guideline-113589489",
+	"passed": "178c26440620e6498e4ab629be52b5dc0ba1bfff",
+	"failed": "00feaee23dbe14aa9ee894a81439df38f1ca2c12"
+},{
+	"branch": "terasolunaorg-guideline-160435964",
+	"passed": "439023b8cb5e3fe2b32993def37b350d629deb9a",
+	"failed": "db3b58f762ac5feded6868ca60f76ecc36804f1f"
+},{
+	"branch": "terasolunaorg-guideline-229630774",
+	"passed": "fa519c0e0cb716a9b3f8fa15b82c8f44f23c3ce7",
+	"failed": "9a42cbb7f8593d374b99695e794efaa1af1ae901"
+},{
+	"branch": "terasolunaorg-guideline-96200120",
+	"passed": "460392c78a9ff967d73f4731c4b50c77d5932605",
+	"failed": "f6a03b405201f8146e732ab9fd723293fefacde5"
+},{
+	"branch": "paramiko-paramiko-88918522",
+	"passed": "14b339cea9420caefd1271af27f6bc70d486da8c",
+	"failed": "18ac335be0a3abc85db02765cb4947e92ef43976"
+},{
+	"branch": "terasolunaorg-guideline-163925596",
+	"passed": "d3aa298b1d41f08fcb9c1003dbe5ac7c8e12c4b6",
+	"failed": "f96773c84303bffe5e3e2167e8205617dadca5fb"
+},{
+	"branch": "terasolunaorg-guideline-110894897",
+	"passed": "bf3a9acb6707f182f46b578b77499463854b85c9",
+	"failed": "392d0bd6a45fb6245bb66f342e18f9c95df0cb72"
+},{
+	"branch": "terasolunaorg-guideline-161296734",
+	"passed": "6d0f1bb499ed31ed14aad37940e0f5255f0e6605",
+	"failed": "12c8cb1be6d55321569168526643c27168a614a5"
+},{
+	"branch": "terasolunaorg-guideline-220936437",
+	"passed": "8342aac683fbdc434c983b2ce19e7b53d096e330",
+	"failed": "bbd3e0dbfa4fa952e4c73c914782714333a79d5d"
+},{
+	"branch": "terasolunaorg-guideline-161296537",
+	"passed": "d9777f81c308d0da1d8021335b90c531a751808d",
+	"failed": "8a75605a8398426edc02f06c4052b43dc11d1fef"
+},{
+	"branch": "terasolunaorg-guideline-142337005",
+	"passed": "d3709d022cc49cdffdb26fa33a219c9aeb173272",
+	"failed": "1208c905a1a618ee4f9e06a5ddd2c7e2e1162951"
+},{
+	"branch": "terasolunaorg-guideline-160435797",
+	"passed": "1d8ab0ad0d37207f7bed5d5acd5114c7cfcee11a",
+	"failed": "a59e5ed067de48652146c075b67c361625c5359e"
+},{
+	"branch": "terasolunaorg-guideline-138251906",
+	"passed": "fd99f5b0ab38dd77562b8ce8d20c939958e8525c",
+	"failed": "18b8d7c08afe4ec4602149eaeddf56573e0cf462"
+},{
+	"branch": "terasolunaorg-guideline-202113051",
+	"passed": "d272b47d614073b02079cb3c609d2128046f217f",
+	"failed": "5599e41115aba2e19597f672c7512a638ec98bff"
+},{
+	"branch": "terasolunaorg-guideline-221997081",
+	"passed": "a1f4fd33b5f0a442796dca999f2337d58911f013",
+	"failed": "a7a4304b3b6c2dfb118b66b66eaebb6304847fd3"
+},{
+	"branch": "terasolunaorg-guideline-251050939",
+	"passed": "fe4b43bb2186689e1cf7570716fae3dff7e0e51b",
+	"failed": "8dd684dbe3d7bbf26647e221f5f38e3893092401"
+},{
+	"branch": "UniversalMediaServer-UniversalMediaServer-231765166",
+	"passed": "16f800806266c5da707d8778c2c3724e555808e0",
+	"failed": "2794691bcc63201f647d6bf4c5b9d807699c867a"
+},{
+	"branch": "terasolunaorg-guideline-211711440",
+	"passed": "df7756e1edb730b7488211a6ea8df059c6f3edff",
+	"failed": "ef7c6f41e05d091df84a171d677333c674df2b2b"
+},{
+	"branch": "terasolunaorg-guideline-192594377",
+	"passed": "5917a9e3dfab7b26528def42be8f630f6b77bfd2",
+	"failed": "d28afa63b643479f45a89289cb0addbc943c73ba"
+},{
+	"branch": "terasolunaorg-guideline-192594371",
+	"passed": "4bdc4a9cf61477473cc26c3dbd10c63f6a145f97",
+	"failed": "1b19dac86740348f3c44291a2a5d0b25d2064779"
+},{
+	"branch": "terasolunaorg-guideline-86147884",
+	"passed": "eddb8301475d692e7d5619e6a7b6c255178a4dc0",
+	"failed": "09a5f098c6d605a50e49c6068e29abba7ceec653"
+},{
+	"branch": "terasolunaorg-guideline-101039346",
+	"passed": "dcc893fac2c73c021643db6b86c7f2c778edb5ae",
+	"failed": "2c8b4b11e6bc228ba2b5230a68fb1504021139a7"
+},{
+	"branch": "terasolunaorg-guideline-90908921",
+	"passed": "8b3108e2ebdee394bf62facb667bc89b8b60ee7a",
+	"failed": "c2e8b80393ffd7347f5b393330afa5ee8ac84b48"
+},{
+	"branch": "terasolunaorg-guideline-164892685",
+	"passed": "f18fce9a4cc29b4376489f55d914ae486f23adb8",
+	"failed": "0af5715f4d200ca898cd438919689f997fac90a4"
+},{
+	"branch": "terasolunaorg-guideline-165707705",
+	"passed": "5cf5a797db336807f36b796ed5fbb8c03fb59d95",
+	"failed": "d1ef1524a06156aa2ae1fb59b3c49e7eddce7359"
+},{
+	"branch": "Azure-azure-sdk-for-java-134840154",
+	"passed": "fceb911839674606344349f11a80d1f66ea07692",
+	"failed": "07bd01d71f50bd6fbc790820e1b3c29987928625"
+},{
+	"branch": "terasolunaorg-guideline-163612580",
+	"passed": "d3d4248dca9eeaf738432544a5b3c3d68494760d",
+	"failed": "097f3240ea129f14b4663aec190d0cc100ec40f5"
+},{
+	"branch": "terasolunaorg-guideline-221973640",
+	"passed": "82aaf2c3f4e99bb13e184d01a4478a7144d668e9",
+	"failed": "acf1d135c36118fdde16179b9df76ad498c8eb2e"
+},{
+	"branch": "terasolunaorg-guideline-157864920",
+	"passed": "9818e588509733ea5c714651286ae8bc73a66119",
+	"failed": "5b13ef626c0f37da475e8dd930fa92e49eeaef4f"
+},{
+	"branch": "terasolunaorg-guideline-163595648",
+	"passed": "0bb7e879890a8e21b9c760cae44201d164ebb8bc",
+	"failed": "a64b4029edcba629faeef9e39b494af6a668d05f"
+},{
+	"branch": "terasolunaorg-guideline-110927425",
+	"passed": "262cc6708172317b3e7cf013b6760d96a2350c0f",
+	"failed": "600926f54a0ffe522ad85e93b9fd1de4c7cb0934"
+},{
+	"branch": "terasolunaorg-guideline-206022513",
+	"passed": "bfc7c4482b77421c639728ab13c18c77e8a63f64",
+	"failed": "e04fed802bb7f646a9b7d2b87a65bdb277b58b31"
+},{
+	"branch": "terasolunaorg-guideline-221970122",
+	"passed": "601b0190875819d7e34924c60156a69ff807d745",
+	"failed": "9d92ca9abc9eb3c50007c763b05ad39e465b0f53"
+},{
+	"branch": "terasolunaorg-guideline-163597128",
+	"passed": "efbfb033595d44785a315d1764b19de2faf7ea00",
+	"failed": "be70106e46bb281f9e36371da83d95cbecd3477d"
+},{
+	"branch": "raphw-byte-buddy-169775346",
+	"passed": "7e40731515b1ffbab47640638c8f1de700e654da",
+	"failed": "d4d1917fdae4bfd0d89db8c8db70a62faab9ceb5"
+}]
