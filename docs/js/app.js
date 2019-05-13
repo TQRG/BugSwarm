@@ -1,4 +1,4 @@
-angular.module('defects4j-website', ['ngRoute', 'ui.bootstrap', 'anguFixedHeaderTable', 'chart.js'])
+angular.module('bugswarm-website', ['ngRoute', 'ui.bootstrap', 'anguFixedHeaderTable', 'chart.js'])
 	.config(function($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/bug/:benchmark/:id', {
